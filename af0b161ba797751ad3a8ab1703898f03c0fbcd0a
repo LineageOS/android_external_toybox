@@ -16,6 +16,24 @@
       "revId": "af0b161ba797751ad3a8ab1703898f03c0fbcd0a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_7818c1d2",
+        "filename": "Android.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 68
+      },
+      "writtenOn": "2015-12-18T18:39:22Z",
+      "side": 1,
+      "message": "Thanks, fixed.",
+      "parentUuid": "bf659307_38b6c9db",
+      "revId": "af0b161ba797751ad3a8ab1703898f03c0fbcd0a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
