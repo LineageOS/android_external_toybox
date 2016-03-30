@@ -57,9 +57,9 @@
 #undef FLAG_s
 #endif
 
-// base64 diw#<1[!dw] diw#<1[!dw]
+// base64 diw#<0=76[!dw] diw#<0=76[!dw]
 #undef OPTSTR_base64
-#define OPTSTR_base64 "diw#<1[!dw]"
+#define OPTSTR_base64 "diw#<0=76[!dw]"
 #ifdef CLEANUP_base64
 #undef CLEANUP_base64
 #undef FOR_base64
@@ -1323,9 +1323,9 @@
 #undef FLAG_S
 #endif
 
-// ls (color):;ZgoACFHLRSacdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL] (color):;ZgoACFHLRSacdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL]
+// ls (color):;ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb] (color):;ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]
 #undef OPTSTR_ls
-#define OPTSTR_ls "(color):;ZgoACFHLRSacdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL]"
+#define OPTSTR_ls "(color):;ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]"
 #ifdef CLEANUP_ls
 #undef CLEANUP_ls
 #undef FOR_ls
@@ -1346,6 +1346,7 @@
 #undef FLAG_f
 #undef FLAG_d
 #undef FLAG_c
+#undef FLAG_b
 #undef FLAG_a
 #undef FLAG_S
 #undef FLAG_R
@@ -1599,14 +1600,15 @@
 #undef FLAG_q
 #endif
 
-// mv <2vnFfi[-ni] <2vnFfi[-ni]
+// mv <2vnF(remove-destination)fi[-ni] <2vnF(remove-destination)fi[-ni]
 #undef OPTSTR_mv
-#define OPTSTR_mv "<2vnFfi[-ni]"
+#define OPTSTR_mv "<2vnF(remove-destination)fi[-ni]"
 #ifdef CLEANUP_mv
 #undef CLEANUP_mv
 #undef FOR_mv
 #undef FLAG_i
 #undef FLAG_f
+#undef FLAG_remove_destination
 #undef FLAG_F
 #undef FLAG_n
 #undef FLAG_v
@@ -1722,9 +1724,9 @@
 #undef FLAG_F
 #endif
 
-// od j#vN#xsodcbA:t* j#vN#xsodcbA:t*
+// od j#vw#<1=16N#xsodcbA:t* j#vw#<1=16N#xsodcbA:t*
 #undef OPTSTR_od
-#define OPTSTR_od "j#vN#xsodcbA:t*"
+#define OPTSTR_od "j#vw#<1=16N#xsodcbA:t*"
 #ifdef CLEANUP_od
 #undef CLEANUP_od
 #undef FOR_od
@@ -1737,6 +1739,7 @@
 #undef FLAG_s
 #undef FLAG_x
 #undef FLAG_N
+#undef FLAG_w
 #undef FLAG_v
 #undef FLAG_j
 #endif
@@ -4179,18 +4182,19 @@
 #define FLAG_f (1<<14)
 #define FLAG_d (1<<15)
 #define FLAG_c (1<<16)
-#define FLAG_a (1<<17)
-#define FLAG_S (1<<18)
-#define FLAG_R (1<<19)
-#define FLAG_L (1<<20)
-#define FLAG_H (1<<21)
-#define FLAG_F (1<<22)
-#define FLAG_C (1<<23)
-#define FLAG_A (1<<24)
-#define FLAG_o (1<<25)
-#define FLAG_g (1<<26)
-#define FLAG_Z (1<<27)
-#define FLAG_color (1<<28)
+#define FLAG_b (1<<17)
+#define FLAG_a (1<<18)
+#define FLAG_S (1<<19)
+#define FLAG_R (1<<20)
+#define FLAG_L (1<<21)
+#define FLAG_H (1<<22)
+#define FLAG_F (1<<23)
+#define FLAG_C (1<<24)
+#define FLAG_A (1<<25)
+#define FLAG_o (1<<26)
+#define FLAG_g (1<<27)
+#define FLAG_Z (1<<28)
+#define FLAG_color (1<<29)
 #endif
 
 #ifdef FOR_lsattr
@@ -4396,6 +4400,7 @@
 #endif
 #define FLAG_i (1<<0)
 #define FLAG_f (1<<1)
+#define FLAG_remove_destination (1<<2)
 #define FLAG_F (1<<2)
 #define FLAG_n (1<<3)
 #define FLAG_v (1<<4)
@@ -4508,8 +4513,9 @@
 #define FLAG_s (1<<6)
 #define FLAG_x (1<<7)
 #define FLAG_N (1<<8)
-#define FLAG_v (1<<9)
-#define FLAG_j (1<<10)
+#define FLAG_w (1<<9)
+#define FLAG_v (1<<10)
+#define FLAG_j (1<<11)
 #endif
 
 #ifdef FOR_oneit

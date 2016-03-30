@@ -496,7 +496,9 @@ struct dumpleases_data {
 // toys/pending/expr.c
 
 struct expr_data {
-  int argidx;
+  char **tok; // current token, not on the stack since recursive calls mutate it
+
+  char *refree;
 };
 
 // toys/pending/fdisk.c
@@ -641,6 +643,7 @@ struct lsof_data {
 
   struct stat *sought_files;
 
+  struct double_list *all_sockets;
   struct double_list *files;
   int last_shown_pid;
   int shown_header;
@@ -1065,7 +1068,7 @@ struct ls_data {
 
   unsigned screen_width;
   int nl_title;
-  char uid_buf[12], gid_buf[12];
+  char uid_buf[12], gid_buf[12], *escmore;
 };
 
 // toys/posix/mkdir.c
@@ -1110,12 +1113,13 @@ struct od_data {
   struct arg_list *output_base;
   char *address_base;
   long max_count;
+  long width;
   long jump_bytes;
 
   int address_idx;
   unsigned types, leftover, star;
-  char *buf;
-  uint64_t bufs[4]; // force 64-bit alignment
+  char *buf; // Points to buffers[0] or buffers[1].
+  char *bufs[2]; // Used to detect duplicate lines.
   off_t pos;
 };
 
