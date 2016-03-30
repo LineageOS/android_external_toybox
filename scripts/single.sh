@@ -27,10 +27,10 @@ do
     exit 1
   fi
 
-  DEPENDS="$(sed -n 's/^[ \t]*depends on //;T;s/[!][A-Z0-9_]*//g;s/ *&& */|/g;p' $TOYFILE | grep -v SMACK | xargs | tr ' ' '|')"
+  # Enable stuff this command depends on
+  DEPENDS="$(sed -n "/^config *$i"'$/,/^$/{s/^[ \t]*depends on //;T;s/[!][A-Z0-9_]*//g;s/ *&& */|/g;p}' $TOYFILE | xargs | tr ' ' '|')"
 
   NAME=$(echo $i | tr a-z- A-Z_)
-
   make allnoconfig > /dev/null &&
   sed -ri -e '/CONFIG_TOYBOX/d' \
     -e "s/# (CONFIG_($NAME|${NAME}_.*${DEPENDS:+|$DEPENDS})) is not set/\1=y/" \
@@ -38,6 +38,6 @@ do
   echo "# CONFIG_TOYBOX is not set" >> "$KCONFIG_CONFIG" &&
   grep "CONFIG_TOYBOX_" .config >> "$KCONFIG_CONFIG" &&
 
-  make &&
-  mv -f toybox $PREFIX$i || exit 1
+  rm -f "$PREFIX$i" &&
+  OUTNAME="$PREFIX$i" scripts/make.sh || exit 1
 done

@@ -62,6 +62,8 @@ void get_optflags(void);
 #define DIRTREE_SYMFOLLOW    8
 // Don't warn about failure to stat
 #define DIRTREE_SHUTUP      16
+// Breadth first traversal, conserves filehandles at the expense of memory
+#define DIRTREE_BREADTH     32
 // Don't look at any more files in this directory.
 #define DIRTREE_ABORT      256
 
@@ -77,15 +79,14 @@ struct dirtree {
   char name[];
 };
 
-struct dirtree *dirtree_start(char *name, int symfollow);
 struct dirtree *dirtree_add_node(struct dirtree *p, char *name, int flags);
 char *dirtree_path(struct dirtree *node, int *plen);
 int dirtree_notdotdot(struct dirtree *catch);
 int dirtree_parentfd(struct dirtree *node);
-struct dirtree *dirtree_handle_callback(struct dirtree *new,
-  int (*callback)(struct dirtree *node));
 int dirtree_recurse(struct dirtree *node, int (*callback)(struct dirtree *node),
   int symfollow);
+struct dirtree *dirtree_flagread(char *path, int flags,
+  int (*callback)(struct dirtree *node));
 struct dirtree *dirtree_read(char *path, int (*callback)(struct dirtree *node));
 
 // help.c
@@ -95,6 +96,7 @@ void show_help(FILE *out);
 // xwrap.c
 void xstrncpy(char *dest, char *src, size_t size);
 void xstrncat(char *dest, char *src, size_t size);
+void _xexit(void) noreturn;
 void xexit(void) noreturn;
 void *xmalloc(size_t size);
 void *xzalloc(size_t size);
@@ -221,11 +223,15 @@ void linestack_addstack(struct linestack **lls, struct linestack *throw,
 void linestack_insert(struct linestack **lls, long pos, char *line, long len);
 void linestack_append(struct linestack **lls, char *line);
 struct linestack *linestack_load(char *name);
-int crunch_str(char **str, int width, FILE *out,
-  int (*escout)(FILE *out, int cols, char **buf));
+int crunch_escape(FILE *out, int cols, int wc);
+int crunch_rev_escape(FILE *out, int cols, int wc);
+int crunch_str(char **str, int width, FILE *out, char *escmore,
+  int (*escout)(FILE *out, int cols, int wc));
 int draw_str(char *start, int width);
 int utf8len(char *str);
 int utf8skip(char *str, int width);
+int draw_trim_esc(char *str, int padto, int width, char *escmore,
+  int (*escout)(FILE *out, int cols,int wc));
 int draw_trim(char *str, int padto, int width);
 
 // interestingtimes.c
