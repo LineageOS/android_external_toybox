@@ -322,7 +322,6 @@ ALL_TOOLS := \
     rm \
     rmdir \
     rmmod \
-    route \
     runcon \
     sed \
     seq \
