@@ -919,11 +919,14 @@ void mode_to_string(mode_t mode, char *buf)
   *buf = c;
 }
 
-char *basename_r(char *name)
+// basename() can modify its argument or return a pointer to a constant string
+// This just gives after the last '/' or the whole stirng if no /
+char *getbasename(char *name)
 {
   char *s = strrchr(name, '/');
 
   if (s) return s+1;
+
   return name;
 }
 
@@ -945,7 +948,7 @@ void names_to_pid(char **names, int (*callback)(pid_t pid, char *name))
 
     for (curname = names; *curname; curname++)
       if (**curname == '/' ? !strcmp(cmd, *curname)
-          : !strcmp(basename_r(cmd), basename_r(*curname)))
+          : !strcmp(getbasename(cmd), getbasename(*curname)))
         if (callback(u, *curname)) break;
     if (*curname) break;
   }

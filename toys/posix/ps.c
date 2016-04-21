@@ -1144,6 +1144,8 @@ static int header_line(int line, int rev)
 {
   if (!line) return 0;
 
+  if (toys.optflags&FLAG_b) rev = 0;
+
   printf("%s%*.*s%s\r\n", rev ? "\033[7m" : "",
     (toys.optflags&FLAG_b) ? 0 : -TT.width, TT.width, toybuf,
     rev ? "\033[0m" : "");
@@ -1339,7 +1341,8 @@ static void top_common(
         *pos = 0;
         lines = header_line(lines, 1);
       }
-      if (!recalc) printf("\033[%dH\033[J", 1+TT.height-lines);
+      if (!recalc && !(toys.optflags&FLAG_b))
+        printf("\033[%dH\033[J", 1+TT.height-lines);
       recalc = 1;
 
       for (i = 0; i<lines && i+topoff<mix.count; i++) {
@@ -1356,6 +1359,14 @@ static void top_common(
       now = militime();
       if (timeout<=now) timeout = new.whence+TT.top.d;
       if (timeout<=now || timeout>now+TT.top.d) timeout = now+TT.top.d;
+
+      // In batch mode, we ignore the keyboard.
+      if (toys.optflags&FLAG_b) {
+        msleep(timeout-now);
+        // Make an obvious gap between datasets.
+        xputs("\n\n\n");
+        continue;
+      }
 
       i = scan_key_getsize(scratch, timeout-now, &TT.width, &TT.height);
       if (i==-1 || i==3 || toupper(i)=='Q') {
@@ -1406,7 +1417,7 @@ static void top_setup(char *defo, char *defk)
   TT.top.d *= 1000;
   if (toys.optflags&FLAG_b) TT.width = TT.height = 99999;
   else {
-    xset_terminal(0, 1, 0);
+    set_terminal(0, 1, 0);
     sigatexit(tty_sigreset);
     xsignal(SIGWINCH, generic_signal);
     printf("\033[?25l\033[0m");
