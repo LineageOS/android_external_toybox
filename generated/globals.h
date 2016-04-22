@@ -732,6 +732,8 @@ struct route_data {
 
 struct sh_data {
   char *command;
+
+  long lineno;
 };
 
 // toys/pending/sulogin.c
