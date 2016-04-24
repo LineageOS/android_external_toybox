@@ -25,7 +25,12 @@ GLOBALS(
 
 static void signal_handler(int sig)
 {
+  // Reset the terminal whether we were signalled or exited normally.
   tcsetattr(TT.cin_fd, TCSANOW, &TT.inf);
+
+  if (sig == 0) _exit(0);
+
+  // We were actually signalled, so move to a new line and re-raise the signal.
   xputc('\n');
   signal(sig, SIG_DFL);
   raise(sig);
@@ -63,7 +68,7 @@ static int prompt(FILE *cin, const char* fmt, ...)
 static void do_cat_operation(int fd, char *name)
 {
   if (toys.optc > 1) show_file_header(name);
-  xsendfile(0, 1);
+  xsendfile(fd, 1);
 }
 
 void more_main()
