@@ -1920,9 +1920,9 @@
 #undef FOR_printf
 #endif
 
-// ps k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*u*U*g*G*wZ[!ol][+Ae] k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*u*U*g*G*wZ[!ol][+Ae]
+// ps k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae] k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae]
 #undef OPTSTR_ps
-#define OPTSTR_ps "k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*u*U*g*G*wZ[!ol][+Ae]"
+#define OPTSTR_ps "k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae]"
 #ifdef CLEANUP_ps
 #undef CLEANUP_ps
 #undef FOR_ps
@@ -1932,6 +1932,7 @@
 #undef FLAG_g
 #undef FLAG_U
 #undef FLAG_u
+#undef FLAG_T
 #undef FLAG_t
 #undef FLAG_s
 #undef FLAG_pid
@@ -4676,24 +4677,25 @@
 #define FLAG_g (1<<3)
 #define FLAG_U (1<<4)
 #define FLAG_u (1<<5)
-#define FLAG_t (1<<6)
-#define FLAG_s (1<<7)
-#define FLAG_pid (1<<8)
-#define FLAG_p (1<<8)
-#define FLAG_O (1<<9)
-#define FLAG_o (1<<10)
-#define FLAG_n (1<<11)
-#define FLAG_M (1<<12)
-#define FLAG_l (1<<13)
-#define FLAG_f (1<<14)
-#define FLAG_e (1<<15)
-#define FLAG_d (1<<16)
-#define FLAG_A (1<<17)
-#define FLAG_a (1<<18)
-#define FLAG_ppid (1<<19)
-#define FLAG_P (1<<19)
-#define FLAG_sort (1<<20)
-#define FLAG_k (1<<20)
+#define FLAG_T (1<<6)
+#define FLAG_t (1<<7)
+#define FLAG_s (1<<8)
+#define FLAG_pid (1<<9)
+#define FLAG_p (1<<9)
+#define FLAG_O (1<<10)
+#define FLAG_o (1<<11)
+#define FLAG_n (1<<12)
+#define FLAG_M (1<<13)
+#define FLAG_l (1<<14)
+#define FLAG_f (1<<15)
+#define FLAG_e (1<<16)
+#define FLAG_d (1<<17)
+#define FLAG_A (1<<18)
+#define FLAG_a (1<<19)
+#define FLAG_ppid (1<<20)
+#define FLAG_P (1<<20)
+#define FLAG_sort (1<<21)
+#define FLAG_k (1<<21)
 #endif
 
 #ifdef FOR_pwd
