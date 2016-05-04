@@ -122,6 +122,8 @@
 #define _PS_S                                       (1LL<<55)
 #define PS_STAT                                     56
 #define _PS_STAT                                    (1LL<<56)
+#define PS_PCY                                      57
+#define _PS_PCY                                     (1LL<<57)
 #define KEY_UP                                       0
 #define _KEY_UP                                      (1<<0)
 #define KEY_DOWN                                     1

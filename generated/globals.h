@@ -39,6 +39,12 @@ struct dmesg_data {
   long size;
 };
 
+// toys/lsb/hostname.c
+
+struct hostname_data {
+  char *fname;
+};
+
 // toys/lsb/killall.c
 
 struct killall_data {
@@ -1317,6 +1323,7 @@ extern union global_union {
 	struct hello_data hello;
 	struct skeleton_data skeleton;
 	struct dmesg_data dmesg;
+	struct hostname_data hostname;
 	struct killall_data killall;
 	struct md5sum_data md5sum;
 	struct mknod_data mknod;
