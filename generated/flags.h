@@ -1004,12 +1004,14 @@
 #undef FOR_hostid
 #endif
 
-// hostname    
+// hostname bF: bF:
 #undef OPTSTR_hostname
-#define OPTSTR_hostname  0 
+#define OPTSTR_hostname "bF:"
 #ifdef CLEANUP_hostname
 #undef CLEANUP_hostname
 #undef FOR_hostname
+#undef FLAG_F
+#undef FLAG_b
 #endif
 
 // hwclock >0(fast)f(rtc):u(utc)l(localtime)t(systz)s(hctosys)r(show)w(systohc)[-ul][!rtsw] >0(fast)f(rtc):u(utc)l(localtime)t(systz)s(hctosys)r(show)w(systohc)[-ul][!rtsw]
@@ -3901,6 +3903,8 @@
 #ifndef TT
 #define TT this.hostname
 #endif
+#define FLAG_F (1<<0)
+#define FLAG_b (1<<1)
 #endif
 
 #ifdef FOR_hwclock
