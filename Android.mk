@@ -314,6 +314,7 @@ ALL_TOOLS := \
     pmap \
     printenv \
     printf \
+    ps \
     pwd \
     readlink \
     realpath \
