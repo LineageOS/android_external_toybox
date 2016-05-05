@@ -680,7 +680,7 @@ static int get_ps(struct dirtree *new)
   }
 
   // Do we need Android scheduling policy?
-  if (TT.bits&_PS_PCY) get_sched_policy(*slot, (SchedPolicy *)&slot[SLOT_pcy]);
+  if (TT.bits&_PS_PCY) get_sched_policy(*slot, (void *)&slot[SLOT_pcy]);
 
   // Fetch string data while parentfd still available, appending to buf.
   // (There's well over 3k of toybuf left. We could dynamically malloc, but
@@ -1134,7 +1134,8 @@ void ps_main(void)
   if (!(toys.optflags&(FLAG_k|FLAG_M))) TT.show_process = (void *)show_ps;
   TT.match_process = ps_match_process;
   dt = dirtree_read("/proc",
-    (TT.bits&(_PS_TID|_PS_TCNT)) ? get_threads : get_ps);
+    ((toys.optflags&FLAG_T) || (TT.bits&(_PS_TID|_PS_TCNT)))
+      ? get_threads : get_ps);
 
   if (toys.optflags&(FLAG_k|FLAG_M)) {
     struct carveup **tbsort = collate(TT.kcount, dt);
@@ -1227,13 +1228,11 @@ static int header_line(int line, int rev)
   return line-1;
 }
 
-// Get current time in miliseconds
-static long long militime(void)
+static long long millitime(void)
 {
   struct timespec ts;
 
   clock_gettime(CLOCK_MONOTONIC, &ts);
-
   return ts.tv_sec*1000+ts.tv_nsec/1000000;
 }
 
@@ -1263,7 +1262,7 @@ static void top_common(
 
     plold = plist+(tock++&1);
     plnew = plist+(tock&1);
-    plnew->whence = militime();
+    plnew->whence = millitime();
     dt = dirtree_read("/proc", get_ps);
     plnew->tb = collate(plnew->count = TT.kcount, dt);
     TT.kcount = 0;
@@ -1420,7 +1419,7 @@ static void top_common(
       recalc = 1;
 
       for (i = 0; i<lines && i+topoff<mix.count; i++) {
-        if (i) xputc('\n');
+        if (!(toys.optflags&FLAG_b) && i) xputc('\n');
         show_ps(mix.tb[i+topoff]);
       }
 
@@ -1429,8 +1428,7 @@ static void top_common(
         break;
       }
 
-      // Get current time in miliseconds
-      now = militime();
+      now = millitime();
       if (timeout<=now) timeout = new.whence+TT.top.d;
       if (timeout<=now || timeout>now+TT.top.d) timeout = now+TT.top.d;
 
@@ -1438,7 +1436,7 @@ static void top_common(
       if (toys.optflags&FLAG_b) {
         msleep(timeout-now);
         // Make an obvious gap between datasets.
-        xputs("\n\n\n");
+        xputs("\n\n");
         continue;
       }
 
@@ -1487,10 +1485,10 @@ static void top_setup(char *defo, char *defk)
 {
   int len;
 
-  TT.time = militime();
   TT.top.d *= 1000;
   if (toys.optflags&FLAG_b) TT.width = TT.height = 99999;
   else {
+    TT.time = millitime();
     set_terminal(0, 1, 0);
     sigatexit(tty_sigreset);
     xsignal(SIGWINCH, generic_signal);
@@ -1531,7 +1529,7 @@ void top_main(void)
 static int iotop_filter(long long *oslot, long long *nslot, int milis)
 {
   if (!(toys.optflags&FLAG_a)) merge_deltas(oslot, nslot, milis);
-  else oslot[SLOT_upticks] = ((militime()-TT.time)*TT.ticks)/1000;
+  else oslot[SLOT_upticks] = ((millitime()-TT.time)*TT.ticks)/1000;
 
   return !(toys.optflags&FLAG_o)||oslot[SLOT_iobytes+!(toys.optflags&FLAG_A)];
 }
