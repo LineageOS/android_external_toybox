@@ -2644,9 +2644,9 @@
 #undef FLAG_v
 #endif
 
-// top >0mk*o*p*u*s#<1=9d#=3<1n#<1bq >0mk*o*p*u*s#<1=9d#=3<1n#<1bq
+// top >0mHk*o*p*u*s#<1=9d#=3<1n#<1bq >0mHk*o*p*u*s#<1=9d#=3<1n#<1bq
 #undef OPTSTR_top
-#define OPTSTR_top ">0mk*o*p*u*s#<1=9d#=3<1n#<1bq"
+#define OPTSTR_top ">0mHk*o*p*u*s#<1=9d#=3<1n#<1bq"
 #ifdef CLEANUP_top
 #undef CLEANUP_top
 #undef FOR_top
@@ -2659,6 +2659,7 @@
 #undef FLAG_p
 #undef FLAG_o
 #undef FLAG_k
+#undef FLAG_H
 #undef FLAG_m
 #endif
 
@@ -5294,7 +5295,8 @@
 #define FLAG_p (1<<6)
 #define FLAG_o (1<<7)
 #define FLAG_k (1<<8)
-#define FLAG_m (1<<9)
+#define FLAG_H (1<<9)
+#define FLAG_m (1<<10)
 #endif
 
 #ifdef FOR_touch
