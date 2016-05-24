@@ -312,6 +312,7 @@ struct stat_data {
   } stat;
   struct passwd *user_name;
   struct group *group_name;
+  char *file;
 };
 
 // toys/other/swapon.c
@@ -1175,8 +1176,9 @@ struct ps_data {
       struct arg_list *p;
       struct arg_list *o;
       struct arg_list *k;
+      struct arg_list *O;
     } top;
-    struct{
+    struct {
       char *L;
       struct arg_list *G;
       struct arg_list *g;
@@ -1195,6 +1197,7 @@ struct ps_data {
 
   struct sysinfo si;
   struct ptr_len gg, GG, pp, PP, ss, tt, uu, UU;
+  struct dirtree *threadparent;
   unsigned width, height;
   dev_t tty;
   void *fields, *kfields;
