@@ -1872,9 +1872,9 @@
 #undef FOR_pivot_root
 #endif
 
-// pkill Vu*U*t*s*P*g*G*fnovxl:[-no] Vu*U*t*s*P*g*G*fnovxl:[-no]
+// pkill ?Vu*U*t*s*P*g*G*fnovxl:[-no] ?Vu*U*t*s*P*g*G*fnovxl:[-no]
 #undef OPTSTR_pkill
-#define OPTSTR_pkill "Vu*U*t*s*P*g*G*fnovxl:[-no]"
+#define OPTSTR_pkill "?Vu*U*t*s*P*g*G*fnovxl:[-no]"
 #ifdef CLEANUP_pkill
 #undef CLEANUP_pkill
 #undef FOR_pkill
@@ -1922,9 +1922,9 @@
 #undef FOR_printf
 #endif
 
-// ps k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae] k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae]
+// ps k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae][!oO] k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae][!oO]
 #undef OPTSTR_ps
-#define OPTSTR_ps "k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae]"
+#define OPTSTR_ps "k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae][!oO]"
 #ifdef CLEANUP_ps
 #undef CLEANUP_ps
 #undef FOR_ps
@@ -2270,12 +2270,14 @@
 #undef FLAG_a
 #endif
 
-// stat <1c:f <1c:f
+// stat <1c:fLt <1c:fLt
 #undef OPTSTR_stat
-#define OPTSTR_stat "<1c:f"
+#define OPTSTR_stat "<1c:fLt"
 #ifdef CLEANUP_stat
 #undef CLEANUP_stat
 #undef FOR_stat
+#undef FLAG_t
+#undef FLAG_L
 #undef FLAG_f
 #undef FLAG_c
 #endif
@@ -2644,9 +2646,9 @@
 #undef FLAG_v
 #endif
 
-// top >0mHk*o*p*u*s#<1=9d#=3<1n#<1bq >0mHk*o*p*u*s#<1=9d#=3<1n#<1bq
+// top >0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO] >0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO]
 #undef OPTSTR_top
-#define OPTSTR_top ">0mHk*o*p*u*s#<1=9d#=3<1n#<1bq"
+#define OPTSTR_top ">0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO]"
 #ifdef CLEANUP_top
 #undef CLEANUP_top
 #undef FOR_top
@@ -2660,6 +2662,7 @@
 #undef FLAG_o
 #undef FLAG_k
 #undef FLAG_H
+#undef FLAG_O
 #undef FLAG_m
 #endif
 
@@ -4964,8 +4967,10 @@
 #ifndef TT
 #define TT this.stat
 #endif
-#define FLAG_f (1<<0)
-#define FLAG_c (1<<1)
+#define FLAG_t (1<<0)
+#define FLAG_L (1<<1)
+#define FLAG_f (1<<2)
+#define FLAG_c (1<<3)
 #endif
 
 #ifdef FOR_strings
@@ -5296,7 +5301,8 @@
 #define FLAG_o (1<<7)
 #define FLAG_k (1<<8)
 #define FLAG_H (1<<9)
-#define FLAG_m (1<<10)
+#define FLAG_O (1<<10)
+#define FLAG_m (1<<11)
 #endif
 
 #ifdef FOR_touch
