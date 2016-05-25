@@ -316,8 +316,8 @@
 #define USE_PING(...)
 #define CFG_RESET 0
 #define USE_RESET(...)
-#define CFG_ROUTE 1
-#define USE_ROUTE(...) __VA_ARGS__
+#define CFG_ROUTE 0
+#define USE_ROUTE(...)
 #define CFG_SH 0
 #define USE_SH(...)
 #define CFG_EXIT 0

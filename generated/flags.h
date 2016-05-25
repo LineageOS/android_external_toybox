@@ -2093,9 +2093,9 @@
 #undef FLAG_w
 #endif
 
-// route ?neA: ?neA:
+// route   ?neA:
 #undef OPTSTR_route
-#define OPTSTR_route "?neA:"
+#define OPTSTR_route  0 
 #ifdef CLEANUP_route
 #undef CLEANUP_route
 #undef FOR_route
@@ -4820,9 +4820,9 @@
 #ifndef TT
 #define TT this.route
 #endif
-#define FLAG_A (1<<0)
-#define FLAG_e (1<<1)
-#define FLAG_n (1<<2)
+#define FLAG_A (FORCED_FLAG<<0)
+#define FLAG_e (FORCED_FLAG<<1)
+#define FLAG_n (FORCED_FLAG<<2)
 #endif
 
 #ifdef FOR_runcon
