@@ -318,7 +318,7 @@ int cp_node(struct dirtree *try)
         rc = fchownat(cfd, catch, try->st.st_uid, try->st.st_gid,
                       AT_SYMLINK_NOFOLLOW);
       else rc = fchown(fdout, try->st.st_uid, try->st.st_gid);
-      if (rc) {
+      if (rc && !geteuid()) {
         char *pp;
 
         perror_msg("chown '%s'", pp = dirtree_path(try, 0));
@@ -345,7 +345,19 @@ int cp_node(struct dirtree *try)
         err = "%s";
   }
 
-  if (err) perror_msg(err, catch);
+  if (err) {
+    char *f = 0;
+
+    if (catch == try->name) {
+      f = dirtree_path(try, 0);
+      while (try->parent) try = try->parent;
+      catch = xmprintf("%s%s", TT.destname, f+strlen(try->name));
+      free(f);
+      f = catch;
+    }
+    perror_msg(err, catch);
+    free(f);
+  }
   return 0;
 }
 
