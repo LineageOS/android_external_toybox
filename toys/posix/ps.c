@@ -443,13 +443,24 @@ static char *string_field(struct carveup *tb, struct strawberry *field)
     sl *= -1;
     // First string slot has offset 0, others are offset[-slot-2]
     if (--sl) out += tb->offset[--sl];
+    // If TNAME is blank, show ARGS instead
+    if (which==PS_ARGS && !*out)
+      out = tb->str+tb->offset[-2-typos[which = PS_ARGS].slot];
     if (which==PS_ARGS || which==PS_NAME) {
-      int i;
+      int i, j;
 
       s = out;
       for (i = 0; (which==PS_ARGS) ? i < slot[SLOT_argv0len] : out[i]; i++)
         if (out[i] == '/') s = out+i+1;
+      i = s - out;
       out = s;
+      if (which != field->which) {
+        j = slot[SLOT_argv0len]-i;
+        if (j > 259) j = 259;
+        memcpy(buf, out+i, j);
+        buf[j] = 0;
+        out = buf;
+      }
     }
     if (which>=PS_COMM && !*out) sprintf(out = buf, "[%s]", tb->str);
 
@@ -582,7 +593,10 @@ static void show_ps(struct carveup *tb)
     len = pad = abslen;
     pad *= sign;
     // If last field is left justified, no trailing spaces.
-    if (!field->next && sign<0) pad = 0;
+    if (!field->next && sign<0) {
+      pad = 0;
+      len = width;
+    }
 
     if (TT.tty) width -= draw_trim(out, pad, len);
     else width -= printf("%*.*s", pad, len, out);

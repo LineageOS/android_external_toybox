@@ -261,9 +261,9 @@
 #undef FOR_clear
 #endif
 
-// cmp <2>2ls <2>2ls
+// cmp <2>2ls[!ls] <2>2ls[!ls]
 #undef OPTSTR_cmp
-#define OPTSTR_cmp "<2>2ls"
+#define OPTSTR_cmp "<2>2ls[!ls]"
 #ifdef CLEANUP_cmp
 #undef CLEANUP_cmp
 #undef FOR_cmp
