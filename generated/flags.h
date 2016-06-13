@@ -1642,9 +1642,9 @@
 #undef FLAG_t
 #endif
 
-// netstat pWrxwutneal pWrxwutneal
+// netstat pWrxwutneal[-al] pWrxwutneal[-al]
 #undef OPTSTR_netstat
-#define OPTSTR_netstat "pWrxwutneal"
+#define OPTSTR_netstat "pWrxwutneal[-al]"
 #ifdef CLEANUP_netstat
 #undef CLEANUP_netstat
 #undef FOR_netstat
