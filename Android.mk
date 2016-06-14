@@ -38,8 +38,7 @@ LOCAL_PATH := $(call my-dir)
 # To add a toy:
 #
 
-#  make menuconfig
-#  # (Select the toy you want to add.)
+#  Edit .config to enable the toy you want to add.
 #  make clean && make  # Regenerate the generated files.
 #  # Edit LOCAL_SRC_FILES below to add the toy.
 #  # If you just want to use it as "toybox x" rather than "x", you can stop now.
@@ -345,6 +344,7 @@ ALL_TOOLS := \
     tee \
     time \
     timeout \
+    top \
     touch \
     tr \
     true \
