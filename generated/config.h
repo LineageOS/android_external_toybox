@@ -562,6 +562,8 @@
 #define USE_GETPROP(...) __VA_ARGS__
 #define CFG_LOAD_POLICY 1
 #define USE_LOAD_POLICY(...) __VA_ARGS__
+#define CFG_LOG 1
+#define USE_LOG(...) __VA_ARGS__
 #define CFG_RESTORECON 1
 #define USE_RESTORECON(...) __VA_ARGS__
 #define CFG_RUNCON 1
