@@ -1276,6 +1276,16 @@
 #undef FOR_load_policy
 #endif
 
+// log <1p:t: <1p:t:
+#undef OPTSTR_log
+#define OPTSTR_log "<1p:t:"
+#ifdef CLEANUP_log
+#undef CLEANUP_log
+#undef FOR_log
+#undef FLAG_t
+#undef FLAG_p
+#endif
+
 // logger   st:p:
 #undef OPTSTR_logger
 #define OPTSTR_logger  0 
@@ -1642,9 +1652,9 @@
 #undef FLAG_t
 #endif
 
-// netstat pWrxwutneal[-al] pWrxwutneal[-al]
+// netstat pWrxwutneal pWrxwutneal
 #undef OPTSTR_netstat
-#define OPTSTR_netstat "pWrxwutneal[-al]"
+#define OPTSTR_netstat "pWrxwutneal"
 #ifdef CLEANUP_netstat
 #undef CLEANUP_netstat
 #undef FOR_netstat
@@ -4127,6 +4137,14 @@
 #ifndef TT
 #define TT this.load_policy
 #endif
+#endif
+
+#ifdef FOR_log
+#ifndef TT
+#define TT this.log
+#endif
+#define FLAG_t (1<<0)
+#define FLAG_p (1<<1)
 #endif
 
 #ifdef FOR_logger

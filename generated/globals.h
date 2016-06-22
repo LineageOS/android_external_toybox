@@ -6,6 +6,13 @@ struct getprop_data {
   struct selabel_handle *handle;
 };
 
+// toys/android/log.c
+
+struct log_data {
+  char *tag;
+  char *pri;
+};
+
 // toys/example/hello.c
 
 struct hello_data {
@@ -706,7 +713,7 @@ struct more_data {
 // toys/pending/netstat.c
 
 struct netstat_data {
-  char current_name[21];
+  struct num_cache *inodes;
   int some_process_unidentified;
 };;
 
@@ -1323,6 +1330,7 @@ struct xargs_data {
 
 extern union global_union {
 	struct getprop_data getprop;
+	struct log_data log;
 	struct hello_data hello;
 	struct skeleton_data skeleton;
 	struct dmesg_data dmesg;
