@@ -284,6 +284,7 @@ ALL_TOOLS := \
     killall \
     load_policy \
     ln \
+    log \
     logname \
     losetup \
     ls \
