@@ -572,6 +572,10 @@
 #define USE_SETENFORCE(...) __VA_ARGS__
 #define CFG_SETPROP 1
 #define USE_SETPROP(...) __VA_ARGS__
+#define CFG_START 1
+#define USE_START(...) __VA_ARGS__
+#define CFG_STOP 1
+#define USE_STOP(...) __VA_ARGS__
 #define CFG_TOYBOX 1
 #define USE_TOYBOX(...) __VA_ARGS__
 #define CFG_TOYBOX_SUID 1
