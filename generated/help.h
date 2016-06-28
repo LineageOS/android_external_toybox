@@ -28,6 +28,10 @@
 
 #define HELP_toybox "usage: toybox [--long | --version | [command] [arguments...]]\n\nWith no arguments, shows available commands. First argument is\nname of a command to run, followed by any arguments to that command.\n\n--long	Show path to each command\n--version	Show toybox version\n\nTo install command symlinks, try:\n  for i in $(/bin/toybox --long); do ln -s /bin/toybox $i; done\n\n"
 
+#define HELP_stop "usage: stop [SERVICE...]\n\nStop the given system service, or netd/surfaceflinger/zygotes.\n\n"
+
+#define HELP_start "usage: start [SERVICE...]\n\nStarts the given system service, or netd/surfaceflinger/zygotes.\n\n"
+
 #define HELP_setprop "usage: setprop NAME VALUE\n\nSets an Android system property.\n\n"
 
 #define HELP_setenforce "usage: setenforce [enforcing|permissive|1|0]\n\nSets whether SELinux is enforcing (1) or permissive (0).\n\n"
@@ -36,7 +40,7 @@
 
 #define HELP_restorecon "usage: restorecon [-D] [-F] [-R] [-n] [-v] FILE...\n\nRestores the default security contexts for the given files.\n\n-D	apply to /data/data too\n-F	force reset\n-R	recurse into directories\n-n	don't make any changes; useful with -v to see what would change\n-v	verbose: show any changes\n\n"
 
-#define HELP_log "usage: log [-p PRI] [-t TAG] MESSAGE...\n\nLogs message to logcat.\n\n-p	use the given priority instead of INFO:\n	d: DEBUG  e: ERROR    f: FATAL  i: INFO   v: VERBOSE  w: WARN  *: DEFAULT\n-t	use the given tag instead of \"log\"\n\n"
+#define HELP_log "usage: log [-p PRI] [-t TAG] MESSAGE...\n\nLogs message to logcat.\n\n-p	use the given priority instead of INFO:\n	d: DEBUG  e: ERROR  f: FATAL  i: INFO  v: VERBOSE  w: WARN  s: SILENT\n-t	use the given tag instead of \"log\"\n\n"
 
 #define HELP_load_policy "usage: load_policy FILE\n\nLoad the specified policy file.\n\n"
 

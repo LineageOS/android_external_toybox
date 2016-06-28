@@ -67,6 +67,7 @@ LOCAL_SRC_FILES := \
     toys/android/runcon.c \
     toys/android/setenforce.c \
     toys/android/setprop.c \
+    toys/android/start.c \
     toys/lsb/dmesg.c \
     toys/lsb/hostname.c \
     toys/lsb/killall.c \
