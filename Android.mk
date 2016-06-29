@@ -334,7 +334,9 @@ ALL_TOOLS := \
     sleep \
     sort \
     split \
+    start \
     stat \
+    stop \
     strings \
     swapoff \
     swapon \
