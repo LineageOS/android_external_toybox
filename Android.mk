@@ -79,6 +79,10 @@ LOCAL_SRC_FILES := \
     toys/lsb/seq.c \
     toys/lsb/sync.c \
     toys/lsb/umount.c \
+    toys/net/ifconfig.c \
+    toys/net/netcat.c \
+    toys/net/netstat.c \
+    toys/net/rfkill.c \
     toys/other/acpi.c \
     toys/other/base64.c \
     toys/other/blkid.c \
@@ -95,7 +99,6 @@ LOCAL_SRC_FILES := \
     toys/other/fsfreeze.c \
     toys/other/help.c \
     toys/other/hwclock.c \
-    toys/other/ifconfig.c \
     toys/other/inotifyd.c \
     toys/other/insmod.c \
     toys/other/ionice.c \
@@ -108,7 +111,6 @@ LOCAL_SRC_FILES := \
     toys/other/modinfo.c \
     toys/other/mountpoint.c \
     toys/other/nbd_client.c \
-    toys/other/netcat.c \
     toys/other/partprobe.c \
     toys/other/pivot_root.c \
     toys/other/pmap.c \
@@ -117,7 +119,6 @@ LOCAL_SRC_FILES := \
     toys/other/readlink.c \
     toys/other/realpath.c \
     toys/other/rev.c \
-    toys/other/rfkill.c \
     toys/other/rmmod.c \
     toys/other/setsid.c \
     toys/other/stat.c \
@@ -139,7 +140,6 @@ LOCAL_SRC_FILES := \
     toys/pending/expr.c \
     toys/pending/lsof.c \
     toys/pending/more.c \
-    toys/pending/netstat.c \
     toys/pending/tar.c \
     toys/pending/tr.c \
     toys/pending/traceroute.c \
