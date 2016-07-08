@@ -68,8 +68,8 @@
 #define USE_EXPAND(...) __VA_ARGS__
 #define CFG_FALSE 1
 #define USE_FALSE(...) __VA_ARGS__
-#define CFG_FILE 0
-#define USE_FILE(...)
+#define CFG_FILE 1
+#define USE_FILE(...) __VA_ARGS__
 #define CFG_FIND 1
 #define USE_FIND(...) __VA_ARGS__
 #define CFG_GREP 1

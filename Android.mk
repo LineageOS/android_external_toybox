@@ -162,6 +162,7 @@ LOCAL_SRC_FILES := \
     toys/posix/env.c \
     toys/posix/expand.c \
     toys/posix/false.c \
+    toys/posix/file.c \
     toys/posix/find.c \
     toys/posix/grep.c \
     toys/posix/head.c \
@@ -266,6 +267,7 @@ ALL_TOOLS := \
     expr \
     fallocate \
     false \
+    file \
     find \
     flock \
     free \
