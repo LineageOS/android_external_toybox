@@ -695,9 +695,9 @@
 #undef FLAG_C
 #endif
 
-// file   <1
+// file <1 <1
 #undef OPTSTR_file
-#define OPTSTR_file  0 
+#define OPTSTR_file "<1"
 #ifdef CLEANUP_file
 #undef CLEANUP_file
 #undef FOR_file
