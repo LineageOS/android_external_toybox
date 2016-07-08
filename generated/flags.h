@@ -1809,9 +1809,9 @@
 #undef FLAG_d
 #endif
 
-// patch ulp#i:R xulp#i:R
+// patch (dry-run)d:ulp#i:R (dry-run)xd:ulp#i:R
 #undef OPTSTR_patch
-#define OPTSTR_patch "ulp#i:R"
+#define OPTSTR_patch "(dry-run)d:ulp#i:R"
 #ifdef CLEANUP_patch
 #undef CLEANUP_patch
 #undef FOR_patch
@@ -1820,7 +1820,9 @@
 #undef FLAG_p
 #undef FLAG_l
 #undef FLAG_u
+#undef FLAG_d
 #undef FLAG_x
+#undef FLAG_dry_run
 #endif
 
 // pgrep ?cld:u*U*t*s*P*g*G*fnovxL:[-no] ?cld:u*U*t*s*P*g*G*fnovxL:[-no]
@@ -3001,9 +3003,9 @@
 #undef FLAG_n
 #endif
 
-// wc mcwl[!cm] mcwl[!cm]
+// wc mcwl mcwl
 #undef OPTSTR_wc
-#define OPTSTR_wc "mcwl[!cm]"
+#define OPTSTR_wc "mcwl"
 #ifdef CLEANUP_wc
 #undef CLEANUP_wc
 #undef FOR_wc
@@ -3058,12 +3060,13 @@
 #undef FLAG_I
 #endif
 
-// xxd >1c#<1>4096=16l#g#<1=2pr >1c#<1>4096=16l#g#<1=2pr
+// xxd >1c#<1>4096=16l#g#<1=2prs#[!rs] >1c#<1>4096=16l#g#<1=2prs#[!rs]
 #undef OPTSTR_xxd
-#define OPTSTR_xxd ">1c#<1>4096=16l#g#<1=2pr"
+#define OPTSTR_xxd ">1c#<1>4096=16l#g#<1=2prs#[!rs]"
 #ifdef CLEANUP_xxd
 #undef CLEANUP_xxd
 #undef FOR_xxd
+#undef FLAG_s
 #undef FLAG_r
 #undef FLAG_p
 #undef FLAG_g
@@ -4613,7 +4616,9 @@
 #define FLAG_p (1<<2)
 #define FLAG_l (1<<3)
 #define FLAG_u (1<<4)
-#define FLAG_x (FORCED_FLAG<<5)
+#define FLAG_d (1<<5)
+#define FLAG_x (FORCED_FLAG<<6)
+#define FLAG_dry_run (1<<7)
 #endif
 
 #ifdef FOR_pgrep
@@ -5661,11 +5666,12 @@
 #ifndef TT
 #define TT this.xxd
 #endif
-#define FLAG_r (1<<0)
-#define FLAG_p (1<<1)
-#define FLAG_g (1<<2)
-#define FLAG_l (1<<3)
-#define FLAG_c (1<<4)
+#define FLAG_s (1<<0)
+#define FLAG_r (1<<1)
+#define FLAG_p (1<<2)
+#define FLAG_g (1<<3)
+#define FLAG_l (1<<4)
+#define FLAG_c (1<<5)
 #endif
 
 #ifdef FOR_xzcat
