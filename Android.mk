@@ -65,6 +65,7 @@ LOCAL_SRC_FILES := \
     toys/android/log.c \
     toys/android/restorecon.c \
     toys/android/runcon.c \
+    toys/android/sendevent.c \
     toys/android/setenforce.c \
     toys/android/setprop.c \
     toys/android/start.c \
@@ -221,7 +222,7 @@ LOCAL_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
 
 LOCAL_CLANG := true
 
-LOCAL_SHARED_LIBRARIES := libcutils libselinux
+LOCAL_SHARED_LIBRARIES := libcutils libselinux libcrypto
 
 # This doesn't actually prevent us from dragging in libc++ at runtime
 # because libnetd_client.so is C++.
