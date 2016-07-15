@@ -23,7 +23,7 @@
 
 // arp   vi:nDsdap:A:H:[+Ap][!sd]
 #undef OPTSTR_arp
-#define OPTSTR_arp  0 
+#define OPTSTR_arp "vi:nDsdap:A:H:[+Ap][!sd]"
 #ifdef CLEANUP_arp
 #undef CLEANUP_arp
 #undef FOR_arp
@@ -41,7 +41,7 @@
 
 // arping   <1>1s:I:w#<0c#<0AUDbqf[+AU][+Df]
 #undef OPTSTR_arping
-#define OPTSTR_arping  0 
+#define OPTSTR_arping "<1>1s:I:w#<0c#<0AUDbqf[+AU][+Df]"
 #ifdef CLEANUP_arping
 #undef CLEANUP_arping
 #undef FOR_arping
@@ -78,7 +78,7 @@
 
 // blkid    
 #undef OPTSTR_blkid
-#define OPTSTR_blkid  0 
+#define OPTSTR_blkid " "
 #ifdef CLEANUP_blkid
 #undef CLEANUP_blkid
 #undef FOR_blkid
@@ -105,7 +105,7 @@
 
 // bootchartd    
 #undef OPTSTR_bootchartd
-#define OPTSTR_bootchartd  0 
+#define OPTSTR_bootchartd " "
 #ifdef CLEANUP_bootchartd
 #undef CLEANUP_bootchartd
 #undef FOR_bootchartd
@@ -113,7 +113,7 @@
 
 // brctl   <1
 #undef OPTSTR_brctl
-#define OPTSTR_brctl  0 
+#define OPTSTR_brctl "<1"
 #ifdef CLEANUP_brctl
 #undef CLEANUP_brctl
 #undef FOR_brctl
@@ -134,7 +134,7 @@
 
 // bzcat    
 #undef OPTSTR_bzcat
-#define OPTSTR_bzcat  0 
+#define OPTSTR_bzcat " "
 #ifdef CLEANUP_bzcat
 #undef CLEANUP_bzcat
 #undef FOR_bzcat
@@ -162,7 +162,7 @@
 
 // catv   vte
 #undef OPTSTR_catv
-#define OPTSTR_catv  0 
+#define OPTSTR_catv "vte"
 #ifdef CLEANUP_catv
 #undef CLEANUP_catv
 #undef FOR_catv
@@ -173,7 +173,7 @@
 
 // cd    
 #undef OPTSTR_cd
-#define OPTSTR_cd  0 
+#define OPTSTR_cd " "
 #ifdef CLEANUP_cd
 #undef CLEANUP_cd
 #undef FOR_cd
@@ -181,7 +181,7 @@
 
 // chattr    
 #undef OPTSTR_chattr
-#define OPTSTR_chattr  0 
+#define OPTSTR_chattr " "
 #ifdef CLEANUP_chattr
 #undef CLEANUP_chattr
 #undef FOR_chattr
@@ -234,7 +234,7 @@
 
 // chvt   <1
 #undef OPTSTR_chvt
-#define OPTSTR_chvt  0 
+#define OPTSTR_chvt "<1"
 #ifdef CLEANUP_chvt
 #undef CLEANUP_chvt
 #undef FOR_chvt
@@ -255,7 +255,7 @@
 
 // clear    
 #undef OPTSTR_clear
-#define OPTSTR_clear  0 
+#define OPTSTR_clear " "
 #ifdef CLEANUP_clear
 #undef CLEANUP_clear
 #undef FOR_clear
@@ -284,7 +284,7 @@
 
 // compress   zcd9lrg[-cd][!zgLr]
 #undef OPTSTR_compress
-#define OPTSTR_compress  0 
+#define OPTSTR_compress "zcd9lrg[-cd][!zgLr]"
 #ifdef CLEANUP_compress
 #undef CLEANUP_compress
 #undef FOR_compress
@@ -299,7 +299,7 @@
 
 // count    
 #undef OPTSTR_count
-#define OPTSTR_count  0 
+#define OPTSTR_count " "
 #ifdef CLEANUP_count
 #undef CLEANUP_count
 #undef FOR_count
@@ -352,7 +352,7 @@
 
 // crond   fbSl#<0=8d#<0L:c:[-bf][-LS][-ld]
 #undef OPTSTR_crond
-#define OPTSTR_crond  0 
+#define OPTSTR_crond "fbSl#<0=8d#<0L:c:[-bf][-LS][-ld]"
 #ifdef CLEANUP_crond
 #undef CLEANUP_crond
 #undef FOR_crond
@@ -367,7 +367,7 @@
 
 // crontab   c:u:elr[!elr]
 #undef OPTSTR_crontab
-#define OPTSTR_crontab  0 
+#define OPTSTR_crontab "c:u:elr[!elr]"
 #ifdef CLEANUP_crontab
 #undef CLEANUP_crontab
 #undef FOR_crontab
@@ -406,7 +406,7 @@
 
 // dd    
 #undef OPTSTR_dd
-#define OPTSTR_dd  0 
+#define OPTSTR_dd " "
 #ifdef CLEANUP_dd
 #undef CLEANUP_dd
 #undef FOR_dd
@@ -414,7 +414,7 @@
 
 // deallocvt   >1
 #undef OPTSTR_deallocvt
-#define OPTSTR_deallocvt  0 
+#define OPTSTR_deallocvt ">1"
 #ifdef CLEANUP_deallocvt
 #undef CLEANUP_deallocvt
 #undef FOR_deallocvt
@@ -436,7 +436,7 @@
 
 // dhcp   V:H:F:x*r:O*A#<0=20T#<0=3t#<0=3s:p:i:SBRCaovqnbf
 #undef OPTSTR_dhcp
-#define OPTSTR_dhcp  0 
+#define OPTSTR_dhcp "V:H:F:x*r:O*A#<0=20T#<0=3t#<0=3s:p:i:SBRCaovqnbf"
 #ifdef CLEANUP_dhcp
 #undef CLEANUP_dhcp
 #undef FOR_dhcp
@@ -467,7 +467,7 @@
 
 // dhcp6   r:A#<0T#<0t#<0s:p:i:SRvqnbf
 #undef OPTSTR_dhcp6
-#define OPTSTR_dhcp6  0 
+#define OPTSTR_dhcp6 "r:A#<0T#<0t#<0s:p:i:SRvqnbf"
 #ifdef CLEANUP_dhcp6
 #undef CLEANUP_dhcp6
 #undef FOR_dhcp6
@@ -489,7 +489,7 @@
 
 // dhcpd   >1P#<0>65535fi:S46[!46]
 #undef OPTSTR_dhcpd
-#define OPTSTR_dhcpd  0 
+#define OPTSTR_dhcpd ">1P#<0>65535fi:S46[!46]"
 #ifdef CLEANUP_dhcpd
 #undef CLEANUP_dhcpd
 #undef FOR_dhcpd
@@ -503,7 +503,7 @@
 
 // diff   <2>2B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3
 #undef OPTSTR_diff
-#define OPTSTR_diff  0 
+#define OPTSTR_diff "<2>2B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3"
 #ifdef CLEANUP_diff
 #undef CLEANUP_diff
 #undef FOR_diff
@@ -563,7 +563,7 @@
 
 // dos2unix    
 #undef OPTSTR_dos2unix
-#define OPTSTR_dos2unix  0 
+#define OPTSTR_dos2unix " "
 #ifdef CLEANUP_dos2unix
 #undef CLEANUP_dos2unix
 #undef FOR_dos2unix
@@ -591,7 +591,7 @@
 
 // dumpleases   >0arf:[!ar]
 #undef OPTSTR_dumpleases
-#define OPTSTR_dumpleases  0 
+#define OPTSTR_dumpleases ">0arf:[!ar]"
 #ifdef CLEANUP_dumpleases
 #undef CLEANUP_dumpleases
 #undef FOR_dumpleases
@@ -612,7 +612,7 @@
 
 // eject   >1stT[!tT]
 #undef OPTSTR_eject
-#define OPTSTR_eject  0 
+#define OPTSTR_eject ">1stT[!tT]"
 #ifdef CLEANUP_eject
 #undef CLEANUP_eject
 #undef FOR_eject
@@ -633,7 +633,7 @@
 
 // exit    
 #undef OPTSTR_exit
-#define OPTSTR_exit  0 
+#define OPTSTR_exit " "
 #ifdef CLEANUP_exit
 #undef CLEANUP_exit
 #undef FOR_exit
@@ -650,7 +650,7 @@
 
 // expr    
 #undef OPTSTR_expr
-#define OPTSTR_expr  0 
+#define OPTSTR_expr " "
 #ifdef CLEANUP_expr
 #undef CLEANUP_expr
 #undef FOR_expr
@@ -658,7 +658,7 @@
 
 // factor    
 #undef OPTSTR_factor
-#define OPTSTR_factor  0 
+#define OPTSTR_factor " "
 #ifdef CLEANUP_factor
 #undef CLEANUP_factor
 #undef FOR_factor
@@ -675,7 +675,7 @@
 
 // false    
 #undef OPTSTR_false
-#define OPTSTR_false  0 
+#define OPTSTR_false " "
 #ifdef CLEANUP_false
 #undef CLEANUP_false
 #undef FOR_false
@@ -683,7 +683,7 @@
 
 // fdisk   C#<0H#<0S#<0b#<512ul
 #undef OPTSTR_fdisk
-#define OPTSTR_fdisk  0 
+#define OPTSTR_fdisk "C#<0H#<0S#<0b#<512ul"
 #ifdef CLEANUP_fdisk
 #undef CLEANUP_fdisk
 #undef FOR_fdisk
@@ -727,7 +727,7 @@
 
 // fold   bsuw#<1
 #undef OPTSTR_fold
-#define OPTSTR_fold  0 
+#define OPTSTR_fold "bsuw#<1"
 #ifdef CLEANUP_fold
 #undef CLEANUP_fold
 #undef FOR_fold
@@ -761,7 +761,7 @@
 
 // fsck   ?t:ANPRTVsC#
 #undef OPTSTR_fsck
-#define OPTSTR_fsck  0 
+#define OPTSTR_fsck "?t:ANPRTVsC#"
 #ifdef CLEANUP_fsck
 #undef CLEANUP_fsck
 #undef FOR_fsck
@@ -788,7 +788,7 @@
 
 // fstype   <1
 #undef OPTSTR_fstype
-#define OPTSTR_fstype  0 
+#define OPTSTR_fstype "<1"
 #ifdef CLEANUP_fstype
 #undef CLEANUP_fstype
 #undef FOR_fstype
@@ -796,7 +796,7 @@
 
 // fsync   <1d
 #undef OPTSTR_fsync
-#define OPTSTR_fsync  0 
+#define OPTSTR_fsync "<1d"
 #ifdef CLEANUP_fsync
 #undef CLEANUP_fsync
 #undef FOR_fsync
@@ -805,7 +805,7 @@
 
 // ftpget   <2cvu:p:P#<0=21>65535
 #undef OPTSTR_ftpget
-#define OPTSTR_ftpget  0 
+#define OPTSTR_ftpget "<2cvu:p:P#<0=21>65535"
 #ifdef CLEANUP_ftpget
 #undef CLEANUP_ftpget
 #undef FOR_ftpget
@@ -835,7 +835,7 @@
 
 // getty   <2t#<0H:I:l:f:iwnmLh
 #undef OPTSTR_getty
-#define OPTSTR_getty  0 
+#define OPTSTR_getty "<2t#<0H:I:l:f:iwnmLh"
 #ifdef CLEANUP_getty
 #undef CLEANUP_getty
 #undef FOR_getty
@@ -887,7 +887,7 @@
 
 // groupadd   <1>2g#<0S
 #undef OPTSTR_groupadd
-#define OPTSTR_groupadd  0 
+#define OPTSTR_groupadd "<1>2g#<0S"
 #ifdef CLEANUP_groupadd
 #undef CLEANUP_groupadd
 #undef FOR_groupadd
@@ -897,7 +897,7 @@
 
 // groupdel   <1>2
 #undef OPTSTR_groupdel
-#define OPTSTR_groupdel  0 
+#define OPTSTR_groupdel "<1>2"
 #ifdef CLEANUP_groupdel
 #undef CLEANUP_groupdel
 #undef FOR_groupdel
@@ -905,7 +905,7 @@
 
 // groups    
 #undef OPTSTR_groups
-#define OPTSTR_groups  0 
+#define OPTSTR_groups " "
 #ifdef CLEANUP_groups
 #undef CLEANUP_groups
 #undef FOR_groups
@@ -913,7 +913,7 @@
 
 // gunzip   cflqStv
 #undef OPTSTR_gunzip
-#define OPTSTR_gunzip  0 
+#define OPTSTR_gunzip "cflqStv"
 #ifdef CLEANUP_gunzip
 #undef CLEANUP_gunzip
 #undef FOR_gunzip
@@ -928,7 +928,7 @@
 
 // gzip   d19dcflqStvgLRz[!gLRz]
 #undef OPTSTR_gzip
-#define OPTSTR_gzip  0 
+#define OPTSTR_gzip "d19dcflqStvgLRz[!gLRz]"
 #ifdef CLEANUP_gzip
 #undef CLEANUP_gzip
 #undef FOR_gzip
@@ -960,7 +960,7 @@
 
 // hello    
 #undef OPTSTR_hello
-#define OPTSTR_hello  0 
+#define OPTSTR_hello " "
 #ifdef CLEANUP_hello
 #undef CLEANUP_hello
 #undef FOR_hello
@@ -978,7 +978,7 @@
 
 // hexedit   <1>1r
 #undef OPTSTR_hexedit
-#define OPTSTR_hexedit  0 
+#define OPTSTR_hexedit "<1>1r"
 #ifdef CLEANUP_hexedit
 #undef CLEANUP_hexedit
 #undef FOR_hexedit
@@ -987,7 +987,7 @@
 
 // host   <1>2avt:
 #undef OPTSTR_host
-#define OPTSTR_host  0 
+#define OPTSTR_host "<1>2avt:"
 #ifdef CLEANUP_host
 #undef CLEANUP_host
 #undef FOR_host
@@ -998,7 +998,7 @@
 
 // hostid   >0
 #undef OPTSTR_hostid
-#define OPTSTR_hostid  0 
+#define OPTSTR_hostid ">0"
 #ifdef CLEANUP_hostid
 #undef CLEANUP_hostid
 #undef FOR_hostid
@@ -1039,7 +1039,7 @@
 
 // iconv   cst:f:
 #undef OPTSTR_iconv
-#define OPTSTR_iconv  0 
+#define OPTSTR_iconv "cst:f:"
 #ifdef CLEANUP_iconv
 #undef CLEANUP_iconv
 #undef FOR_iconv
@@ -1074,7 +1074,7 @@
 
 // init    
 #undef OPTSTR_init
-#define OPTSTR_init  0 
+#define OPTSTR_init " "
 #ifdef CLEANUP_init
 #undef CLEANUP_init
 #undef FOR_init
@@ -1135,7 +1135,7 @@
 
 // iotop   >0AaKOk*o*p*u*s#<1=7d#=3<1n#<1bq
 #undef OPTSTR_iotop
-#define OPTSTR_iotop  0 
+#define OPTSTR_iotop ">0AaKOk*o*p*u*s#<1=7d#=3<1n#<1bq"
 #ifdef CLEANUP_iotop
 #undef CLEANUP_iotop
 #undef FOR_iotop
@@ -1156,7 +1156,7 @@
 
 // ip    
 #undef OPTSTR_ip
-#define OPTSTR_ip  0 
+#define OPTSTR_ip " "
 #ifdef CLEANUP_ip
 #undef CLEANUP_ip
 #undef FOR_ip
@@ -1164,7 +1164,7 @@
 
 // ipcrm   m*M*s*S*q*Q*
 #undef OPTSTR_ipcrm
-#define OPTSTR_ipcrm  0 
+#define OPTSTR_ipcrm "m*M*s*S*q*Q*"
 #ifdef CLEANUP_ipcrm
 #undef CLEANUP_ipcrm
 #undef FOR_ipcrm
@@ -1178,7 +1178,7 @@
 
 // ipcs   acptulsqmi#
 #undef OPTSTR_ipcs
-#define OPTSTR_ipcs  0 
+#define OPTSTR_ipcs "acptulsqmi#"
 #ifdef CLEANUP_ipcs
 #undef CLEANUP_ipcs
 #undef FOR_ipcs
@@ -1219,7 +1219,7 @@
 
 // killall5   ?o*ls: [!lo][!ls]
 #undef OPTSTR_killall5
-#define OPTSTR_killall5  0 
+#define OPTSTR_killall5 "?o*ls: [!lo][!ls]"
 #ifdef CLEANUP_killall5
 #undef CLEANUP_killall5
 #undef FOR_killall5
@@ -1230,7 +1230,7 @@
 
 // klogd   c#<1>8n
 #undef OPTSTR_klogd
-#define OPTSTR_klogd  0 
+#define OPTSTR_klogd "c#<1>8n"
 #ifdef CLEANUP_klogd
 #undef CLEANUP_klogd
 #undef FOR_klogd
@@ -1240,7 +1240,7 @@
 
 // last   f:W
 #undef OPTSTR_last
-#define OPTSTR_last  0 
+#define OPTSTR_last "f:W"
 #ifdef CLEANUP_last
 #undef CLEANUP_last
 #undef FOR_last
@@ -1250,7 +1250,7 @@
 
 // link   <2>2
 #undef OPTSTR_link
-#define OPTSTR_link  0 
+#define OPTSTR_link "<2>2"
 #ifdef CLEANUP_link
 #undef CLEANUP_link
 #undef FOR_link
@@ -1288,7 +1288,7 @@
 
 // logger   st:p:
 #undef OPTSTR_logger
-#define OPTSTR_logger  0 
+#define OPTSTR_logger "st:p:"
 #ifdef CLEANUP_logger
 #undef CLEANUP_logger
 #undef FOR_logger
@@ -1299,7 +1299,7 @@
 
 // login   >1f:ph:
 #undef OPTSTR_login
-#define OPTSTR_login  0 
+#define OPTSTR_login ">1f:ph:"
 #ifdef CLEANUP_login
 #undef CLEANUP_login
 #undef FOR_login
@@ -1388,7 +1388,7 @@
 
 // lsmod    
 #undef OPTSTR_lsmod
-#define OPTSTR_lsmod  0 
+#define OPTSTR_lsmod " "
 #ifdef CLEANUP_lsmod
 #undef CLEANUP_lsmod
 #undef FOR_lsmod
@@ -1407,7 +1407,7 @@
 
 // lspci   emkn@i:
 #undef OPTSTR_lspci
-#define OPTSTR_lspci  0 
+#define OPTSTR_lspci "emkn@i:"
 #ifdef CLEANUP_lspci
 #undef CLEANUP_lspci
 #undef FOR_lspci
@@ -1420,7 +1420,7 @@
 
 // lsusb    
 #undef OPTSTR_lsusb
-#define OPTSTR_lsusb  0 
+#define OPTSTR_lsusb " "
 #ifdef CLEANUP_lsusb
 #undef CLEANUP_lsusb
 #undef FOR_lsusb
@@ -1435,18 +1435,19 @@
 #undef FLAG_d
 #endif
 
-// md5sum b b
+// md5sum bc*[!bc] bc*[!bc]
 #undef OPTSTR_md5sum
-#define OPTSTR_md5sum "b"
+#define OPTSTR_md5sum "bc*[!bc]"
 #ifdef CLEANUP_md5sum
 #undef CLEANUP_md5sum
 #undef FOR_md5sum
+#undef FLAG_c
 #undef FLAG_b
 #endif
 
 // mdev   s
 #undef OPTSTR_mdev
-#define OPTSTR_mdev  0 
+#define OPTSTR_mdev "s"
 #ifdef CLEANUP_mdev
 #undef CLEANUP_mdev
 #undef FOR_mdev
@@ -1455,7 +1456,7 @@
 
 // mix   c:d:l#r#
 #undef OPTSTR_mix
-#define OPTSTR_mix  0 
+#define OPTSTR_mix "c:d:l#r#"
 #ifdef CLEANUP_mix
 #undef CLEANUP_mix
 #undef FOR_mix
@@ -1479,7 +1480,7 @@
 
 // mke2fs   <1>2g:Fnqm#N#i#b#
 #undef OPTSTR_mke2fs
-#define OPTSTR_mke2fs  0 
+#define OPTSTR_mke2fs "<1>2g:Fnqm#N#i#b#"
 #ifdef CLEANUP_mke2fs
 #undef CLEANUP_mke2fs
 #undef FOR_mke2fs
@@ -1516,7 +1517,7 @@
 
 // mkpasswd   >2S:m:P#=0<0
 #undef OPTSTR_mkpasswd
-#define OPTSTR_mkpasswd  0 
+#define OPTSTR_mkpasswd ">2S:m:P#=0<0"
 #ifdef CLEANUP_mkpasswd
 #undef CLEANUP_mkpasswd
 #undef FOR_mkpasswd
@@ -1562,7 +1563,7 @@
 
 // modprobe   alrqvsDb
 #undef OPTSTR_modprobe
-#define OPTSTR_modprobe  0 
+#define OPTSTR_modprobe "alrqvsDb"
 #ifdef CLEANUP_modprobe
 #undef CLEANUP_modprobe
 #undef FOR_modprobe
@@ -1578,7 +1579,7 @@
 
 // more    
 #undef OPTSTR_more
-#define OPTSTR_more  0 
+#define OPTSTR_more " "
 #ifdef CLEANUP_more
 #undef CLEANUP_more
 #undef FOR_more
@@ -1705,7 +1706,7 @@
 
 // nproc   (all)
 #undef OPTSTR_nproc
-#define OPTSTR_nproc  0 
+#define OPTSTR_nproc "(all)"
 #ifdef CLEANUP_nproc
 #undef CLEANUP_nproc
 #undef FOR_nproc
@@ -1714,7 +1715,7 @@
 
 // nsenter   <1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
 #undef OPTSTR_nsenter
-#define OPTSTR_nsenter  0 
+#define OPTSTR_nsenter "<1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);"
 #ifdef CLEANUP_nsenter
 #undef CLEANUP_nsenter
 #undef FOR_nsenter
@@ -1758,7 +1759,7 @@
 
 // oneit   ^<1nc:p3[!pn]
 #undef OPTSTR_oneit
-#define OPTSTR_oneit  0 
+#define OPTSTR_oneit "^<1nc:p3[!pn]"
 #ifdef CLEANUP_oneit
 #undef CLEANUP_oneit
 #undef FOR_oneit
@@ -1770,7 +1771,7 @@
 
 // openvt   c#<1>63sw
 #undef OPTSTR_openvt
-#define OPTSTR_openvt  0 
+#define OPTSTR_openvt "c#<1>63sw"
 #ifdef CLEANUP_openvt
 #undef CLEANUP_openvt
 #undef FOR_openvt
@@ -1789,7 +1790,7 @@
 
 // passwd   >1a:dlu
 #undef OPTSTR_passwd
-#define OPTSTR_passwd  0 
+#define OPTSTR_passwd ">1a:dlu"
 #ifdef CLEANUP_passwd
 #undef CLEANUP_passwd
 #undef FOR_passwd
@@ -1861,7 +1862,7 @@
 
 // ping   <1>1t#<0>255c#<0s#<0>65535I:W#<0w#<0q46[-46]
 #undef OPTSTR_ping
-#define OPTSTR_ping  0 
+#define OPTSTR_ping "<1>1t#<0>255c#<0s#<0>65535I:W#<0w#<0q46[-46]"
 #ifdef CLEANUP_ping
 #undef CLEANUP_ping
 #undef FOR_ping
@@ -1988,7 +1989,7 @@
 
 // readahead    
 #undef OPTSTR_readahead
-#define OPTSTR_readahead  0 
+#define OPTSTR_readahead " "
 #ifdef CLEANUP_readahead
 #undef CLEANUP_readahead
 #undef FOR_readahead
@@ -2016,7 +2017,7 @@
 
 // reboot   fn
 #undef OPTSTR_reboot
-#define OPTSTR_reboot  0 
+#define OPTSTR_reboot "fn"
 #ifdef CLEANUP_reboot
 #undef CLEANUP_reboot
 #undef FOR_reboot
@@ -2038,7 +2039,7 @@
 
 // reset    
 #undef OPTSTR_reset
-#define OPTSTR_reset  0 
+#define OPTSTR_reset " "
 #ifdef CLEANUP_reset
 #undef CLEANUP_reset
 #undef FOR_reset
@@ -2060,7 +2061,7 @@
 
 // rev    
 #undef OPTSTR_rev
-#define OPTSTR_rev  0 
+#define OPTSTR_rev " "
 #ifdef CLEANUP_rev
 #undef CLEANUP_rev
 #undef FOR_rev
@@ -2107,7 +2108,7 @@
 
 // route   ?neA:
 #undef OPTSTR_route
-#define OPTSTR_route  0 
+#define OPTSTR_route "?neA:"
 #ifdef CLEANUP_route
 #undef CLEANUP_route
 #undef FOR_route
@@ -2137,6 +2138,14 @@
 #undef FLAG_f
 #undef FLAG_e
 #undef FLAG_version
+#endif
+
+// sendevent <4>4 <4>4
+#undef OPTSTR_sendevent
+#define OPTSTR_sendevent "<4>4"
+#ifdef CLEANUP_sendevent
+#undef CLEANUP_sendevent
+#undef FOR_sendevent
 #endif
 
 // seq <1>3?f:s:w[!fw] <1>3?f:s:w[!fw]
@@ -2177,7 +2186,7 @@
 
 // sh   c:i
 #undef OPTSTR_sh
-#define OPTSTR_sh  0 
+#define OPTSTR_sh "c:i"
 #ifdef CLEANUP_sh
 #undef CLEANUP_sh
 #undef FOR_sh
@@ -2185,18 +2194,19 @@
 #undef FLAG_c
 #endif
 
-// sha1sum b b
+// sha1sum bc*[!bc] bc*[!bc]
 #undef OPTSTR_sha1sum
-#define OPTSTR_sha1sum "b"
+#define OPTSTR_sha1sum "bc*[!bc]"
 #ifdef CLEANUP_sha1sum
 #undef CLEANUP_sha1sum
 #undef FOR_sha1sum
+#undef FLAG_c
 #undef FLAG_b
 #endif
 
 // shred   <1zxus#<1n#<1o#<0f
 #undef OPTSTR_shred
-#define OPTSTR_shred  0 
+#define OPTSTR_shred "<1zxus#<1n#<1o#<0f"
 #ifdef CLEANUP_shred
 #undef CLEANUP_shred
 #undef FOR_shred
@@ -2211,7 +2221,7 @@
 
 // skeleton   (walrus)(blubber):;(also):e@d*c#b:a
 #undef OPTSTR_skeleton
-#define OPTSTR_skeleton  0 
+#define OPTSTR_skeleton "(walrus)(blubber):;(also):e@d*c#b:a"
 #ifdef CLEANUP_skeleton
 #undef CLEANUP_skeleton
 #undef FOR_skeleton
@@ -2227,7 +2237,7 @@
 
 // skeleton_alias   b#dq
 #undef OPTSTR_skeleton_alias
-#define OPTSTR_skeleton_alias  0 
+#define OPTSTR_skeleton_alias "b#dq"
 #ifdef CLEANUP_skeleton_alias
 #undef CLEANUP_skeleton_alias
 #undef FOR_skeleton_alias
@@ -2284,7 +2294,7 @@
 
 // start    
 #undef OPTSTR_start
-#define OPTSTR_start  0 
+#define OPTSTR_start " "
 #ifdef CLEANUP_start
 #undef CLEANUP_start
 #undef FOR_start
@@ -2304,7 +2314,7 @@
 
 // stop    
 #undef OPTSTR_stop
-#define OPTSTR_stop  0 
+#define OPTSTR_stop " "
 #ifdef CLEANUP_stop
 #undef CLEANUP_stop
 #undef FOR_stop
@@ -2324,7 +2334,7 @@
 
 // su   lmpc:s:
 #undef OPTSTR_su
-#define OPTSTR_su  0 
+#define OPTSTR_su "lmpc:s:"
 #ifdef CLEANUP_su
 #undef CLEANUP_su
 #undef FOR_su
@@ -2337,7 +2347,7 @@
 
 // sulogin   t#<0=0
 #undef OPTSTR_sulogin
-#define OPTSTR_sulogin  0 
+#define OPTSTR_sulogin "t#<0=0"
 #ifdef CLEANUP_sulogin
 #undef CLEANUP_sulogin
 #undef FOR_sulogin
@@ -2364,7 +2374,7 @@
 
 // switch_root   <2c:h
 #undef OPTSTR_switch_root
-#define OPTSTR_switch_root  0 
+#define OPTSTR_switch_root "<2c:h"
 #ifdef CLEANUP_switch_root
 #undef CLEANUP_switch_root
 #undef FOR_switch_root
@@ -2374,7 +2384,7 @@
 
 // sync    
 #undef OPTSTR_sync
-#define OPTSTR_sync  0 
+#define OPTSTR_sync " "
 #ifdef CLEANUP_sync
 #undef CLEANUP_sync
 #undef FOR_sync
@@ -2398,7 +2408,7 @@
 
 // syslogd   >0l#<1>8=8R:b#<0>99=1s#<0=200m#<0>71582787=20O:p:f:a:nSKLD
 #undef OPTSTR_syslogd
-#define OPTSTR_syslogd  0 
+#define OPTSTR_syslogd ">0l#<1>8=8R:b#<0>99=1s#<0=200m#<0>71582787=20O:p:f:a:nSKLD"
 #ifdef CLEANUP_syslogd
 #undef CLEANUP_syslogd
 #undef FOR_syslogd
@@ -2420,7 +2430,7 @@
 
 // tac    
 #undef OPTSTR_tac
-#define OPTSTR_tac  0 
+#define OPTSTR_tac " "
 #ifdef CLEANUP_tac
 #undef CLEANUP_tac
 #undef FOR_tac
@@ -2493,7 +2503,7 @@
 
 // tcpsvd   ^<3c#=30<1C:b#=20<0u:l:hEv
 #undef OPTSTR_tcpsvd
-#define OPTSTR_tcpsvd  0 
+#define OPTSTR_tcpsvd "^<3c#=30<1C:b#=20<0u:l:hEv"
 #ifdef CLEANUP_tcpsvd
 #undef CLEANUP_tcpsvd
 #undef FOR_tcpsvd
@@ -2519,7 +2529,7 @@
 
 // telnet   <1>2
 #undef OPTSTR_telnet
-#define OPTSTR_telnet  0 
+#define OPTSTR_telnet "<1>2"
 #ifdef CLEANUP_telnet
 #undef CLEANUP_telnet
 #undef FOR_telnet
@@ -2527,7 +2537,7 @@
 
 // telnetd   w#<0b:p#<0>65535=23f:l:FSKi[!wi]
 #undef OPTSTR_telnetd
-#define OPTSTR_telnetd  0 
+#define OPTSTR_telnetd "w#<0b:p#<0>65535=23f:l:FSKi[!wi]"
 #ifdef CLEANUP_telnetd
 #undef CLEANUP_telnetd
 #undef FOR_telnetd
@@ -2544,7 +2554,7 @@
 
 // test    
 #undef OPTSTR_test
-#define OPTSTR_test  0 
+#define OPTSTR_test " "
 #ifdef CLEANUP_test
 #undef CLEANUP_test
 #undef FOR_test
@@ -2552,7 +2562,7 @@
 
 // test_human_readable   <1>1ibs
 #undef OPTSTR_test_human_readable
-#define OPTSTR_test_human_readable  0 
+#define OPTSTR_test_human_readable "<1>1ibs"
 #ifdef CLEANUP_test_human_readable
 #undef CLEANUP_test_human_readable
 #undef FOR_test_human_readable
@@ -2563,7 +2573,7 @@
 
 // test_many_options   ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba
 #undef OPTSTR_test_many_options
-#define OPTSTR_test_many_options  0 
+#define OPTSTR_test_many_options "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba"
 #ifdef CLEANUP_test_many_options
 #undef CLEANUP_test_many_options
 #undef FOR_test_many_options
@@ -2623,7 +2633,7 @@
 
 // test_scankey    
 #undef OPTSTR_test_scankey
-#define OPTSTR_test_scankey  0 
+#define OPTSTR_test_scankey " "
 #ifdef CLEANUP_test_scankey
 #undef CLEANUP_test_scankey
 #undef FOR_test_scankey
@@ -2631,7 +2641,7 @@
 
 // tftp   <1b#<8>65464r:l:g|p|[!gp]
 #undef OPTSTR_tftp
-#define OPTSTR_tftp  0 
+#define OPTSTR_tftp "<1b#<8>65464r:l:g|p|[!gp]"
 #ifdef CLEANUP_tftp
 #undef CLEANUP_tftp
 #undef FOR_tftp
@@ -2644,7 +2654,7 @@
 
 // tftpd   rcu:l
 #undef OPTSTR_tftpd
-#define OPTSTR_tftpd  0 
+#define OPTSTR_tftpd "rcu:l"
 #ifdef CLEANUP_tftpd
 #undef CLEANUP_tftpd
 #undef FOR_tftpd
@@ -2711,7 +2721,7 @@
 
 // toybox    
 #undef OPTSTR_toybox
-#define OPTSTR_toybox  0 
+#define OPTSTR_toybox " "
 #ifdef CLEANUP_toybox
 #undef CLEANUP_toybox
 #undef FOR_toybox
@@ -2759,7 +2769,7 @@
 
 // true    
 #undef OPTSTR_true
-#define OPTSTR_true  0 
+#define OPTSTR_true " "
 #ifdef CLEANUP_true
 #undef CLEANUP_true
 #undef FOR_true
@@ -2862,7 +2872,7 @@
 
 // unix2dos    
 #undef OPTSTR_unix2dos
-#define OPTSTR_unix2dos  0 
+#define OPTSTR_unix2dos " "
 #ifdef CLEANUP_unix2dos
 #undef CLEANUP_unix2dos
 #undef FOR_unix2dos
@@ -2870,7 +2880,7 @@
 
 // unlink   <1>1
 #undef OPTSTR_unlink
-#define OPTSTR_unlink  0 
+#define OPTSTR_unlink "<1>1"
 #ifdef CLEANUP_unlink
 #undef CLEANUP_unlink
 #undef FOR_unlink
@@ -2878,7 +2888,7 @@
 
 // unshare   <1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
 #undef OPTSTR_unshare
-#define OPTSTR_unshare  0 
+#define OPTSTR_unshare "<1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);"
 #ifdef CLEANUP_unshare
 #undef CLEANUP_unshare
 #undef FOR_unshare
@@ -2902,7 +2912,7 @@
 
 // uptime    
 #undef OPTSTR_uptime
-#define OPTSTR_uptime  0 
+#define OPTSTR_uptime " "
 #ifdef CLEANUP_uptime
 #undef CLEANUP_uptime
 #undef FOR_uptime
@@ -2910,7 +2920,7 @@
 
 // useradd   <1>2u#<0G:s:g:h:SDH
 #undef OPTSTR_useradd
-#define OPTSTR_useradd  0 
+#define OPTSTR_useradd "<1>2u#<0G:s:g:h:SDH"
 #ifdef CLEANUP_useradd
 #undef CLEANUP_useradd
 #undef FOR_useradd
@@ -2926,7 +2936,7 @@
 
 // userdel   <1>1r
 #undef OPTSTR_userdel
-#define OPTSTR_userdel  0 
+#define OPTSTR_userdel "<1>1r"
 #ifdef CLEANUP_userdel
 #undef CLEANUP_userdel
 #undef FOR_userdel
@@ -2943,7 +2953,7 @@
 
 // uudecode   >1o:
 #undef OPTSTR_uudecode
-#define OPTSTR_uudecode  0 
+#define OPTSTR_uudecode ">1o:"
 #ifdef CLEANUP_uudecode
 #undef CLEANUP_uudecode
 #undef FOR_uudecode
@@ -2952,7 +2962,7 @@
 
 // uuencode   <1>2m
 #undef OPTSTR_uuencode
-#define OPTSTR_uuencode  0 
+#define OPTSTR_uuencode "<1>2m"
 #ifdef CLEANUP_uuencode
 #undef CLEANUP_uuencode
 #undef FOR_uuencode
@@ -2969,7 +2979,7 @@
 
 // vi   <1>1
 #undef OPTSTR_vi
-#define OPTSTR_vi  0 
+#define OPTSTR_vi "<1>1"
 #ifdef CLEANUP_vi
 #undef CLEANUP_vi
 #undef FOR_vi
@@ -2986,7 +2996,7 @@
 
 // w    
 #undef OPTSTR_w
-#define OPTSTR_w  0 
+#define OPTSTR_w " "
 #ifdef CLEANUP_w
 #undef CLEANUP_w
 #undef FOR_w
@@ -2994,7 +3004,7 @@
 
 // watch   ^<1n#<0=2te
 #undef OPTSTR_watch
-#define OPTSTR_watch  0 
+#define OPTSTR_watch "^<1n#<0=2te"
 #ifdef CLEANUP_watch
 #undef CLEANUP_watch
 #undef FOR_watch
@@ -3017,7 +3027,7 @@
 
 // wget   f:
 #undef OPTSTR_wget
-#define OPTSTR_wget  0 
+#define OPTSTR_wget "f:"
 #ifdef CLEANUP_wget
 #undef CLEANUP_wget
 #undef FOR_wget
@@ -3035,7 +3045,7 @@
 
 // who   a
 #undef OPTSTR_who
-#define OPTSTR_who  0 
+#define OPTSTR_who "a"
 #ifdef CLEANUP_who
 #undef CLEANUP_who
 #undef FOR_who
@@ -3076,7 +3086,7 @@
 
 // xzcat    
 #undef OPTSTR_xzcat
-#define OPTSTR_xzcat  0 
+#define OPTSTR_xzcat " "
 #ifdef CLEANUP_xzcat
 #undef CLEANUP_xzcat
 #undef FOR_xzcat
@@ -3084,7 +3094,7 @@
 
 // yes    
 #undef OPTSTR_yes
-#define OPTSTR_yes  0 
+#define OPTSTR_yes " "
 #ifdef CLEANUP_yes
 #undef CLEANUP_yes
 #undef FOR_yes
@@ -3092,7 +3102,7 @@
 
 // zcat    
 #undef OPTSTR_zcat
-#define OPTSTR_zcat  0 
+#define OPTSTR_zcat " "
 #ifdef CLEANUP_zcat
 #undef CLEANUP_zcat
 #undef FOR_zcat
@@ -4297,7 +4307,8 @@
 #ifndef TT
 #define TT this.md5sum
 #endif
-#define FLAG_b (1<<0)
+#define FLAG_c (1<<0)
+#define FLAG_b (1<<1)
 #endif
 
 #ifdef FOR_mdev
@@ -4883,6 +4894,12 @@
 #define FLAG_version (1<<6)
 #endif
 
+#ifdef FOR_sendevent
+#ifndef TT
+#define TT this.sendevent
+#endif
+#endif
+
 #ifdef FOR_seq
 #ifndef TT
 #define TT this.seq
@@ -4923,7 +4940,8 @@
 #ifndef TT
 #define TT this.sha1sum
 #endif
-#define FLAG_b (1<<0)
+#define FLAG_c (1<<0)
+#define FLAG_b (1<<1)
 #endif
 
 #ifdef FOR_shred
