@@ -526,6 +526,14 @@
 #define USE_MD5SUM(...) __VA_ARGS__
 #define CFG_SHA1SUM 1
 #define USE_SHA1SUM(...) __VA_ARGS__
+#define CFG_SHA224SUM 1
+#define USE_SHA224SUM(...) __VA_ARGS__
+#define CFG_SHA256SUM 1
+#define USE_SHA256SUM(...) __VA_ARGS__
+#define CFG_SHA384SUM 1
+#define USE_SHA384SUM(...) __VA_ARGS__
+#define CFG_SHA512SUM 1
+#define USE_SHA512SUM(...) __VA_ARGS__
 #define CFG_MKNOD 1
 #define USE_MKNOD(...) __VA_ARGS__
 #define CFG_MKTEMP 1
@@ -568,6 +576,8 @@
 #define USE_RESTORECON(...) __VA_ARGS__
 #define CFG_RUNCON 1
 #define USE_RUNCON(...) __VA_ARGS__
+#define CFG_SENDEVENT 1
+#define USE_SENDEVENT(...) __VA_ARGS__
 #define CFG_SETENFORCE 1
 #define USE_SETENFORCE(...) __VA_ARGS__
 #define CFG_SETPROP 1
@@ -594,6 +604,8 @@
 #define USE_TOYBOX_HELP_DASHDASH(...) __VA_ARGS__
 #define CFG_TOYBOX_I18N 1
 #define USE_TOYBOX_I18N(...) __VA_ARGS__
+#define CFG_TOYBOX_LIBCRYPTO 1
+#define USE_TOYBOX_LIBCRYPTO(...) __VA_ARGS__
 #define CFG_TOYBOX_FREE 0
 #define USE_TOYBOX_FREE(...)
 #define CFG_TOYBOX_NORECURSE 1

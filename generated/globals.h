@@ -66,6 +66,11 @@ struct killall_data {
 // toys/lsb/md5sum.c
 
 struct md5sum_data {
+  struct arg_list *c;
+
+  int sawline;
+
+  // Crypto variables blanked after summing
   unsigned state[5];
   unsigned oldstate[5];
   uint64_t count;
