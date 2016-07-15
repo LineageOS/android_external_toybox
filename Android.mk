@@ -329,6 +329,7 @@ ALL_TOOLS := \
     rmmod \
     runcon \
     sed \
+    sendevent \
     seq \
     setenforce \
     setprop \
