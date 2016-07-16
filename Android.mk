@@ -335,6 +335,10 @@ ALL_TOOLS := \
     setprop \
     setsid \
     sha1sum \
+    sha224sum \
+    sha256sum \
+    sha384sum \
+    sha512sum \
     sleep \
     sort \
     split \
