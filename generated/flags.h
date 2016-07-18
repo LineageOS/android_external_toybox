@@ -78,7 +78,7 @@
 
 // blkid    
 #undef OPTSTR_blkid
-#define OPTSTR_blkid " "
+#define OPTSTR_blkid 0
 #ifdef CLEANUP_blkid
 #undef CLEANUP_blkid
 #undef FOR_blkid
@@ -105,7 +105,7 @@
 
 // bootchartd    
 #undef OPTSTR_bootchartd
-#define OPTSTR_bootchartd " "
+#define OPTSTR_bootchartd 0
 #ifdef CLEANUP_bootchartd
 #undef CLEANUP_bootchartd
 #undef FOR_bootchartd
@@ -134,7 +134,7 @@
 
 // bzcat    
 #undef OPTSTR_bzcat
-#define OPTSTR_bzcat " "
+#define OPTSTR_bzcat 0
 #ifdef CLEANUP_bzcat
 #undef CLEANUP_bzcat
 #undef FOR_bzcat
@@ -173,7 +173,7 @@
 
 // cd    
 #undef OPTSTR_cd
-#define OPTSTR_cd " "
+#define OPTSTR_cd 0
 #ifdef CLEANUP_cd
 #undef CLEANUP_cd
 #undef FOR_cd
@@ -181,7 +181,7 @@
 
 // chattr    
 #undef OPTSTR_chattr
-#define OPTSTR_chattr " "
+#define OPTSTR_chattr 0
 #ifdef CLEANUP_chattr
 #undef CLEANUP_chattr
 #undef FOR_chattr
@@ -255,7 +255,7 @@
 
 // clear    
 #undef OPTSTR_clear
-#define OPTSTR_clear " "
+#define OPTSTR_clear 0
 #ifdef CLEANUP_clear
 #undef CLEANUP_clear
 #undef FOR_clear
@@ -299,7 +299,7 @@
 
 // count    
 #undef OPTSTR_count
-#define OPTSTR_count " "
+#define OPTSTR_count 0
 #ifdef CLEANUP_count
 #undef CLEANUP_count
 #undef FOR_count
@@ -406,7 +406,7 @@
 
 // dd    
 #undef OPTSTR_dd
-#define OPTSTR_dd " "
+#define OPTSTR_dd 0
 #ifdef CLEANUP_dd
 #undef CLEANUP_dd
 #undef FOR_dd
@@ -563,7 +563,7 @@
 
 // dos2unix    
 #undef OPTSTR_dos2unix
-#define OPTSTR_dos2unix " "
+#define OPTSTR_dos2unix 0
 #ifdef CLEANUP_dos2unix
 #undef CLEANUP_dos2unix
 #undef FOR_dos2unix
@@ -633,7 +633,7 @@
 
 // exit    
 #undef OPTSTR_exit
-#define OPTSTR_exit " "
+#define OPTSTR_exit 0
 #ifdef CLEANUP_exit
 #undef CLEANUP_exit
 #undef FOR_exit
@@ -650,7 +650,7 @@
 
 // expr    
 #undef OPTSTR_expr
-#define OPTSTR_expr " "
+#define OPTSTR_expr 0
 #ifdef CLEANUP_expr
 #undef CLEANUP_expr
 #undef FOR_expr
@@ -658,7 +658,7 @@
 
 // factor    
 #undef OPTSTR_factor
-#define OPTSTR_factor " "
+#define OPTSTR_factor 0
 #ifdef CLEANUP_factor
 #undef CLEANUP_factor
 #undef FOR_factor
@@ -675,7 +675,7 @@
 
 // false    
 #undef OPTSTR_false
-#define OPTSTR_false " "
+#define OPTSTR_false 0
 #ifdef CLEANUP_false
 #undef CLEANUP_false
 #undef FOR_false
@@ -905,7 +905,7 @@
 
 // groups    
 #undef OPTSTR_groups
-#define OPTSTR_groups " "
+#define OPTSTR_groups 0
 #ifdef CLEANUP_groups
 #undef CLEANUP_groups
 #undef FOR_groups
@@ -960,7 +960,7 @@
 
 // hello    
 #undef OPTSTR_hello
-#define OPTSTR_hello " "
+#define OPTSTR_hello 0
 #ifdef CLEANUP_hello
 #undef CLEANUP_hello
 #undef FOR_hello
@@ -1074,7 +1074,7 @@
 
 // init    
 #undef OPTSTR_init
-#define OPTSTR_init " "
+#define OPTSTR_init 0
 #ifdef CLEANUP_init
 #undef CLEANUP_init
 #undef FOR_init
@@ -1156,7 +1156,7 @@
 
 // ip    
 #undef OPTSTR_ip
-#define OPTSTR_ip " "
+#define OPTSTR_ip 0
 #ifdef CLEANUP_ip
 #undef CLEANUP_ip
 #undef FOR_ip
@@ -1388,7 +1388,7 @@
 
 // lsmod    
 #undef OPTSTR_lsmod
-#define OPTSTR_lsmod " "
+#define OPTSTR_lsmod 0
 #ifdef CLEANUP_lsmod
 #undef CLEANUP_lsmod
 #undef FOR_lsmod
@@ -1420,7 +1420,7 @@
 
 // lsusb    
 #undef OPTSTR_lsusb
-#define OPTSTR_lsusb " "
+#define OPTSTR_lsusb 0
 #ifdef CLEANUP_lsusb
 #undef CLEANUP_lsusb
 #undef FOR_lsusb
@@ -1579,7 +1579,7 @@
 
 // more    
 #undef OPTSTR_more
-#define OPTSTR_more " "
+#define OPTSTR_more 0
 #ifdef CLEANUP_more
 #undef CLEANUP_more
 #undef FOR_more
@@ -1989,7 +1989,7 @@
 
 // readahead    
 #undef OPTSTR_readahead
-#define OPTSTR_readahead " "
+#define OPTSTR_readahead 0
 #ifdef CLEANUP_readahead
 #undef CLEANUP_readahead
 #undef FOR_readahead
@@ -2039,7 +2039,7 @@
 
 // reset    
 #undef OPTSTR_reset
-#define OPTSTR_reset " "
+#define OPTSTR_reset 0
 #ifdef CLEANUP_reset
 #undef CLEANUP_reset
 #undef FOR_reset
@@ -2061,7 +2061,7 @@
 
 // rev    
 #undef OPTSTR_rev
-#define OPTSTR_rev " "
+#define OPTSTR_rev 0
 #ifdef CLEANUP_rev
 #undef CLEANUP_rev
 #undef FOR_rev
@@ -2294,7 +2294,7 @@
 
 // start    
 #undef OPTSTR_start
-#define OPTSTR_start " "
+#define OPTSTR_start 0
 #ifdef CLEANUP_start
 #undef CLEANUP_start
 #undef FOR_start
@@ -2314,7 +2314,7 @@
 
 // stop    
 #undef OPTSTR_stop
-#define OPTSTR_stop " "
+#define OPTSTR_stop 0
 #ifdef CLEANUP_stop
 #undef CLEANUP_stop
 #undef FOR_stop
@@ -2384,7 +2384,7 @@
 
 // sync    
 #undef OPTSTR_sync
-#define OPTSTR_sync " "
+#define OPTSTR_sync 0
 #ifdef CLEANUP_sync
 #undef CLEANUP_sync
 #undef FOR_sync
@@ -2430,7 +2430,7 @@
 
 // tac    
 #undef OPTSTR_tac
-#define OPTSTR_tac " "
+#define OPTSTR_tac 0
 #ifdef CLEANUP_tac
 #undef CLEANUP_tac
 #undef FOR_tac
@@ -2554,7 +2554,7 @@
 
 // test    
 #undef OPTSTR_test
-#define OPTSTR_test " "
+#define OPTSTR_test 0
 #ifdef CLEANUP_test
 #undef CLEANUP_test
 #undef FOR_test
@@ -2633,7 +2633,7 @@
 
 // test_scankey    
 #undef OPTSTR_test_scankey
-#define OPTSTR_test_scankey " "
+#define OPTSTR_test_scankey 0
 #ifdef CLEANUP_test_scankey
 #undef CLEANUP_test_scankey
 #undef FOR_test_scankey
@@ -2721,7 +2721,7 @@
 
 // toybox    
 #undef OPTSTR_toybox
-#define OPTSTR_toybox " "
+#define OPTSTR_toybox 0
 #ifdef CLEANUP_toybox
 #undef CLEANUP_toybox
 #undef FOR_toybox
@@ -2769,7 +2769,7 @@
 
 // true    
 #undef OPTSTR_true
-#define OPTSTR_true " "
+#define OPTSTR_true 0
 #ifdef CLEANUP_true
 #undef CLEANUP_true
 #undef FOR_true
@@ -2872,7 +2872,7 @@
 
 // unix2dos    
 #undef OPTSTR_unix2dos
-#define OPTSTR_unix2dos " "
+#define OPTSTR_unix2dos 0
 #ifdef CLEANUP_unix2dos
 #undef CLEANUP_unix2dos
 #undef FOR_unix2dos
@@ -2912,7 +2912,7 @@
 
 // uptime    
 #undef OPTSTR_uptime
-#define OPTSTR_uptime " "
+#define OPTSTR_uptime 0
 #ifdef CLEANUP_uptime
 #undef CLEANUP_uptime
 #undef FOR_uptime
@@ -2996,7 +2996,7 @@
 
 // w    
 #undef OPTSTR_w
-#define OPTSTR_w " "
+#define OPTSTR_w 0
 #ifdef CLEANUP_w
 #undef CLEANUP_w
 #undef FOR_w
@@ -3086,7 +3086,7 @@
 
 // xzcat    
 #undef OPTSTR_xzcat
-#define OPTSTR_xzcat " "
+#define OPTSTR_xzcat 0
 #ifdef CLEANUP_xzcat
 #undef CLEANUP_xzcat
 #undef FOR_xzcat
@@ -3094,7 +3094,7 @@
 
 // yes    
 #undef OPTSTR_yes
-#define OPTSTR_yes " "
+#define OPTSTR_yes 0
 #ifdef CLEANUP_yes
 #undef CLEANUP_yes
 #undef FOR_yes
@@ -3102,7 +3102,7 @@
 
 // zcat    
 #undef OPTSTR_zcat
-#define OPTSTR_zcat " "
+#define OPTSTR_zcat 0
 #ifdef CLEANUP_zcat
 #undef CLEANUP_zcat
 #undef FOR_zcat
