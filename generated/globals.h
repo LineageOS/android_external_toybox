@@ -582,6 +582,12 @@ struct ftpget_data {
   char buf[sizeof(struct sockaddr_storage)];
 };
 
+// toys/pending/getfattr.c
+
+struct getfattr_data {
+  char *n;
+};
+
 // toys/pending/getty.c
 
 struct getty_data {
@@ -750,6 +756,12 @@ struct ping_data {
 
 struct route_data {
   char *family;
+};
+
+// toys/pending/setfattr.c
+
+struct setfattr_data {
+  char *x, *v, *n;
 };
 
 // toys/pending/sh.c
@@ -1409,6 +1421,7 @@ extern union global_union {
 	struct fold_data fold;
 	struct fsck_data fsck;
 	struct ftpget_data ftpget;
+	struct getfattr_data getfattr;
 	struct getty_data getty;
 	struct groupadd_data groupadd;
 	struct host_data host;
@@ -1426,6 +1439,7 @@ extern union global_union {
 	struct openvt_data openvt;
 	struct ping_data ping;
 	struct route_data route;
+	struct setfattr_data setfattr;
 	struct sh_data sh;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
