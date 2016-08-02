@@ -139,8 +139,10 @@ LOCAL_SRC_FILES := \
     toys/other/yes.c \
     toys/pending/dd.c \
     toys/pending/expr.c \
+    toys/pending/getfattr.c \
     toys/pending/lsof.c \
     toys/pending/more.c \
+    toys/pending/setfattr.c \
     toys/pending/tar.c \
     toys/pending/tr.c \
     toys/pending/traceroute.c \

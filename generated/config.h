@@ -250,6 +250,8 @@
 #define USE_FSCK(...)
 #define CFG_FTPGET 0
 #define USE_FTPGET(...)
+#define CFG_GETFATTR 1
+#define USE_GETFATTR(...) __VA_ARGS__
 #define CFG_GETTY 0
 #define USE_GETTY(...)
 #define CFG_GROUPADD 0
@@ -324,6 +326,8 @@
 #define USE_EXIT(...)
 #define CFG_CD 0
 #define USE_CD(...)
+#define CFG_SETFATTR 1
+#define USE_SETFATTR(...) __VA_ARGS__
 #define CFG_SULOGIN 0
 #define USE_SULOGIN(...)
 #define CFG_SYSLOGD 0

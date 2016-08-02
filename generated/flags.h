@@ -824,6 +824,17 @@
 #undef FOR_getenforce
 #endif
 
+// getfattr dhn: dhn:
+#undef OPTSTR_getfattr
+#define OPTSTR_getfattr "dhn:"
+#ifdef CLEANUP_getfattr
+#undef CLEANUP_getfattr
+#undef FOR_getfattr
+#undef FLAG_n
+#undef FLAG_h
+#undef FLAG_d
+#endif
+
 // getprop >2Z >2Z
 #undef OPTSTR_getprop
 #define OPTSTR_getprop ">2Z"
@@ -2165,6 +2176,18 @@
 #ifdef CLEANUP_setenforce
 #undef CLEANUP_setenforce
 #undef FOR_setenforce
+#endif
+
+// setfattr hn:v:x:[!xv] hn:v:x:[!xv]
+#undef OPTSTR_setfattr
+#define OPTSTR_setfattr "hn:v:x:[!xv]"
+#ifdef CLEANUP_setfattr
+#undef CLEANUP_setfattr
+#undef FOR_setfattr
+#undef FLAG_x
+#undef FLAG_v
+#undef FLAG_n
+#undef FLAG_h
 #endif
 
 // setprop <2>2 <2>2
@@ -3790,6 +3813,15 @@
 #endif
 #endif
 
+#ifdef FOR_getfattr
+#ifndef TT
+#define TT this.getfattr
+#endif
+#define FLAG_n (1<<0)
+#define FLAG_h (1<<1)
+#define FLAG_d (1<<2)
+#endif
+
 #ifdef FOR_getprop
 #ifndef TT
 #define TT this.getprop
@@ -4913,6 +4945,16 @@
 #ifndef TT
 #define TT this.setenforce
 #endif
+#endif
+
+#ifdef FOR_setfattr
+#ifndef TT
+#define TT this.setfattr
+#endif
+#define FLAG_x (1<<0)
+#define FLAG_v (1<<1)
+#define FLAG_n (1<<2)
+#define FLAG_h (1<<3)
 #endif
 
 #ifdef FOR_setprop
