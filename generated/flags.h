@@ -2178,9 +2178,9 @@
 #undef FOR_setenforce
 #endif
 
-// setfattr hn:v:x:[!xv] hn:v:x:[!xv]
+// setfattr hn:|v:x:|[!xv] hn:|v:x:|[!xv]
 #undef OPTSTR_setfattr
-#define OPTSTR_setfattr "hn:v:x:[!xv]"
+#define OPTSTR_setfattr "hn:|v:x:|[!xv]"
 #ifdef CLEANUP_setfattr
 #undef CLEANUP_setfattr
 #undef FOR_setfattr

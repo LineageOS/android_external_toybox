@@ -318,17 +318,18 @@ void xunlink(char *path)
 }
 
 // Die unless we can open/create a file, returning file descriptor.
-int xcreate(char *path, int flags, int mode)
+int xcreate_stdio(char *path, int flags, int mode)
 {
   int fd = open(path, flags^O_CLOEXEC, mode);
+
   if (fd == -1) perror_exit_raw(path);
   return fd;
 }
 
 // Die unless we can open a file, returning file descriptor.
-int xopen(char *path, int flags)
+int xopen_stdio(char *path, int flags)
 {
-  return xcreate(path, flags, 0);
+  return xcreate_stdio(path, flags, 0);
 }
 
 void xpipe(int *pp)
@@ -348,6 +349,41 @@ int xdup(int fd)
     if (fd == -1) perror_exit("xdup");
   }
   return fd;
+}
+
+// Move file descriptor above stdin/stdout/stderr, using /dev/null to consume
+// old one. (We should never be called with stdin/stdout/stderr closed, but...)
+int notstdio(int fd)
+{
+  while (fd<3) {
+    int fd2 = xdup(fd);
+
+    close(fd);
+    xopen_stdio("/dev/null", O_RDWR);
+    fd = fd2;
+  }
+
+  return fd;
+}
+
+// Create a file but don't return stdin/stdout/stderr
+int xcreate(char *path, int flags, int mode)
+{
+  return notstdio(xcreate_stdio(path, flags, mode));
+}
+
+// Open a file descriptor NOT in stdin/stdout/stderr
+int xopen(char *path, int flags)
+{
+  return notstdio(xopen_stdio(path, flags));
+}
+
+// Open read only, treating "-" as a synonym for stdin.
+int xopenro(char *path)
+{
+  if (!strcmp(path, "-")) return 0;
+
+  return xopen(path, O_RDONLY);
 }
 
 FILE *xfdopen(int fd, char *mode)
@@ -554,36 +590,32 @@ struct group *xgetgrgid(gid_t gid)
   return group;
 }
 
-struct passwd *xgetpwnamid(char *user)
+unsigned xgetuid(char *name)
 {
-  struct passwd *up = getpwnam(user);
-  uid_t uid;
+  struct passwd *up = getpwnam(name);
+  char *s = 0;
+  long uid;
 
-  if (!up) {
-    char *s = 0;
+  if (up) return up->pw_uid;
 
-    uid = estrtol(user, &s, 10);
-    if (!errno && s && !*s) up = getpwuid(uid);
-  }
-  if (!up) perror_exit("user '%s'", user);
+  uid = estrtol(name, &s, 10);
+  if (!errno && s && !*s && uid>=0 && uid<=UINT_MAX) return uid;
 
-  return up;
+  error_exit("bad user '%s'", name);
 }
 
-struct group *xgetgrnamid(char *group)
+unsigned xgetgid(char *name)
 {
-  struct group *gr = getgrnam(group);
-  gid_t gid;
+  struct group *gr = getgrnam(name);
+  char *s = 0;
+  long gid;
 
-  if (!gr) {
-    char *s = 0;
+  if (gr) return gr->gr_gid;
 
-    gid = estrtol(group, &s, 10);
-    if (!errno && s && !*s) gr = getgrgid(gid);
-  }
-  if (!gr) perror_exit("group '%s'", group);
+  gid = estrtol(name, &s, 10);
+  if (!errno && s && !*s && gid>=0 && gid<=UINT_MAX) return gid;
 
-  return gr;
+  error_exit("bad group '%s'", name);
 }
 
 struct passwd *xgetpwnam(char *name)
