@@ -1008,7 +1008,7 @@ int qstrcmp(const void *a, const void *b)
 void create_uuid(char *uuid)
 {
   // Read 128 random bits
-  int fd = xopen("/dev/urandom", O_RDONLY);
+  int fd = xopenro("/dev/urandom");
   xreadall(fd, uuid, 16);
   close(fd);
 
@@ -1184,3 +1184,26 @@ int regexec0(regex_t *preg, char *string, long len, int nmatch,
     len -= ll;
   }
 }
+
+// Return user name or string representation of number, returned buffer
+// lasts until next call.
+char *getusername(uid_t uid)
+{
+  struct passwd *pw = bufgetpwuid(uid);
+  static char unum[12];
+
+  sprintf(unum, "%u", (unsigned)uid);
+  return pw ? pw->pw_name : unum;
+}
+
+// Return group name or string representation of number, returned buffer
+// lasts until next call.
+char *getgroupname(gid_t gid)
+{
+  struct group *gr = bufgetgrgid(gid);
+  static char gnum[12];
+
+  sprintf(gnum, "%u", (unsigned)gid);
+  return gr ? gr->gr_name : gnum;
+}
+

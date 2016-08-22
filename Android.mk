@@ -121,6 +121,7 @@ LOCAL_SRC_FILES := \
     toys/other/realpath.c \
     toys/other/rev.c \
     toys/other/rmmod.c \
+    toys/other/setfattr.c \
     toys/other/setsid.c \
     toys/other/stat.c \
     toys/other/swapoff.c \
@@ -142,7 +143,6 @@ LOCAL_SRC_FILES := \
     toys/pending/getfattr.c \
     toys/pending/lsof.c \
     toys/pending/more.c \
-    toys/pending/setfattr.c \
     toys/pending/tar.c \
     toys/pending/tr.c \
     toys/pending/traceroute.c \
