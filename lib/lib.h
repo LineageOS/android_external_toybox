@@ -130,6 +130,9 @@ void xaccess(char *path, int flags);
 void xunlink(char *path);
 int xcreate(char *path, int flags, int mode);
 int xopen(char *path, int flags);
+int xcreate_stdio(char *path, int flags, int mode);
+int xopen_stdio(char *path, int flags);
+int xopenro(char *path);
 void xpipe(int *pp);
 void xclose(int fd);
 int xdup(int fd);
@@ -150,8 +153,8 @@ struct passwd *xgetpwuid(uid_t uid);
 struct group *xgetgrgid(gid_t gid);
 struct passwd *xgetpwnam(char *name);
 struct group *xgetgrnam(char *name);
-struct passwd *xgetpwnamid(char *user);
-struct group *xgetgrnamid(char *group);
+unsigned xgetuid(char *name);
+unsigned xgetgid(char *name);
 void xsetuser(struct passwd *pwd);
 char *xreadlink(char *name);
 long xparsetime(char *arg, long units, long *fraction);
@@ -220,6 +223,8 @@ int readlinkat0(int dirfd, char *path, char *buf, int len);
 int readlink0(char *path, char *buf, int len);
 int regexec0(regex_t *preg, char *string, long len, int nmatch,
   regmatch_t pmatch[], int eflags);
+char *getusername(uid_t uid);
+char *getgroupname(gid_t gid);
 
 #define HR_SPACE 1 // Space between number and units
 #define HR_B     2 // Use "B" for single byte units
