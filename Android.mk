@@ -253,6 +253,7 @@ ALL_TOOLS := \
     chmod \
     chown \
     chroot \
+    chrt \
     cksum \
     clear \
     comm \
