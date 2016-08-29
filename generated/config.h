@@ -212,6 +212,8 @@
 #define USE_BRCTL(...)
 #define CFG_COMPRESS 0
 #define USE_COMPRESS(...)
+#define CFG_CHRT 1
+#define USE_CHRT(...) __VA_ARGS__
 #define CFG_GZIP 0
 #define USE_GZIP(...)
 #define CFG_GZIP_D 0
@@ -504,6 +506,8 @@
 #define USE_TIMEOUT(...) __VA_ARGS__
 #define CFG_TRUNCATE 1
 #define USE_TRUNCATE(...) __VA_ARGS__
+#define CFG_TUNCTL 1
+#define USE_TUNCTL(...) __VA_ARGS__
 #define CFG_UPTIME 1
 #define USE_UPTIME(...) __VA_ARGS__
 #define CFG_USLEEP 1
