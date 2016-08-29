@@ -232,6 +232,22 @@
 #undef FOR_chroot
 #endif
 
+// chrt mp#bfiorR[!bfior] mp#bfiorR[!bfior]
+#undef OPTSTR_chrt
+#define OPTSTR_chrt "mp#bfiorR[!bfior]"
+#ifdef CLEANUP_chrt
+#undef CLEANUP_chrt
+#undef FOR_chrt
+#undef FLAG_R
+#undef FLAG_r
+#undef FLAG_o
+#undef FLAG_i
+#undef FLAG_f
+#undef FLAG_b
+#undef FLAG_p
+#undef FLAG_m
+#endif
+
 // chvt   <1
 #undef OPTSTR_chvt
 #define OPTSTR_chvt "<1"
@@ -2817,6 +2833,18 @@
 #undef FLAG_s
 #endif
 
+// tunctl <1>1t|d|u:T[!td] <1>1t|d|u:T[!td]
+#undef OPTSTR_tunctl
+#define OPTSTR_tunctl "<1>1t|d|u:T[!td]"
+#ifdef CLEANUP_tunctl
+#undef CLEANUP_tunctl
+#undef FOR_tunctl
+#undef FLAG_T
+#undef FLAG_u
+#undef FLAG_d
+#undef FLAG_t
+#endif
+
 // ulimit >1P#<1SHavutsrRqpnmlifedc[-SH][!apvutsrRqnmlifedc] >1P#<1SHavutsrRqpnmlifedc[-SH][!apvutsrRqnmlifedc]
 #undef OPTSTR_ulimit
 #define OPTSTR_ulimit ">1P#<1SHavutsrRqpnmlifedc[-SH][!apvutsrRqnmlifedc]"
@@ -3313,6 +3341,20 @@
 #ifndef TT
 #define TT this.chroot
 #endif
+#endif
+
+#ifdef FOR_chrt
+#ifndef TT
+#define TT this.chrt
+#endif
+#define FLAG_R (1<<0)
+#define FLAG_r (1<<1)
+#define FLAG_o (1<<2)
+#define FLAG_i (1<<3)
+#define FLAG_f (1<<4)
+#define FLAG_b (1<<5)
+#define FLAG_p (1<<6)
+#define FLAG_m (1<<7)
 #endif
 
 #ifdef FOR_chvt
@@ -5490,6 +5532,16 @@
 #define TT this.tty
 #endif
 #define FLAG_s (1<<0)
+#endif
+
+#ifdef FOR_tunctl
+#ifndef TT
+#define TT this.tunctl
+#endif
+#define FLAG_T (1<<0)
+#define FLAG_u (1<<1)
+#define FLAG_d (1<<2)
+#define FLAG_t (1<<3)
 #endif
 
 #ifdef FOR_ulimit
