@@ -162,6 +162,12 @@ struct netstat_data {
   int wpad;
 };;
 
+// toys/net/tunctl.c
+
+struct tunctl_data {
+  char *user;
+};
+
 // toys/other/acpi.c
 
 struct acpi_data {
@@ -424,6 +430,12 @@ struct bootchartd_data {
 
 struct brctl_data {
     int sockfd;
+};
+
+// toys/pending/chrt.c
+
+struct chrt_data {
+  long pid;
 };
 
 // toys/pending/compress.c
@@ -1376,6 +1388,7 @@ extern union global_union {
 	struct ifconfig_data ifconfig;
 	struct netcat_data netcat;
 	struct netstat_data netstat;
+	struct tunctl_data tunctl;
 	struct acpi_data acpi;
 	struct base64_data base64;
 	struct blockdev_data blockdev;
@@ -1407,6 +1420,7 @@ extern union global_union {
 	struct arping_data arping;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
+	struct chrt_data chrt;
 	struct compress_data compress;
 	struct crond_data crond;
 	struct crontab_data crontab;

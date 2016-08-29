@@ -84,6 +84,7 @@ LOCAL_SRC_FILES := \
     toys/net/netcat.c \
     toys/net/netstat.c \
     toys/net/rfkill.c \
+    toys/net/tunctl.c \
     toys/other/acpi.c \
     toys/other/base64.c \
     toys/other/blkid.c \
@@ -138,6 +139,7 @@ LOCAL_SRC_FILES := \
     toys/other/which.c \
     toys/other/xxd.c \
     toys/other/yes.c \
+    toys/pending/chrt.c \
     toys/pending/dd.c \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
