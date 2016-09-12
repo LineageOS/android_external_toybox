@@ -621,30 +621,6 @@ done:
   free(line);
 }
 
-// Genericish function, can probably get moved to lib.c
-
-// Iterate over lines in file, calling function. Function can write 0 to
-// the line pointer if they want to keep it, or 1 to terminate processing,
-// otherwise line is freed. Passed file descriptor is closed at the end.
-static void do_lines(int fd, void (*call)(char **pline, long len))
-{
-  FILE *fp = fd ? xfdopen(fd, "r") : stdin;
-
-  for (;;) {
-    char *line = 0;
-    ssize_t len;
-
-    len = getline(&line, (void *)&len, fp);
-    if (len > 0) {
-      call(&line, len);
-      if (line == (void *)1) break;
-      free(line);
-    } else break;
-  }
-
-  if (fd) fclose(fp);
-}
-
 // Callback called on each input file
 static void do_sed(int fd, char *name)
 {
@@ -681,6 +657,7 @@ static char *unescape_delimited_string(char **pstr, char *delim)
 {
   char *to, *from, mode = 0, d;
 
+  // Grab leading delimiter (if necessary), allocate space for new string
   from = *pstr;
   if (!delim || !*delim) {
     if (!(d = *(from++))) return 0;
@@ -694,13 +671,23 @@ static char *unescape_delimited_string(char **pstr, char *delim)
     if (!*from) return 0;
 
     // delimiter in regex character range doesn't count
-    if (!mode && *from == '[') {
-      mode = '[';
-      if (from[1]=='-' || from[1]==']') *(to++) = *(from++);
-    } else if (mode && *from == ']') mode = 0;
+    if (*from == '[') {
+      if (!mode) {
+        mode = ']';
+        if (from[1]=='-' || from[1]==']') *(to++) = *(from++);
+      } else if (mode == ']' && strchr(".=:", from[1])) {
+        *(to++) = *(from++);
+        mode = *from;
+      }
+    } else if (*from == mode) {
+      if (mode == ']') mode = 0;
+      else {
+        *(to++) = *(from++);
+        mode = ']';
+      }
     // Length 1 range (X-X with same X) is "undefined" and makes regcomp err,
     // but the perl build does it, so we need to filter it out.
-    else if (mode && *from == '-' && from[-1] == from[1]) {
+    } else if (mode && *from == '-' && from[-1] == from[1]) {
       from+=2;
       continue;
     } else if (*from == '\\') {
@@ -1034,8 +1021,8 @@ void sed_main(void)
   TT.fdout = 1;
   TT.remember = xstrdup("");
 
-  // Inflict pattern upon input files
-  loopfiles_rw(args, O_RDONLY, 0, 0, do_sed);
+  // Inflict pattern upon input files. Long version because !O_CLOEXEC
+  loopfiles_rw(args, O_RDONLY|WARN_ONLY, 0, do_sed);
 
   if (!(toys.optflags & FLAG_i)) process_line(0, 0);
 
