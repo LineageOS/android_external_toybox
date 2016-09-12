@@ -102,6 +102,11 @@ struct dirtree *dirtree_read(char *path, int (*callback)(struct dirtree *node));
 
 void show_help(FILE *out);
 
+// Tell xopen and friends to print warnings but return -1 as necessary
+// The largest O_BLAH flag so far is arch/alpha's O_PATH at 0x800000 so
+// plenty of headroom.
+#define WARN_ONLY (1<<31)
+
 // xwrap.c
 void xstrncpy(char *dest, char *src, size_t size);
 void xstrncat(char *dest, char *src, size_t size);
@@ -132,10 +137,12 @@ int xcreate(char *path, int flags, int mode);
 int xopen(char *path, int flags);
 int xcreate_stdio(char *path, int flags, int mode);
 int xopen_stdio(char *path, int flags);
+int openro(char *path, int flags);
 int xopenro(char *path);
 void xpipe(int *pp);
 void xclose(int fd);
 int xdup(int fd);
+int notstdio(int fd);
 FILE *xfdopen(int fd, char *mode);
 FILE *xfopen(char *path, char *mode);
 size_t xread(int fd, void *buf, size_t len);
@@ -198,7 +205,7 @@ char *chomp(char *s);
 int unescape(char c);
 int strstart(char **a, char *b);
 off_t fdlength(int fd);
-void loopfiles_rw(char **argv, int flags, int permissions, int failok,
+void loopfiles_rw(char **argv, int flags, int permissions,
   void (*function)(int fd, char *name));
 void loopfiles(char **argv, void (*function)(int fd, char *name));
 void xsendfile(int in, int out);
@@ -225,6 +232,7 @@ int regexec0(regex_t *preg, char *string, long len, int nmatch,
   regmatch_t pmatch[], int eflags);
 char *getusername(uid_t uid);
 char *getgroupname(gid_t gid);
+void do_lines(int fd, void (*call)(char **pline, long len));
 
 #define HR_SPACE 1 // Space between number and units
 #define HR_B     2 // Use "B" for single byte units
