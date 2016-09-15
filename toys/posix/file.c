@@ -3,18 +3,19 @@
  * Copyright 2016 The Android Open Source Project
  *
  * See http://pubs.opengroup.org/onlinepubs/9699919799/utilities/file.html
- *
- * TODO: ar
 
-USE_FILE(NEWTOY(file, "<1", TOYFLAG_USR|TOYFLAG_BIN))
+USE_FILE(NEWTOY(file, "<1hL[!hL]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config FILE
   bool "file"
   default y
   help
-    usage: file [file...]
+    usage: file [-hL] [file...]
 
     Examine the given files and describe their content types.
+
+    -h	don't follow symlinks (default)
+    -L	follow symlinks
 */
 
 #define FOR_file
@@ -176,6 +177,7 @@ static void do_regular_file(int fd, char *name, struct stat *sb)
   if (len<0) perror_msg("%s", name);
 
   if (len>40 && strstart(&s, "\177ELF")) do_elf_file(fd, sb);
+  else if (len>=8 && strstart(&s, "!<arch>\n")) xprintf("ar archive\n");
   else if (len>28 && strstart(&s, "\x89PNG\x0d\x0a\x1a\x0a")) {
     // PNG is big-endian: https://www.w3.org/TR/PNG/#7Integers-and-byte-order
     int chunk_length = peek_be(s, 4);
@@ -281,7 +283,7 @@ void file_main(void)
 
     xprintf("%s: %*s", name, (int)(TT.max_name_len - strlen(name)), "");
 
-    if (fd || !lstat(name, &sb)) {
+    if (fd || !((toys.optflags & FLAG_L) ? stat : lstat)(name, &sb)) {
       if (fd || S_ISREG(sb.st_mode)) {
         if (!sb.st_size) what = "empty";
         else if ((fd = openro(name, O_RDONLY)) != -1) {

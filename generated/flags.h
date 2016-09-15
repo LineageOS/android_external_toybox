@@ -711,12 +711,14 @@
 #undef FLAG_C
 #endif
 
-// file <1 <1
+// file <1hL[!hL] <1hL[!hL]
 #undef OPTSTR_file
-#define OPTSTR_file "<1"
+#define OPTSTR_file "<1hL[!hL]"
 #ifdef CLEANUP_file
 #undef CLEANUP_file
 #undef FOR_file
+#undef FLAG_L
+#undef FLAG_h
 #endif
 
 // find ?^HL[-HL] ?^HL[-HL]
@@ -3754,6 +3756,8 @@
 #ifndef TT
 #define TT this.file
 #endif
+#define FLAG_L (1<<0)
+#define FLAG_h (1<<1)
 #endif
 
 #ifdef FOR_find
