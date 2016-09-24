@@ -226,7 +226,7 @@ LOCAL_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
 
 LOCAL_CLANG := true
 
-LOCAL_SHARED_LIBRARIES := libcutils libselinux libcrypto
+LOCAL_SHARED_LIBRARIES := liblog libcutils libselinux libcrypto
 
 # This doesn't actually prevent us from dragging in libc++ at runtime
 # because libnetd_client.so is C++.
