@@ -1151,6 +1151,7 @@ static void shared_main(void)
 
 void ps_main(void)
 {
+  char **arg;
   struct dirtree *dt;
   char *not_o;
   int i;
@@ -1170,6 +1171,10 @@ void ps_main(void)
   comma_args(TT.ps.k, &TT.kfields, "bad -k", parse_ko);
   dlist_terminate(TT.kfields);
 
+  // It's undocumented, but traditionally extra arguments are extra -p args
+  for (arg = toys.optargs; *arg; arg++)
+    if (parse_rest(&TT.pp, *arg, strlen(*arg))) error_exit_raw(*arg);
+
   // Figure out which fields to display
   not_o = "%sTTY,TIME,CMD";
   if (toys.optflags&FLAG_f)
@@ -1178,7 +1183,9 @@ void ps_main(void)
   else if (toys.optflags&FLAG_l)
     not_o = "F,S,UID,%sPPID,C,PRI,NI,ADDR,SZ,WCHAN,TTY,TIME,CMD";
   else if (CFG_TOYBOX_ON_ANDROID)
-    not_o = "USER,%sPPID,VSIZE,RSS,WCHAN:10,ADDR:10=PC,S,NAME";
+    sprintf(not_o = toybuf+128,
+            "USER,%%sPPID,VSIZE,RSS,WCHAN:10,ADDR:10=PC,S,%s",
+            (toys.optflags&FLAG_T) ? "CMD" : "NAME");
   sprintf(toybuf, not_o, (toys.optflags & FLAG_T) ? "PID,TID," : "PID,");
 
   // Init TT.fields. This only uses toybuf if TT.ps.o is NULL
