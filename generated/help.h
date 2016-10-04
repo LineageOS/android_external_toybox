@@ -12,7 +12,7 @@
 
 #define HELP_toybox_i18n "Support for UTF-8 character sets, and some locale support.\n\n"
 
-#define HELP_toybox_help_dashdash "Support --help argument in all commands, even ones with a NULL\noptstring. Produces the same output as \"help command\".\n\n"
+#define HELP_toybox_help_dashdash "Support --help argument in all commands, even ones with a NULL\noptstring. (Use TOYFLAG_NOHELP to disable.) Produces the same output\nas \"help command\". --version shows toybox version.\n\n"
 
 #define HELP_toybox_help "Include help text for each command.\n\n"
 
