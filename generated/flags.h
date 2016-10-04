@@ -2154,9 +2154,9 @@
 #undef FOR_runcon
 #endif
 
-// sed (version)e*f*inEr[+Er] (version)e*f*inEr[+Er]
+// sed (help)(version)e*f*inEr[+Er] (help)(version)e*f*inEr[+Er]
 #undef OPTSTR_sed
-#define OPTSTR_sed "(version)e*f*inEr[+Er]"
+#define OPTSTR_sed "(help)(version)e*f*inEr[+Er]"
 #ifdef CLEANUP_sed
 #undef CLEANUP_sed
 #undef FOR_sed
@@ -2167,6 +2167,7 @@
 #undef FLAG_f
 #undef FLAG_e
 #undef FLAG_version
+#undef FLAG_help
 #endif
 
 // sendevent <4>4 <4>4
@@ -4970,6 +4971,7 @@
 #define FLAG_f (1<<4)
 #define FLAG_e (1<<5)
 #define FLAG_version (1<<6)
+#define FLAG_help (1<<7)
 #endif
 
 #ifdef FOR_sendevent
