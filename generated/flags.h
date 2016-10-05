@@ -3005,7 +3005,7 @@
 #undef FOR_usleep
 #endif
 
-// uudecode   >1o:
+// uudecode >1o: >1o:
 #undef OPTSTR_uudecode
 #define OPTSTR_uudecode ">1o:"
 #ifdef CLEANUP_uudecode
@@ -3014,7 +3014,7 @@
 #undef FLAG_o
 #endif
 
-// uuencode   <1>2m
+// uuencode <1>2m <1>2m
 #undef OPTSTR_uuencode
 #define OPTSTR_uuencode "<1>2m"
 #ifdef CLEANUP_uuencode
@@ -5689,14 +5689,14 @@
 #ifndef TT
 #define TT this.uudecode
 #endif
-#define FLAG_o (FORCED_FLAG<<0)
+#define FLAG_o (1<<0)
 #endif
 
 #ifdef FOR_uuencode
 #ifndef TT
 #define TT this.uuencode
 #endif
-#define FLAG_m (FORCED_FLAG<<0)
+#define FLAG_m (1<<0)
 #endif
 
 #ifdef FOR_vconfig

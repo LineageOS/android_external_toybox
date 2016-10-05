@@ -188,10 +188,10 @@
 #define USE_UNIQ(...) __VA_ARGS__
 #define CFG_UNLINK 0
 #define USE_UNLINK(...)
-#define CFG_UUDECODE 0
-#define USE_UUDECODE(...)
-#define CFG_UUENCODE 0
-#define USE_UUENCODE(...)
+#define CFG_UUDECODE 1
+#define USE_UUDECODE(...) __VA_ARGS__
+#define CFG_UUENCODE 1
+#define USE_UUENCODE(...) __VA_ARGS__
 #define CFG_VI 0
 #define USE_VI(...)
 #define CFG_WC 1
