@@ -203,6 +203,8 @@ LOCAL_SRC_FILES := \
     toys/posix/ulimit.c \
     toys/posix/uname.c \
     toys/posix/uniq.c \
+    toys/posix/uudecode.c \
+    toys/posix/uuencode.c \
     toys/posix/wc.c \
     toys/posix/xargs.c \
 
@@ -375,6 +377,8 @@ ALL_TOOLS := \
     unix2dos \
     uptime \
     usleep \
+    uudecode \
+    uuencode \
     vmstat \
     wc \
     which \
