@@ -28,7 +28,7 @@
 
 #define HELP_toybox_suid "Support for the Set User ID bit, to install toybox suid root and drop\npermissions for commands which do not require root access. To use\nthis change ownership of the file to the root user and set the suid\nbit in the file permissions:\n\nchown root:root toybox; chmod +s toybox\n\nprompt \"Security Blanket\"\ndefault TOYBOX_LSM_NONE\nhelp\nSelect a Linux Security Module to complicate your system\nuntil you can't find holes in it.\n\n"
 
-#define HELP_toybox "usage: toybox [--long | --version | [command] [arguments...]]\n\nWith no arguments, shows available commands. First argument is\nname of a command to run, followed by any arguments to that command.\n\n--long	Show path to each command\n--version	Show toybox version\n\nTo install command symlinks, try:\n  for i in $(/bin/toybox --long); do ln -s /bin/toybox $i; done\n\n"
+#define HELP_toybox "usage: toybox [--long | --help | --version | [command] [arguments...]]\n\nWith no arguments, shows available commands. First argument is\nname of a command to run, followed by any arguments to that command.\n\n--long	Show path to each command\n\nTo install command symlinks, try:\n  for i in $(/bin/toybox --long); do ln -s /bin/toybox $i; done\n\nMost toybox commands also understand the following arguments:\n\n--help		Show command help (only)\n--version	Show toybox version (only)\n\nThe filename \"-\" means stdin, \"--\" stops argument parsing,\nand numerical arguments accept a single letter suffix for\nkilo, mega, giga, tera, peta, and exabytes, plus an additional\n\"d\" to indicate decimal 1000's instead of 1024.\n\n"
 
 #define HELP_stop "usage: stop [SERVICE...]\n\nStop the given system service, or netd/surfaceflinger/zygotes.\n\n"
 
