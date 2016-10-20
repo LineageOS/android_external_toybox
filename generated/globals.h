@@ -152,6 +152,7 @@ struct netcat_data {
   long quit_delay;       // -q Exit after EOF from stdin after # seconds.
   char *source_address;  // -s Bind to a specific source address.
   long port;             // -p Bind to a specific source port.
+  long idle;             // -W Wait # seconds for more data
   long wait;             // -w Wait # seconds for a connection.
 };
 
