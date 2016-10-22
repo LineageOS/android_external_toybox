@@ -154,8 +154,6 @@
 
 #define HELP_setsid "usage: setsid [-t] command [args...]\n\nRun process in a new session.\n\n-t	Grab tty (become foreground process, receiving keyboard signals)\n\n"
 
-#define HELP_setfattr "usage: setfattr [-h] [-x|-n NAME] [-v VALUE] FILE...\n\nWrite POSIX extended attributes.\n\n-h	Do not dereference symlink.\n-n	Set given attribute.\n-x	Remove given attribute.\n-v	Set value for attribute -n (default is empty).\n\n"
-
 #define HELP_rmmod "usage: rmmod [-wf] [MODULE]\n\nUnload the module named MODULE from the Linux kernel.\n-f	Force unload of a module\n-w	Wait until the module is no longer used.\n\n\n"
 
 #define HELP_rev "usage: rev [FILE...]\n\nOutput each line reversed, when no files are given stdin is used.\n\n"
@@ -315,6 +313,8 @@
 #define HELP_cd "usage: cd [-PL] [path]\n\nChange current directory.  With no arguments, go $HOME.\n\n-P	Physical path: resolve symlinks in path.\n-L	Local path: .. trims directories off $PWD (default).\n\n"
 
 #define HELP_sh "usage: sh [-c command] [script]\n\nCommand shell.  Runs a shell script, or reads input interactively\nand responds to it.\n\n-c	command line to execute\n-i	interactive mode (default when STDIN is a tty)\n\n"
+
+#define HELP_setfattr "usage: setfattr [-h] [-x|-n NAME] [-v VALUE] FILE...\n\nWrite POSIX extended attributes.\n\n-h	Do not dereference symlink.\n-n	Set given attribute.\n-x	Remove given attribute.\n-v	Set value for attribute -n (default is empty).\n\n"
 
 #define HELP_route "usage: route [-ne] [-A inet[6]] / [add|del]\n\nDisplay/Edit kernel routing tables.\n\n-n	no name lookups\n-e	display other/more information\n-A	inet{6} Select Address Family\n\nreject mod dyn reinstate metric netmask gw mss window irtt dev\n\n"
 

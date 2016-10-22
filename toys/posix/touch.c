@@ -4,7 +4,7 @@
  *
  * See http://pubs.opengroup.org/onlinepubs/9699919799/utilities/touch.html
 
-USE_TOUCH(NEWTOY(touch, "acd:mr:t:h[!dtr]", TOYFLAG_BIN))
+USE_TOUCH(NEWTOY(touch, "<1acd:mr:t:h[!dtr]", TOYFLAG_BIN))
 
 config TOUCH
   bool "touch"
@@ -54,7 +54,7 @@ void touch_main(void)
       format = (char *[]){"%Y-%m-%dT%T", "%Y-%m-%d %T", 0};
       date = TT.date;
     } else {
-      format = (char *[]){"%Y%m%d%H%M", "%m%d%H%M", "%y%m%d%H%M", 0};
+      format = (char *[]){"%m%d%H%M", "%y%m%d%H%M", "%C%y%m%d%H%M", 0};
       date = TT.time;
     }
 
@@ -66,6 +66,13 @@ void touch_main(void)
     }
 
     while (*format) {
+      if (toys.optflags&FLAG_t) {
+        s = strchr(date, '.');
+        if ((s ? s-date : strlen(date)) != strlen(*format)) {
+          format++;
+          continue;
+        }
+      }
       localtime_r(&(ts->tv_sec), &tm);
       // Adjusting for daylight savings time gives the wrong answer.
       tm.tm_isdst = 0;
@@ -108,13 +115,21 @@ void touch_main(void)
 
   // Loop through files on command line
   for (ss = toys.optargs; *ss;) {
+    char *s = *ss++;
 
-    // cheat: FLAG_h is rightmost flag, so its value is 1
-    if (!utimensat(AT_FDCWD, *ss, ts,
-        (toys.optflags & FLAG_h)*AT_SYMLINK_NOFOLLOW)) ss++;
-    else if (toys.optflags & FLAG_c) ss++;
-    else if (access(*ss, F_OK) && (-1!=(fd = open(*ss, O_CREAT, 0666))))
-      close(fd);
-    else perror_msg("'%s'", *ss++);
+    if (!strcmp(s, "-")) {
+      if (!futimens(1, ts)) continue;
+    } else {
+      // cheat: FLAG_h is rightmost flag, so its value is 1
+      if (!utimensat(AT_FDCWD, s, ts,
+          (toys.optflags & FLAG_h)*AT_SYMLINK_NOFOLLOW)) continue;
+      if (toys.optflags & FLAG_c) continue;
+      if (access(s, F_OK) && (-1!=(fd = open(s, O_CREAT, 0666)))) {
+        close(fd);
+        if (toys.optflags) ss--;
+        continue;
+      }
+    }
+    perror_msg("'%s'", s);
   }
 }
