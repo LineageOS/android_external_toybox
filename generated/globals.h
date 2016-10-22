@@ -317,12 +317,6 @@ struct oneit_data {
   char *console;
 };
 
-// toys/other/setfattr.c
-
-struct setfattr_data {
-  char *x, *v, *n;
-};
-
 // toys/other/shred.c
 
 struct shred_data {
@@ -774,6 +768,12 @@ struct ping_data {
 
 struct route_data {
   char *family;
+};
+
+// toys/pending/setfattr.c
+
+struct setfattr_data {
+  char *x, *v, *n;
 };
 
 // toys/pending/sh.c
@@ -1409,7 +1409,6 @@ extern union global_union {
 	struct modinfo_data modinfo;
 	struct nsenter_data nsenter;
 	struct oneit_data oneit;
-	struct setfattr_data setfattr;
 	struct shred_data shred;
 	struct stat_data stat;
 	struct swapon_data swapon;
@@ -1454,6 +1453,7 @@ extern union global_union {
 	struct openvt_data openvt;
 	struct ping_data ping;
 	struct route_data route;
+	struct setfattr_data setfattr;
 	struct sh_data sh;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
