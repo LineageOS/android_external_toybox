@@ -2748,9 +2748,9 @@
 #undef FLAG_m
 #endif
 
-// touch acd:mr:t:h[!dtr] acd:mr:t:h[!dtr]
+// touch <1acd:mr:t:h[!dtr] <1acd:mr:t:h[!dtr]
 #undef OPTSTR_touch
-#define OPTSTR_touch "acd:mr:t:h[!dtr]"
+#define OPTSTR_touch "<1acd:mr:t:h[!dtr]"
 #ifdef CLEANUP_touch
 #undef CLEANUP_touch
 #undef FOR_touch
