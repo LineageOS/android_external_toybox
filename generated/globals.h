@@ -199,6 +199,7 @@ struct dos2unix_data {
 // toys/other/fallocate.c
 
 struct fallocate_data {
+  long offset;
   long size;
 };
 
