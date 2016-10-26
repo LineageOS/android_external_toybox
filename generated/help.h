@@ -206,9 +206,9 @@
 
 #define HELP_lsmod "usage: lsmod\n\nDisplay the currently loaded modules, their sizes and their dependencies.\n\n"
 
-#define HELP_chattr "usage: chattr [-R] [-+=AacDdijsStTu] [-v version] [File...]\n\nChange file attributes on a Linux second extended file system.\n\nOperators:\n  '-' Remove attributes.\n  '+' Add attributes.\n  '=' Set attributes.\n\nAttributes:\n  A  Don't track atime.\n  a  Append mode only.\n  c  Enable compress.\n  D  Write dir contents synchronously.\n  d  Don't backup with dump.\n  i  Cannot be modified (immutable).\n  j  Write all data to journal first.\n  s  Zero disk storage when deleted.\n  S  Write file contents synchronously.\n  t  Disable tail-merging of partial blocks with other files.\n  u  Allow file to be undeleted.\n  -R Recurse.\n  -v Set the file's version/generation number.\n\n\n"
+#define HELP_chattr "usage: chattr [-R] [-+=AacDdijsStTu] [-v version] [File...]\n\nChange file attributes on a Linux second extended file system.\n\n-R Recurse.\n-v Set the file's version/generation number.\n\nOperators:\n  '-' Remove attributes.\n  '+' Add attributes.\n  '=' Set attributes.\n\nAttributes:\n  A  Don't track atime.\n  a  Append mode only.\n  c  Enable compress.\n  D  Write dir contents synchronously.\n  d  Don't backup with dump.\n  i  Cannot be modified (immutable).\n  j  Write all data to journal first.\n  s  Zero disk storage when deleted.\n  S  Write file contents synchronously.\n  t  Disable tail-merging of partial blocks with other files.\n  u  Allow file to be undeleted.\n\n"
 
-#define HELP_lsattr "usage: lsattr [-Radlv] [Files...]\n\nList file attributes on a Linux second extended file system.\n\n-R Recursively list attributes of directories and their contents.\n-a List all files in directories, including files that start with '.'.\n-d List directories like other files, rather than listing their contents.\n-l List long flag names.\n-v List the file's version/generation number.\n\n"
+#define HELP_lsattr "usage: lsattr [-Radlv] [Files...]\n\nList file attributes on a Linux second extended file system.\n(AacDdijsStu defined in chattr --help)\n\n-R Recursively list attributes of directories and their contents.\n-a List all files in directories, including files that start with '.'.\n-d List directories like other files, rather than listing their contents.\n-l List long flag names.\n-v List the file's version/generation number.\n\n"
 
 #define HELP_losetup "usage: losetup [-cdrs] [-o OFFSET] [-S SIZE] {-d DEVICE...|-j FILE|-af|{DEVICE FILE}}\n\nAssociate a loopback device with a file, or show current file (if any)\nassociated with a loop device.\n\nInstead of a device:\n-a	Iterate through all loopback devices\n-f	Find first unused loop device (may create one)\n-j	Iterate through all loopback devices associated with FILE\n\nexisting:\n-c	Check capacity (file size changed)\n-d	Detach loopback device\n\nnew:\n-s	Show device name (alias --show)\n-o	Start assocation at OFFSET into FILE\n-r	Read only\n-S	Limit SIZE of loopback association (alias --sizelimit)\n\n"
 
@@ -240,7 +240,7 @@
 
 #define HELP_flock "usage: flock [-sxun] fd\n\nManage advisory file locks.\n\n-s	Shared lock.\n-x	Exclusive lock (default).\n-u	Unlock.\n-n	Non-blocking: fail rather than wait for the lock.\n\n"
 
-#define HELP_fallocate "usage: fallocate [-l size] file\n\nTell the filesystem to allocate space for a file.\n\n"
+#define HELP_fallocate "usage: fallocate [-l size] [-o offset] file\n\nTell the filesystem to allocate space for a file.\n\n"
 
 #define HELP_factor "usage: factor NUMBER...\n\nFactor integers.\n\n"
 
