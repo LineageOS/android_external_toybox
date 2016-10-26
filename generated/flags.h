@@ -680,12 +680,13 @@
 #undef FOR_factor
 #endif
 
-// fallocate >1l#| >1l#|
+// fallocate >1l#|o# >1l#|o#
 #undef OPTSTR_fallocate
-#define OPTSTR_fallocate ">1l#|"
+#define OPTSTR_fallocate ">1l#|o#"
 #ifdef CLEANUP_fallocate
 #undef CLEANUP_fallocate
 #undef FOR_fallocate
+#undef FLAG_o
 #undef FLAG_l
 #endif
 
@@ -3734,7 +3735,8 @@
 #ifndef TT
 #define TT this.fallocate
 #endif
-#define FLAG_l (1<<0)
+#define FLAG_o (1<<0)
+#define FLAG_l (1<<1)
 #endif
 
 #ifdef FOR_false
