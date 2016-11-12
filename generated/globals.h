@@ -44,6 +44,8 @@ struct skeleton_data {
 struct dmesg_data {
   long level;
   long size;
+
+  int color;
 };
 
 // toys/lsb/hostname.c
