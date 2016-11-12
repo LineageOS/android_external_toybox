@@ -102,7 +102,7 @@
 
 #define HELP_hostname "usage: hostname [-b] [-F FILENAME] [newname]\n\nGet/Set the current hostname\n\n-b  Set hostname to 'localhost' if otherwise unset\n-F  Set hostname to contents of FILENAME\n\n"
 
-#define HELP_dmesg "usage: dmesg [-c] [-r|-t] [-n LEVEL] [-s SIZE]\n\nPrint or control the kernel ring buffer.\n\n-c	Clear the ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-s	Show the last SIZE many bytes\n-t	Don't print kernel's timestamps\n\n"
+#define HELP_dmesg "usage: dmesg [-Cc] [-r|-t] [-n LEVEL] [-s SIZE] [-w]\n\nPrint or control the kernel ring buffer.\n\n-C	Clear the ring buffer\n-c	Clear the ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-s	Show the last SIZE many bytes\n-t	Don't print kernel's timestamps\n-w	Keep waiting for more output (aka --follow)\n\n"
 
 #define HELP_tunctl "usage: tunctl [-dtT] [-u USER] NAME\n\nCreate and delete tun/tap virtual ethernet devices.\n\n-T	Use tap (ethernet frames) instead of tun (ip packets)\n-d	Delete tun/tap device\n-t	Create tun/tap device\n-u	Set owner (user who can read/write device without root access)\n\n\n"
 
