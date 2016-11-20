@@ -76,7 +76,7 @@ static void loopback_setup(char *device, char *file)
     // mount -o loop depends on found device being at the start of toybuf.
     if (cfd != -1) {
       if (0 <= (i = ioctl(cfd, 0x4C82))) // LOOP_CTL_GET_FREE
-        sprintf(device = toybuf, "/dev/loop%d", i);
+        sprintf(device = toybuf, "/dev/block/loop%d", i);
       close(cfd);
     }
   }
