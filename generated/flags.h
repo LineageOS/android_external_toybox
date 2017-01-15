@@ -825,17 +825,25 @@
 #undef FLAG_d
 #endif
 
-// ftpget   <2cvu:p:P#<0=21>65535
+// ftpget   <2>3P:cp:u:vgslLmMdD[-gs][!gslLmMdD][!clL]
 #undef OPTSTR_ftpget
-#define OPTSTR_ftpget "<2cvu:p:P#<0=21>65535"
+#define OPTSTR_ftpget "<2>3P:cp:u:vgslLmMdD[-gs][!gslLmMdD][!clL]"
 #ifdef CLEANUP_ftpget
 #undef CLEANUP_ftpget
 #undef FOR_ftpget
-#undef FLAG_P
-#undef FLAG_p
-#undef FLAG_u
+#undef FLAG_D
+#undef FLAG_d
+#undef FLAG_M
+#undef FLAG_m
+#undef FLAG_L
+#undef FLAG_l
+#undef FLAG_s
+#undef FLAG_g
 #undef FLAG_v
+#undef FLAG_u
+#undef FLAG_p
 #undef FLAG_c
+#undef FLAG_P
 #endif
 
 // getenforce >0 >0
@@ -1485,6 +1493,16 @@
 #ifdef CLEANUP_mdev
 #undef CLEANUP_mdev
 #undef FOR_mdev
+#undef FLAG_s
+#endif
+
+// microcom <1>1s:X <1>1s:X
+#undef OPTSTR_microcom
+#define OPTSTR_microcom "<1>1s:X"
+#ifdef CLEANUP_microcom
+#undef CLEANUP_microcom
+#undef FOR_microcom
+#undef FLAG_X
 #undef FLAG_s
 #endif
 
@@ -3857,11 +3875,19 @@
 #ifndef TT
 #define TT this.ftpget
 #endif
-#define FLAG_P (FORCED_FLAG<<0)
-#define FLAG_p (FORCED_FLAG<<1)
-#define FLAG_u (FORCED_FLAG<<2)
-#define FLAG_v (FORCED_FLAG<<3)
-#define FLAG_c (FORCED_FLAG<<4)
+#define FLAG_D (FORCED_FLAG<<0)
+#define FLAG_d (FORCED_FLAG<<1)
+#define FLAG_M (FORCED_FLAG<<2)
+#define FLAG_m (FORCED_FLAG<<3)
+#define FLAG_L (FORCED_FLAG<<4)
+#define FLAG_l (FORCED_FLAG<<5)
+#define FLAG_s (FORCED_FLAG<<6)
+#define FLAG_g (FORCED_FLAG<<7)
+#define FLAG_v (FORCED_FLAG<<8)
+#define FLAG_u (FORCED_FLAG<<9)
+#define FLAG_p (FORCED_FLAG<<10)
+#define FLAG_c (FORCED_FLAG<<11)
+#define FLAG_P (FORCED_FLAG<<12)
 #endif
 
 #ifdef FOR_getenforce
@@ -4406,6 +4432,14 @@
 #define TT this.mdev
 #endif
 #define FLAG_s (FORCED_FLAG<<0)
+#endif
+
+#ifdef FOR_microcom
+#ifndef TT
+#define TT this.microcom
+#endif
+#define FLAG_X (1<<0)
+#define FLAG_s (1<<1)
 #endif
 
 #ifdef FOR_mix
