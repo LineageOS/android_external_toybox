@@ -141,6 +141,16 @@ struct umount_data {
   char *types;
 };
 
+// toys/net/ftpget.c
+
+struct ftpget_data {
+  char *user;
+  char *port;
+  char *password;
+
+  int fd;
+};
+
 // toys/net/ifconfig.c
 
 struct ifconfig_data {
@@ -584,19 +594,6 @@ struct fsck_data {
   long max_nr_run;
 };
 
-// toys/pending/ftpget.c
-
-struct ftpget_data {
-  long port; //  char *port;
-  char *password;
-  char *username;
-
-  FILE *sockfp;
-  int c;
-  int isget;
-  char buf[sizeof(struct sockaddr_storage)];
-};
-
 // toys/pending/getfattr.c
 
 struct getfattr_data {
@@ -699,6 +696,15 @@ struct lsof_data {
   struct double_list *files;
   int last_shown_pid;
   int shown_header;
+};
+
+// toys/pending/microcom.c
+
+struct microcom_data {
+  char *speed;
+
+  int fd;
+  struct termios original_stdin_state, original_fd_state;
 };
 
 // toys/pending/mke2fs.c
@@ -1389,6 +1395,7 @@ extern union global_union {
 	struct seq_data seq;
 	struct su_data su;
 	struct umount_data umount;
+	struct ftpget_data ftpget;
 	struct ifconfig_data ifconfig;
 	struct netcat_data netcat;
 	struct netstat_data netstat;
@@ -1437,7 +1444,6 @@ extern union global_union {
 	struct fdisk_data fdisk;
 	struct fold_data fold;
 	struct fsck_data fsck;
-	struct ftpget_data ftpget;
 	struct getfattr_data getfattr;
 	struct getty_data getty;
 	struct groupadd_data groupadd;
@@ -1450,6 +1456,7 @@ extern union global_union {
 	struct last_data last;
 	struct logger_data logger;
 	struct lsof_data lsof;
+	struct microcom_data microcom;
 	struct mke2fs_data mke2fs;
 	struct modprobe_data modprobe;
 	struct more_data more;
