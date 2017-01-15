@@ -252,6 +252,8 @@
 #define USE_FSCK(...)
 #define CFG_FTPGET 0
 #define USE_FTPGET(...)
+#define CFG_FTPPUT 0
+#define USE_FTPPUT(...)
 #define CFG_GETFATTR 1
 #define USE_GETFATTR(...) __VA_ARGS__
 #define CFG_GETTY 0
@@ -304,6 +306,8 @@
 #define USE_MKE2FS_EXTENDED(...)
 #define CFG_MODPROBE 0
 #define USE_MODPROBE(...)
+#define CFG_MICROCOM 1
+#define USE_MICROCOM(...) __VA_ARGS__
 #define CFG_MORE 1
 #define USE_MORE(...) __VA_ARGS__
 #define CFG_NETSTAT 1

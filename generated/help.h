@@ -116,6 +116,10 @@
 
 #define HELP_ifconfig "usage: ifconfig [-a] [INTERFACE [ACTION...]]\n\nDisplay or configure network interface.\n\nWith no arguments, display active interfaces. First argument is interface\nto operate on, one argument by itself displays that interface.\n\n-a	Show all interfaces, not just active ones\n\nAdditional arguments are actions to perform on the interface:\n\nADDRESS[/NETMASK] - set IPv4 address (1.2.3.4/5)\ndefault - unset ipv4 address\nadd|del ADDRESS[/PREFIXLEN] - add/remove IPv6 address (1111::8888/128)\nup - enable interface\ndown - disable interface\n\nnetmask|broadcast|pointopoint ADDRESS - set more IPv4 characteristics\nhw ether|infiniband ADDRESS - set LAN hardware address (AA:BB:CC...)\ntxqueuelen LEN - number of buffered packets before output blocks\nmtu LEN - size of outgoing packets (Maximum Transmission Unit)\n\nFlags you can set on an interface (or -remove by prefixing with -):\narp - don't use Address Resolution Protocol to map LAN routes\npromisc - don't discard packets that aren't to this LAN hardware address\nmulticast - force interface into multicast mode if the driver doesn't\nallmulti - promisc for multicast packets\n\nObsolete fields included for historical purposes:\nirq|io_addr|mem_start ADDR - micromanage obsolete hardware\noutfill|keepalive INTEGER - SLIP analog dialup line quality monitoring\nmetric INTEGER - added to Linux 0.9.10 with comment \"never used\", still true\n\n"
 
+#define HELP_ftpput "An ftpget that defaults to -s instead of -g\n\n"
+
+#define HELP_ftpget "usage: ftpget [-cvgslLmMdD] [-P PORT] [-p PASSWORD] [-u USER] HOST [LOCAL] REMOTE\n\nTalk to ftp server. By default get REMOTE file via passive anonymous\ntransfer, optionally saving under a LOCAL name. Can also send, list, etc.\n\n-c	Continue partial transfer\n-p	Use PORT instead of \"21\"\n-P	Use PASSWORD instead of \"ftpget@\"\n-u	Use USER instead of \"anonymous\"\n-v	Verbose\n\nWays to interact with FTP server:\n-d	Delete file\n-D	Remove directory\n-g	Get file (default)\n-l	List directory\n-L	List (filenames only)\n-m	Move file on server from LOCAL to REMOTE\n-M	mkdir\n-s	Send file\n\n"
+
 #define HELP_yes "usage: yes [args...]\n\nRepeatedly output line until killed. If no args, output 'y'.\n\n\n"
 
 #define HELP_xxd "usage: xxd [-c n] [-g n] [-l n] [-p] [-r] [-s n] [file]\n\nHexdump a file to stdout.  If no file is listed, copy from stdin.\nFilename \"-\" is a synonym for stdin.\n\n-c n	Show n bytes per line (default 16).\n-g n	Group bytes by adding a ' ' every n bytes (default 2).\n-l n	Limit of n bytes before stopping (default is no limit).\n-p	Plain hexdump (30 bytes/line, no grouping).\n-r	Reverse operation: turn a hexdump into a binary file.\n-s n	Skip to offset n.\n\n"
@@ -338,6 +342,8 @@
 
 #define HELP_mke2fs "usage: mke2fs [-Fnq] [-b ###] [-N|i ###] [-m ###] device\n\nCreate an ext2 filesystem on a block device or filesystem image.\n\n-F         Force to run on a mounted device\n-n         Don't write to device\n-q         Quiet (no output)\n-b size    Block size (1024, 2048, or 4096)\n-N inodes  Allocate this many inodes\n-i bytes   Allocate one inode for every XXX bytes of device\n-m percent Reserve this percent of filesystem space for root user\n\n"
 
+#define HELP_microcom "usage: microcom [-s SPEED] [-X]\n\nSimple serial console.\n\n-s  Set baud rate to SPEED\n-X  Ignore ^@ (send break) and ^X (exit).\n\n"
+
 #define HELP_mdev_conf "The mdev config file (/etc/mdev.conf) contains lines that look like:\nhd[a-z][0-9]* 0:3 660\n\nEach line must contain three whitespace separated fields. The first\nfield is a regular expression matching one or more device names,\nthe second and third fields are uid:gid and file permissions for\nmatching devies.\n\n"
 
 #define HELP_mdev "usage: mdev [-s]\n\nCreate devices in /dev using information from /sys.\n\n-s	Scan all entries in /sys to populate /dev.\n\n"
@@ -369,8 +375,6 @@
 #define HELP_getty "usage: getty [OPTIONS] BAUD_RATE[,BAUD_RATE]... TTY [TERMTYPE]\n\n-h    Enable hardware RTS/CTS flow control\n-L    Set CLOCAL (ignore Carrier Detect state)\n-m    Get baud rate from modem's CONNECT status message\n-n    Don't prompt for login name\n-w    Wait for CR or LF before sending /etc/issue\n-i    Don't display /etc/issue\n-f ISSUE_FILE  Display ISSUE_FILE instead of /etc/issue\n-l LOGIN  Invoke LOGIN instead of /bin/login\n-t SEC    Terminate after SEC if no login name is read\n-I INITSTR  Send INITSTR before anything else\n-H HOST    Log HOST into the utmp file as the hostname\n\n"
 
 #define HELP_getfattr "usage: getfattr [-d] [-h] [-n NAME] FILE...\n\nRead POSIX extended attributes.\n\n-d	Show values as well as names.\n-h	Do not dereference symbolic links.\n-n	Show only attributes with the given name.\n\n"
-
-#define HELP_ftpget "usage: ftpget [-cv] [-u USER -p PASSWORD -P PORT] HOST_NAME [LOCAL_FILENAME] REMOTE_FILENAME\nusage: ftpput [-v] [-u USER -p PASSWORD -P PORT] HOST_NAME [REMOTE_FILENAME] LOCAL_FILENAME\n\nftpget - Get a remote file from FTP.\nftpput - Upload a local file on remote machine through FTP.\n\n-c Continue previous transfer.\n-v Verbose.\n-u User name.\n-p Password.\n-P Port Number (default 21).\n\n"
 
 #define HELP_fsck "usage: fsck [-ANPRTV] [-C FD] [-t FSTYPE] [FS_OPTS] [BLOCKDEV]...\n\nCheck and repair filesystems\n\n-A      Walk /etc/fstab and check all filesystems\n-N      Don't execute, just show what would be done\n-P      With -A, check filesystems in parallel\n-R      With -A, skip the root filesystem\n-T      Don't show title on startup\n-V      Verbose\n-C n    Write status information to specified filedescriptor\n-t TYPE List of filesystem types to check\n\n\n"
 

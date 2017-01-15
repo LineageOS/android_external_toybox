@@ -143,6 +143,7 @@ LOCAL_SRC_FILES := \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
     toys/pending/lsof.c \
+    toys/pending/microcom.c \
     toys/pending/more.c \
     toys/pending/setfattr.c \
     toys/pending/tar.c \
@@ -307,6 +308,7 @@ ALL_TOOLS := \
     mknod \
     mkswap \
     mktemp \
+    microcom \
     modinfo \
     more \
     mount \
