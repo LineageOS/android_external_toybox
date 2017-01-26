@@ -81,6 +81,7 @@ LOCAL_SRC_FILES := \
     toys/lsb/sync.c \
     toys/lsb/umount.c \
     toys/net/ifconfig.c \
+    toys/net/microcom.c \
     toys/net/netcat.c \
     toys/net/netstat.c \
     toys/net/rfkill.c \
@@ -143,7 +144,6 @@ LOCAL_SRC_FILES := \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
     toys/pending/lsof.c \
-    toys/pending/microcom.c \
     toys/pending/more.c \
     toys/pending/setfattr.c \
     toys/pending/tar.c \
