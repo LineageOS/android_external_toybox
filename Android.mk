@@ -144,6 +144,7 @@ LOCAL_SRC_FILES := \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
     toys/pending/lsof.c \
+    toys/pending/modprobe.c \
     toys/pending/more.c \
     toys/pending/setfattr.c \
     toys/pending/tar.c \
@@ -310,6 +311,7 @@ ALL_TOOLS := \
     mktemp \
     microcom \
     modinfo \
+    modprobe \
     more \
     mount \
     mountpoint \
