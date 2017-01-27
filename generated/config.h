@@ -304,10 +304,10 @@
 #define USE_MKE2FS_LABEL(...)
 #define CFG_MKE2FS_EXTENDED 0
 #define USE_MKE2FS_EXTENDED(...)
-#define CFG_MODPROBE 0
-#define USE_MODPROBE(...)
 #define CFG_MICROCOM 1
 #define USE_MICROCOM(...) __VA_ARGS__
+#define CFG_MODPROBE 1
+#define USE_MODPROBE(...) __VA_ARGS__
 #define CFG_MORE 1
 #define USE_MORE(...) __VA_ARGS__
 #define CFG_NETSTAT 1
