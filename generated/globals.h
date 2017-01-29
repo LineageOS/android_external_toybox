@@ -739,12 +739,13 @@ struct mke2fs_data {
 // toys/pending/modprobe.c
 
 struct modprobe_data {
+  struct arg_list *dirs;
+
   struct arg_list *probes;
   struct arg_list *dbase[256];
   char *cmdopts;
   int nudeps;
   uint8_t symreq;
-  void (*dbg)(char *format, ...);
 };
 
 // toys/pending/more.c
