@@ -315,7 +315,7 @@ int cp_node(struct dirtree *try)
       // permission bits already correct for mknod and don't apply to symlink
       // If we can't get a filehandle to the actual object, use racy functions
       if (fdout == AT_FDCWD)
-        fchownat(cfd, catch, try->st.st_uid, try->st.st_gid,
+        rc = fchownat(cfd, catch, try->st.st_uid, try->st.st_gid,
                       AT_SYMLINK_NOFOLLOW);
       else rc = fchown(fdout, try->st.st_uid, try->st.st_gid);
       if (rc && !geteuid()) {
