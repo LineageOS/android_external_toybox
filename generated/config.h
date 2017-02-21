@@ -50,6 +50,8 @@
 #define USE_ARPING(...)
 #define CFG_ARP 0
 #define USE_ARP(...)
+#define CFG_ASCII 0
+#define USE_ASCII(...)
 #define CFG_BASE64 1
 #define USE_BASE64(...) __VA_ARGS__
 #define CFG_BASENAME 1

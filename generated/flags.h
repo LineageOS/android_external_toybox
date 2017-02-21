@@ -57,6 +57,14 @@
 #undef FLAG_s
 #endif
 
+// ascii    
+#undef OPTSTR_ascii
+#define OPTSTR_ascii 0
+#ifdef CLEANUP_ascii
+#undef CLEANUP_ascii
+#undef FOR_ascii
+#endif
+
 // base64 diw#<0=76[!dw] diw#<0=76[!dw]
 #undef OPTSTR_base64
 #define OPTSTR_base64 "diw#<0=76[!dw]"
@@ -564,9 +572,9 @@
 #undef FOR_dirname
 #endif
 
-// dmesg w(follow)Ctrs#<1n#c[!tr] w(follow)Ctrs#<1n#c[!tr]
+// dmesg w(follow)Ctrs#<1n#c[!tr][!Cc] w(follow)Ctrs#<1n#c[!tr][!Cc]
 #undef OPTSTR_dmesg
-#define OPTSTR_dmesg "w(follow)Ctrs#<1n#c[!tr]"
+#define OPTSTR_dmesg "w(follow)Ctrs#<1n#c[!tr][!Cc]"
 #ifdef CLEANUP_dmesg
 #undef CLEANUP_dmesg
 #undef FOR_dmesg
@@ -3228,6 +3236,12 @@
 #define FLAG_w (FORCED_FLAG<<7)
 #define FLAG_I (FORCED_FLAG<<8)
 #define FLAG_s (FORCED_FLAG<<9)
+#endif
+
+#ifdef FOR_ascii
+#ifndef TT
+#define TT this.ascii
+#endif
 #endif
 
 #ifdef FOR_base64
