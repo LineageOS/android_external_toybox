@@ -104,8 +104,6 @@
 
 #define HELP_hostname "usage: hostname [-b] [-F FILENAME] [newname]\n\nGet/Set the current hostname\n\n-b  Set hostname to 'localhost' if otherwise unset\n-F  Set hostname to contents of FILENAME\n\n"
 
-#define HELP_dmesg "usage: dmesg [-Cc] [-r|-t] [-n LEVEL] [-s SIZE] [-w]\n\nPrint or control the kernel ring buffer.\n\n-C	Clear ring buffer without printing\n-c	Clear ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-s	Show the last SIZE many bytes\n-t	Don't print kernel's timestamps\n-w	Keep waiting for more output (aka --follow)\n\n"
-
 #define HELP_tunctl "usage: tunctl [-dtT] [-u USER] NAME\n\nCreate and delete tun/tap virtual ethernet devices.\n\n-T	Use tap (ethernet frames) instead of tun (ip packets)\n-d	Delete tun/tap device\n-t	Create tun/tap device\n-u	Set owner (user who can read/write device without root access)\n\n\n"
 
 #define HELP_rfkill "Usage: rfkill COMMAND [DEVICE]\n\nEnable/disable wireless devices.\n\nCommands:\nlist [DEVICE]   List current state\nblock DEVICE    Disable device\nunblock DEVICE  Enable device\n\nDEVICE is an index number, or one of:\nall, wlan(wifi), bluetooth, uwb(ultrawideband), wimax, wwan, gps, fm.\n\n"
@@ -278,6 +276,8 @@
 
 #define HELP_base64 "usage: base64 [-di] [-w COLUMNS] [FILE...]\n\nEncode or decode in base64.\n\n-d	decode\n-i	ignore non-alphabetic characters\n-w	wrap output at COLUMNS (default 76 or 0 for no wrap)\n\n"
 
+#define HELP_ascii "usage: ascii\n\nDisplay ascii character set.\n\n"
+
 #define HELP_acpi "usage: acpi [-abctV]\n\nShow status of power sources and thermal devices.\n\n-a	show power adapters\n-b	show batteries\n-c	show cooling device state\n-t	show temperatures\n-V	show everything\n\n"
 
 #define HELP_xzcat "usage: xzcat [filename...]\n\nDecompress listed files to stdout. Use stdin if no files listed.\n\n\n\n"
@@ -385,6 +385,8 @@
 #define HELP_expr "usage: expr ARG1 OPERATOR ARG2...\n\nEvaluate expression and print result. For example, \"expr 1 + 2\".\n\nThe supported operators are (grouped from highest to lowest priority):\n\n  ( )    :    * / %    + -    != <= < >= > =    &    |\n\nEach constant and operator must be a separate command line argument.\nAll operators are infix, meaning they expect a constant (or expression\nthat resolves to a constant) on each side of the operator. Operators of\nthe same priority (within each group above) are evaluated left to right.\nParentheses may be used (as separate arguments) to elevate the priority\nof expressions.\n\nCalling expr from a command shell requires a lot of \\( or '*' escaping\nto avoid interpreting shell control characters.\n\nThe & and | operators are logical (not bitwise) and may operate on\nstrings (a blank string is \"false\"). Comparison operators may also\noperate on strings (alphabetical sort).\n\nConstants may be strings or integers. Comparison, logical, and regex\noperators may operate on strings (a blank string is \"false\"), other\noperators require integers.\n\n"
 
 #define HELP_dumpleases "usage: dumpleases [-r|-a] [-f LEASEFILE]\n\nDisplay DHCP leases granted by udhcpd\n-f FILE,  Lease file\n-r        Show remaining time\n-a        Show expiration time\n\n"
+
+#define HELP_dmesg "usage: dmesg [-Cc] [-r|-t] [-n LEVEL] [-s SIZE] [-w]\n\nPrint or control the kernel ring buffer.\n\n-C	Clear ring buffer without printing\n-c	Clear ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-s	Show the last SIZE many bytes\n-t	Don't print kernel's timestamps\n-w	Keep waiting for more output (aka --follow)\n\n"
 
 #define HELP_diff "usage: diff [-abBdiNqrTstw] [-L LABEL] [-S FILE] [-U LINES] FILE1 FILE2\n\n-a  Treat all files as text\n-b  Ignore changes in the amount of whitespace\n-B  Ignore changes whose lines are all blank\n-d  Try hard to find a smaller set of changes\n-i  Ignore case differences\n-L  Use LABEL instead of the filename in the unified header\n-N  Treat absent files as empty\n-q  Output only whether files differ\n-r  Recurse\n-S  Start with FILE when comparing directories\n-T  Make tabs line up by prefixing a tab when necessary\n-s  Report when two files are the same\n-t  Expand tabs to spaces in output\n-U  Output LINES lines of context\n-w  Ignore all whitespace\n\n"
 
@@ -550,7 +552,7 @@
 
 #define HELP_dirname "usage: dirname PATH\n\nShow directory portion of path.\n\n"
 
-#define HELP_df "usage: df [-HPkh] [-t type] [FILESYSTEM ...]\n\nThe \"disk free\" command shows total/used/available disk space for\neach filesystem listed on the command line, or all currently mounted\nfilesystems.\n\n-P	The SUSv3 \"Pedantic\" option\n-k	Sets units back to 1024 bytes (the default without -P)\n-h	Human readable output (K=1024)\n-H	Human readable output (k=1000)\n-t type	Display only filesystems of this type.\n\nPedantic provides a slightly less useful output format dictated by Posix,\nand sets the units to 512 bytes instead of the default 1024 bytes.\n\n"
+#define HELP_df "usage: df [-HPkh] [-t type] [FILESYSTEM ...]\n\nThe \"disk free\" command shows total/used/available disk space for\neach filesystem listed on the command line, or all currently mounted\nfilesystems.\n\n-a	Show all (including /proc and friends)\n-P	The SUSv3 \"Pedantic\" option\n-k	Sets units back to 1024 bytes (the default without -P)\n-h	Human readable output (K=1024)\n-H	Human readable output (k=1000)\n-t type	Display only filesystems of this type.\n\nPedantic provides a slightly less useful output format dictated by Posix,\nand sets the units to 512 bytes instead of the default 1024 bytes.\n\n"
 
 #define HELP_date "usage: date [-u] [-r FILE] [-d DATE] [+DISPLAY_FORMAT] [-D SET_FORMAT] [SET]\n\nSet/get the current date/time. With no SET shows the current date.\n\nDefault SET format is \"MMDDhhmm[[CC]YY][.ss]\", that's (2 digits each)\nmonth, day, hour (0-23), and minute. Optionally century, year, and second.\nAlso accepts \"@UNIXTIME[.FRACTION]\" as seconds since midnight Jan 1 1970.\n\n-d	Show DATE instead of current time (convert date format)\n-D	+FORMAT for SET or -d (instead of MMDDhhmm[[CC]YY][.ss])\n-r	Use modification time of FILE instead of current date\n-u	Use UTC instead of current timezone\n\n+FORMAT specifies display format string using these escapes:\n\n%% literal %             %n newline              %t tab\n%S seconds (00-60)       %M minute (00-59)       %m month (01-12)\n%H hour (0-23)           %I hour (01-12)         %p AM/PM\n%y short year (00-99)    %Y year                 %C century\n%a short weekday name    %A weekday name         %u day of week (1-7, 1=mon)\n%b short month name      %B month name           %Z timezone name\n%j day of year (001-366) %d day of month (01-31) %e day of month ( 1-31)\n%s seconds past the Epoch\n\n%U Week of year (0-53 start sunday)   %W Week of year (0-53 start monday)\n%V Week of year (1-53 start monday, week < 4 days not part of this year)\n\n%D = \"%m/%d/%y\"    %r = \"%I : %M : %S %p\"   %T = \"%H:%M:%S\"   %h = \"%b\"\n%x locale date     %X locale time           %c locale date/time\n\n"
 
