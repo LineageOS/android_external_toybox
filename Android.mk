@@ -44,9 +44,7 @@ LOCAL_PATH := $(call my-dir)
 #  # If you just want to use it as "toybox x" rather than "x", you can stop now.
 #  # If you want this toy to have a symbolic link in /system/bin, add the toy to ALL_TOOLS.
 
-include $(CLEAR_VARS)
-
-LOCAL_SRC_FILES := \
+common_SRC_FILES := \
     lib/args.c \
     lib/dirtree.c \
     lib/getmountlist.c \
@@ -210,7 +208,7 @@ LOCAL_SRC_FILES := \
     toys/posix/wc.c \
     toys/posix/xargs.c \
 
-LOCAL_CFLAGS += \
+common_CFLAGS := \
     -std=c99 \
     -Os \
     -Wno-char-subscripts \
@@ -226,7 +224,16 @@ toybox_upstream_version := $(shell awk 'match($$0, /TOYBOX_VERSION.*"(.*)"/, ary
 toybox_sha := $(shell git -C $(LOCAL_PATH) rev-parse --short=12 HEAD 2>/dev/null)
 
 toybox_version := $(toybox_upstream_version)-$(toybox_sha)-android
-LOCAL_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
+
+common_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
+
+############################################
+# toybox for /system
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := $(common_SRC_FILES)
+
+LOCAL_CFLAGS := $(common_CFLAGS)
 
 LOCAL_CLANG := true
 
@@ -393,5 +400,35 @@ ALL_TOOLS := \
 
 # Install the symlinks.
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGET_OUT)/bin/$(t);)
+
+include $(BUILD_EXECUTABLE)
+
+############################################
+# static version to be installed in recovery
+
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := $(common_SRC_FILES)
+
+LOCAL_CFLAGS := $(common_CFLAGS)
+
+LOCAL_CLANG := true
+
+LOCAL_STATIC_LIBRARIES := liblog libcutils libselinux libcrypto libm libc
+
+# libc++_static is needed by static liblog
+LOCAL_CXX_STL := libc++_static
+
+LOCAL_MODULE := toybox_static
+
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)/sbin
+
+LOCAL_FORCE_STATIC_EXECUTABLE := true
+
+ALL_TOOLS := \
+    modprobe \
+
+# Install the symlinks.
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
 
 include $(BUILD_EXECUTABLE)
