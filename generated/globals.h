@@ -1192,7 +1192,9 @@ struct od_data {
 // toys/posix/paste.c
 
 struct paste_data {
-  char *delim;
+  char *d;
+
+  int files;
 };
 
 // toys/posix/patch.c
