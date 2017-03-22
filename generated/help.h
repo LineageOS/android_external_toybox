@@ -4,6 +4,8 @@
 
 #define HELP_toybox_uid_sys "When commands like useradd/groupadd allocate system IDs, start here.\n\n"
 
+#define HELP_toybox_pedantic_args "Check arguments for commands that have no arguments.\n\n"
+
 #define HELP_toybox_debug "Enable extra checks for debugging purposes. All of them catch\nthings that can only go wrong at development time, not runtime.\n\n"
 
 #define HELP_toybox_norecurse "When one toybox command calls another, usually it just calls the new\ncommand's main() function rather than searching the $PATH and calling\nexec on another file (which is much slower).\n\nThis disables that optimization, so toybox will run external commands\n       even when it has a built-in version of that command. This requires\n       toybox symlinks to be installed in the $PATH, or re-invoking the\n       \"toybox\" multiplexer command by name.\n\n"
@@ -134,7 +136,7 @@
 
 #define HELP_usleep "usage: usleep MICROSECONDS\n\nPause for MICROSECONDS microseconds.\n\n"
 
-#define HELP_uptime "usage: uptime\n\nTell how long the system has been running and the system load\naverages for the past 1, 5 and 15 minutes.\n\n"
+#define HELP_uptime "usage: uptime [-s]\n\nTell the current time, how long the system has been running, the number\nof users, and the system load averages for the past 1, 5 and 15 minutes.\n\n-s	Since when has the system been up?\n\n"
 
 #define HELP_truncate "usage: truncate [-c] -s SIZE file...\n\nSet length of file(s), extending sparsely if necessary.\n\n-c	Don't create file if it doesn't exist.\n-s	New size (with optional prefix and suffix)\n\nSIZE prefix: + add, - subtract, < shrink to, > expand to,\n             / multiple rounding down, % multiple rounding up\nSIZE suffix: k=1024, m=1024^2, g=1024^3, t=1024^4, p=1024^5, e=1024^6\n\n"
 
@@ -496,7 +498,7 @@
 
 #define HELP_patch "usage: patch [-d DIR] [-i file] [-p depth] [-Rlu] [--dry-run]\n\nApply a unified diff to one or more files.\n\n-d	modify files in DIR\n-i	Input file (defaults=stdin)\n-l	Loose match (ignore whitespace)\n-p	Number of '/' to strip from start of file paths (default=all)\n-R	Reverse patch.\n-u	Ignored (only handles \"unified\" diffs)\n--dry-run Don't change files, just confirm patch applies\n\nThis version of patch only handles unified diffs, and only modifies\na file when all all hunks to that file apply.  Patch prints failed\nhunks to stderr, and exits with nonzero status if any hunks fail.\n\nA file compared against /dev/null (or with a date <= the epoch) is\ncreated/deleted as appropriate.\n\n"
 
-#define HELP_paste "usage: paste [-s] [-d list] [file...]\n\nReplace newlines in files.\n\n-d list    list of delimiters to separate lines\n-s         process files sequentially instead of in parallel\n\nBy default print corresponding lines separated by <tab>.\n\n"
+#define HELP_paste "usage: paste [-s] [-d DELIMITERS] [FILE...]\n\nMerge corresponding lines from each input file.\n\n-d	list of delimiter characters to separate fields with (default is \\t)\n-s	sequential mode: turn each input file into one line of output\n\n"
 
 #define HELP_od "usage: od [-bcdosxv] [-j #] [-N #] [-w #] [-A doxn] [-t acdfoux[#]]\n\n-A	Address base (decimal, octal, hexdecimal, none)\n-j	Skip this many bytes of input\n-N	Stop dumping after this many bytes\n-t	Output type a(scii) c(har) d(ecimal) f(loat) o(ctal) u(nsigned) (he)x\n	plus optional size in bytes\n	aliases: -b=-t o1, -c=-t c, -d=-t u2, -o=-t o2, -s=-t d2, -x=-t x2\n-v	Don't collapse repeated lines together\n-w	Total line width in bytes (default 16).\n\n"
 
