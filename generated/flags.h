@@ -2997,12 +2997,13 @@
 #undef FLAG_f
 #endif
 
-// uptime    
+// uptime >0s >0s
 #undef OPTSTR_uptime
-#define OPTSTR_uptime 0
+#define OPTSTR_uptime ">0s"
 #ifdef CLEANUP_uptime
 #undef CLEANUP_uptime
 #undef FOR_uptime
+#undef FLAG_s
 #endif
 
 // useradd   <1>2u#<0G:s:g:h:SDH
@@ -5718,6 +5719,7 @@
 #ifndef TT
 #define TT this.uptime
 #endif
+#define FLAG_s (1<<0)
 #endif
 
 #ifdef FOR_useradd
