@@ -127,7 +127,7 @@
 #undef FOR_brctl
 #endif
 
-// bunzip2 cftkv cftkv
+// bunzip2   cftkv
 #undef OPTSTR_bunzip2
 #define OPTSTR_bunzip2 "cftkv"
 #ifdef CLEANUP_bunzip2
@@ -3299,11 +3299,11 @@
 #ifndef TT
 #define TT this.bunzip2
 #endif
-#define FLAG_v (1<<0)
-#define FLAG_k (1<<1)
-#define FLAG_t (1<<2)
-#define FLAG_f (1<<3)
-#define FLAG_c (1<<4)
+#define FLAG_v (FORCED_FLAG<<0)
+#define FLAG_k (FORCED_FLAG<<1)
+#define FLAG_t (FORCED_FLAG<<2)
+#define FLAG_f (FORCED_FLAG<<3)
+#define FLAG_c (FORCED_FLAG<<4)
 #endif
 
 #ifdef FOR_bzcat
