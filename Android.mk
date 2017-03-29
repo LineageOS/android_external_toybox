@@ -87,7 +87,6 @@ common_SRC_FILES := \
     toys/other/base64.c \
     toys/other/blkid.c \
     toys/other/blockdev.c \
-    toys/other/bzcat.c \
     toys/other/chcon.c \
     toys/other/chroot.c \
     toys/other/clear.c \
@@ -256,7 +255,6 @@ ALL_TOOLS := \
     base64 \
     basename \
     blockdev \
-    bzcat \
     cal \
     cat \
     chcon \

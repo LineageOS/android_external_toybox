@@ -32,6 +32,8 @@
 #define USE_TOYBOX_NORECURSE(...) __VA_ARGS__
 #define CFG_TOYBOX_ON_ANDROID 1
 #define USE_TOYBOX_ON_ANDROID(...) __VA_ARGS__
+#define CFG_TOYBOX_PEDANTIC_ARGS 0
+#define USE_TOYBOX_PEDANTIC_ARGS(...)
 #define CFG_TOYBOX_SELINUX 1
 #define USE_TOYBOX_SELINUX(...) __VA_ARGS__
 #define CFG_TOYBOX_SHADOW 0
@@ -64,10 +66,10 @@
 #define USE_BOOTCHARTD(...)
 #define CFG_BRCTL 0
 #define USE_BRCTL(...)
-#define CFG_BUNZIP2 1
-#define USE_BUNZIP2(...) __VA_ARGS__
-#define CFG_BZCAT 1
-#define USE_BZCAT(...) __VA_ARGS__
+#define CFG_BUNZIP2 0
+#define USE_BUNZIP2(...)
+#define CFG_BZCAT 0
+#define USE_BZCAT(...)
 #define CFG_CAL 1
 #define USE_CAL(...) __VA_ARGS__
 #define CFG_CATV 0
