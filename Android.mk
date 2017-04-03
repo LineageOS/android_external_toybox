@@ -137,6 +137,7 @@ common_SRC_FILES := \
     toys/other/yes.c \
     toys/pending/chrt.c \
     toys/pending/dd.c \
+    toys/pending/diff.c \
     toys/pending/dmesg.c \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
@@ -272,6 +273,7 @@ ALL_TOOLS := \
     cut \
     date \
     df \
+    diff \
     dirname \
     dmesg \
     dos2unix \
