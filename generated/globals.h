@@ -555,7 +555,8 @@ struct dmesg_data {
   long level;
   long size;
 
-  int color;
+  int use_color;
+  struct sysinfo info;
 };
 
 // toys/pending/dumpleases.c
@@ -1039,7 +1040,6 @@ struct date_data {
   char *setfmt;
   char *showdate;
 
-  char *tz;
   unsigned nano;
 };
 
