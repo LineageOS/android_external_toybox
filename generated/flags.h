@@ -572,9 +572,9 @@
 #undef FOR_dirname
 #endif
 
-// dmesg w(follow)Ctrs#<1n#c[!tr][!Cc] w(follow)Ctrs#<1n#c[!tr][!Cc]
+// dmesg w(follow)CSTtrs#<1n#c[!Ttr][!Cc] w(follow)CSTtrs#<1n#c[!Ttr][!Cc]
 #undef OPTSTR_dmesg
-#define OPTSTR_dmesg "w(follow)Ctrs#<1n#c[!tr][!Cc]"
+#define OPTSTR_dmesg "w(follow)CSTtrs#<1n#c[!Ttr][!Cc]"
 #ifdef CLEANUP_dmesg
 #undef CLEANUP_dmesg
 #undef FOR_dmesg
@@ -583,6 +583,8 @@
 #undef FLAG_s
 #undef FLAG_r
 #undef FLAG_t
+#undef FLAG_T
+#undef FLAG_S
 #undef FLAG_C
 #undef FLAG_follow
 #undef FLAG_w
@@ -3683,9 +3685,11 @@
 #define FLAG_s (1<<2)
 #define FLAG_r (1<<3)
 #define FLAG_t (1<<4)
-#define FLAG_C (1<<5)
-#define FLAG_follow (1<<6)
-#define FLAG_w (1<<6)
+#define FLAG_T (1<<5)
+#define FLAG_S (1<<6)
+#define FLAG_C (1<<7)
+#define FLAG_follow (1<<8)
+#define FLAG_w (1<<8)
 #endif
 
 #ifdef FOR_dos2unix
