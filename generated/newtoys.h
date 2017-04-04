@@ -50,7 +50,7 @@ USE_DHCP6(NEWTOY(dhcp6, "r:A#<0T#<0t#<0s:p:i:SRvqnbf", TOYFLAG_SBIN|TOYFLAG_ROOT
 USE_DHCPD(NEWTOY(dhcpd, ">1P#<0>65535fi:S46[!46]", TOYFLAG_SBIN|TOYFLAG_ROOTONLY))
 USE_DIFF(NEWTOY(diff, "<2>2B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3", TOYFLAG_USR|TOYFLAG_BIN))
 USE_DIRNAME(NEWTOY(dirname, "<1", TOYFLAG_USR|TOYFLAG_BIN))
-USE_DMESG(NEWTOY(dmesg, "w(follow)Ctrs#<1n#c[!tr][!Cc]", TOYFLAG_BIN))
+USE_DMESG(NEWTOY(dmesg, "w(follow)CSTtrs#<1n#c[!Ttr][!Cc]", TOYFLAG_BIN))
 USE_DOS2UNIX(NEWTOY(dos2unix, 0, TOYFLAG_BIN))
 USE_DU(NEWTOY(du, "d#<0hmlcaHkKLsx[-HL][-kKmh]", TOYFLAG_USR|TOYFLAG_BIN))
 USE_DUMPLEASES(NEWTOY(dumpleases, ">0arf:[!ar]", TOYFLAG_USR|TOYFLAG_BIN))
