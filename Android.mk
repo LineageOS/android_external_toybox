@@ -401,6 +401,37 @@ LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGE
 
 include $(BUILD_EXECUTABLE)
 
+ifeq ($(PRODUCT_FULL_TREBLE),true)
+############################################
+# static version to be installed in /vendor
+#
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := $(common_SRC_FILES)
+
+LOCAL_CFLAGS := $(common_CFLAGS)
+
+LOCAL_CLANG := true
+
+LOCAL_STATIC_LIBRARIES := liblog libcutils libselinux libcrypto libm libc
+
+# libc++_static is needed by static liblog
+LOCAL_CXX_STL := libc++_static
+
+LOCAL_VENDOR_MODULE := true
+
+LOCAL_MODULE := toybox_vendor
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_FORCE_STATIC_EXECUTABLE := true
+
+# Install the symlinks.
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
+
+include $(BUILD_EXECUTABLE)
+endif
+
 ############################################
 # static version to be installed in recovery
 
