@@ -1386,9 +1386,9 @@
 #undef FLAG_S
 #endif
 
-// ls (color):;(show-control-chars)ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb] (color):;(show-control-chars)ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]
+// ls (color):;(full-time)(show-control-chars)ZgoACFHLRSabcdfhikl@mnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb] (color):;(full-time)(show-control-chars)ZgoACFHLRSabcdfhikl@mnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]
 #undef OPTSTR_ls
-#define OPTSTR_ls "(color):;(show-control-chars)ZgoACFHLRSabcdfhiklmnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]"
+#define OPTSTR_ls "(color):;(full-time)(show-control-chars)ZgoACFHLRSabcdfhikl@mnpqrstux1[-Cxm1][-Cxml][-Cxmo][-Cxmg][-cu][-ftS][-HL][!qb]"
 #ifdef CLEANUP_ls
 #undef CLEANUP_ls
 #undef FOR_ls
@@ -1422,6 +1422,7 @@
 #undef FLAG_g
 #undef FLAG_Z
 #undef FLAG_show_control_chars
+#undef FLAG_full_time
 #undef FLAG_color
 #endif
 
@@ -4386,7 +4387,8 @@
 #define FLAG_g (1<<27)
 #define FLAG_Z (1<<28)
 #define FLAG_show_control_chars (1<<29)
-#define FLAG_color (1<<30)
+#define FLAG_full_time (1<<30)
+#define FLAG_color (1<<31)
 #endif
 
 #ifdef FOR_lsattr
