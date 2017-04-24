@@ -1128,6 +1128,7 @@ struct kill_data {
 // toys/posix/ls.c
 
 struct ls_data {
+  long ll;
   char *color;
 
   struct dirtree *files, *singledir;
