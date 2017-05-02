@@ -632,6 +632,12 @@ struct groupadd_data {
   long gid;
 };
 
+// toys/pending/gzip.c
+
+struct gzip_data {
+  int level;
+};
+
 // toys/pending/host.c
 
 struct host_data {
@@ -1452,6 +1458,7 @@ extern union global_union {
 	struct getfattr_data getfattr;
 	struct getty_data getty;
 	struct groupadd_data groupadd;
+	struct gzip_data gzip;
 	struct host_data host;
 	struct iconv_data iconv;
 	struct ip_data ip;
