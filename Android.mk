@@ -313,6 +313,7 @@ ALL_TOOLS := \
     lsusb \
     md5sum \
     mkdir \
+    mkfifo \
     mknod \
     mkswap \
     mktemp \
