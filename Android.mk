@@ -246,7 +246,7 @@ LOCAL_CXX_STL := none
 LOCAL_MODULE := toybox
 
 # dupes: dd
-# useless?: freeramdisk fsfreeze install makedevs mkfifo nbd-client
+# useless?: freeramdisk fsfreeze install makedevs nbd-client
 #           partprobe pivot_root pwdx rev rfkill vconfig
 # prefer BSD netcat instead?: nc netcat
 # prefer efs2progs instead?: blkid chattr lsattr
