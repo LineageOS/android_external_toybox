@@ -141,6 +141,7 @@ common_SRC_FILES := \
     toys/pending/dmesg.c \
     toys/pending/expr.c \
     toys/pending/getfattr.c \
+    toys/pending/gzip.c \
     toys/pending/lsof.c \
     toys/pending/modprobe.c \
     toys/pending/more.c \
@@ -225,31 +226,15 @@ toybox_sha := $(shell git -C $(LOCAL_PATH) rev-parse --short=12 HEAD 2>/dev/null
 
 toybox_version := $(toybox_upstream_version)-$(toybox_sha)-android
 
+toybox_libraries := liblog libselinux libcutils libcrypto libz
+
 common_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
 
-############################################
-# toybox for /system
-include $(CLEAR_VARS)
-
-LOCAL_SRC_FILES := $(common_SRC_FILES)
-
-LOCAL_CFLAGS := $(common_CFLAGS)
-
-LOCAL_CLANG := true
-
-LOCAL_SHARED_LIBRARIES := liblog libselinux libcutils libcrypto
-
-# This doesn't actually prevent us from dragging in libc++ at runtime
-# because libnetd_client.so is C++.
-LOCAL_CXX_STL := none
-
-LOCAL_MODULE := toybox
-
-# dupes: dd
-# useless?: freeramdisk fsfreeze install makedevs nbd-client
-#           partprobe pivot_root pwdx rev rfkill vconfig
-# prefer BSD netcat instead?: nc netcat
-# prefer efs2progs instead?: blkid chattr lsattr
+# not usable on Android?: freeramdisk fsfreeze install makedevs nbd-client
+#                         partprobe pivot_root pwdx rev rfkill vconfig
+# currently prefer BSD system/core/toolbox: dd
+# currently prefer BSD external/netcat: nc netcat
+# currently prefer external/efs2progs: blkid chattr lsattr
 
 ALL_TOOLS := \
     acpi \
@@ -291,6 +276,8 @@ ALL_TOOLS := \
     getenforce \
     getprop \
     groups \
+    gunzip \
+    gzip \
     head \
     hostname \
     hwclock \
@@ -398,69 +385,57 @@ ALL_TOOLS := \
     xargs \
     xxd \
     yes \
+    zcat \
 
-# Install the symlinks.
+############################################
+# toybox for /system
+############################################
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := toybox
+LOCAL_SRC_FILES := $(common_SRC_FILES)
+LOCAL_CFLAGS := $(common_CFLAGS)
+LOCAL_SHARED_LIBRARIES := $(toybox_libraries)
+# This doesn't actually prevent us from dragging in libc++ at runtime
+# because libnetd_client.so is C++.
+LOCAL_CXX_STL := none
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGET_OUT)/bin/$(t);)
-
 include $(BUILD_EXECUTABLE)
 
-ifeq ($(PRODUCT_FULL_TREBLE),true)
 ############################################
 # static version to be installed in /vendor
-#
+############################################
+
+ifeq ($(PRODUCT_FULL_TREBLE),true)
 include $(CLEAR_VARS)
-
+LOCAL_MODULE := toybox_vendor
+LOCAL_VENDOR_MODULE := true
 LOCAL_SRC_FILES := $(common_SRC_FILES)
-
 LOCAL_CFLAGS := $(common_CFLAGS)
-
-LOCAL_CLANG := true
-
-LOCAL_STATIC_LIBRARIES := liblog libcutils libselinux libcrypto libm libc
-
+LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
 # libc++_static is needed by static liblog
 LOCAL_CXX_STL := libc++_static
-
-LOCAL_VENDOR_MODULE := true
-
-LOCAL_MODULE := toybox_vendor
-
 LOCAL_MODULE_TAGS := optional
-
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-
-# Install the symlinks.
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
-
 include $(BUILD_EXECUTABLE)
 endif
 
 ############################################
 # static version to be installed in recovery
+############################################
 
 include $(CLEAR_VARS)
-
+LOCAL_MODULE := toybox_static
 LOCAL_SRC_FILES := $(common_SRC_FILES)
-
 LOCAL_CFLAGS := $(common_CFLAGS)
-
-LOCAL_CLANG := true
-
-LOCAL_STATIC_LIBRARIES := liblog libselinux libcutils libcrypto libm libc
-
+LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
 # libc++_static is needed by static liblog
 LOCAL_CXX_STL := libc++_static
-
-LOCAL_MODULE := toybox_static
-
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
-
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-
-ALL_TOOLS := \
-    modprobe \
-
+# TODO: is there any reason to only have modprobe in recovery?
+RECOVERY_TOOLS := modprobe
 # Install the symlinks.
-LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
-
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(RECOVERY_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
 include $(BUILD_EXECUTABLE)
