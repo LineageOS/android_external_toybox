@@ -962,7 +962,7 @@
 #undef FOR_groups
 #endif
 
-// gunzip   cdfk123456789
+// gunzip cdfk123456789 cdfk123456789
 #undef OPTSTR_gunzip
 #define OPTSTR_gunzip "cdfk123456789"
 #ifdef CLEANUP_gunzip
@@ -983,7 +983,7 @@
 #undef FLAG_c
 #endif
 
-// gzip   cdfk123456789
+// gzip cdfk123456789 cdfk123456789
 #undef OPTSTR_gzip
 #define OPTSTR_gzip "cdfk123456789"
 #ifdef CLEANUP_gzip
@@ -3195,7 +3195,7 @@
 #undef FOR_yes
 #endif
 
-// zcat   cdfk123456789
+// zcat cdfk123456789 cdfk123456789
 #undef OPTSTR_zcat
 #define OPTSTR_zcat "cdfk123456789"
 #ifdef CLEANUP_zcat
@@ -4022,38 +4022,38 @@
 #ifndef TT
 #define TT this.gunzip
 #endif
-#define FLAG_9 (FORCED_FLAG<<0)
-#define FLAG_8 (FORCED_FLAG<<1)
-#define FLAG_7 (FORCED_FLAG<<2)
-#define FLAG_6 (FORCED_FLAG<<3)
-#define FLAG_5 (FORCED_FLAG<<4)
-#define FLAG_4 (FORCED_FLAG<<5)
-#define FLAG_3 (FORCED_FLAG<<6)
-#define FLAG_2 (FORCED_FLAG<<7)
-#define FLAG_1 (FORCED_FLAG<<8)
-#define FLAG_k (FORCED_FLAG<<9)
-#define FLAG_f (FORCED_FLAG<<10)
-#define FLAG_d (FORCED_FLAG<<11)
-#define FLAG_c (FORCED_FLAG<<12)
+#define FLAG_9 (1<<0)
+#define FLAG_8 (1<<1)
+#define FLAG_7 (1<<2)
+#define FLAG_6 (1<<3)
+#define FLAG_5 (1<<4)
+#define FLAG_4 (1<<5)
+#define FLAG_3 (1<<6)
+#define FLAG_2 (1<<7)
+#define FLAG_1 (1<<8)
+#define FLAG_k (1<<9)
+#define FLAG_f (1<<10)
+#define FLAG_d (1<<11)
+#define FLAG_c (1<<12)
 #endif
 
 #ifdef FOR_gzip
 #ifndef TT
 #define TT this.gzip
 #endif
-#define FLAG_9 (FORCED_FLAG<<0)
-#define FLAG_8 (FORCED_FLAG<<1)
-#define FLAG_7 (FORCED_FLAG<<2)
-#define FLAG_6 (FORCED_FLAG<<3)
-#define FLAG_5 (FORCED_FLAG<<4)
-#define FLAG_4 (FORCED_FLAG<<5)
-#define FLAG_3 (FORCED_FLAG<<6)
-#define FLAG_2 (FORCED_FLAG<<7)
-#define FLAG_1 (FORCED_FLAG<<8)
-#define FLAG_k (FORCED_FLAG<<9)
-#define FLAG_f (FORCED_FLAG<<10)
-#define FLAG_d (FORCED_FLAG<<11)
-#define FLAG_c (FORCED_FLAG<<12)
+#define FLAG_9 (1<<0)
+#define FLAG_8 (1<<1)
+#define FLAG_7 (1<<2)
+#define FLAG_6 (1<<3)
+#define FLAG_5 (1<<4)
+#define FLAG_4 (1<<5)
+#define FLAG_3 (1<<6)
+#define FLAG_2 (1<<7)
+#define FLAG_1 (1<<8)
+#define FLAG_k (1<<9)
+#define FLAG_f (1<<10)
+#define FLAG_d (1<<11)
+#define FLAG_c (1<<12)
 #endif
 
 #ifdef FOR_head
@@ -5899,18 +5899,18 @@
 #ifndef TT
 #define TT this.zcat
 #endif
-#define FLAG_9 (FORCED_FLAG<<0)
-#define FLAG_8 (FORCED_FLAG<<1)
-#define FLAG_7 (FORCED_FLAG<<2)
-#define FLAG_6 (FORCED_FLAG<<3)
-#define FLAG_5 (FORCED_FLAG<<4)
-#define FLAG_4 (FORCED_FLAG<<5)
-#define FLAG_3 (FORCED_FLAG<<6)
-#define FLAG_2 (FORCED_FLAG<<7)
-#define FLAG_1 (FORCED_FLAG<<8)
-#define FLAG_k (FORCED_FLAG<<9)
-#define FLAG_f (FORCED_FLAG<<10)
-#define FLAG_d (FORCED_FLAG<<11)
-#define FLAG_c (FORCED_FLAG<<12)
+#define FLAG_9 (1<<0)
+#define FLAG_8 (1<<1)
+#define FLAG_7 (1<<2)
+#define FLAG_6 (1<<3)
+#define FLAG_5 (1<<4)
+#define FLAG_4 (1<<5)
+#define FLAG_3 (1<<6)
+#define FLAG_2 (1<<7)
+#define FLAG_1 (1<<8)
+#define FLAG_k (1<<9)
+#define FLAG_f (1<<10)
+#define FLAG_d (1<<11)
+#define FLAG_c (1<<12)
 #endif
 
