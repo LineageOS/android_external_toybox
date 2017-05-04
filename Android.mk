@@ -237,7 +237,7 @@ LOCAL_CFLAGS := $(common_CFLAGS)
 
 LOCAL_CLANG := true
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils libselinux libcrypto
+LOCAL_SHARED_LIBRARIES := liblog libselinux libcutils libcrypto
 
 # This doesn't actually prevent us from dragging in libc++ at runtime
 # because libnetd_client.so is C++.
@@ -446,7 +446,7 @@ LOCAL_CFLAGS := $(common_CFLAGS)
 
 LOCAL_CLANG := true
 
-LOCAL_STATIC_LIBRARIES := liblog libcutils libselinux libcrypto libm libc
+LOCAL_STATIC_LIBRARIES := liblog libselinux libcutils libcrypto libm libc
 
 # libc++_static is needed by static liblog
 LOCAL_CXX_STL := libc++_static
