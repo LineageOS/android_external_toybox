@@ -221,14 +221,13 @@ common_CFLAGS := \
     -ffunction-sections -fdata-sections \
     -fno-asynchronous-unwind-tables \
 
-toybox_upstream_version := $(shell awk 'match($$0, /TOYBOX_VERSION.*"(.*)"/, ary) {print ary[1]}' $(LOCAL_PATH)/main.c)
-toybox_sha := $(shell git -C $(LOCAL_PATH) rev-parse --short=12 HEAD 2>/dev/null)
+toybox_upstream_version := $(shell sed 's/#define.*TOYBOX_VERSION.*"\(.*\)"/\1/p;d' $(LOCAL_PATH)/main.c)
 
-toybox_version := $(toybox_upstream_version)-$(toybox_sha)-android
+toybox_version := $(toybox_upstream_version)-android-$(BUILD_NUMBER_FROM_FILE)
 
 toybox_libraries := liblog libselinux libcutils libcrypto libz
 
-common_CFLAGS += -DTOYBOX_VERSION='"$(toybox_version)"'
+common_CFLAGS += -DTOYBOX_VERSION=\"$(toybox_version)\"
 
 # not usable on Android?: freeramdisk fsfreeze install makedevs nbd-client
 #                         partprobe pivot_root pwdx rev rfkill vconfig
