@@ -218,12 +218,10 @@
 #define USE_GROUPDEL(...)
 #define CFG_GROUPS 1
 #define USE_GROUPS(...) __VA_ARGS__
-#define CFG_GUNZIP 0
-#define USE_GUNZIP(...)
-#define CFG_GZIP_D 0
-#define USE_GZIP_D(...)
-#define CFG_GZIP 0
-#define USE_GZIP(...)
+#define CFG_GUNZIP 1
+#define USE_GUNZIP(...) __VA_ARGS__
+#define CFG_GZIP 1
+#define USE_GZIP(...) __VA_ARGS__
 #define CFG_HEAD 1
 #define USE_HEAD(...) __VA_ARGS__
 #define CFG_HELLO 0
@@ -632,5 +630,5 @@
 #define USE_XZCAT(...)
 #define CFG_YES 1
 #define USE_YES(...) __VA_ARGS__
-#define CFG_ZCAT 0
-#define USE_ZCAT(...)
+#define CFG_ZCAT 1
+#define USE_ZCAT(...) __VA_ARGS__
