@@ -433,8 +433,5 @@ LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
 LOCAL_CXX_STL := libc++_static
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-# TODO: is there any reason to only have modprobe in recovery?
-RECOVERY_TOOLS := modprobe
-# Install the symlinks.
-LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(RECOVERY_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
 include $(BUILD_EXECUTABLE)
