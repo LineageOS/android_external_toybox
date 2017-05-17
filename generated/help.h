@@ -1,4 +1,4 @@
-#define HELP_toybox_musl_nommu_is_broken "When using musl-libc on a nommu system, you'll need to say \"y\" here.\n\nAlthough uclibc lets you detect support for things like fork() and\ndaemon() at compile time, musl intentionally includes broken versions\nthat always return -ENOSYS on nommu systems, and goes out of its way\nto prevent any cross-compile compatible compile-time probes for a\nnommu system.\n\nMusl does this despite the fact that a nommu system can't even run\nstandard ELF binaries, and requires specially packaged executables.\n(You can't even check a #define to see that you're building against\nmusl, due to its maintainer's policy that musl never has bugs that\nrequire workarounds.)\n\nSo our only choice is to manually provide a musl nommu bug workaround\nyou can manually select to enable (larger, slower) nommu support with\nmusl.\n\nYou don't need this for uClibc, we have a compile time probe that\nautodetects nommu support there.\n\n"
+#define HELP_toybox_musl_nommu_is_broken "When using musl-libc on a nommu system, you'll need to say \"y\" here.\n\nAlthough uclibc lets you detect support for things like fork() and\ndaemon() at compile time, musl intentionally includes broken versions\nthat always return -ENOSYS on nommu systems, and goes out of its way\nto prevent any cross-compile compatible compile-time probes for a\nnommu system. (It doesn't even #define __MUSL__ in features.h.)\n\nMusl does this despite the fact that a nommu system can't even run\nstandard ELF binaries, and requires specially packaged executables.\nSo our only choice is to manually provide a musl nommu bug workaround\nyou can manually select to enable (larger, slower) nommu support with\nmusl.\n\n"
 
 #define HELP_toybox_uid_usr "When commands like useradd/groupadd allocate user IDs, start here.\n\n"
 
@@ -19,6 +19,8 @@
 #define HELP_toybox_help "Include help text for each command.\n\n"
 
 #define HELP_toybox_float "Include floating point support infrastructure and commands that\nrequire it.\n\n"
+
+#define HELP_toybox_libz "Use libz for gz support.\n\n"
 
 #define HELP_toybox_libcrypto "Use faster hash functions out of exteral -lcrypto library.\n\n"
 
@@ -370,6 +372,12 @@
 
 #define HELP_host "usage: host [-av] [-t TYPE] NAME [SERVER]\n\nPerform DNS lookup on NAME, which can be a domain name to lookup,\nor an ipv4 dotted or ipv6 colon seprated address to reverse lookup.\nSERVER (if present) is the DNS server to use.\n\n-a	no idea\n-t	not a clue\n-v	verbose\n\n"
 
+#define HELP_zcat "usage: zcat [FILE...]\n\nDecompress files to stdout. Like `gzip -dc`.\n\n-c	Output to stdout (default)\n-f	Force: allow read from tty\n\n"
+
+#define HELP_gunzip "usage: gunzip [-cfk] [FILE...]\n\nDecompress files. With no files, decompresses stdin to stdout.\nOn success, the input files are removed and replaced by new\nfiles without the .gz suffix.\n\n-c	Output to stdout (act as zcat)\n-f	Force: allow read from tty\n-k	Keep input files (default is to remove)\n\n"
+
+#define HELP_gzip "usage: gzip [-19cdfk] [FILE...]\n\nCompress files. With no files, compresses stdin to stdout.\nOn success, the input files are removed and replaced by new\nfiles with the .gz suffix.\n\n-c	Output to stdout\n-d	Decompress (act as gunzip)\n-f	Force: allow overwrite of output file\n-k	Keep input files (default is to remove)\n-#	Compression level 1-9 (1:fastest, 6:default, 9:best)\n\n"
+
 #define HELP_groupdel "usage: groupdel [USER] GROUP\n\nDelete a group or remove a user from a group\n\n"
 
 #define HELP_groupadd "usage: groupadd [-S] [-g GID] [USER] GROUP\n\nAdd a group or add a user to a group\n\n  -g GID Group id\n  -S     Create a system group\n\n"
@@ -404,15 +412,7 @@
 
 #define HELP_crond "usage: crond [-fbS] [-l N] [-d N] [-L LOGFILE] [-c DIR]\n\nA daemon to execute scheduled commands.\n\n-b Background (default)\n-c crontab dir\n-d Set log level, log to stderr\n-f Foreground\n-l Set log level. 0 is the most verbose, default 8\n-S Log to syslog (default)\n-L Log to file\n\n"
 
-#define HELP_gunzip "usage: gunzip [-cflqStv] [FILE...]\n\nDecompess (deflate) file(s). With no files, compress stdin to stdout.\n\nOn successful decompression, compressed files are replaced with the\nuncompressed version. The input file is removed and replaced with\na new file without the .gz extension (with same ownership/permissions).\n\n-c	cat to stdout (act as zcat)\n-f	force (output file exists, input is tty, unrecognized extension)\n-l	list compressed/uncompressed/ratio/name for each input file.\n-q	quiet (no warnings)\n-S	specify exension (default .*)\n-t	test compressed file(s)\n-v	verbose (like -l, but decompress files)\n\n"
-
-#define HELP_zcat "usage: zcat [FILE...]\n\nDecompress deflated file(s) to stdout\n\n"
-
-#define HELP_decompress "usage: compress [-zglrcd9] [FILE]\n\nCompress or decompress file (or stdin) using \"deflate\" algorithm.\n\n-c	compress with -g gzip (default)  -l zlib  -r raw  -z zip\n-d	decompress (autodetects type)\n\n\n"
-
-#define HELP_gzip_d "usage: gzip [-d]\n\n-d	decompress (act as gunzip)\n\n"
-
-#define HELP_gzip "usage: gzip [-19cfqStvzgLR] [FILE...]\n\nCompess (deflate) file(s). With no files, compress stdin to stdout.\n\nOn successful decompression, compressed files are replaced with the\nuncompressed version. The input file is removed and replaced with\na new file without the .gz extension (with same ownership/permissions).\n\n-1	Minimal compression (fastest)\n-9	Max compression (default)\n-c	cat to stdout (act as zcat)\n-f	force (if output file exists, input is tty, unrecognized extension)\n-q	quiet (no warnings)\n-S	specify exension (default .*)\n-t	test compressed file(s)\n-v	verbose (like -l, but compress files)\n\nCompression type:\n-g gzip (default)    -L zlib    -R raw    -z zip\n\n"
+#define HELP_decompress "usage: compress [-zglrcd9] [FILE]\n\nCompress or decompress file (or stdin) using \"deflate\" algorithm.\n\n-c	compress with -g gzip (default)  -l zlib  -r raw  -z zip\n-d	decompress (autodetects type)\n\n"
 
 #define HELP_compress "usage: compress [-zgLR19] [FILE]\n\nCompress or decompress file (or stdin) using \"deflate\" algorithm.\n\n-1	min compression\n-9	max compression (default)\n-g	gzip (default)\n-L	zlib\n-R	raw\n-z	zip\n\n"
 
