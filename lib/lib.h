@@ -115,6 +115,7 @@ void xstrncpy(char *dest, char *src, size_t size);
 void xstrncat(char *dest, char *src, size_t size);
 void _xexit(void) noreturn;
 void xexit(void) noreturn;
+void *xmmap(void *addr, size_t length, int prot, int flags, int fd, off_t off);
 void *xmalloc(size_t size);
 void *xzalloc(size_t size);
 void *xrealloc(void *ptr, size_t size);
@@ -192,6 +193,7 @@ struct string_list **splitpath(char *path, struct string_list **list);
 char *readfileat(int dirfd, char *name, char *buf, off_t *len);
 char *readfile(char *name, char *buf, off_t len);
 void msleep(long miliseconds);
+int highest_bit(unsigned long l);
 int64_t peek_le(void *ptr, unsigned size);
 int64_t peek_be(void *ptr, unsigned size);
 int64_t peek(void *ptr, unsigned size);
@@ -339,6 +341,9 @@ pid_t __attribute__((returns_twice)) xvforkwrap(pid_t pid);
 
 // Wrapper that discards true/false "did it exit" value.
 #define NOEXIT(x) WOULD_EXIT(_noexit_res, x)
+
+#define minof(a, b) ({typeof(a) aa = (a); typeof(b) bb = (b); aa<bb ? aa : bb;})
+#define maxof(a, b) ({typeof(a) aa = (a); typeof(b) bb = (b); aa>bb ? aa : bb;})
 
 // Functions in need of further review/cleanup
 #include "lib/pending.h"

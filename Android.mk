@@ -89,6 +89,7 @@ common_SRC_FILES := \
     toys/other/blockdev.c \
     toys/other/chcon.c \
     toys/other/chroot.c \
+    toys/other/chrt.c \
     toys/other/clear.c \
     toys/other/dos2unix.c \
     toys/other/fallocate.c \
@@ -135,7 +136,6 @@ common_SRC_FILES := \
     toys/other/which.c \
     toys/other/xxd.c \
     toys/other/yes.c \
-    toys/pending/chrt.c \
     toys/pending/dd.c \
     toys/pending/diff.c \
     toys/pending/dmesg.c \
@@ -213,6 +213,8 @@ common_CFLAGS := \
     -std=c99 \
     -Os \
     -Wno-char-subscripts \
+    -Wno-gnu-variable-sized-type-not-at-end \
+    -Wno-missing-field-initializers \
     -Wno-sign-compare \
     -Wno-string-plus-int \
     -Wno-uninitialized \
