@@ -240,18 +240,18 @@
 #undef FOR_chroot
 #endif
 
-// chrt mp#bfiorR[!bfior] mp#bfiorR[!bfior]
+// chrt ^mp#<0iRbrfo[!ibrfo] ^mp#<0iRbrfo[!ibrfo]
 #undef OPTSTR_chrt
-#define OPTSTR_chrt "mp#bfiorR[!bfior]"
+#define OPTSTR_chrt "^mp#<0iRbrfo[!ibrfo]"
 #ifdef CLEANUP_chrt
 #undef CLEANUP_chrt
 #undef FOR_chrt
-#undef FLAG_R
-#undef FLAG_r
 #undef FLAG_o
-#undef FLAG_i
 #undef FLAG_f
+#undef FLAG_r
 #undef FLAG_b
+#undef FLAG_R
+#undef FLAG_i
 #undef FLAG_p
 #undef FLAG_m
 #endif
@@ -650,14 +650,15 @@
 #undef FLAG_s
 #endif
 
-// env ^iu* ^iu*
+// env ^0iu* ^0iu*
 #undef OPTSTR_env
-#define OPTSTR_env "^iu*"
+#define OPTSTR_env "^0iu*"
 #ifdef CLEANUP_env
 #undef CLEANUP_env
 #undef FOR_env
 #undef FLAG_u
 #undef FLAG_i
+#undef FLAG_0
 #endif
 
 // exit    
@@ -2529,9 +2530,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc] &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc]
+// tar &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc]"
+#define OPTSTR_tar "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2549,6 +2550,8 @@
 #undef FLAG_O
 #undef FLAG_gzip
 #undef FLAG_z
+#undef FLAG_bzip2
+#undef FLAG_j
 #undef FLAG_verbose
 #undef FLAG_v
 #undef FLAG_list
@@ -3410,12 +3413,12 @@
 #ifndef TT
 #define TT this.chrt
 #endif
-#define FLAG_R (1<<0)
-#define FLAG_r (1<<1)
-#define FLAG_o (1<<2)
-#define FLAG_i (1<<3)
-#define FLAG_f (1<<4)
-#define FLAG_b (1<<5)
+#define FLAG_o (1<<0)
+#define FLAG_f (1<<1)
+#define FLAG_r (1<<2)
+#define FLAG_b (1<<3)
+#define FLAG_R (1<<4)
+#define FLAG_i (1<<5)
 #define FLAG_p (1<<6)
 #define FLAG_m (1<<7)
 #endif
@@ -3766,6 +3769,7 @@
 #endif
 #define FLAG_u (1<<0)
 #define FLAG_i (1<<1)
+#define FLAG_0 (1<<2)
 #endif
 
 #ifdef FOR_exit
@@ -5345,28 +5349,30 @@
 #define FLAG_O (1<<5)
 #define FLAG_gzip (1<<6)
 #define FLAG_z (1<<6)
-#define FLAG_verbose (1<<7)
-#define FLAG_v (1<<7)
-#define FLAG_list (1<<8)
-#define FLAG_t (1<<8)
-#define FLAG_extract (1<<9)
-#define FLAG_x (1<<9)
-#define FLAG_dereference (1<<10)
-#define FLAG_h (1<<10)
-#define FLAG_create (1<<11)
-#define FLAG_c (1<<11)
-#define FLAG_keep_old (1<<12)
-#define FLAG_k (1<<12)
-#define FLAG_same_permissions (1<<13)
-#define FLAG_p (1<<13)
-#define FLAG_no_same_owner (1<<14)
-#define FLAG_o (1<<14)
-#define FLAG_to_command (1<<15)
-#define FLAG_exclude (1<<16)
-#define FLAG_overwrite (1<<17)
-#define FLAG_no_same_permissions (1<<18)
-#define FLAG_numeric_owner (1<<19)
-#define FLAG_no_recursion (1<<20)
+#define FLAG_bzip2 (1<<7)
+#define FLAG_j (1<<7)
+#define FLAG_verbose (1<<8)
+#define FLAG_v (1<<8)
+#define FLAG_list (1<<9)
+#define FLAG_t (1<<9)
+#define FLAG_extract (1<<10)
+#define FLAG_x (1<<10)
+#define FLAG_dereference (1<<11)
+#define FLAG_h (1<<11)
+#define FLAG_create (1<<12)
+#define FLAG_c (1<<12)
+#define FLAG_keep_old (1<<13)
+#define FLAG_k (1<<13)
+#define FLAG_same_permissions (1<<14)
+#define FLAG_p (1<<14)
+#define FLAG_no_same_owner (1<<15)
+#define FLAG_o (1<<15)
+#define FLAG_to_command (1<<16)
+#define FLAG_exclude (1<<17)
+#define FLAG_overwrite (1<<18)
+#define FLAG_no_same_permissions (1<<19)
+#define FLAG_numeric_owner (1<<20)
+#define FLAG_no_recursion (1<<21)
 #endif
 
 #ifdef FOR_taskset
