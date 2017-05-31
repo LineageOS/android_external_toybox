@@ -304,10 +304,10 @@
 #define USE_LSMOD(...) __VA_ARGS__
 #define CFG_LSOF 1
 #define USE_LSOF(...) __VA_ARGS__
-#define CFG_LSPCI 0
-#define USE_LSPCI(...)
-#define CFG_LSPCI_TEXT 1
-#define USE_LSPCI_TEXT(...) __VA_ARGS__
+#define CFG_LSPCI 1
+#define USE_LSPCI(...) __VA_ARGS__
+#define CFG_LSPCI_TEXT 0
+#define USE_LSPCI_TEXT(...)
 #define CFG_LSUSB 1
 #define USE_LSUSB(...) __VA_ARGS__
 #define CFG_LS 1
