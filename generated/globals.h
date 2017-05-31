@@ -202,6 +202,12 @@ struct blockdev_data {
   long bsz;
 };
 
+// toys/other/chrt.c
+
+struct chrt_data {
+  long pid;
+};
+
 // toys/other/dos2unix.c
 
 struct dos2unix_data {
@@ -438,12 +444,6 @@ struct bootchartd_data {
 
 struct brctl_data {
     int sockfd;
-};
-
-// toys/pending/chrt.c
-
-struct chrt_data {
-  long pid;
 };
 
 // toys/pending/compress.c
@@ -1413,6 +1413,7 @@ extern union global_union {
 	struct acpi_data acpi;
 	struct base64_data base64;
 	struct blockdev_data blockdev;
+	struct chrt_data chrt;
 	struct dos2unix_data dos2unix;
 	struct fallocate_data fallocate;
 	struct free_data free;
@@ -1440,7 +1441,6 @@ extern union global_union {
 	struct arping_data arping;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
-	struct chrt_data chrt;
 	struct compress_data compress;
 	struct crond_data crond;
 	struct crontab_data crontab;
