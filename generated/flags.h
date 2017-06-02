@@ -1005,12 +1005,14 @@
 #undef FLAG_c
 #endif
 
-// head ?n#<0=10 ?n#<0=10
+// head ?n#<0=10qv ?n#<0=10qv
 #undef OPTSTR_head
-#define OPTSTR_head "?n#<0=10"
+#define OPTSTR_head "?n#<0=10qv"
 #ifdef CLEANUP_head
 #undef CLEANUP_head
 #undef FOR_head
+#undef FLAG_v
+#undef FLAG_q
 #undef FLAG_n
 #endif
 
@@ -1463,9 +1465,9 @@
 #undef FLAG_l
 #endif
 
-// lspci   emkn@i:
+// lspci emkn emkn@i:
 #undef OPTSTR_lspci
-#define OPTSTR_lspci "emkn@i:"
+#define OPTSTR_lspci "emkn"
 #ifdef CLEANUP_lspci
 #undef CLEANUP_lspci
 #undef FOR_lspci
@@ -4064,7 +4066,9 @@
 #ifndef TT
 #define TT this.head
 #endif
-#define FLAG_n (1<<0)
+#define FLAG_v (1<<0)
+#define FLAG_q (1<<1)
+#define FLAG_n (1<<2)
 #endif
 
 #ifdef FOR_hello
@@ -4447,10 +4451,10 @@
 #define TT this.lspci
 #endif
 #define FLAG_i (FORCED_FLAG<<0)
-#define FLAG_n (FORCED_FLAG<<1)
-#define FLAG_k (FORCED_FLAG<<2)
-#define FLAG_m (FORCED_FLAG<<3)
-#define FLAG_e (FORCED_FLAG<<4)
+#define FLAG_n (1<<1)
+#define FLAG_k (1<<2)
+#define FLAG_m (1<<3)
+#define FLAG_e (1<<4)
 #endif
 
 #ifdef FOR_lsusb
