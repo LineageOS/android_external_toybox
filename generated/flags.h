@@ -354,9 +354,9 @@
 #undef FLAG_preserve
 #endif
 
-// cpio (no-preserve-owner)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF] (no-preserve-owner)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF]
+// cpio (no-preserve-owner)(trailer)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF] (no-preserve-owner)(trailer)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF]
 #undef OPTSTR_cpio
-#define OPTSTR_cpio "(no-preserve-owner)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF]"
+#define OPTSTR_cpio "(no-preserve-owner)(trailer)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF]"
 #ifdef CLEANUP_cpio
 #undef CLEANUP_cpio
 #undef FOR_cpio
@@ -371,6 +371,7 @@
 #undef FLAG_u
 #undef FLAG_d
 #undef FLAG_m
+#undef FLAG_trailer
 #undef FLAG_no_preserve_owner
 #endif
 
@@ -572,9 +573,9 @@
 #undef FOR_dirname
 #endif
 
-// dmesg w(follow)CSTtrs#<1n#c[!Ttr][!Cc] w(follow)CSTtrs#<1n#c[!Ttr][!Cc]
+// dmesg w(follow)CSTtrs#<1n#c[!Ttr][!Cc][!Sw] w(follow)CSTtrs#<1n#c[!Ttr][!Cc][!Sw]
 #undef OPTSTR_dmesg
-#define OPTSTR_dmesg "w(follow)CSTtrs#<1n#c[!Ttr][!Cc]"
+#define OPTSTR_dmesg "w(follow)CSTtrs#<1n#c[!Ttr][!Cc][!Sw]"
 #ifdef CLEANUP_dmesg
 #undef CLEANUP_dmesg
 #undef FOR_dmesg
@@ -904,9 +905,9 @@
 #undef FLAG_t
 #endif
 
-// grep C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw] C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]
+// grep S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw] S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]"
+#define OPTSTR_grep "S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
@@ -935,6 +936,10 @@
 #undef FLAG_A
 #undef FLAG_B
 #undef FLAG_C
+#undef FLAG_include
+#undef FLAG_M
+#undef FLAG_exclude
+#undef FLAG_S
 #endif
 
 // groupadd   <1>2g#<0S
@@ -3522,7 +3527,8 @@
 #define FLAG_u (1<<7)
 #define FLAG_d (1<<8)
 #define FLAG_m (1<<9)
-#define FLAG_no_preserve_owner (1<<10)
+#define FLAG_trailer (1<<10)
+#define FLAG_no_preserve_owner (1<<11)
 #endif
 
 #ifdef FOR_crond
@@ -4002,6 +4008,10 @@
 #define FLAG_A (1<<22)
 #define FLAG_B (1<<23)
 #define FLAG_C (1<<24)
+#define FLAG_include (1<<25)
+#define FLAG_M (1<<25)
+#define FLAG_exclude (1<<26)
+#define FLAG_S (1<<26)
 #endif
 
 #ifdef FOR_groupadd

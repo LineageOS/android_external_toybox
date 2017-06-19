@@ -66,7 +66,8 @@ void help_exit(char *msg, ...)
 {
   va_list va;
 
-  if (CFG_TOYBOX_HELP) show_help(stderr);
+  if (CFG_TOYBOX_HELP)
+    fprintf(stderr, "See %s --help\n", toys.which->name);
 
   if (msg) {
     va_start(va, msg);
@@ -392,6 +393,8 @@ int unescape(char c)
   return (idx == -1) ? 0 : to[idx];
 }
 
+// If string ends with suffix return pointer to start of suffix in string,
+// else NULL
 char *strend(char *str, char *suffix)
 {
   long a = strlen(str), b = strlen(suffix);
