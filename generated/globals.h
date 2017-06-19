@@ -39,6 +39,16 @@ struct skeleton_data {
   int more_globals;
 };
 
+// toys/lsb/dmesg.c
+
+struct dmesg_data {
+  long level;
+  long size;
+
+  int use_color;
+  time_t tea;
+};
+
 // toys/lsb/hostname.c
 
 struct hostname_data {
@@ -547,16 +557,6 @@ struct diff_data {
 
   int dir_num, size, is_binary, status, change, len[2];
   int *offset[2];
-};
-
-// toys/pending/dmesg.c
-
-struct dmesg_data {
-  long level;
-  long size;
-
-  int use_color;
-  struct sysinfo info;
 };
 
 // toys/pending/dumpleases.c
@@ -1107,8 +1107,11 @@ struct grep_data {
   long a;
   long b;
   long c;
+  struct arg_list *M;
+  struct arg_list *S;
 
   char indelim, outdelim;
+  int found;
 };
 
 // toys/posix/head.c
@@ -1393,6 +1396,7 @@ extern union global_union {
 	struct log_data log;
 	struct hello_data hello;
 	struct skeleton_data skeleton;
+	struct dmesg_data dmesg;
 	struct hostname_data hostname;
 	struct killall_data killall;
 	struct md5sum_data md5sum;
@@ -1449,7 +1453,6 @@ extern union global_union {
 	struct dhcp6_data dhcp6;
 	struct dhcpd_data dhcpd;
 	struct diff_data diff;
-	struct dmesg_data dmesg;
 	struct dumpleases_data dumpleases;
 	struct expr_data expr;
 	struct fdisk_data fdisk;
