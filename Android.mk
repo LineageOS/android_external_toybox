@@ -409,7 +409,6 @@ include $(BUILD_EXECUTABLE)
 # static version to be installed in /vendor
 ############################################
 
-ifeq ($(PRODUCT_FULL_TREBLE),true)
 include $(CLEAR_VARS)
 LOCAL_MODULE := toybox_vendor
 LOCAL_VENDOR_MODULE := true
@@ -422,7 +421,6 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 include $(BUILD_EXECUTABLE)
-endif
 
 ############################################
 # static version to be installed in recovery
