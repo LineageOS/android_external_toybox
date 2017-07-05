@@ -460,7 +460,7 @@
 
 #define HELP_tail "usage: tail [-n|c NUMBER] [-f] [FILE...]\n\nCopy last lines from files to stdout. If no files listed, copy from\nstdin. Filename \"-\" is a synonym for stdin.\n\n-n	output the last NUMBER lines (default 10), +X counts from start\n-c	output the last NUMBER bytes, +NUMBER counts from start\n-f	follow FILE(s), waiting for more data to be appended\n\n"
 
-#define HELP_strings "usage: strings [-fo] [-n LEN] [FILE...]\n\nDisplay printable strings in a binary file\n\n-f	Precede strings with filenames\n-n	At least LEN characters form a string (default 4)\n-o	Precede strings with decimal offsets\n\n"
+#define HELP_strings "usage: strings [-fo] [-t oxd] [-n LEN] [FILE...]\n\nDisplay printable strings in a binary file\n\n-f	Show filename\n-n	At least LEN characters form a string (default 4)\n-o	Show offset (ala -t d)\n-t	Show offset type (o=octal, d=decimal, x=hexadecimal)\n\n"
 
 #define HELP_split "usage: split [-a SUFFIX_LEN] [-b BYTES] [-l LINES] [INPUT [OUTPUT]]\n\nCopy INPUT (or stdin) data to a series of OUTPUT (or \"x\") files with\nalphabetically increasing suffix (aa, ab, ac... az, ba, bb...).\n\n-a	Suffix length (default 2)\n-b	BYTES/file (10, 10k, 10m, 10g...)\n-l	LINES/file (default 1000)\n\n"
 
@@ -530,7 +530,7 @@
 
 #define HELP_id "usage: id [-GZgnru] \n\nPrint user and group ID.\n-G	Show only the group IDs\n-Z	Show only security context\n-g	Show only the effective group ID\n-n	print names instead of numeric IDs (to be used with -Ggu)\n-r	Show real ID instead of effective ID\n-u	Show only the effective user ID\n"
 
-#define HELP_head "usage: head [-n number] [file...]\n\nCopy first lines from files to stdout. If no files listed, copy from\nstdin. Filename \"-\" is a synonym for stdin.\n\n-n	Number of lines to copy\n-q	Never print headers\n-v	Always print headers\n\n"
+#define HELP_head "usage: head [-n number] [file...]\n\nCopy first lines from files to stdout. If no files listed, copy from\nstdin. Filename \"-\" is a synonym for stdin.\n\n-n	Number of lines to copy\n-c	Number of bytes to copy\n-q	Never print headers\n-v	Always print headers\n\n"
 
 #define HELP_grep "usage: grep [-EFrivwcloqsHbhn] [-ABC NUM] [-m MAX] [-e REGEX]... [-MS PATTERN]... [-f REGFILE] [FILE]...\n\nShow lines matching regular expressions. If no -e, first argument is\nregular expression to match. With no files (or \"-\" filename) read stdin.\nReturns 0 if matched, 1 if no match found.\n\n-e  Regex to match. (May be repeated.)\n-f  File listing regular expressions to match.\n\nfile search:\n-r  Recurse into subdirectories (defaults FILE to \".\")\n-M  Match filename pattern (--include)\n-S  Skip filename pattern (--exclude)\n\nmatch type:\n-A  Show NUM lines after     -B  Show NUM lines before match\n-C  NUM lines context (A+B)  -E  extended regex syntax\n-F  fixed (literal match)    -i  case insensitive\n-m  match MAX many lines     -v  invert match\n-w  whole word (implies -E)  -x  whole line\n-z  input NUL terminated\n\ndisplay modes: (default: matched line)\n-c  count of matching lines  -l  show matching filenames\n-o  only matching part       -q  quiet (errors only)\n-s  silent (no error msg)    -Z  output NUL terminated\n\noutput prefix (default: filename if checking more than 1 file)\n-H  force filename           -b  byte offset of match\n-h  hide filename            -n  line number of match\n\n"
 
