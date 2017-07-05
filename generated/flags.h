@@ -1010,14 +1010,15 @@
 #undef FLAG_c
 #endif
 
-// head ?n#<0=10qv ?n#<0=10qv
+// head ?n#<0=10c#<0qv[-nc] ?n#<0=10c#<0qv[-nc]
 #undef OPTSTR_head
-#define OPTSTR_head "?n#<0=10qv"
+#define OPTSTR_head "?n#<0=10c#<0qv[-nc]"
 #ifdef CLEANUP_head
 #undef CLEANUP_head
 #undef FOR_head
 #undef FLAG_v
 #undef FLAG_q
+#undef FLAG_c
 #undef FLAG_n
 #endif
 
@@ -2410,9 +2411,9 @@
 #undef FOR_stop
 #endif
 
-// strings an#=4<1fo an#=4<1fo
+// strings t:an#=4<1fo t:an#=4<1fo
 #undef OPTSTR_strings
-#define OPTSTR_strings "an#=4<1fo"
+#define OPTSTR_strings "t:an#=4<1fo"
 #ifdef CLEANUP_strings
 #undef CLEANUP_strings
 #undef FOR_strings
@@ -2420,6 +2421,7 @@
 #undef FLAG_f
 #undef FLAG_n
 #undef FLAG_a
+#undef FLAG_t
 #endif
 
 // su   lmpc:s:
@@ -4078,7 +4080,8 @@
 #endif
 #define FLAG_v (1<<0)
 #define FLAG_q (1<<1)
-#define FLAG_n (1<<2)
+#define FLAG_c (1<<2)
+#define FLAG_n (1<<3)
 #endif
 
 #ifdef FOR_hello
@@ -5248,6 +5251,7 @@
 #define FLAG_f (1<<1)
 #define FLAG_n (1<<2)
 #define FLAG_a (1<<3)
+#define FLAG_t (1<<4)
 #endif
 
 #ifdef FOR_su

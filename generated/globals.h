@@ -1117,6 +1117,7 @@ struct grep_data {
 // toys/posix/head.c
 
 struct head_data {
+  long bytes;
   long lines;
   int file_no;
 };
@@ -1326,6 +1327,7 @@ struct split_data {
 
 struct strings_data {
   long num;
+  char *t;
 };
 
 // toys/posix/tail.c
