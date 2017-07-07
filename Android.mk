@@ -401,7 +401,6 @@ LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGE
 
 include $(BUILD_EXECUTABLE)
 
-ifeq ($(PRODUCT_FULL_TREBLE),true)
 ############################################
 # static version to be installed in /vendor
 #
@@ -430,7 +429,6 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 
 include $(BUILD_EXECUTABLE)
-endif
 
 ############################################
 # static version to be installed in recovery
