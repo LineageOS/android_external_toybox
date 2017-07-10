@@ -228,11 +228,7 @@ toybox_upstream_version := $(shell sed 's/#define.*TOYBOX_VERSION.*"\(.*\)"/\1/p
 
 toybox_version := $(toybox_upstream_version)-android-$(BUILD_NUMBER_FROM_FILE)
 
-toybox_common_libraries := liblog libcutils libcrypto libz
-
-toybox_libraries := $(toybox_common_libraries) libselinux
-
-toybox_vendor_libraries := $(toybox_common_libraries) libselinux_vendor
+toybox_libraries := liblog libselinux libcutils libcrypto libz
 
 common_CFLAGS += -DTOYBOX_VERSION=\"$(toybox_version)\"
 
@@ -410,7 +406,7 @@ LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGE
 include $(BUILD_EXECUTABLE)
 
 ############################################
-# toybox for /vendor
+# static version to be installed in /vendor
 ############################################
 
 include $(CLEAR_VARS)
@@ -418,8 +414,11 @@ LOCAL_MODULE := toybox_vendor
 LOCAL_VENDOR_MODULE := true
 LOCAL_SRC_FILES := $(common_SRC_FILES)
 LOCAL_CFLAGS := $(common_CFLAGS)
-LOCAL_SHARED_LIBRARIES := $(toybox_vendor_libraries)
+LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
+# libc++_static is needed by static liblog
+LOCAL_CXX_STL := libc++_static
 LOCAL_MODULE_TAGS := optional
+LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 include $(BUILD_EXECUTABLE)
 
