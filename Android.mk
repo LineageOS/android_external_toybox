@@ -226,7 +226,7 @@ common_CFLAGS := \
 
 toybox_upstream_version := $(shell sed 's/#define.*TOYBOX_VERSION.*"\(.*\)"/\1/p;d' $(LOCAL_PATH)/main.c)
 
-toybox_version := $(toybox_upstream_version)-android-$(BUILD_NUMBER_FROM_FILE)
+toybox_version := $(toybox_upstream_version)-android
 
 toybox_common_libraries := liblog libcutils libcrypto libz
 
