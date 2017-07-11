@@ -499,8 +499,7 @@ struct crontab_data {
 // toys/pending/dd.c
 
 struct dd_data {
-  int show_xfer;
-  int show_records;
+  int show_xfer, show_records;
   unsigned long long bytes, c_count, in_full, in_part, out_full, out_part;
   struct timeval start;
   struct {
