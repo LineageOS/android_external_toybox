@@ -406,7 +406,7 @@ LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGE
 include $(BUILD_EXECUTABLE)
 
 ############################################
-# static version to be installed in /vendor
+# toybox for /vendor
 ############################################
 
 include $(CLEAR_VARS)
@@ -414,11 +414,9 @@ LOCAL_MODULE := toybox_vendor
 LOCAL_VENDOR_MODULE := true
 LOCAL_SRC_FILES := $(common_SRC_FILES)
 LOCAL_CFLAGS := $(common_CFLAGS)
-LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
-# libc++_static is needed by static liblog
-LOCAL_CXX_STL := libc++_static
+LOCAL_STATIC_LIBRARIES := libcutils libcrypto libz
+LOCAL_SHARED_LIBRARIES := libselinux_vendor liblog
 LOCAL_MODULE_TAGS := optional
-LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 include $(BUILD_EXECUTABLE)
 
