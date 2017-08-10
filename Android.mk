@@ -17,21 +17,29 @@
 LOCAL_PATH := $(call my-dir)
 
 #
-# To update:
+# To sync with upstream:
 #
 
+#  # Update.
 #  git remote add toybox https://github.com/landley/toybox.git
 #  git fetch toybox
 #  git merge toybox/master
+
+#  # Regenerate generated files.
+#  make
+
+#  # Make any necessary Android.mk changes and rebuild.
 #  mm -j32
-#  # (Make any necessary Android.mk changes and test the new toybox.)
-#  repo upload .
+
+#  # Run tests.
+#  ./run-tests-on-android.sh
+#  # Run a single test.
+#  ./run-tests-on-android.sh wc
+
+#  # Upload changes.
+#  git commit -a --amend
 #  git push aosp HEAD:refs/for/master  # Push to gerrit for review.
 #  git push aosp HEAD:master  # Push directly, avoiding gerrit.
-#
-#  # Now commit any necessary Android.mk changes like normal:
-#  repo start post-sync .
-#  git commit -a
 
 
 #
