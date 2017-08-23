@@ -449,13 +449,11 @@ LOCAL_STATIC_LIBRARIES := liblog libcutils libselinux libcrypto libm libc
 LOCAL_CXX_STL := libc++_static
 
 LOCAL_MODULE := toybox_static
+LOCAL_MODULE_STEM := toybox
 
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
 
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-
-ALL_TOOLS := \
-    modprobe \
 
 # Install the symlinks.
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
