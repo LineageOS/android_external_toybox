@@ -356,7 +356,7 @@
 
 #define HELP_mdev "usage: mdev [-s]\n\nCreate devices in /dev using information from /sys.\n\n-s	Scan all entries in /sys to populate /dev\n\n"
 
-#define HELP_lsof "usage: lsof [-lt] [-p PID1,PID2,...] [NAME]...\n\nLists open files. If names are given on the command line, only\nthose files will be shown.\n\n-l	list uids numerically\n-p	for given comma-separated pids only (default all pids)\n-t	terse (pid only) output\n\n"
+#define HELP_lsof "usage: lsof [-lt] [-p PID1,PID2,...] [FILE...]\n\nList all open files belonging to all active processes, or processes using\nlisted FILE(s).\n\n-l	list uids numerically\n-p	for given comma-separated pids only (default all pids)\n-t	terse (pid only) output\n\n"
 
 #define HELP_logger "usage: logger [-s] [-t tag] [-p [facility.]priority] [message]\n\nLog message (or stdin) to syslog.\n\n"
 
