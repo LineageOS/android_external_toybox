@@ -706,11 +706,8 @@ struct lsof_data {
   struct arg_list *p;
 
   struct stat *sought_files;
-
-  struct double_list *all_sockets;
-  struct double_list *files;
-  int last_shown_pid;
-  int shown_header;
+  struct double_list *all_sockets, *files;
+  int last_shown_pid, shown_header;
 };
 
 // toys/pending/mke2fs.c
