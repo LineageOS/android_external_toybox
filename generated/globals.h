@@ -439,6 +439,14 @@ struct arping_data {
              unicast_flag;
 };
 
+// toys/pending/awk.c
+
+struct awk_data {
+  char *fsep;
+  struct arg_list *v;
+  struct arg_list *f;
+};
+
 // toys/pending/bootchartd.c
 
 struct bootchartd_data {
@@ -1444,6 +1452,7 @@ extern union global_union {
 	struct xxd_data xxd;
 	struct arp_data arp;
 	struct arping_data arping;
+	struct awk_data awk;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
 	struct compress_data compress;

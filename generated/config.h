@@ -64,6 +64,8 @@
 #define USE_BLKID(...) __VA_ARGS__
 #define CFG_BLOCKDEV 1
 #define USE_BLOCKDEV(...) __VA_ARGS__
+#define CFG_AWK 1
+#define USE_AWK(...) __VA_ARGS__
 #define CFG_BOOTCHARTD 0
 #define USE_BOOTCHARTD(...)
 #define CFG_BRCTL 0

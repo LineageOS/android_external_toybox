@@ -138,6 +138,7 @@ common_SRC_FILES := \
     toys/other/which.c \
     toys/other/xxd.c \
     toys/other/yes.c \
+    toys/pending/awk.c \
     toys/pending/dd.c \
     toys/pending/diff.c \
     toys/pending/expr.c \
@@ -240,6 +241,7 @@ common_CFLAGS += -DTOYBOX_VERSION=\"$(toybox_version)\"
 
 ALL_TOOLS := \
     acpi \
+    awk \
     base64 \
     basename \
     blockdev \
