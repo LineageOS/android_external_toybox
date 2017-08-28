@@ -65,6 +65,19 @@
 #undef FOR_ascii
 #endif
 
+// awk (help)(version)F:v*f* (help)(version)F:v*f*
+#undef OPTSTR_awk
+#define OPTSTR_awk "(help)(version)F:v*f*"
+#ifdef CLEANUP_awk
+#undef CLEANUP_awk
+#undef FOR_awk
+#undef FLAG_f
+#undef FLAG_v
+#undef FLAG_F
+#undef FLAG_version
+#undef FLAG_help
+#endif
+
 // base64 diw#<0=76[!dw] diw#<0=76[!dw]
 #undef OPTSTR_base64
 #define OPTSTR_base64 "diw#<0=76[!dw]"
@@ -3243,6 +3256,17 @@
 #ifndef TT
 #define TT this.ascii
 #endif
+#endif
+
+#ifdef FOR_awk
+#ifndef TT
+#define TT this.awk
+#endif
+#define FLAG_f (1<<0)
+#define FLAG_v (1<<1)
+#define FLAG_F (1<<2)
+#define FLAG_version (1<<3)
+#define FLAG_help (1<<4)
 #endif
 
 #ifdef FOR_base64
