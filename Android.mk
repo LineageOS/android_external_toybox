@@ -273,6 +273,7 @@ ALL_TOOLS := \
     cpio \
     cut \
     date \
+    dd \
     df \
     dirname \
     dmesg \
