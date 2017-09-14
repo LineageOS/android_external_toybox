@@ -2733,6 +2733,14 @@
 #undef FOR_test_scankey
 #endif
 
+// test_utf8towc    
+#undef OPTSTR_test_utf8towc
+#define OPTSTR_test_utf8towc 0
+#ifdef CLEANUP_test_utf8towc
+#undef CLEANUP_test_utf8towc
+#undef FOR_test_utf8towc
+#endif
+
 // tftp   <1b#<8>65464r:l:g|p|[!gp]
 #undef OPTSTR_tftp
 #define OPTSTR_tftp "<1b#<8>65464r:l:g|p|[!gp]"
@@ -5520,6 +5528,12 @@
 #ifdef FOR_test_scankey
 #ifndef TT
 #define TT this.test_scankey
+#endif
+#endif
+
+#ifdef FOR_test_utf8towc
+#ifndef TT
+#define TT this.test_utf8towc
 #endif
 #endif
 

@@ -548,6 +548,8 @@
 #define USE_TEST_MANY_OPTIONS(...)
 #define CFG_TEST_SCANKEY 0
 #define USE_TEST_SCANKEY(...)
+#define CFG_TEST_UTF8TOWC 0
+#define USE_TEST_UTF8TOWC(...)
 #define CFG_TFTPD 0
 #define USE_TFTPD(...)
 #define CFG_TFTP 0
