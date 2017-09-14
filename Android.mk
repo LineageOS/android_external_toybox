@@ -219,7 +219,7 @@ common_SRC_FILES := \
     toys/posix/xargs.c \
 
 common_CFLAGS := \
-    -std=c99 \
+    -std=gnu11 \
     -Os \
     -Wno-char-subscripts \
     -Wno-gnu-variable-sized-type-not-at-end \
