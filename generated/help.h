@@ -56,7 +56,9 @@
 
 #define HELP_getenforce "usage: getenforce\n\nShows whether SELinux is disabled, enforcing, or permissive.\n\n"
 
-#define HELP_test_scankey "usage: test_scankey\n\nMove a letter around the screen. Hit ESC to exit.\n\n\n"
+#define HELP_test_utf8towc "usage: test_utf8towc\n\nPrint differences between toybox's utf8 conversion routines vs libc du jour.\n\n\n"
+
+#define HELP_test_scankey "usage: test_scankey\n\nMove a letter around the screen. Hit ESC to exit.\n\n"
 
 #define HELP_test_many_options "usage: test_many_options -[a-zA-Z]\n\nPrint the optflags value of the command arguments, in hex.\n\n"
 
