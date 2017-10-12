@@ -221,6 +221,7 @@ common_SRC_FILES := \
 common_CFLAGS := \
     -std=gnu11 \
     -Os \
+    -Wall -Werror \
     -Wno-char-subscripts \
     -Wno-gnu-variable-sized-type-not-at-end \
     -Wno-missing-field-initializers \
