@@ -424,7 +424,7 @@ LOCAL_VENDOR_MODULE := true
 LOCAL_SRC_FILES := $(common_SRC_FILES)
 LOCAL_CFLAGS := $(common_CFLAGS)
 LOCAL_STATIC_LIBRARIES := libcutils libcrypto libz
-LOCAL_SHARED_LIBRARIES := libselinux_vendor liblog
+LOCAL_SHARED_LIBRARIES := libselinux liblog
 LOCAL_MODULE_TAGS := optional
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 include $(BUILD_EXECUTABLE)
