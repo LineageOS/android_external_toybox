@@ -38,7 +38,7 @@ USE_CP(NEWTOY(cp, "<2"USE_CP_PRESERVE("(preserve):;")"RHLPprdaslvnF(remove-desti
 USE_CPIO(NEWTOY(cpio, "(no-preserve-owner)(trailer)mduH:p:|i|t|F:v(verbose)o|[!pio][!pot][!pF]", TOYFLAG_BIN))
 USE_CROND(NEWTOY(crond, "fbSl#<0=8d#<0L:c:[-bf][-LS][-ld]", TOYFLAG_USR|TOYFLAG_SBIN|TOYFLAG_NEEDROOT))
 USE_CRONTAB(NEWTOY(crontab, "c:u:elr[!elr]", TOYFLAG_USR|TOYFLAG_BIN|TOYFLAG_STAYROOT))
-USE_CUT(NEWTOY(cut, "b:|c:|f:|d:sn[!cbf]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_CUT(NEWTOY(cut, "b*|c*|f*|F*|O(output-delimiter):d:sDn[!cbf]", TOYFLAG_USR|TOYFLAG_BIN))
 USE_DATE(NEWTOY(date, "d:D:r:u[!dr]", TOYFLAG_BIN))
 USE_DD(NEWTOY(dd, 0, TOYFLAG_USR|TOYFLAG_BIN))
 USE_DEALLOCVT(NEWTOY(deallocvt, ">1", TOYFLAG_USR|TOYFLAG_BIN|TOYFLAG_NEEDROOT))
