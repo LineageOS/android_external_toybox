@@ -1027,14 +1027,12 @@ struct cpio_data {
 // toys/posix/cut.c
 
 struct cut_data {
-  char *delim;
-  char *flist;
-  char *clist;
-  char *blist;
+  char *d;
+  char *O;
+  struct arg_list *select[4]; // we treat them the same, so loop through
 
-  void *slist_head;
-  unsigned nelem;
-  void (*do_cut)(int fd);
+  int pairs;
+  regex_t reg;
 };
 
 // toys/posix/date.c
