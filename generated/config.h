@@ -42,8 +42,8 @@
 #define USE_TOYBOX_SHADOW(...)
 #define CFG_TOYBOX_SMACK 0
 #define USE_TOYBOX_SMACK(...)
-#define CFG_TOYBOX_SUID 1
-#define USE_TOYBOX_SUID(...) __VA_ARGS__
+#define CFG_TOYBOX_SUID 0
+#define USE_TOYBOX_SUID(...)
 #define CFG_TOYBOX_UID_SYS 100
 #define CFG_TOYBOX_UID_USR 500
 #define CFG_TOYBOX_UTMPX 0
