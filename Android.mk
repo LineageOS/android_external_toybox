@@ -233,13 +233,9 @@ common_CFLAGS := \
     -ffunction-sections -fdata-sections \
     -fno-asynchronous-unwind-tables \
 
-toybox_upstream_version := $(shell sed 's/#define.*TOYBOX_VERSION.*"\(.*\)"/\1/p;d' $(LOCAL_PATH)/main.c)
-
-toybox_version := $(toybox_upstream_version)-android
-
 toybox_libraries := liblog libselinux libcutils libcrypto libz
 
-common_CFLAGS += -DTOYBOX_VERSION=\"$(toybox_version)\"
+common_CFLAGS += -DTOYBOX_VENDOR=\"-android\"
 
 # not usable on Android?: freeramdisk fsfreeze install makedevs nbd-client
 #                         partprobe pivot_root pwdx rev rfkill vconfig
