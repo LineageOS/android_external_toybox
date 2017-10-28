@@ -1029,7 +1029,7 @@ struct cpio_data {
 struct cut_data {
   char *d;
   char *O;
-  struct arg_list *select[4]; // we treat them the same, so loop through
+  struct arg_list *select[5]; // we treat them the same, so loop through
 
   int pairs;
   regex_t reg;

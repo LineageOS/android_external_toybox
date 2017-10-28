@@ -403,9 +403,9 @@
 #undef FLAG_c
 #endif
 
-// cut b*|c*|f*|F*|O(output-delimiter):d:sDn[!cbf] b*|c*|f*|F*|O(output-delimiter):d:sDn[!cbf]
+// cut b*|c*|f*|F*|C*|O(output-delimiter):d:sDn[!cbf] b*|c*|f*|F*|C*|O(output-delimiter):d:sDn[!cbf]
 #undef OPTSTR_cut
-#define OPTSTR_cut "b*|c*|f*|F*|O(output-delimiter):d:sDn[!cbf]"
+#define OPTSTR_cut "b*|c*|f*|F*|C*|O(output-delimiter):d:sDn[!cbf]"
 #ifdef CLEANUP_cut
 #undef CLEANUP_cut
 #undef FOR_cut
@@ -415,6 +415,7 @@
 #undef FLAG_d
 #undef FLAG_output_delimiter
 #undef FLAG_O
+#undef FLAG_C
 #undef FLAG_F
 #undef FLAG_f
 #undef FLAG_c
@@ -3579,10 +3580,11 @@
 #define FLAG_d (1<<3)
 #define FLAG_output_delimiter (1<<4)
 #define FLAG_O (1<<4)
-#define FLAG_F (1<<5)
-#define FLAG_f (1<<6)
-#define FLAG_c (1<<7)
-#define FLAG_b (1<<8)
+#define FLAG_C (1<<5)
+#define FLAG_F (1<<6)
+#define FLAG_f (1<<7)
+#define FLAG_c (1<<8)
+#define FLAG_b (1<<9)
 #endif
 
 #ifdef FOR_date
