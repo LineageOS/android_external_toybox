@@ -1202,21 +1202,23 @@
 #undef FOR_iorenice
 #endif
 
-// iotop >0AaKOk*o*p*u*s#<1=7d#=3<1n#<1bq >0AaKOk*o*p*u*s#<1=7d#=3<1n#<1bq
+// iotop >0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq >0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq
 #undef OPTSTR_iotop
-#define OPTSTR_iotop ">0AaKOk*o*p*u*s#<1=7d#=3<1n#<1bq"
+#define OPTSTR_iotop ">0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq"
 #ifdef CLEANUP_iotop
 #undef CLEANUP_iotop
 #undef FOR_iotop
 #undef FLAG_q
 #undef FLAG_b
 #undef FLAG_n
+#undef FLAG_m
 #undef FLAG_d
 #undef FLAG_s
 #undef FLAG_u
 #undef FLAG_p
 #undef FLAG_o
 #undef FLAG_k
+#undef FLAG_H
 #undef FLAG_O
 #undef FLAG_K
 #undef FLAG_a
@@ -2791,15 +2793,16 @@
 #undef FLAG_v
 #endif
 
-// top >0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO] >0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO]
+// top >0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO] >0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO]
 #undef OPTSTR_top
-#define OPTSTR_top ">0mO*Hk*o*p*u*s#<1d#=3<1n#<1bq[!oO]"
+#define OPTSTR_top ">0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO]"
 #ifdef CLEANUP_top
 #undef CLEANUP_top
 #undef FOR_top
 #undef FLAG_q
 #undef FLAG_b
 #undef FLAG_n
+#undef FLAG_m
 #undef FLAG_d
 #undef FLAG_s
 #undef FLAG_u
@@ -2808,7 +2811,6 @@
 #undef FLAG_k
 #undef FLAG_H
 #undef FLAG_O
-#undef FLAG_m
 #endif
 
 // touch <1acd:mr:t:h[!dtr] <1acd:mr:t:h[!dtr]
@@ -4252,16 +4254,18 @@
 #define FLAG_q (1<<0)
 #define FLAG_b (1<<1)
 #define FLAG_n (1<<2)
-#define FLAG_d (1<<3)
-#define FLAG_s (1<<4)
-#define FLAG_u (1<<5)
-#define FLAG_p (1<<6)
-#define FLAG_o (1<<7)
-#define FLAG_k (1<<8)
-#define FLAG_O (1<<9)
-#define FLAG_K (1<<10)
-#define FLAG_a (1<<11)
-#define FLAG_A (1<<12)
+#define FLAG_m (1<<3)
+#define FLAG_d (1<<4)
+#define FLAG_s (1<<5)
+#define FLAG_u (1<<6)
+#define FLAG_p (1<<7)
+#define FLAG_o (1<<8)
+#define FLAG_k (1<<9)
+#define FLAG_H (1<<10)
+#define FLAG_O (1<<11)
+#define FLAG_K (1<<12)
+#define FLAG_a (1<<13)
+#define FLAG_A (1<<14)
 #endif
 
 #ifdef FOR_ip
@@ -5591,15 +5595,15 @@
 #define FLAG_q (1<<0)
 #define FLAG_b (1<<1)
 #define FLAG_n (1<<2)
-#define FLAG_d (1<<3)
-#define FLAG_s (1<<4)
-#define FLAG_u (1<<5)
-#define FLAG_p (1<<6)
-#define FLAG_o (1<<7)
-#define FLAG_k (1<<8)
-#define FLAG_H (1<<9)
-#define FLAG_O (1<<10)
-#define FLAG_m (1<<11)
+#define FLAG_m (1<<3)
+#define FLAG_d (1<<4)
+#define FLAG_s (1<<5)
+#define FLAG_u (1<<6)
+#define FLAG_p (1<<7)
+#define FLAG_o (1<<8)
+#define FLAG_k (1<<9)
+#define FLAG_H (1<<10)
+#define FLAG_O (1<<11)
 #endif
 
 #ifdef FOR_touch
