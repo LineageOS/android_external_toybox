@@ -1237,6 +1237,7 @@ struct ps_data {
     } ps;
     struct {
       long n;
+      long m;
       long d;
       long s;
       struct arg_list *u;
