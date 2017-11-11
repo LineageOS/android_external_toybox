@@ -401,7 +401,8 @@ LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf toybox $(TARGE
 
 include $(BUILD_EXECUTABLE)
 
-ifeq ($(PRODUCT_FULL_TREBLE),true)
+# Guard to prevent overwriting in system
+ifneq ($(TARGET_COPY_OUT_VENDOR),system)
 ############################################
 # static version to be installed in /vendor
 #
