@@ -409,6 +409,9 @@ include $(BUILD_EXECUTABLE)
 # toybox for /vendor
 ############################################
 
+# Guard to prevent overwriting in system
+ifneq ($(TARGET_COPY_OUT_VENDOR),system)
+
 include $(CLEAR_VARS)
 LOCAL_MODULE := toybox_vendor
 LOCAL_VENDOR_MODULE := true
@@ -419,6 +422,8 @@ LOCAL_SHARED_LIBRARIES := libselinux_vendor liblog
 LOCAL_MODULE_TAGS := optional
 LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(TARGET_OUT_VENDOR_EXECUTABLES)/$(t);)
 include $(BUILD_EXECUTABLE)
+
+endif
 
 ############################################
 # static version to be installed in recovery
