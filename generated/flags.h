@@ -450,14 +450,15 @@
 #undef FOR_deallocvt
 #endif
 
-// df HPkht*a[-HPkh] HPkht*a[-HPkh]
+// df HPkhit*a[-HPkh] HPkhit*a[-HPkh]
 #undef OPTSTR_df
-#define OPTSTR_df "HPkht*a[-HPkh]"
+#define OPTSTR_df "HPkhit*a[-HPkh]"
 #ifdef CLEANUP_df
 #undef CLEANUP_df
 #undef FOR_df
 #undef FLAG_a
 #undef FLAG_t
+#undef FLAG_i
 #undef FLAG_h
 #undef FLAG_k
 #undef FLAG_P
@@ -2773,12 +2774,13 @@
 #undef FLAG_r
 #endif
 
-// time <1^p <1^p
+// time <1^pv <1^pv
 #undef OPTSTR_time
-#define OPTSTR_time "<1^p"
+#define OPTSTR_time "<1^pv"
 #ifdef CLEANUP_time
 #undef CLEANUP_time
 #undef FOR_time
+#undef FLAG_v
 #undef FLAG_p
 #endif
 
@@ -3617,10 +3619,11 @@
 #endif
 #define FLAG_a (1<<0)
 #define FLAG_t (1<<1)
-#define FLAG_h (1<<2)
-#define FLAG_k (1<<3)
-#define FLAG_P (1<<4)
-#define FLAG_H (1<<5)
+#define FLAG_i (1<<2)
+#define FLAG_h (1<<3)
+#define FLAG_k (1<<4)
+#define FLAG_P (1<<5)
+#define FLAG_H (1<<6)
 #endif
 
 #ifdef FOR_dhcp
@@ -5576,7 +5579,8 @@
 #ifndef TT
 #define TT this.time
 #endif
-#define FLAG_p (1<<0)
+#define FLAG_v (1<<0)
+#define FLAG_p (1<<1)
 #endif
 
 #ifdef FOR_timeout
