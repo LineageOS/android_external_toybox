@@ -1092,6 +1092,7 @@ struct find_data {
   struct double_list *argdata;
   int topdir, xdev, depth;
   time_t now;
+  long max_bytes;
 };
 
 // toys/posix/grep.c
