@@ -799,6 +799,15 @@ struct sh_data {
   long lineno;
 };
 
+// toys/pending/stty.c
+
+struct stty_data {
+  char *device;
+
+  int fd, col;
+  unsigned output_cols;
+};
+
 // toys/pending/sulogin.c
 
 struct sulogin_data {
@@ -1479,6 +1488,7 @@ extern union global_union {
 	struct route_data route;
 	struct setfattr_data setfattr;
 	struct sh_data sh;
+	struct stty_data stty;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
 	struct tar_data tar;

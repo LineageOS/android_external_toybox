@@ -142,7 +142,7 @@
 
 #define HELP_usleep "usage: usleep MICROSECONDS\n\nPause for MICROSECONDS microseconds.\n\n"
 
-#define HELP_uptime "usage: uptime [-s]\n\nTell the current time, how long the system has been running, the number\nof users, and the system load averages for the past 1, 5 and 15 minutes.\n\n-s	Since when has the system been up?\n\n"
+#define HELP_uptime "usage: uptime [-ps]\n\nTell the current time, how long the system has been running, the number\nof users, and the system load averages for the past 1, 5 and 15 minutes.\n\n-p	Pretty (human-readable) uptime\n-s	Since when has the system been up?\n\n"
 
 #define HELP_truncate "usage: truncate [-c] -s SIZE file...\n\nSet length of file(s), extending sparsely if necessary.\n\n-c	Don't create file if it doesn't exist\n-s	New size (with optional prefix and suffix)\n\nSIZE prefix: + add, - subtract, < shrink to, > expand to,\n             / multiple rounding down, % multiple rounding up\nSIZE suffix: k=1024, m=1024^2, g=1024^3, t=1024^4, p=1024^5, e=1024^6\n\n"
 
@@ -323,6 +323,8 @@
 #define HELP_syslogd "usage: syslogd  [-a socket] [-O logfile] [-f config file] [-m interval]\n                [-p socket] [-s SIZE] [-b N] [-R HOST] [-l N] [-nSLKD]\n\nSystem logging utility\n\n-a      Extra unix socket for listen\n-O FILE Default log file <DEFAULT: /var/log/messages>\n-f FILE Config file <DEFAULT: /etc/syslog.conf>\n-p      Alternative unix domain socket <DEFAULT : /dev/log>\n-n      Avoid auto-backgrounding\n-S      Smaller output\n-m MARK interval <DEFAULT: 20 minutes> (RANGE: 0 to 71582787)\n-R HOST Log to IP or hostname on PORT (default PORT=514/UDP)\"\n-L      Log locally and via network (default is network only if -R)\"\n-s SIZE Max size (KB) before rotation (default:200KB, 0=off)\n-b N    rotated logs to keep (default:1, max=99, 0=purge)\n-K      Log to kernel printk buffer (use dmesg to read it)\n-l N    Log only messages more urgent than prio(default:8 max:8 min:1)\n-D      Drop duplicates\n\n"
 
 #define HELP_sulogin "usage: sulogin [-t time] [tty]\n\nSingle User Login.\n-t	Default Time for Single User Login\n\n"
+
+#define HELP_stty "usage: stty [-ag] [-F device] SETTING...\n\nGet/set terminal configuration.\n\n-a	Show all current settings (default differences from \"sane\").\n-g	Show all current settings usable as input to stty.\n\nSpecial characters (syntax ^c or undef): intr quit erase kill eof eol eol2\nswtch start stop susp rprnt werase lnext discard\n\nControl/input/output/local settings as shown by -a, '-' prefix to disable\n\nCombo settings: cooked/raw, evenp/oddp/parity, nl, ek, sane\n\nN	set input and output speed (ispeed N or ospeed N for just one)\ncols N	set number of columns\nrows N	set number of rows\nline N	set line discipline\nmin N	set minimum chars per read\ntime N	set read timeout\nspeed	show speed only\nsize	show size only\n\n"
 
 #define HELP_exit "usage: exit [status]\n\nExit shell.  If no return value supplied on command line, use value\nof most recent command, or 0 if none.\n\n"
 
