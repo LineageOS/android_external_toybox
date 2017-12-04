@@ -504,6 +504,8 @@
 #define USE_STOP(...) __VA_ARGS__
 #define CFG_STRINGS 1
 #define USE_STRINGS(...) __VA_ARGS__
+#define CFG_STTY 1
+#define USE_STTY(...) __VA_ARGS__
 #define CFG_SU 0
 #define USE_SU(...)
 #define CFG_SULOGIN 0

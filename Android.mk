@@ -155,6 +155,7 @@ common_SRC_FILES := \
     toys/pending/modprobe.c \
     toys/pending/more.c \
     toys/pending/setfattr.c \
+    toys/pending/stty.c \
     toys/pending/tar.c \
     toys/pending/tr.c \
     toys/pending/traceroute.c \
@@ -360,6 +361,7 @@ ALL_TOOLS := \
     stat \
     stop \
     strings \
+    stty \
     swapoff \
     swapon \
     sync \
