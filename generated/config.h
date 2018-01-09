@@ -206,8 +206,8 @@
 #define USE_GETENFORCE(...) __VA_ARGS__
 #define CFG_GETFATTR 1
 #define USE_GETFATTR(...) __VA_ARGS__
-#define CFG_GETPROP 0
-#define USE_GETPROP(...)
+#define CFG_GETPROP 1
+#define USE_GETPROP(...) __VA_ARGS__
 #define CFG_GETTY 0
 #define USE_GETTY(...)
 #define CFG_GREP 1
