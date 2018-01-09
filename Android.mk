@@ -66,6 +66,7 @@ common_SRC_FILES := \
     lib/xwrap.c \
     main.c \
     toys/android/getenforce.c \
+    toys/android/getprop.c \
     toys/android/load_policy.c \
     toys/android/log.c \
     toys/android/restorecon.c \
@@ -281,6 +282,7 @@ ALL_TOOLS := \
     flock \
     free \
     getenforce \
+    getprop \
     groups \
     gunzip \
     gzip \
