@@ -883,7 +883,7 @@
 #undef FLAG_d
 #endif
 
-// getprop >2Z >2Z
+// getprop   >2Z
 #undef OPTSTR_getprop
 #define OPTSTR_getprop ">2Z"
 #ifdef CLEANUP_getprop
@@ -3996,7 +3996,7 @@
 #ifndef TT
 #define TT this.getprop
 #endif
-#define FLAG_Z (1<<0)
+#define FLAG_Z (FORCED_FLAG<<0)
 #endif
 
 #ifdef FOR_getty
