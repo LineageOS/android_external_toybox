@@ -285,7 +285,7 @@ TOYS_FOR_XBIN := ps
 # skip links for these toys in the system image, they already have
 # a full-blown counterpart. we still want them for the recovery
 # image though.
-TOYS_WITHOUT_LINKS := blkid traceroute6
+TOYS_WITHOUT_LINKS := blkid dd egrep fgrep grep iotop log sendevent start stop top traceroute6
 
 include $(BUILD_EXECUTABLE)
 
