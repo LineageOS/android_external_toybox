@@ -184,6 +184,8 @@
 #define USE_FIND(...) __VA_ARGS__
 #define CFG_FLOCK 1
 #define USE_FLOCK(...) __VA_ARGS__
+#define CFG_FMT 1
+#define USE_FMT(...) __VA_ARGS__
 #define CFG_FOLD 0
 #define USE_FOLD(...)
 #define CFG_FREERAMDISK 1
