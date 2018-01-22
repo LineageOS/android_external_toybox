@@ -3,6 +3,7 @@
  * Copyright 2006 Rob Landley <rob@landley.net>
  */
 
+#define SYSLOG_NAMES
 #include "toys.h"
 
 void verror_msg(char *msg, int err, va_list va)
@@ -1010,37 +1011,64 @@ char *getbasename(char *name)
   return name;
 }
 
-static int argv0_match(char *cmd, char *name)
-{
-  return (*name == '/' ? !strcmp(cmd, name)
-      : !strcmp(getbasename(cmd), getbasename(name)));
-}
-
 // Execute a callback for each PID that matches a process name from a list.
 void names_to_pid(char **names, int (*callback)(pid_t pid, char *name))
 {
   DIR *dp;
   struct dirent *entry;
 
-  if (!(dp = opendir("/proc"))) perror_exit("opendir");
+  if (!(dp = opendir("/proc"))) perror_exit("no /proc");
 
   while ((entry = readdir(dp))) {
-    unsigned u;
-    char *cmd, *comm, **cur;
+    unsigned u = atoi(entry->d_name);
+    char *cmd = 0, *comm, **cur;
+    off_t len;
 
-    if (!(u = atoi(entry->d_name))) continue;
+    if (!u) continue;
 
-    // For a script, comm and argv[1] will match (argv[0] will be the interp).
+    // Comm is original name of executable (argv[0] could be #! interpreter)
+    // but it's limited to 15 characters
     sprintf(libbuf, "/proc/%u/comm", u);
-    if (!(comm = readfile(libbuf, libbuf, sizeof(libbuf)))) continue;
-    sprintf(libbuf+16, "/proc/%u/cmdline", u);
-    if (!(cmd = readfile(libbuf+16, libbuf+16, sizeof(libbuf)-16))) continue;
+    len = sizeof(libbuf);
+    if (!(comm = readfileat(AT_FDCWD, libbuf, libbuf, &len)) || !len)
+      continue;
+    if (libbuf[len-1] == '\n') libbuf[--len] = 0;
 
-    for (cur = names; *cur; cur++)
-      if (argv0_match(cmd, *cur) ||
-          (!strncmp(comm, *cur, 15) && argv0_match(cmd+strlen(cmd)+1, *cur)))
-        if (callback(u, *cur)) break;
-    if (*cur) break;
+    for (cur = names; *cur; cur++) {
+      struct stat st1, st2;
+      char *bb = basename(*cur);
+      off_t len;
+
+      // fast path: only matching a filename (no path) that fits in comm
+      if (strncmp(comm, bb, 15)) continue;
+      len = strlen(bb);
+      if (bb==*cur && len<16) goto match;
+
+      // If we have a path to existing file only match if same inode
+      if (bb!=*cur && !stat(*cur, &st1)) {
+        char buf[32];
+
+        sprintf(buf, "/proc/%u/exe", u);
+        if (stat(buf, &st1)) continue;
+        if (st1.st_dev != st2.st_dev || st1.st_ino != st2.st_ino) continue;
+        goto match;
+      }
+
+      // Nope, gotta read command line to confirm
+      if (!cmd) {
+        sprintf(cmd = libbuf+16, "/proc/%u/cmdline", u);
+        len = sizeof(libbuf)-17;
+        if (!(cmd = readfileat(AT_FDCWD, cmd, cmd, &len))) continue;
+        // readfile only guarnatees one null terminator and we need two
+        // (yes the kernel should do this for us, don't care)
+        cmd[len] = 0;
+      }
+      if (!strcmp(bb, basename(cmd))) goto match;
+      if (bb!=*cur && !strcmp(bb, basename(cmd+strlen(cmd)+1))) goto match;
+      continue;
+match:
+      if (callback(u, *cur)) break;
+    }
   }
   closedir(dp);
 }
@@ -1325,7 +1353,16 @@ long environ_bytes()
   long bytes = sizeof(char *);
   char **ev;
 
-  for (ev = environ; *ev; ev++)
-    bytes += sizeof(char *) + strlen(*ev) + 1;
+  for (ev = environ; *ev; ev++) bytes += sizeof(char *) + strlen(*ev) + 1;
+
   return bytes;
+}
+
+// Return unix time in milliseconds
+long long millitime(void)
+{
+  struct timespec ts;
+
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+  return ts.tv_sec*1000+ts.tv_nsec/1000000;
 }
