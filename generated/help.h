@@ -130,7 +130,7 @@
 
 #define HELP_yes "usage: yes [args...]\n\nRepeatedly output line until killed. If no args, output 'y'.\n\n\n"
 
-#define HELP_xxd "usage: xxd [-c n] [-g n] [-l n] [-p] [-r] [-s n] [file]\n\nHexdump a file to stdout.  If no file is listed, copy from stdin.\nFilename \"-\" is a synonym for stdin.\n\n-c n	Show n bytes per line (default 16)\n-g n	Group bytes by adding a ' ' every n bytes (default 2)\n-l n	Limit of n bytes before stopping (default is no limit)\n-p	Plain hexdump (30 bytes/line, no grouping)\n-r	Reverse operation: turn a hexdump into a binary file\n-s n	Skip to offset n\n\n"
+#define HELP_xxd "usage: xxd [-c n] [-g n] [-i] [-l n] [-p] [-r] [-s n] [file]\n\nHexdump a file to stdout.  If no file is listed, copy from stdin.\nFilename \"-\" is a synonym for stdin.\n\n-c n	Show n bytes per line (default 16)\n-g n	Group bytes by adding a ' ' every n bytes (default 2)\n-i	Include file output format (comma-separated hex byte literals)\n-l n	Limit of n bytes before stopping (default is no limit)\n-p	Plain hexdump (30 bytes/line, no grouping)\n-r	Reverse operation: turn a hexdump into a binary file\n-s n	Skip to offset n\n\n"
 
 #define HELP_which "usage: which [-a] filename ...\n\nSearch $PATH for executable files matching filename(s).\n\n-a	Show all matches\n\n"
 
@@ -167,6 +167,8 @@
 #define HELP_shred "usage: shred [-fuz] [-n COUNT] [-s SIZE] FILE...\n\nSecurely delete a file by overwriting its contents with random data.\n\n-f        Force (chmod if necessary)\n-n COUNT  Random overwrite iterations (default 1)\n-o OFFSET Start at OFFSET\n-s SIZE   Use SIZE instead of detecting file size\n-u        unlink (actually delete file when done)\n-x        Use exact size (default without -s rounds up to next 4k)\n-z        zero at end\n\nNote: data journaling filesystems render this command useless, you must\noverwrite all free space (fill up disk) to erase old data on those.\n\n"
 
 #define HELP_setsid "usage: setsid [-t] command [args...]\n\nRun process in a new session.\n\n-t	Grab tty (become foreground process, receiving keyboard signals)\n\n"
+
+#define HELP_setfattr "usage: setfattr [-h] [-x|-n NAME] [-v VALUE] FILE...\n\nWrite POSIX extended attributes.\n\n-h	Do not dereference symlink\n-n	Set given attribute\n-x	Remove given attribute\n-v	Set value for attribute -n (default is empty)\n\n"
 
 #define HELP_rmmod "usage: rmmod [-wf] [MODULE]\n\nUnload the module named MODULE from the Linux kernel.\n-f	Force unload of a module\n-w	Wait until the module is no longer used\n\n\n"
 
@@ -332,8 +334,6 @@
 
 #define HELP_sh "usage: sh [-c command] [script]\n\nCommand shell.  Runs a shell script, or reads input interactively\nand responds to it.\n\n-c	command line to execute\n-i	interactive mode (default when STDIN is a tty)\n\n"
 
-#define HELP_setfattr "usage: setfattr [-h] [-x|-n NAME] [-v VALUE] FILE...\n\nWrite POSIX extended attributes.\n\n-h	Do not dereference symlink\n-n	Set given attribute\n-x	Remove given attribute\n-v	Set value for attribute -n (default is empty)\n\n"
-
 #define HELP_route "usage: route [-ne] [-A [46]] [add|del TARGET [OPTIONS]]\n\nDisplay, add or delete network routes in the \"Forwarding Information Base\".\n\n-n	Show numerical addresses (no DNS lookups)\n-e	display netstat fields\n\nRouting means sending packets out a network interface to an address.\nThe kernel can tell where to send packets one hop away by examining each\ninterface's address and netmask, so the most common use of this command\nis to identify a \"gateway\" that forwards other traffic.\n\nAssigning an address to an interface automatically creates an appropriate\nnetwork route (\"ifconfig eth0 10.0.2.15/8\" does \"route add 10.0.0.0/8 eth0\"\nfor you), although some devices (such as loopback) won't show it in the\ntable. For machines more than one hop away, you need to specify a gateway\n(ala \"route add default gw 10.0.2.2\").\n\nThe address \"default\" is a wildcard address (0.0.0.0/0) matching all\npackets without a more specific route.\n\nAvailable OPTIONS include:\nreject   - blocking route (force match failure)\ndev NAME - force packets out this interface (ala \"eth0\")\nnetmask  - old way of saying things like ADDR/24\ngw ADDR  - forward packets to gateway ADDR\n\n\n"
 
 #define HELP_ping "usage: ping [OPTIONS] HOST\n\nCheck network connectivity by sending packets to a host and reporting\nits response.\n\nSend ICMP ECHO_REQUEST packets to ipv4 or ipv6 addresses and prints each\necho it receives back, with round trip time.\n\nOptions:\n-4, -6      Force IPv4 or IPv6\n-c CNT      Send CNT many packets\n-I IFACE/IP Source interface or address\n-q          Quiet, only displays output at start and when finished\n-s SIZE     Packet SIZE in bytes (default 56)\n-t TTL      Set Time (number of hops) To Live\n-W SEC      Seconds to wait for response after all packets sent (default 10)\n-w SEC      Exit after this many seconds\n\n"
@@ -362,8 +362,6 @@
 
 #define HELP_lsof "usage: lsof [-lt] [-p PID1,PID2,...] [FILE...]\n\nList all open files belonging to all active processes, or processes using\nlisted FILE(s).\n\n-l	list uids numerically\n-p	for given comma-separated pids only (default all pids)\n-t	terse (pid only) output\n\n"
 
-#define HELP_logger "usage: logger [-s] [-t tag] [-p [facility.]priority] [message]\n\nLog message (or stdin) to syslog.\n\n"
-
 #define HELP_last "usage: last [-W] [-f FILE]\n\nShow listing of last logged in users.\n\n-W      Display the information without host-column truncation\n-f FILE Read from file FILE instead of /var/log/wtmp\n\n"
 
 #define HELP_klogd "usage: klogd [-n] [-c N]\n\n-c  N   Print to console messages more urgent than prio N (1-8)\"\n-n    Run in foreground\n\n"
@@ -376,11 +374,9 @@
 
 #define HELP_init "usage: init\n\nSystem V style init.\n\nFirst program to run (as PID 1) when the system comes up, reading\n/etc/inittab to determine actions.\n\n"
 
-#define HELP_iconv "usage: iconv [-f FROM] [-t TO] [FILE...]\n\nConvert character encoding of files.\n\n-f  convert from (default utf8)\n-t  convert to   (default utf8)\n\n"
-
 #define HELP_host "usage: host [-av] [-t TYPE] NAME [SERVER]\n\nPerform DNS lookup on NAME, which can be a domain name to lookup,\nor an ipv4 dotted or ipv6 colon seprated address to reverse lookup.\nSERVER (if present) is the DNS server to use.\n\n-a	no idea\n-t	not a clue\n-v	verbose\n\n"
 
-#define HELP_zcat "usage: zcat [FILE...]\n\nDecompress files to stdout. Like `gzip -dc`.\n\n-c	Output to stdout (default)\n-f	Force: allow read from tty\n\n"
+#define HELP_zcat "usage: zcat [FILE...]\n\nDecompress files to stdout. Like `gzip -dc`.\n\n-f	Force: allow read from tty\n\n"
 
 #define HELP_gunzip "usage: gunzip [-cfk] [FILE...]\n\nDecompress files. With no files, decompresses stdin to stdout.\nOn success, the input files are removed and replaced by new\nfiles without the .gz suffix.\n\n-c	Output to stdout (act as zcat)\n-f	Force: allow read from tty\n-k	Keep input files (default is to remove)\n\n"
 
@@ -397,6 +393,8 @@
 #define HELP_fsck "usage: fsck [-ANPRTV] [-C FD] [-t FSTYPE] [FS_OPTS] [BLOCKDEV]...\n\nCheck and repair filesystems\n\n-A      Walk /etc/fstab and check all filesystems\n-N      Don't execute, just show what would be done\n-P      With -A, check filesystems in parallel\n-R      With -A, skip the root filesystem\n-T      Don't show title on startup\n-V      Verbose\n-C n    Write status information to specified filedescriptor\n-t TYPE List of filesystem types to check\n\n\n"
 
 #define HELP_fold "usage: fold [-bsu] [-w WIDTH] [FILE...]\n\nFolds (wraps) or unfolds ascii text by adding or removing newlines.\nDefault line width is 80 columns for folding and infinite for unfolding.\n\n-b	Fold based on bytes instead of columns\n-s	Fold/unfold at whitespace boundaries if possible\n-u	Unfold text (and refold if -w is given)\n-w	Set lines to WIDTH columns or bytes\n\n"
+
+#define HELP_fmt "usage: fmt [-w WIDTH] [FILE...]\n\nReformat input to not exceed a maximum line length.\n\n-w WIDTH	maximum characters per line (default 75)\n\n"
 
 #define HELP_fdisk "usage: fdisk [-lu] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SECTSZ] DISK\n\nChange partition table\n\n-u            Start and End are in sectors (instead of cylinders)\n-l            Show partition table for each DISK, then exit\n-b size       sector size (512, 1024, 2048 or 4096)\n-C CYLINDERS  Set number of cylinders/heads/sectors\n-H HEADS\n-S SECTORS\n\n"
 
@@ -518,6 +516,8 @@
 
 #define HELP_ls "usage: ls --color[=auto] [-ACFHLRSZacdfhiklmnpqrstux1] [directory...]\n\nlist files\n\nwhat to show:\n-a  all files including .hidden    -b  escape nongraphic chars\n-c  use ctime for timestamps       -d  directory, not contents\n-i  inode number                   -p  put a '/' after dir names\n-q  unprintable chars as '?'       -s  storage used (1024 byte units)\n-u  use access time for timestamps -A  list all files but . and ..\n-H  follow command line symlinks   -L  follow symlinks\n-R  recursively list in subdirs    -F  append /dir *exe @sym |FIFO\n-Z  security context\n\noutput formats:\n-1  list one file per line         -C  columns (sorted vertically)\n-g  like -l but no owner           -h  human readable sizes\n-l  long (show full details)       -m  comma separated\n-n  like -l but numeric uid/gid    -o  like -l but no group\n-x  columns (horizontal sort)      -ll long with nanoseconds (--full-time)\n\nsorting (default is alphabetical):\n-f  unsorted    -r  reverse    -t  timestamp    -S  size\n--color  device=yellow  symlink=turquoise/red  dir=blue  socket=purple\n         files: exe=green  suid=red  suidfile=redback  stickydir=greenback\n         =auto means detect if output is a tty.\n\n"
 
+#define HELP_logger "usage: logger [-s] [-t TAG] [-p [FACILITY.]PRIORITY] [message...]\n\nLog message (or stdin) to syslog.\n\n-s	Also write message to stderr\n-t	Use TAG instead of username to identify message source\n-p	Specify PRIORITY with optional FACILITY. Default is \"user.notice\"\n\n"
+
 #define HELP_ln "usage: ln [-sfnv] [FROM...] TO\n\nCreate a link between FROM and TO.\nWith only one argument, create link in current directory.\n\n-s	Create a symbolic link\n-f	Force the creation of the link, even if TO already exists\n-n	Symlink at destination treated as file\n-v	Verbose\n\n"
 
 #define HELP_link "usage: link FILE NEWLINK\n\nCreate hardlink to a file.\n\n"
@@ -533,6 +533,8 @@
 #define HELP_groups "usage: groups [user]\n\nPrint the groups a user is in.\n\n"
 
 #define HELP_id "usage: id [-GZgnru] \n\nPrint user and group ID.\n-G	Show only the group IDs\n-Z	Show only security context\n-g	Show only the effective group ID\n-n	print names instead of numeric IDs (to be used with -Ggu)\n-r	Show real ID instead of effective ID\n-u	Show only the effective user ID\n"
+
+#define HELP_iconv "usage: iconv [-f FROM] [-t TO] [FILE...]\n\nConvert character encoding of files.\n\n-c	Omit invalid chars\n-f	convert from (default utf8)\n-t	convert to   (default utf8)\n\n"
 
 #define HELP_head "usage: head [-n number] [file...]\n\nCopy first lines from files to stdout. If no files listed, copy from\nstdin. Filename \"-\" is a synonym for stdin.\n\n-n	Number of lines to copy\n-c	Number of bytes to copy\n-q	Never print headers\n-v	Always print headers\n\n"
 

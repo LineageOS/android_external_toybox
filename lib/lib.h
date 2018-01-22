@@ -243,6 +243,7 @@ char *getusername(uid_t uid);
 char *getgroupname(gid_t gid);
 void do_lines(int fd, void (*call)(char **pline, long len));
 long environ_bytes();
+long long millitime(void);
 
 #define HR_SPACE 1 // Space between number and units
 #define HR_B     2 // Use "B" for single byte units
@@ -273,7 +274,7 @@ int draw_trim_esc(char *str, int padto, int width, char *escmore,
 int draw_trim(char *str, int padto, int width);
 
 // interestingtimes.c
-int xgettty(void);
+int tty_fd(void);
 int terminal_size(unsigned *xx, unsigned *yy);
 int terminal_probesize(unsigned *xx, unsigned *yy);
 int scan_key_getsize(char *scratch, int miliwait, unsigned *xx, unsigned *yy);
