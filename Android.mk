@@ -129,6 +129,7 @@ common_SRC_FILES := \
     toys/other/realpath.c \
     toys/other/rev.c \
     toys/other/rmmod.c \
+    toys/other/setfattr.c \
     toys/other/setsid.c \
     toys/other/stat.c \
     toys/other/swapoff.c \
@@ -148,12 +149,12 @@ common_SRC_FILES := \
     toys/pending/dd.c \
     toys/pending/diff.c \
     toys/pending/expr.c \
+    toys/pending/fmt.c \
     toys/pending/getfattr.c \
     toys/pending/gzip.c \
     toys/pending/lsof.c \
     toys/pending/modprobe.c \
     toys/pending/more.c \
-    toys/pending/setfattr.c \
     toys/pending/stty.c \
     toys/pending/tar.c \
     toys/pending/tr.c \
@@ -279,6 +280,7 @@ ALL_TOOLS := \
     file \
     find \
     flock \
+    fmt \
     free \
     getenforce \
     groups \

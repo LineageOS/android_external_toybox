@@ -765,6 +765,15 @@
 #undef FLAG_n
 #endif
 
+// fmt w# w#
+#undef OPTSTR_fmt
+#define OPTSTR_fmt "w#"
+#ifdef CLEANUP_fmt
+#undef CLEANUP_fmt
+#undef FOR_fmt
+#undef FLAG_w
+#endif
+
 // fold   bsuw#<1
 #undef OPTSTR_fold
 #define OPTSTR_fold "bsuw#<1"
@@ -974,9 +983,9 @@
 #undef FOR_groups
 #endif
 
-// gunzip cdfk123456789 cdfk123456789
+// gunzip cdfk123456789[-123456789] cdfk123456789[-123456789]
 #undef OPTSTR_gunzip
-#define OPTSTR_gunzip "cdfk123456789"
+#define OPTSTR_gunzip "cdfk123456789[-123456789]"
 #ifdef CLEANUP_gunzip
 #undef CLEANUP_gunzip
 #undef FOR_gunzip
@@ -995,9 +1004,9 @@
 #undef FLAG_c
 #endif
 
-// gzip cdfk123456789 cdfk123456789
+// gzip cdfk123456789[-123456789] cdfk123456789[-123456789]
 #undef OPTSTR_gzip
-#define OPTSTR_gzip "cdfk123456789"
+#define OPTSTR_gzip "cdfk123456789[-123456789]"
 #ifdef CLEANUP_gzip
 #undef CLEANUP_gzip
 #undef FOR_gzip
@@ -3188,9 +3197,9 @@
 #undef FLAG_a
 #endif
 
-// xargs ^I:E:L#ptxrn#<1s#0 ^I:E:L#ptxrn#<1s#0
+// xargs ^I:E:L#ptxrn#<1s#0[!0E] ^I:E:L#ptxrn#<1s#0[!0E]
 #undef OPTSTR_xargs
-#define OPTSTR_xargs "^I:E:L#ptxrn#<1s#0"
+#define OPTSTR_xargs "^I:E:L#ptxrn#<1s#0[!0E]"
 #ifdef CLEANUP_xargs
 #undef CLEANUP_xargs
 #undef FOR_xargs
@@ -3206,15 +3215,16 @@
 #undef FLAG_I
 #endif
 
-// xxd >1c#<1>4096=16l#g#<1=2prs#[!rs] >1c#<1>4096=16l#g#<1=2prs#[!rs]
+// xxd >1c#l#g#<1=2iprs#[!rs] >1c#l#g#<1=2iprs#[!rs]
 #undef OPTSTR_xxd
-#define OPTSTR_xxd ">1c#<1>4096=16l#g#<1=2prs#[!rs]"
+#define OPTSTR_xxd ">1c#l#g#<1=2iprs#[!rs]"
 #ifdef CLEANUP_xxd
 #undef CLEANUP_xxd
 #undef FOR_xxd
 #undef FLAG_s
 #undef FLAG_r
 #undef FLAG_p
+#undef FLAG_i
 #undef FLAG_g
 #undef FLAG_l
 #undef FLAG_c
@@ -3236,9 +3246,9 @@
 #undef FOR_yes
 #endif
 
-// zcat cdfk123456789 cdfk123456789
+// zcat cdfk123456789[-123456789] cdfk123456789[-123456789]
 #undef OPTSTR_zcat
-#define OPTSTR_zcat "cdfk123456789"
+#define OPTSTR_zcat "cdfk123456789[-123456789]"
 #ifdef CLEANUP_zcat
 #undef CLEANUP_zcat
 #undef FOR_zcat
@@ -3892,6 +3902,13 @@
 #define FLAG_u (1<<1)
 #define FLAG_s (1<<2)
 #define FLAG_n (1<<3)
+#endif
+
+#ifdef FOR_fmt
+#ifndef TT
+#define TT this.fmt
+#endif
+#define FLAG_w (1<<0)
 #endif
 
 #ifdef FOR_fold
@@ -5956,9 +5973,10 @@
 #define FLAG_s (1<<0)
 #define FLAG_r (1<<1)
 #define FLAG_p (1<<2)
-#define FLAG_g (1<<3)
-#define FLAG_l (1<<4)
-#define FLAG_c (1<<5)
+#define FLAG_i (1<<3)
+#define FLAG_g (1<<4)
+#define FLAG_l (1<<5)
+#define FLAG_c (1<<6)
 #endif
 
 #ifdef FOR_xzcat
