@@ -765,14 +765,16 @@ struct openvt_data {
 // toys/pending/ping.c
 
 struct ping_data {
-  long wait_exit;
-  long wait_resp;
-  char *iface;
-  long size;
-  long count;
-  long ttl;
+  long w;
+  long W;
+  char *i;
+  char *I;
+  long s;
+  long c;
+  long t;
 
   int sock;
+  long i_ms;
 };
 
 // toys/pending/route.c

@@ -375,6 +375,14 @@
 #undef FLAG_no_preserve_owner
 #endif
 
+// crc32    
+#undef OPTSTR_crc32
+#define OPTSTR_crc32 0
+#ifdef CLEANUP_crc32
+#undef CLEANUP_crc32
+#undef FOR_crc32
+#endif
+
 // crond   fbSl#<0=8d#<0L:c:[-bf][-LS][-ld]
 #undef OPTSTR_crond
 #define OPTSTR_crond "fbSl#<0=8d#<0L:c:[-bf][-LS][-ld]"
@@ -1955,17 +1963,19 @@
 #undef FLAG_s
 #endif
 
-// ping   <1>1t#<0>255c#<0s#<0>65535I:W#<0w#<0q46[-46]
+// ping   <1>1t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]
 #undef OPTSTR_ping
-#define OPTSTR_ping "<1>1t#<0>255c#<0s#<0>65535I:W#<0w#<0q46[-46]"
+#define OPTSTR_ping "<1>1t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]"
 #ifdef CLEANUP_ping
 #undef CLEANUP_ping
 #undef FOR_ping
 #undef FLAG_6
 #undef FLAG_4
+#undef FLAG_f
 #undef FLAG_q
 #undef FLAG_w
 #undef FLAG_W
+#undef FLAG_i
 #undef FLAG_I
 #undef FLAG_s
 #undef FLAG_c
@@ -3572,6 +3582,12 @@
 #define FLAG_no_preserve_owner (1<<11)
 #endif
 
+#ifdef FOR_crc32
+#ifndef TT
+#define TT this.crc32
+#endif
+#endif
+
 #ifdef FOR_crond
 #ifndef TT
 #define TT this.crond
@@ -4912,13 +4928,15 @@
 #endif
 #define FLAG_6 (FORCED_FLAG<<0)
 #define FLAG_4 (FORCED_FLAG<<1)
-#define FLAG_q (FORCED_FLAG<<2)
-#define FLAG_w (FORCED_FLAG<<3)
-#define FLAG_W (FORCED_FLAG<<4)
-#define FLAG_I (FORCED_FLAG<<5)
-#define FLAG_s (FORCED_FLAG<<6)
-#define FLAG_c (FORCED_FLAG<<7)
-#define FLAG_t (FORCED_FLAG<<8)
+#define FLAG_f (FORCED_FLAG<<2)
+#define FLAG_q (FORCED_FLAG<<3)
+#define FLAG_w (FORCED_FLAG<<4)
+#define FLAG_W (FORCED_FLAG<<5)
+#define FLAG_i (FORCED_FLAG<<6)
+#define FLAG_I (FORCED_FLAG<<7)
+#define FLAG_s (FORCED_FLAG<<8)
+#define FLAG_c (FORCED_FLAG<<9)
+#define FLAG_t (FORCED_FLAG<<10)
 #endif
 
 #ifdef FOR_pivot_root
