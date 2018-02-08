@@ -118,6 +118,8 @@
 #define USE_CP_PRESERVE(...) __VA_ARGS__
 #define CFG_CP 1
 #define USE_CP(...) __VA_ARGS__
+#define CFG_CRC32 0
+#define USE_CRC32(...)
 #define CFG_CROND 0
 #define USE_CROND(...)
 #define CFG_CRONTAB 0
