@@ -390,6 +390,11 @@ ALL_TOOLS := \
     yes \
     zcat \
 
+ALL_RECOVERY_TOOLS := \
+    $(ALL_TOOLS) \
+    dd \
+    grep
+
 ############################################
 # toybox for /system
 ############################################
@@ -438,5 +443,5 @@ LOCAL_STATIC_LIBRARIES := $(toybox_libraries)
 LOCAL_CXX_STL := libc++_static
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(ALL_RECOVERY_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
 include $(BUILD_EXECUTABLE)
