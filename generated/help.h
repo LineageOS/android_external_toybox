@@ -62,7 +62,7 @@
 
 #define HELP_hostid "usage: hostid\n\nPrint the numeric identifier for the current host.\n\n"
 
-#define HELP_hello "usage: hello [-s]\n\nA hello world program.  You don't need this.\n\nMostly used as a simple template for adding new commands.\nOccasionally nice to smoketest kernel booting via \"init=/usr/bin/hello\".\n\n"
+#define HELP_hello "usage: hello\n\nA hello world program.\n\nMostly used as a simple template for adding new commands.\nOccasionally nice to smoketest kernel booting via \"init=/usr/bin/hello\".\n\n"
 
 #define HELP_test_utf8towc "usage: test_utf8towc\n\nPrint differences between toybox's utf8 conversion routines vs libc du jour.\n\n"
 
