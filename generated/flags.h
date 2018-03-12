@@ -92,14 +92,16 @@
 #undef FOR_blkid
 #endif
 
-// blockdev <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(flushbufs)(rereadpt) <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(flushbufs)(rereadpt)
+// blockdev <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(getra)(setra)#<0(flushbufs)(rereadpt) <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(getra)(setra)#<0(flushbufs)(rereadpt)
 #undef OPTSTR_blockdev
-#define OPTSTR_blockdev "<1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(flushbufs)(rereadpt)"
+#define OPTSTR_blockdev "<1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(getra)(setra)#<0(flushbufs)(rereadpt)"
 #ifdef CLEANUP_blockdev
 #undef CLEANUP_blockdev
 #undef FOR_blockdev
 #undef FLAG_rereadpt
 #undef FLAG_flushbufs
+#undef FLAG_setra
+#undef FLAG_getra
 #undef FLAG_getsize64
 #undef FLAG_getsize
 #undef FLAG_getsz
@@ -3353,15 +3355,17 @@
 #endif
 #define FLAG_rereadpt (1<<0)
 #define FLAG_flushbufs (1<<1)
-#define FLAG_getsize64 (1<<2)
-#define FLAG_getsize (1<<3)
-#define FLAG_getsz (1<<4)
-#define FLAG_setbsz (1<<5)
-#define FLAG_getbsz (1<<6)
-#define FLAG_getss (1<<7)
-#define FLAG_getro (1<<8)
-#define FLAG_setrw (1<<9)
-#define FLAG_setro (1<<10)
+#define FLAG_setra (1<<2)
+#define FLAG_getra (1<<3)
+#define FLAG_getsize64 (1<<4)
+#define FLAG_getsize (1<<5)
+#define FLAG_getsz (1<<6)
+#define FLAG_setbsz (1<<7)
+#define FLAG_getbsz (1<<8)
+#define FLAG_getss (1<<9)
+#define FLAG_getro (1<<10)
+#define FLAG_setrw (1<<11)
+#define FLAG_setro (1<<12)
 #endif
 
 #ifdef FOR_bootchartd

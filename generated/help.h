@@ -280,7 +280,7 @@
 
 #define HELP_bunzip2 "usage: bunzip2 [-cftkv] [FILE...]\n\nDecompress listed files (file.bz becomes file) deleting archive file(s).\nRead from stdin if no files listed.\n\n-c	force output to stdout\n-f	force decompression (if FILE doesn't end in .bz, replace original)\n-k	keep input files (-c and -t imply this)\n-t	test integrity\n-v	verbose\n\n"
 
-#define HELP_blockdev "usage: blockdev --OPTION... BLOCKDEV...\n\nCall ioctl(s) on each listed block device\n\nOPTIONs:\n--setro		Set read only\n--setrw		Set read write\n--getro		Get read only\n--getss		Get sector size\n--getbsz	Get block size\n--setbsz	BYTES	Set block size\n--getsz		Get device size in 512-byte sectors\n--getsize	Get device size in sectors (deprecated)\n--getsize64	Get device size in bytes\n--flushbufs	Flush buffers\n--rereadpt	Reread partition table\n\n"
+#define HELP_blockdev "usage: blockdev --OPTION... BLOCKDEV...\n\nCall ioctl(s) on each listed block device\n\nOPTIONs:\n--setro		Set read only\n--setrw		Set read write\n--getro		Get read only\n--getss		Get sector size\n--getbsz	Get block size\n--setbsz	BYTES	Set block size\n--getsz		Get device size in 512-byte sectors\n--getsize	Get device size in sectors (deprecated)\n--getsize64	Get device size in bytes\n--getra		Get readahead in 512-byte sectors\n--setra		<sectors>	Set readahead\n--flushbufs	Flush buffers\n--rereadpt	Reread partition table\n\n"
 
 #define HELP_fstype "usage: fstype DEV...\n\nPrints type of filesystem on a block device or image.\n\n"
 
