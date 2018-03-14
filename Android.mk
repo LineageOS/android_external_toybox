@@ -54,6 +54,7 @@ LOCAL_PATH := $(call my-dir)
 
 common_SRC_FILES := \
     lib/args.c \
+    lib/commas.c \
     lib/dirtree.c \
     lib/getmountlist.c \
     lib/help.c \

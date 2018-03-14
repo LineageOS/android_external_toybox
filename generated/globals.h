@@ -212,6 +212,7 @@ struct base64_data {
 
 struct blockdev_data {
   long bsz;
+  long ra;
 };
 
 // toys/other/chrt.c
