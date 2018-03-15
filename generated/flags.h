@@ -84,6 +84,20 @@
 #undef FOR_basename
 #endif
 
+// bc cilqsw cilqsw
+#undef OPTSTR_bc
+#define OPTSTR_bc "cilqsw"
+#ifdef CLEANUP_bc
+#undef CLEANUP_bc
+#undef FOR_bc
+#undef FLAG_w
+#undef FLAG_s
+#undef FLAG_q
+#undef FLAG_l
+#undef FLAG_i
+#undef FLAG_c
+#endif
+
 // blkid    
 #undef OPTSTR_blkid
 #define OPTSTR_blkid 0
@@ -3159,12 +3173,13 @@
 #undef FOR_w
 #endif
 
-// watch   ^<1n#<0=2te
+// watch   ^<1n#<0=2teb
 #undef OPTSTR_watch
-#define OPTSTR_watch "^<1n#<0=2te"
+#define OPTSTR_watch "^<1n#<0=2teb"
 #ifdef CLEANUP_watch
 #undef CLEANUP_watch
 #undef FOR_watch
+#undef FLAG_b
 #undef FLAG_e
 #undef FLAG_t
 #undef FLAG_n
@@ -3227,9 +3242,9 @@
 #undef FLAG_I
 #endif
 
-// xxd >1c#l#g#<1=2iprs#[!rs] >1c#l#g#<1=2iprs#[!rs]
+// xxd >1c#l#o#g#<1=2iprs#[!rs] >1c#l#o#g#<1=2iprs#[!rs]
 #undef OPTSTR_xxd
-#define OPTSTR_xxd ">1c#l#g#<1=2iprs#[!rs]"
+#define OPTSTR_xxd ">1c#l#o#g#<1=2iprs#[!rs]"
 #ifdef CLEANUP_xxd
 #undef CLEANUP_xxd
 #undef FOR_xxd
@@ -3238,6 +3253,7 @@
 #undef FLAG_p
 #undef FLAG_i
 #undef FLAG_g
+#undef FLAG_o
 #undef FLAG_l
 #undef FLAG_c
 #endif
@@ -3341,6 +3357,18 @@
 #ifndef TT
 #define TT this.basename
 #endif
+#endif
+
+#ifdef FOR_bc
+#ifndef TT
+#define TT this.bc
+#endif
+#define FLAG_w (1<<0)
+#define FLAG_s (1<<1)
+#define FLAG_q (1<<2)
+#define FLAG_l (1<<3)
+#define FLAG_i (1<<4)
+#define FLAG_c (1<<5)
 #endif
 
 #ifdef FOR_blkid
@@ -5936,9 +5964,10 @@
 #ifndef TT
 #define TT this.watch
 #endif
-#define FLAG_e (FORCED_FLAG<<0)
-#define FLAG_t (FORCED_FLAG<<1)
-#define FLAG_n (FORCED_FLAG<<2)
+#define FLAG_b (FORCED_FLAG<<0)
+#define FLAG_e (FORCED_FLAG<<1)
+#define FLAG_t (FORCED_FLAG<<2)
+#define FLAG_n (FORCED_FLAG<<3)
 #endif
 
 #ifdef FOR_wc
@@ -5997,8 +6026,9 @@
 #define FLAG_p (1<<2)
 #define FLAG_i (1<<3)
 #define FLAG_g (1<<4)
-#define FLAG_l (1<<5)
-#define FLAG_c (1<<6)
+#define FLAG_o (1<<5)
+#define FLAG_l (1<<6)
+#define FLAG_c (1<<7)
 #endif
 
 #ifdef FOR_xzcat
