@@ -230,7 +230,6 @@ common_CFLAGS := \
     -Wno-missing-field-initializers \
     -Wno-sign-compare \
     -Wno-string-plus-int \
-    -Wno-uninitialized \
     -Wno-unused-parameter \
     -funsigned-char \
     -ffunction-sections -fdata-sections \
