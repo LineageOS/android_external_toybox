@@ -130,7 +130,7 @@
 
 #define HELP_yes "usage: yes [args...]\n\nRepeatedly output line until killed. If no args, output 'y'.\n\n\n"
 
-#define HELP_xxd "usage: xxd [-c n] [-g n] [-i] [-l n] [-p] [-r] [-s n] [file]\n\nHexdump a file to stdout.  If no file is listed, copy from stdin.\nFilename \"-\" is a synonym for stdin.\n\n-c n	Show n bytes per line (default 16)\n-g n	Group bytes by adding a ' ' every n bytes (default 2)\n-i	Include file output format (comma-separated hex byte literals)\n-l n	Limit of n bytes before stopping (default is no limit)\n-p	Plain hexdump (30 bytes/line, no grouping)\n-r	Reverse operation: turn a hexdump into a binary file\n-s n	Skip to offset n\n\n"
+#define HELP_xxd "usage: xxd [-c n] [-g n] [-i] [-l n] [-o n] [-p] [-r] [-s n] [file]\n\nHexdump a file to stdout.  If no file is listed, copy from stdin.\nFilename \"-\" is a synonym for stdin.\n\n-c n	Show n bytes per line (default 16)\n-g n	Group bytes by adding a ' ' every n bytes (default 2)\n-i	Include file output format (comma-separated hex byte literals)\n-l n	Limit of n bytes before stopping (default is no limit)\n-o n	Add n to display offset\n-p	Plain hexdump (30 bytes/line, no grouping)\n-r	Reverse operation: turn a hexdump into a binary file\n-s n	Skip to offset n\n\n"
 
 #define HELP_which "usage: which [-a] filename ...\n\nSearch $PATH for executable files matching filename(s).\n\n-a	Show all matches\n\n"
 
@@ -296,7 +296,7 @@
 
 #define HELP_wget "usage: wget -f filename URL\n-f filename: specify the filename to be saved\nURL: HTTP uniform resource location and only HTTP, not HTTPS\n\nexamples:\n  wget -f index.html http://www.example.com\n  wget -f sample.jpg http://www.example.com:8080/sample.jpg\n\n"
 
-#define HELP_watch "usage: watch [-n SEC] [-t] PROG ARGS\n\nRun PROG periodically\n\n-n  Loop period in seconds (default 2)\n-t  Don't print header\n-e  Freeze updates on command error, and exit after enter.\n\n"
+#define HELP_watch "usage: watch [-n SEC] [-t] PROG ARGS\n\nRun PROG periodically\n\n-n  Loop period in seconds (default 2)\n-t  Don't print header\n-e  Freeze updates on command error, and exit after enter.\n-b  Beep on command error\n\n"
 
 #define HELP_vi "usage: vi FILE\n\nVisual text editor. Predates the existence of standardized cursor keys,\nso the controls are weird and historical.\n\n"
 
@@ -423,6 +423,8 @@
 #define HELP_brctl "usage: brctl COMMAND [BRIDGE [INTERFACE]]\n\nManage ethernet bridges\n\nCommands:\nshow                  Show a list of bridges\naddbr BRIDGE          Create BRIDGE\ndelbr BRIDGE          Delete BRIDGE\naddif BRIDGE IFACE    Add IFACE to BRIDGE\ndelif BRIDGE IFACE    Delete IFACE from BRIDGE\nsetageing BRIDGE TIME Set ageing time\nsetfd BRIDGE TIME     Set bridge forward delay\nsethello BRIDGE TIME  Set hello time\nsetmaxage BRIDGE TIME Set max message age\nsetpathcost BRIDGE PORT COST   Set path cost\nsetportprio BRIDGE PORT PRIO   Set port priority\nsetbridgeprio BRIDGE PRIO      Set bridge priority\nstp BRIDGE [1/yes/on|0/no/off] STP on/off\n\n"
 
 #define HELP_bootchartd "usage: bootchartd {start [PROG ARGS]}|stop|init\n\nCreate /var/log/bootlog.tgz with boot chart data\n\nstart: start background logging; with PROG, run PROG,\n       then kill logging with USR1\nstop:  send USR1 to all bootchartd processes\ninit:  start background logging; stop when getty/xdm is seen\n      (for init scripts)\n\nUnder PID 1: as init, then exec $bootchart_init, /init, /sbin/init\n\n"
+
+#define HELP_bc "usage: bc [-cilqsw] [file ...]\n\nbc is a command-line calculator with a Turing-complete language.\n\noptions:\n\n  -c  print generated code (for debugging)\n  -i  force interactive mode\n  -l  use predefined math routines:\n\n      s(expr)  =  sine of expr in radians\n      c(expr)  =  cosine of expr in radians\n      a(expr)  =  arctangent of expr, returning radians\n      l(expr)  =  natural log of expr\n      e(expr)  =  raises e to the power of expr\n      j(n, x)  =  Bessel function of integer order n of x\n\n  -q  don't print version and copyright\n  -s  error if any non-POSIX extensions are used\n  -w  warn if any non-POSIX extensions are used\n\n\n"
 
 #define HELP_arping "usage: arping [-fqbDUA] [-c CNT] [-w TIMEOUT] [-I IFACE] [-s SRC_IP] DST_IP\n\nSend ARP requests/replies\n\n-f         Quit on first ARP reply\n-q         Quiet\n-b         Keep broadcasting, don't go unicast\n-D         Duplicated address detection mode\n-U         Unsolicited ARP mode, update your neighbors\n-A         ARP answer mode, update your neighbors\n-c N       Stop after sending N ARP requests\n-w TIMEOUT Time to wait for ARP reply, seconds\n-I IFACE   Interface to use (default eth0)\n-s SRC_IP  Sender IP address\nDST_IP     Target IP address\n\n"
 
