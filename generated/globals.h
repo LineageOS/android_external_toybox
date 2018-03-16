@@ -418,6 +418,7 @@ struct truncate_data {
 struct xxd_data {
   long s;
   long g;
+  long o;
   long l;
   long c;
 };
@@ -446,6 +447,17 @@ struct arping_data {
     unsigned long start, end;
     unsigned sent_at, sent_nr, rcvd_nr, brd_sent, rcvd_req, brd_rcv,
              unicast_flag;
+};
+
+// toys/pending/bc.c
+
+struct bc_data {
+    long bc_code;
+    long bc_interactive;
+    long bc_std;
+    long bc_warn;
+
+    long bc_signal;
 };
 
 // toys/pending/bootchartd.c
@@ -1462,6 +1474,7 @@ extern union global_union {
 	struct xxd_data xxd;
 	struct arp_data arp;
 	struct arping_data arping;
+	struct bc_data bc;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
 	struct compress_data compress;
