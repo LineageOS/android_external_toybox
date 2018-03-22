@@ -84,20 +84,6 @@
 #undef FOR_basename
 #endif
 
-// bc cilqsw cilqsw
-#undef OPTSTR_bc
-#define OPTSTR_bc "cilqsw"
-#ifdef CLEANUP_bc
-#undef CLEANUP_bc
-#undef FOR_bc
-#undef FLAG_w
-#undef FLAG_s
-#undef FLAG_q
-#undef FLAG_l
-#undef FLAG_i
-#undef FLAG_c
-#endif
-
 // blkid    
 #undef OPTSTR_blkid
 #define OPTSTR_blkid 0
@@ -629,9 +615,9 @@
 #undef FOR_dos2unix
 #endif
 
-// du d#<0hmlcaHkKLsx[-HL][-kKmh] d#<0hmlcaHkKLsx[-HL][-kKmh]
+// du d#<0=-1hmlcaHkKLsx[-HL][-kKmh] d#<0=-1hmlcaHkKLsx[-HL][-kKmh]
 #undef OPTSTR_du
-#define OPTSTR_du "d#<0hmlcaHkKLsx[-HL][-kKmh]"
+#define OPTSTR_du "d#<0=-1hmlcaHkKLsx[-HL][-kKmh]"
 #ifdef CLEANUP_du
 #undef CLEANUP_du
 #undef FOR_du
@@ -3357,18 +3343,6 @@
 #ifndef TT
 #define TT this.basename
 #endif
-#endif
-
-#ifdef FOR_bc
-#ifndef TT
-#define TT this.bc
-#endif
-#define FLAG_w (1<<0)
-#define FLAG_s (1<<1)
-#define FLAG_q (1<<2)
-#define FLAG_l (1<<3)
-#define FLAG_i (1<<4)
-#define FLAG_c (1<<5)
 #endif
 
 #ifdef FOR_blkid
