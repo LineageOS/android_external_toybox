@@ -147,7 +147,6 @@ common_SRC_FILES := \
     toys/other/which.c \
     toys/other/xxd.c \
     toys/other/yes.c \
-    toys/pending/bc.c \
     toys/pending/dd.c \
     toys/pending/diff.c \
     toys/pending/expr.c \
