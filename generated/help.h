@@ -64,13 +64,13 @@
 
 #define HELP_hello "usage: hello\n\nA hello world program.\n\nMostly used as a simple template for adding new commands.\nOccasionally nice to smoketest kernel booting via \"init=/usr/bin/hello\".\n\n"
 
-#define HELP_test_utf8towc "usage: test_utf8towc\n\nPrint differences between toybox's utf8 conversion routines vs libc du jour.\n\n"
+#define HELP_demo_utf8towc "usage: demo_utf8towc\n\nPrint differences between toybox's utf8 conversion routines vs libc du jour.\n\n"
 
-#define HELP_test_scankey "usage: test_scankey\n\nMove a letter around the screen. Hit ESC to exit.\n\n"
+#define HELP_demo_scankey "usage: demo_scankey\n\nMove a letter around the screen. Hit ESC to exit.\n\n"
 
-#define HELP_test_many_options "usage: test_many_options -[a-zA-Z]\n\nPrint the optflags value of the command arguments, in hex.\n\n"
+#define HELP_demo_number "usage: demo_number [-hsbi] NUMBER...\n\n-b	Use \"B\" for single byte units (HR_B)\n-d	Decimal units\n-h	human readable\n-s	Space between number and units (HR_SPACE)\n\n"
 
-#define HELP_test_human_readable "usage: test_human_readable [-sbi] NUMBER\n\n"
+#define HELP_demo_many_options "usage: demo_many_options -[a-zA-Z]\n\nPrint the optflags value of the command arguments, in hex.\n\n"
 
 #define HELP_umount "usage: umount [-a [-t TYPE[,TYPE...]]] [-vrfD] [DIR...]\n\nUnmount the listed filesystems.\n\n-a	Unmount all mounts in /proc/mounts instead of command line list\n-D  Don't free loopback device(s)\n-f  Force unmount\n-l  Lazy unmount (detach from filesystem now, close when last user does)\n-n	Don't use /proc/mounts\n-r  Remount read only if unmounting fails\n-t	Restrict \"all\" to mounts of TYPE (or use \"noTYPE\" to skip)\n-v	Verbose\n\n\n"
 

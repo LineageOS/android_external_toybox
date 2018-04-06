@@ -305,7 +305,7 @@ long long atolx(char *numstr)
     if (shift==-1) val *= 2;
     else if (!shift) val *= 512;
     else if (shift>0) {
-      if (*c && toupper(*c++)=='d') while (shift--) val *= 1000;
+      if (*c && tolower(*c++)=='d') while (shift--) val *= 1000;
       else val *= 1LL<<(shift*10);
     }
   }
@@ -700,18 +700,14 @@ static void tempfile_handler(void)
 int copy_tempfile(int fdin, char *name, char **tempname)
 {
   struct stat statbuf;
-  int fd;
-  int ignored __attribute__((__unused__));
+  int fd = xtempfile(name, tempname), ignored __attribute__((__unused__));
 
-  *tempname = xmprintf("%s%s", name, "XXXXXX");
-  if(-1 == (fd = mkstemp(*tempname))) error_exit("no temp file");
+  // Record tempfile for exit cleanup if interrupted
   if (!tempfile2zap) sigatexit(tempfile_handler);
   tempfile2zap = *tempname;
 
-  // Set permissions of output file (ignoring errors, usually due to nonroot)
-
-  fstat(fdin, &statbuf);
-  fchmod(fd, statbuf.st_mode);
+  // Set permissions of output file.
+  if (!fstat(fdin, &statbuf)) fchmod(fd, statbuf.st_mode);
 
   // We chmod before chown, which strips the suid bit. Caller has to explicitly
   // switch it back on if they want to keep suid.
