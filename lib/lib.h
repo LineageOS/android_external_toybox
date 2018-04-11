@@ -138,6 +138,7 @@ int xrun(char **argv);
 int xpspawn(char **argv, int*pipes);
 void xaccess(char *path, int flags);
 void xunlink(char *path);
+int xtempfile(char *name, char **tempname);
 int xcreate(char *path, int flags, int mode);
 int xopen(char *path, int flags);
 int xcreate_stdio(char *path, int flags, int mode);
@@ -347,7 +348,7 @@ pid_t __attribute__((returns_twice)) xvforkwrap(pid_t pid);
   if (!_noexit_res) do {x;} while(0); \
   toys.rebound = 0; \
   y = _noexit_res; \
-} while(0);
+} while(0)
 
 // Wrapper that discards true/false "did it exit" value.
 #define NOEXIT(x) WOULD_EXIT(_noexit_res, x)

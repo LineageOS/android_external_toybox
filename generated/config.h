@@ -138,6 +138,14 @@
 #define USE_DEBUG_DHCP(...)
 #define CFG_DECOMPRESS 0
 #define USE_DECOMPRESS(...)
+#define CFG_DEMO_MANY_OPTIONS 0
+#define USE_DEMO_MANY_OPTIONS(...)
+#define CFG_DEMO_NUMBER 0
+#define USE_DEMO_NUMBER(...)
+#define CFG_DEMO_SCANKEY 0
+#define USE_DEMO_SCANKEY(...)
+#define CFG_DEMO_UTF8TOWC 0
+#define USE_DEMO_UTF8TOWC(...)
 #define CFG_DF 1
 #define USE_DF(...) __VA_ARGS__
 #define CFG_DHCP6 0
@@ -548,16 +556,8 @@
 #define USE_TELNETD(...)
 #define CFG_TELNET 0
 #define USE_TELNET(...)
-#define CFG_TEST_HUMAN_READABLE 0
-#define USE_TEST_HUMAN_READABLE(...)
 #define CFG_TEST 0
 #define USE_TEST(...)
-#define CFG_TEST_MANY_OPTIONS 0
-#define USE_TEST_MANY_OPTIONS(...)
-#define CFG_TEST_SCANKEY 0
-#define USE_TEST_SCANKEY(...)
-#define CFG_TEST_UTF8TOWC 0
-#define USE_TEST_UTF8TOWC(...)
 #define CFG_TFTPD 0
 #define USE_TFTPD(...)
 #define CFG_TFTP 0
