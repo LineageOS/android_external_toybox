@@ -735,8 +735,6 @@ struct mke2fs_data {
   unsigned nextblock;    // Next data block to allocate
   unsigned nextgroup;    // Next group we'll be allocating from
   int fsfd;              // File descriptor of filesystem (to output to).
-
-  struct ext2_superblock sb;
 };
 
 // toys/pending/modprobe.c
