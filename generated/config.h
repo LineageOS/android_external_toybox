@@ -216,6 +216,8 @@
 #define USE_FTPGET(...)
 #define CFG_FTPPUT 0
 #define USE_FTPPUT(...)
+#define CFG_GETCONF 0
+#define USE_GETCONF(...)
 #define CFG_GETENFORCE 1
 #define USE_GETENFORCE(...) __VA_ARGS__
 #define CFG_GETFATTR 1
