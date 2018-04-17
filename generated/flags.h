@@ -331,9 +331,9 @@
 #undef FOR_count
 #endif
 
-// cp <2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni] <2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]
+// cp <2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni] <2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]
 #undef OPTSTR_cp
-#define OPTSTR_cp "<2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]"
+#define OPTSTR_cp "<2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]"
 #ifdef CLEANUP_cp
 #undef CLEANUP_cp
 #undef FOR_cp
@@ -353,6 +353,8 @@
 #undef FLAG_L
 #undef FLAG_H
 #undef FLAG_R
+#undef FLAG_parents
+#undef FLAG_D
 #undef FLAG_preserve
 #endif
 
@@ -969,6 +971,15 @@
 #undef FLAG_p
 #undef FLAG_c
 #undef FLAG_P
+#endif
+
+// getconf   l
+#undef OPTSTR_getconf
+#define OPTSTR_getconf "l"
+#ifdef CLEANUP_getconf
+#undef CLEANUP_getconf
+#undef FOR_getconf
+#undef FLAG_l
 #endif
 
 // getenforce >0 >0
@@ -2190,16 +2201,17 @@
 #undef FOR_readahead
 #endif
 
-// readlink <1>1fenq[-fe] <1>1fenq[-fe]
+// readlink <1>1nqmef[-mef] <1>1nqmef[-mef]
 #undef OPTSTR_readlink
-#define OPTSTR_readlink "<1>1fenq[-fe]"
+#define OPTSTR_readlink "<1>1nqmef[-mef]"
 #ifdef CLEANUP_readlink
 #undef CLEANUP_readlink
 #undef FOR_readlink
+#undef FLAG_f
+#undef FLAG_e
+#undef FLAG_m
 #undef FLAG_q
 #undef FLAG_n
-#undef FLAG_e
-#undef FLAG_f
 #endif
 
 // realpath <1 <1
@@ -3567,7 +3579,9 @@
 #define FLAG_L (1<<12)
 #define FLAG_H (1<<13)
 #define FLAG_R (1<<14)
-#define FLAG_preserve (1<<15)
+#define FLAG_parents (1<<15)
+#define FLAG_D (1<<15)
+#define FLAG_preserve (1<<16)
 #endif
 
 #ifdef FOR_cpio
@@ -4095,6 +4109,13 @@
 #define FLAG_p (FORCED_FLAG<<10)
 #define FLAG_c (FORCED_FLAG<<11)
 #define FLAG_P (FORCED_FLAG<<12)
+#endif
+
+#ifdef FOR_getconf
+#ifndef TT
+#define TT this.getconf
+#endif
+#define FLAG_l (FORCED_FLAG<<0)
 #endif
 
 #ifdef FOR_getenforce
@@ -5130,10 +5151,11 @@
 #ifndef TT
 #define TT this.readlink
 #endif
-#define FLAG_q (1<<0)
-#define FLAG_n (1<<1)
-#define FLAG_e (1<<2)
-#define FLAG_f (1<<3)
+#define FLAG_f (1<<0)
+#define FLAG_e (1<<1)
+#define FLAG_m (1<<2)
+#define FLAG_q (1<<3)
+#define FLAG_n (1<<4)
 #endif
 
 #ifdef FOR_realpath
