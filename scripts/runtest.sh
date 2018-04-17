@@ -79,9 +79,9 @@ wrong_args()
 
 testing()
 {
+  NAME="$CMDNAME $1"
   wrong_args "$@"
 
-  NAME="$CMDNAME $1"
   [ -z "$1" ] && NAME=$2
 
   [ -n "$DEBUG" ] && set -x
@@ -94,7 +94,7 @@ testing()
 
   echo -ne "$3" > expected
   echo -ne "$4" > input
-  echo -ne "$5" | ${EVAL:-eval} "$2" > actual
+  echo -ne "$5" | ${EVAL:-eval} -- "$2" > actual
   RETVAL=$?
 
   # Catch segfaults
