@@ -240,7 +240,6 @@ common_CFLAGS += -DTOYBOX_VENDOR=\"-android\"
 
 # not usable on Android?: freeramdisk fsfreeze install makedevs nbd-client
 #                         partprobe pivot_root pwdx rev rfkill vconfig
-# currently prefer BSD system/core/toolbox: dd
 # currently prefer BSD external/netcat: nc netcat
 # currently prefer external/efs2progs: blkid chattr lsattr
 
@@ -265,6 +264,7 @@ ALL_TOOLS := \
     cpio \
     cut \
     date \
+    dd \
     df \
     diff \
     dirname \
