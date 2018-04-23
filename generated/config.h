@@ -402,8 +402,8 @@
 #define USE_NOHUP(...) __VA_ARGS__
 #define CFG_NPROC 0
 #define USE_NPROC(...)
-#define CFG_NSENTER 0
-#define USE_NSENTER(...)
+#define CFG_NSENTER 1
+#define USE_NSENTER(...) __VA_ARGS__
 #define CFG_OD 1
 #define USE_OD(...) __VA_ARGS__
 #define CFG_ONEIT 0
@@ -598,8 +598,8 @@
 #define USE_UNIX2DOS(...) __VA_ARGS__
 #define CFG_UNLINK 0
 #define USE_UNLINK(...)
-#define CFG_UNSHARE 0
-#define USE_UNSHARE(...)
+#define CFG_UNSHARE 1
+#define USE_UNSHARE(...) __VA_ARGS__
 #define CFG_UPTIME 1
 #define USE_UPTIME(...) __VA_ARGS__
 #define CFG_USERADD 0
