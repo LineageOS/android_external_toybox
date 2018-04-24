@@ -1917,7 +1917,7 @@
 #undef FLAG_all
 #endif
 
-// nsenter   <1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
+// nsenter <1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user); <1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
 #undef OPTSTR_nsenter
 #define OPTSTR_nsenter "<1F(no-fork)t#<1(target)i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);"
 #ifdef CLEANUP_nsenter
@@ -3054,7 +3054,7 @@
 #undef FOR_unlink
 #endif
 
-// unshare   <1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
+// unshare <1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user); <1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);
 #undef OPTSTR_unshare
 #define OPTSTR_unshare "<1^f(fork);r(map-root-user);i:(ipc);m:(mount);n:(net);p:(pid);u:(uts);U:(user);"
 #ifdef CLEANUP_unshare
@@ -4907,22 +4907,22 @@
 #ifndef TT
 #define TT this.nsenter
 #endif
-#define FLAG_user (FORCED_FLAG<<0)
-#define FLAG_U (FORCED_FLAG<<0)
-#define FLAG_uts (FORCED_FLAG<<1)
-#define FLAG_u (FORCED_FLAG<<1)
-#define FLAG_pid (FORCED_FLAG<<2)
-#define FLAG_p (FORCED_FLAG<<2)
-#define FLAG_net (FORCED_FLAG<<3)
-#define FLAG_n (FORCED_FLAG<<3)
-#define FLAG_mount (FORCED_FLAG<<4)
-#define FLAG_m (FORCED_FLAG<<4)
-#define FLAG_ipc (FORCED_FLAG<<5)
-#define FLAG_i (FORCED_FLAG<<5)
-#define FLAG_target (FORCED_FLAG<<6)
-#define FLAG_t (FORCED_FLAG<<6)
-#define FLAG_no_fork (FORCED_FLAG<<7)
-#define FLAG_F (FORCED_FLAG<<7)
+#define FLAG_user (1<<0)
+#define FLAG_U (1<<0)
+#define FLAG_uts (1<<1)
+#define FLAG_u (1<<1)
+#define FLAG_pid (1<<2)
+#define FLAG_p (1<<2)
+#define FLAG_net (1<<3)
+#define FLAG_n (1<<3)
+#define FLAG_mount (1<<4)
+#define FLAG_m (1<<4)
+#define FLAG_ipc (1<<5)
+#define FLAG_i (1<<5)
+#define FLAG_target (1<<6)
+#define FLAG_t (1<<6)
+#define FLAG_no_fork (1<<7)
+#define FLAG_F (1<<7)
 #endif
 
 #ifdef FOR_od
@@ -5866,22 +5866,22 @@
 #ifndef TT
 #define TT this.unshare
 #endif
-#define FLAG_user (FORCED_FLAG<<0)
-#define FLAG_U (FORCED_FLAG<<0)
-#define FLAG_uts (FORCED_FLAG<<1)
-#define FLAG_u (FORCED_FLAG<<1)
-#define FLAG_pid (FORCED_FLAG<<2)
-#define FLAG_p (FORCED_FLAG<<2)
-#define FLAG_net (FORCED_FLAG<<3)
-#define FLAG_n (FORCED_FLAG<<3)
-#define FLAG_mount (FORCED_FLAG<<4)
-#define FLAG_m (FORCED_FLAG<<4)
-#define FLAG_ipc (FORCED_FLAG<<5)
-#define FLAG_i (FORCED_FLAG<<5)
-#define FLAG_map_root_user (FORCED_FLAG<<6)
-#define FLAG_r (FORCED_FLAG<<6)
-#define FLAG_fork (FORCED_FLAG<<7)
-#define FLAG_f (FORCED_FLAG<<7)
+#define FLAG_user (1<<0)
+#define FLAG_U (1<<0)
+#define FLAG_uts (1<<1)
+#define FLAG_u (1<<1)
+#define FLAG_pid (1<<2)
+#define FLAG_p (1<<2)
+#define FLAG_net (1<<3)
+#define FLAG_n (1<<3)
+#define FLAG_mount (1<<4)
+#define FLAG_m (1<<4)
+#define FLAG_ipc (1<<5)
+#define FLAG_i (1<<5)
+#define FLAG_map_root_user (1<<6)
+#define FLAG_r (1<<6)
+#define FLAG_fork (1<<7)
+#define FLAG_f (1<<7)
 #endif
 
 #ifdef FOR_uptime
