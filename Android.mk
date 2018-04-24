@@ -121,6 +121,7 @@ common_SRC_FILES := \
     toys/other/modinfo.c \
     toys/other/mountpoint.c \
     toys/other/nbd_client.c \
+    toys/other/nsenter.c \
     toys/other/partprobe.c \
     toys/other/pivot_root.c \
     toys/other/pmap.c \
@@ -324,6 +325,7 @@ ALL_TOOLS := \
     nice \
     nl \
     nohup \
+    nsenter \
     od \
     paste \
     patch \
@@ -384,6 +386,7 @@ ALL_TOOLS := \
     uname \
     uniq \
     unix2dos \
+    unshare \
     uptime \
     usleep \
     uudecode \
