@@ -140,6 +140,8 @@
 
 #define HELP_vconfig "usage: vconfig COMMAND [OPTIONS]\n\nCreate and remove virtual ethernet devices\n\nadd             [interface-name] [vlan_id]\nrem             [vlan-name]\nset_flag        [interface-name] [flag-num]       [0 | 1]\nset_egress_map  [vlan-name]      [skb_priority]   [vlan_qos]\nset_ingress_map [vlan-name]      [skb_priority]   [vlan_qos]\nset_name_type   [name-type]\n\n"
 
+#define HELP_uuidgen "usage: uuidgen\n\nCreate and print a new RFC4122 random UUID.\n\n"
+
 #define HELP_usleep "usage: usleep MICROSECONDS\n\nPause for MICROSECONDS microseconds.\n\n"
 
 #define HELP_uptime "usage: uptime [-ps]\n\nTell the current time, how long the system has been running, the number\nof users, and the system load averages for the past 1, 5 and 15 minutes.\n\n-p	Pretty (human-readable) uptime\n-s	Since when has the system been up?\n\n"
