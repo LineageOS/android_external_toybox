@@ -612,6 +612,8 @@
 #define USE_UUDECODE(...) __VA_ARGS__
 #define CFG_UUENCODE 1
 #define USE_UUENCODE(...) __VA_ARGS__
+#define CFG_UUIDGEN 1
+#define USE_UUIDGEN(...) __VA_ARGS__
 #define CFG_VCONFIG 1
 #define USE_VCONFIG(...) __VA_ARGS__
 #define CFG_VI 0
