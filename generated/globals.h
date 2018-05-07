@@ -1256,13 +1256,15 @@ struct ps_data {
     struct {
       long n;
       long m;
-      long d;
+      char *d;
       long s;
       struct arg_list *u;
       struct arg_list *p;
       struct arg_list *o;
       struct arg_list *k;
       struct arg_list *O;
+
+      long d_ms;
     } top;
     struct {
       char *L;

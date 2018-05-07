@@ -143,6 +143,7 @@ common_SRC_FILES := \
     toys/other/truncate.c \
     toys/other/uptime.c \
     toys/other/usleep.c \
+    toys/other/uuidgen.c \
     toys/other/vconfig.c \
     toys/other/vmstat.c \
     toys/other/which.c \
@@ -392,6 +393,7 @@ ALL_TOOLS := \
     usleep \
     uudecode \
     uuencode \
+    uuidgen \
     vmstat \
     wc \
     which \
