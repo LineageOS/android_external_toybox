@@ -1321,9 +1321,9 @@
 #undef FOR_iorenice
 #endif
 
-// iotop >0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq >0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq
+// iotop >0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq >0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq
 #undef OPTSTR_iotop
-#define OPTSTR_iotop ">0AaKOHk*o*p*u*s#<1=7d#=3<1m#n#<1bq"
+#define OPTSTR_iotop ">0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq"
 #ifdef CLEANUP_iotop
 #undef CLEANUP_iotop
 #undef FOR_iotop
@@ -2840,9 +2840,9 @@
 #undef FLAG_v
 #endif
 
-// top >0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO] >0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO]
+// top >0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO] >0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO]
 #undef OPTSTR_top
-#define OPTSTR_top ">0O*Hk*o*p*u*s#<1d#=3<1m#n#<1bq[!oO]"
+#define OPTSTR_top ">0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO]"
 #ifdef CLEANUP_top
 #undef CLEANUP_top
 #undef FOR_top
@@ -3137,6 +3137,16 @@
 #undef CLEANUP_uuencode
 #undef FOR_uuencode
 #undef FLAG_m
+#endif
+
+// uuidgen >0r(random) >0r(random)
+#undef OPTSTR_uuidgen
+#define OPTSTR_uuidgen ">0r(random)"
+#ifdef CLEANUP_uuidgen
+#undef CLEANUP_uuidgen
+#undef FOR_uuidgen
+#undef FLAG_random
+#undef FLAG_r
 #endif
 
 // vconfig <2>4 <2>4
@@ -5931,6 +5941,14 @@
 #define TT this.uuencode
 #endif
 #define FLAG_m (1<<0)
+#endif
+
+#ifdef FOR_uuidgen
+#ifndef TT
+#define TT this.uuidgen
+#endif
+#define FLAG_random (1<<0)
+#define FLAG_r (1<<0)
 #endif
 
 #ifdef FOR_vconfig
