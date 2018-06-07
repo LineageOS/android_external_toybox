@@ -425,6 +425,7 @@ cc_binary {
     name: "toybox",
     defaults: ["toybox-defaults"],
     shared_libs: toybox_libraries,
+    recovery_available: true,
 }
 
 cc_binary {
@@ -432,13 +433,4 @@ cc_binary {
     defaults: ["toybox-defaults"],
     shared_libs: toybox_libraries,
     vendor: true,
-}
-
-cc_binary {
-   name: "toybox_recovery",
-   defaults: ["toybox-defaults"],
-   whole_static_libs: toybox_libraries,
-   recovery: true,
-   stl: "libc++_static",
-   static_executable: true,
 }
