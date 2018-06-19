@@ -187,6 +187,24 @@ struct netstat_data {
   int wpad;
 };;
 
+// toys/net/ping.c
+
+struct ping_data {
+  long w;
+  long W;
+  char *i;
+  char *I;
+  long s;
+  long c;
+  long t;
+  long m;
+
+  struct sockaddr *sa;
+  int sock;
+  long i_ms;
+  unsigned long sent, recv, fugit, min, max;
+};
+
 // toys/net/tunctl.c
 
 struct tunctl_data {
@@ -762,21 +780,6 @@ struct openvt_data {
   unsigned long vt_num;
 };
 
-// toys/pending/ping.c
-
-struct ping_data {
-  long w;
-  long W;
-  char *i;
-  char *I;
-  long s;
-  long c;
-  long t;
-
-  int sock;
-  long i_ms;
-};
-
 // toys/pending/route.c
 
 struct route_data {
@@ -1084,6 +1087,8 @@ struct expand_data {
 
 struct file_data {
   int max_name_len;
+
+  off_t len;
 };
 
 // toys/posix/find.c
@@ -1432,6 +1437,7 @@ extern union global_union {
 	struct microcom_data microcom;
 	struct netcat_data netcat;
 	struct netstat_data netstat;
+	struct ping_data ping;
 	struct tunctl_data tunctl;
 	struct acpi_data acpi;
 	struct base64_data base64;
@@ -1494,7 +1500,6 @@ extern union global_union {
 	struct modprobe_data modprobe;
 	struct more_data more;
 	struct openvt_data openvt;
-	struct ping_data ping;
 	struct route_data route;
 	struct sh_data sh;
 	struct stty_data stty;
