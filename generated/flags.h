@@ -2064,9 +2064,9 @@
 #undef FLAG_s
 #endif
 
-// ping   <1>1t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]
+// ping   <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]
 #undef OPTSTR_ping
-#define OPTSTR_ping "<1>1t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]"
+#define OPTSTR_ping "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]"
 #ifdef CLEANUP_ping
 #undef CLEANUP_ping
 #undef FOR_ping
@@ -2081,6 +2081,7 @@
 #undef FLAG_s
 #undef FLAG_c
 #undef FLAG_t
+#undef FLAG_m
 #endif
 
 // pivot_root <2>2 <2>2
@@ -5055,6 +5056,7 @@
 #define FLAG_s (FORCED_FLAG<<8)
 #define FLAG_c (FORCED_FLAG<<9)
 #define FLAG_t (FORCED_FLAG<<10)
+#define FLAG_m (FORCED_FLAG<<11)
 #endif
 
 #ifdef FOR_pivot_root

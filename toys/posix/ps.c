@@ -61,36 +61,28 @@ config PS
 
     List processes.
 
-    Which processes to show (selections may be comma separated lists):
+    Which processes to show (-gGuUpPt selections may be comma separated lists):
 
-    -A	All processes
-    -a	Processes with terminals that aren't session leaders
-    -d	All processes that aren't session leaders
-    -e	Same as -A
-    -g	Belonging to GROUPs
-    -G	Belonging to real GROUPs (before sgid)
-    -p	PIDs (--pid)
-    -P	Parent PIDs (--ppid)
-    -s	In session IDs
-    -t	Attached to selected TTYs
-    -T	Show threads
-    -u	Owned by USERs
-    -U	Owned by real USERs (before suid)
+    -A  all					-a  has terminal not session leader
+    -d  All but session leaders		-e  synonym for -A
+    -g  in GROUPs				-G  in real GROUPs (before sgid)
+    -p  PIDs (--pid)			-P  Parent PIDs (--ppid)
+    -s  In session IDs			-t  Attached to selected TTYs
+    -T  Show threads also			-u  Owned by selected USERs
+    -U  real USERs (before suid)
 
     Output modifiers:
 
-    -k	Sort FIELDs in +increasing or -decreasting order (--sort)
-    -M	Measure field widths (expanding as necessary)
-    -n	Show numeric USER and GROUP
-    -w	Wide output (don't truncate fields)
+    -k  Sort FIELDs (-FIELD to reverse)	-M  Measure/pad future field widths
+    -n  Show numeric USER and GROUP		-w  Wide output (don't truncate fields)
 
     Which FIELDs to show. (Default = -o PID,TTY,TIME,CMD)
 
-    -f	Full listing (-o USER:12=UID,PID,PPID,C,STIME,TTY,TIME,ARGS=CMD)
-    -l	Long listing (-o F,S,UID,PID,PPID,C,PRI,NI,ADDR,SZ,WCHAN,TTY,TIME,CMD)
-    -o	Output FIELDs instead of defaults, each with optional :size and =title
-    -O	Add FIELDS to defaults
-    -Z	Include LABEL
+    -f  Full listing (-o USER:12=UID,PID,PPID,C,STIME,TTY,TIME,ARGS=CMD)
+    -l  Long listing (-o F,S,UID,PID,PPID,C,PRI,NI,ADDR,SZ,WCHAN,TTY,TIME,CMD)
+    -o  Output FIELDs instead of defaults, each with optional :size and =title
+    -O  Add FIELDS to defaults
+    -Z  Include LABEL
 
     Command line -o fields:
 
@@ -126,7 +118,7 @@ config PS
       TIME  CPU time consumed                 TTY     Controlling terminal
       UID   User id                           USER    User name
       VSZ   Virtual memory size (1k units)    %VSZ    VSZ as % of physical memory
-      WCHAN What are we waiting in kernel for
+      WCHAN Wait location in kernel
 
 config TOP
   bool "top"
@@ -651,7 +643,7 @@ static void show_ps(void *p)
     if (!abslen) putchar('+');
     if (!width) break;
   }
-  xputc(TT.time ? '\r' : '\n');
+  putchar(TT.time ? '\r' : '\n');
 }
 
 // dirtree callback: read data about process to display, store, or discard it.
@@ -1382,6 +1374,10 @@ static void top_common(
  
   unsigned tock = 0;
   int i, lines, topoff = 0, done = 0;
+  char stdout_buf[BUFSIZ];
+
+  // Avoid flicker in interactive mode.
+  if (!(toys.optflags&FLAG_b)) setbuf(stdout, stdout_buf);
 
   toys.signal = SIGWINCH;
   TT.bits = get_headers(TT.fields, toybuf, sizeof(toybuf));
@@ -1558,8 +1554,13 @@ static void top_common(
       recalc = 1;
 
       for (i = 0; i<lines && i+topoff<mix.count; i++) {
-        if (!(toys.optflags&FLAG_b) && i) xputc('\n');
+        // Running processes are shown in bold.
+        int bold = !(toys.optflags&FLAG_b) && mix.tb[i+topoff]->state == 'R';
+
+        if (!(toys.optflags&FLAG_b) && i) putchar('\n');
+        if (bold) printf("\033[1m");
         show_ps(mix.tb[i+topoff]);
+        if (bold) printf("\033[m");
       }
 
       if (TT.top.n && !--TT.top.n) {
@@ -1577,7 +1578,7 @@ static void top_common(
         // Make an obvious gap between datasets.
         xputs("\n\n");
         continue;
-      }
+      } else fflush(stdout);
 
       i = scan_key_getsize(scratch, timeout-now, &TT.width, &TT.height);
       if (i==-1 || i==3 || toupper(i)=='Q') {
