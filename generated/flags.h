@@ -3047,7 +3047,7 @@
 #undef FOR_unix2dos
 #endif
 
-// unlink   <1>1
+// unlink <1>1 <1>1
 #undef OPTSTR_unlink
 #define OPTSTR_unlink "<1>1"
 #ifdef CLEANUP_unlink
