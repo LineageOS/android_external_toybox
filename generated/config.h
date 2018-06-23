@@ -596,8 +596,8 @@
 #define USE_UNIQ(...) __VA_ARGS__
 #define CFG_UNIX2DOS 1
 #define USE_UNIX2DOS(...) __VA_ARGS__
-#define CFG_UNLINK 0
-#define USE_UNLINK(...)
+#define CFG_UNLINK 1
+#define USE_UNLINK(...) __VA_ARGS__
 #define CFG_UNSHARE 1
 #define USE_UNSHARE(...) __VA_ARGS__
 #define CFG_UPTIME 1
