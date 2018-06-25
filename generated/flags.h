@@ -865,9 +865,9 @@
 #undef FLAG_n
 #endif
 
-// fmt w# w#
+// fmt w#<0=75 w#<0=75
 #undef OPTSTR_fmt
-#define OPTSTR_fmt "w#"
+#define OPTSTR_fmt "w#<0=75"
 #ifdef CLEANUP_fmt
 #undef CLEANUP_fmt
 #undef FOR_fmt
