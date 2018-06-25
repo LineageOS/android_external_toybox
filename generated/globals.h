@@ -252,6 +252,14 @@ struct fallocate_data {
   long size;
 };
 
+// toys/other/fmt.c
+
+struct fmt_data {
+  int width;
+
+  int level, pos;
+};
+
 // toys/other/free.c
 
 struct free_data {
@@ -607,12 +615,6 @@ struct fdisk_data {
   long sectors;
   long heads;
   long cylinders;
-};
-
-// toys/pending/fmt.c
-
-struct fmt_data {
-  int width;
 };
 
 // toys/pending/fold.c
@@ -1445,6 +1447,7 @@ extern union global_union {
 	struct chrt_data chrt;
 	struct dos2unix_data dos2unix;
 	struct fallocate_data fallocate;
+	struct fmt_data fmt;
 	struct free_data free;
 	struct hexedit_data hexedit;
 	struct hwclock_data hwclock;
@@ -1482,7 +1485,6 @@ extern union global_union {
 	struct dumpleases_data dumpleases;
 	struct expr_data expr;
 	struct fdisk_data fdisk;
-	struct fmt_data fmt;
 	struct fold_data fold;
 	struct fsck_data fsck;
 	struct getfattr_data getfattr;
