@@ -293,6 +293,7 @@ ALL_TOOLS := \
     ifconfig \
     inotifyd \
     insmod \
+    install \
     ionice \
     iorenice \
     kill \
