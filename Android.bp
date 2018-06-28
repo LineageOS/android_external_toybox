@@ -89,6 +89,7 @@ cc_defaults {
         "toys/net/microcom.c",
         "toys/net/netcat.c",
         "toys/net/netstat.c",
+        "toys/net/ping.c",
         "toys/net/rfkill.c",
         "toys/net/tunctl.c",
         "toys/other/acpi.c",

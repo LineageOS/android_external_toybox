@@ -422,8 +422,10 @@
 #define USE_PGREP(...) __VA_ARGS__
 #define CFG_PIDOF 1
 #define USE_PIDOF(...) __VA_ARGS__
-#define CFG_PING 0
-#define USE_PING(...)
+#define CFG_PING 1
+#define USE_PING(...) __VA_ARGS__
+#define CFG_PING6 1
+#define USE_PING6(...) __VA_ARGS__
 #define CFG_PIVOT_ROOT 1
 #define USE_PIVOT_ROOT(...) __VA_ARGS__
 #define CFG_PKILL 1
