@@ -2064,7 +2064,7 @@
 #undef FLAG_s
 #endif
 
-// ping   <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]
+// ping <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46] <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]
 #undef OPTSTR_ping
 #define OPTSTR_ping "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=10w#<0qf46[-46]"
 #ifdef CLEANUP_ping
@@ -5045,18 +5045,18 @@
 #ifndef TT
 #define TT this.ping
 #endif
-#define FLAG_6 (FORCED_FLAG<<0)
-#define FLAG_4 (FORCED_FLAG<<1)
-#define FLAG_f (FORCED_FLAG<<2)
-#define FLAG_q (FORCED_FLAG<<3)
-#define FLAG_w (FORCED_FLAG<<4)
-#define FLAG_W (FORCED_FLAG<<5)
-#define FLAG_i (FORCED_FLAG<<6)
-#define FLAG_I (FORCED_FLAG<<7)
-#define FLAG_s (FORCED_FLAG<<8)
-#define FLAG_c (FORCED_FLAG<<9)
-#define FLAG_t (FORCED_FLAG<<10)
-#define FLAG_m (FORCED_FLAG<<11)
+#define FLAG_6 (1<<0)
+#define FLAG_4 (1<<1)
+#define FLAG_f (1<<2)
+#define FLAG_q (1<<3)
+#define FLAG_w (1<<4)
+#define FLAG_W (1<<5)
+#define FLAG_i (1<<6)
+#define FLAG_I (1<<7)
+#define FLAG_s (1<<8)
+#define FLAG_c (1<<9)
+#define FLAG_t (1<<10)
+#define FLAG_m (1<<11)
 #endif
 
 #ifdef FOR_pivot_root
