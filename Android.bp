@@ -89,6 +89,7 @@ cc_defaults {
         "toys/net/microcom.c",
         "toys/net/netcat.c",
         "toys/net/netstat.c",
+        "toys/net/ping.c",
         "toys/net/rfkill.c",
         "toys/net/tunctl.c",
         "toys/other/acpi.c",
@@ -245,9 +246,10 @@ cc_defaults {
     // because libnetd_client.so is C++.
     stl: "none",
 
-    // not usable on Android?: freeramdisk fsfreeze install makedevs nbd-client
+    // not usable on Android?: freeramdisk fsfreeze makedevs nbd-client
     //                         partprobe pivot_root pwdx rev rfkill vconfig
     // currently prefer external/efs2progs: blkid chattr lsattr
+    // currently prefer external/iputils: ping ping6
     symlinks: [
         "acpi",
         "base64",
@@ -298,6 +300,7 @@ cc_defaults {
         "ifconfig",
         "inotifyd",
         "insmod",
+        "install",
         "ionice",
         "iorenice",
         "kill",
