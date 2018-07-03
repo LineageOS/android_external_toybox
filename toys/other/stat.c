@@ -26,8 +26,8 @@ config STAT
     %m  Mount point         |%n  Filename           |%N  Long filename
     %o  I/O block size      |%s  Size (bytes)       |%t  Devtype major (hex)
     %T  Devtype minor (hex) |%u  User ID            |%U  User name
-    %x  Access time         |%X  Access unix time   |%y  File write time
-    %Y  File write unix time|%z  Dir change time    |%Z  Dir change unix time
+    %x  Access time         |%X  Access unix time   |%y  Modification time
+    %Y  Mod unix time       |%z  Creation time      |%Z  Creation unix time
 
     The valid format escape sequences for filesystems:
     %a  Available blocks    |%b  Total blocks       |%c  Total inodes
@@ -112,7 +112,7 @@ static void print_stat(char type)
     }
     llist_traverse(mt, free);
   } else if (type == 'N') {
-    xprintf("`%s'", TT.file);
+    xprintf("%s", TT.file);
     if (S_ISLNK(stat->st_mode))
       if (readlink0(TT.file, toybuf, sizeof(toybuf)))
         xprintf(" -> `%s'", toybuf);
@@ -177,13 +177,13 @@ void stat_main(void)
     format = flagf ? "%n %i %l %t %s %S %b %f %a %c %d" :
                      "%n %s %b %f %u %g %D %i %h %t %T %X %Y %Z %o";
   } else format = flagf
-    ? "  File: \"%n\"\n    ID: %i Namelen: %l    Type: %t\n"
+    ? "  File: \"%n\"\n    ID: %i Namelen: %l    Type: %T\n"
       "Block Size: %s    Fundamental block size: %S\n"
       "Blocks: Total: %b\tFree: %f\tAvailable: %a\n"
       "Inodes: Total: %c\tFree: %d"
     : "  File: %N\n  Size: %s\t Blocks: %b\t IO Blocks: %B\t%F\n"
       "Device: %Dh/%dd\t Inode: %i\t Links: %h\n"
-      "Access: (%a/%A)\tUid: (%5u/%8U)\tGid: (%5g/%8G)\n"
+      "Access: (0%a/%A)\tUid: (%5u/%8U)\tGid: (%5g/%8G)\n"
       "Access: %x\nModify: %y\nChange: %z";
 
   if (toys.optflags & FLAG_c) format = TT.fmt;
