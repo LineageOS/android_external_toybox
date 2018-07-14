@@ -850,14 +850,20 @@ void exit_signal(int sig)
 // adds the handlers to a list, to be called in order.
 void sigatexit(void *handler)
 {
-  struct arg_list *al = xmalloc(sizeof(struct arg_list));
+  struct arg_list *al;
   int i;
 
   for (i=0; signames[i].num != SIGCHLD; i++)
-    signal(signames[i].num, exit_signal);
-  al->next = toys.xexit;
-  al->arg = handler;
-  toys.xexit = al;
+    signal(signames[i].num, handler ? exit_signal : SIG_DFL);
+  if (handler) {
+    al = xmalloc(sizeof(struct arg_list));
+    al->next = toys.xexit;
+    al->arg = handler;
+    toys.xexit = al;
+  } else {
+    llist_traverse(toys.xexit, free);
+    toys.xexit = 0;
+  }
 }
 
 // Convert name to signal number.  If name == NULL print names.
@@ -1144,9 +1150,7 @@ int qstrcmp(const void *a, const void *b)
 void create_uuid(char *uuid)
 {
   // "Set all the ... bits to randomly (or pseudo-randomly) chosen values".
-  int fd = xopenro("/dev/urandom");
-  xreadall(fd, uuid, 16);
-  close(fd);
+  xgetrandom(uuid, 16, 0);
 
   // "Set the four most significant bits ... of the time_hi_and_version
   // field to the 4-bit version number [4]".
@@ -1393,4 +1397,13 @@ long long millitime(void)
 
   clock_gettime(CLOCK_MONOTONIC, &ts);
   return ts.tv_sec*1000+ts.tv_nsec/1000000;
+}
+
+// Formats `ts` in ISO format ("2018-06-28 15:08:58.846386216 -0700").
+char *format_iso_time(char *buf, size_t len, struct timespec *ts)
+{
+  strftime(buf, len, "%F %T", localtime(&(ts->tv_sec)));
+  sprintf(buf+strlen(buf), ".%09ld ", ts->tv_nsec);
+  strftime(buf+strlen(buf), len-strlen(buf), "%z", localtime(&(ts->tv_sec)));
+  return buf;
 }
