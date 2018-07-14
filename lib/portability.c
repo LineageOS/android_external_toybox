@@ -30,6 +30,20 @@ pid_t xfork(void)
 }
 #endif
 
+void xgetrandom(void *buf, unsigned buflen, unsigned flags)
+{
+  int fd;
+
+#if CFG_TOYBOX_GETRANDOM
+  if (buflen != getrandom(buf, buflen, flags))
+    if (!CFG_TOYBOX_ON_ANDROID || errno!=ENOSYS) perror_exit("getrandom");
+#endif
+
+  fd = xopen(flags ? "/dev/random" : "/dev/urandom", O_RDONLY);
+  xreadall(fd, buf, buflen);
+  close(fd);
+}
+
 #if defined(__APPLE__)
 ssize_t getdelim(char **linep, size_t *np, int delim, FILE *stream)
 {

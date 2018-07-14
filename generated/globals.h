@@ -387,8 +387,6 @@ struct shred_data {
   long offset;
   long iterations;
   long size;
-
-  int ufd;
 };
 
 // toys/other/stat.c
@@ -592,6 +590,7 @@ struct diff_data {
 
   int dir_num, size, is_binary, status, change, len[2];
   int *offset[2];
+  struct stat st[2];
 };
 
 // toys/pending/dumpleases.c
