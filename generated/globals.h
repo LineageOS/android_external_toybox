@@ -490,27 +490,6 @@ struct brctl_data {
     int sockfd;
 };
 
-// toys/pending/compress.c
-
-struct compress_data {
-  // Huffman codes: base offset and extra bits tables (length and distance)
-  char lenbits[29], distbits[30];
-  unsigned short lenbase[29], distbase[30];
-  void *fixdisthuff, *fixlithuff;
-
-  // CRC
-  void (*crcfunc)(char *data, int len);
-  unsigned crc;
-
-  // Compressed data buffer
-  char *data;
-  unsigned pos, len;
-  int infd, outfd;
-
-  // Tables only used for deflation
-  unsigned short *hashhead, *hashchain;
-};
-
 // toys/pending/crond.c
 
 struct crond_data {
@@ -1473,7 +1452,6 @@ extern union global_union {
 	struct arping_data arping;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
-	struct compress_data compress;
 	struct crond_data crond;
 	struct crontab_data crontab;
 	struct dd_data dd;

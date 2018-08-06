@@ -308,21 +308,6 @@
 #undef FLAG_3
 #endif
 
-// compress   zcd9lrg[-cd][!zgLr]
-#undef OPTSTR_compress
-#define OPTSTR_compress "zcd9lrg[-cd][!zgLr]"
-#ifdef CLEANUP_compress
-#undef CLEANUP_compress
-#undef FOR_compress
-#undef FLAG_g
-#undef FLAG_r
-#undef FLAG_l
-#undef FLAG_9
-#undef FLAG_d
-#undef FLAG_c
-#undef FLAG_z
-#endif
-
 // count    
 #undef OPTSTR_count
 #define OPTSTR_count 0
@@ -1252,12 +1237,13 @@
 #undef FLAG_Z
 #endif
 
-// ifconfig ^?a ^?a
+// ifconfig ^?aS ^?aS
 #undef OPTSTR_ifconfig
-#define OPTSTR_ifconfig "^?a"
+#define OPTSTR_ifconfig "^?aS"
 #ifdef CLEANUP_ifconfig
 #undef CLEANUP_ifconfig
 #undef FOR_ifconfig
+#undef FLAG_S
 #undef FLAG_a
 #endif
 
@@ -3552,19 +3538,6 @@
 #define FLAG_3 (1<<2)
 #endif
 
-#ifdef FOR_compress
-#ifndef TT
-#define TT this.compress
-#endif
-#define FLAG_g (FORCED_FLAG<<0)
-#define FLAG_r (FORCED_FLAG<<1)
-#define FLAG_l (FORCED_FLAG<<2)
-#define FLAG_9 (FORCED_FLAG<<3)
-#define FLAG_d (FORCED_FLAG<<4)
-#define FLAG_c (FORCED_FLAG<<5)
-#define FLAG_z (FORCED_FLAG<<6)
-#endif
-
 #ifdef FOR_count
 #ifndef TT
 #define TT this.count
@@ -4364,7 +4337,8 @@
 #ifndef TT
 #define TT this.ifconfig
 #endif
-#define FLAG_a (1<<0)
+#define FLAG_S (1<<0)
+#define FLAG_a (1<<1)
 #endif
 
 #ifdef FOR_init
