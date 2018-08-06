@@ -160,17 +160,19 @@ static void do_elf_file(int fd)
     } else if (sh_type == 7 /*SHT_NOTE*/) {
       char *note = map+sh_offset;
 
-      if (sh_offset+sh_size>TT.len) goto bad;
-
       // An ELF note is a sequence of entries, each consisting of an
       // ndhr followed by n_namesz+n_descsz bytes of data (each of those
       // rounded up to the next 4 bytes, without this being reflected in
       // the header byte counts themselves).
       while (sh_size >= 3*4) { // Don't try to read a truncated entry.
-        int n_namesz = elf_int(note, 4);
-        int n_descsz = elf_int(note+4, 4);
-        int n_type = elf_int(note+8, 4);
-        int notesz = 3*4 + ((n_namesz+3)&~3) + ((n_descsz+3)&~3);
+        unsigned n_namesz, n_descsz, n_type, notesz;
+
+        if (sh_offset+sh_size>TT.len) goto bad;
+
+        n_namesz = elf_int(note, 4);
+        n_descsz = elf_int(note+4, 4);
+        n_type = elf_int(note+8, 4);
+        notesz = 3*4 + ((n_namesz+3)&~3) + ((n_descsz+3)&~3);
 
         if (n_namesz==4 && !memcmp(note+12, "GNU", 4)) {
           if (n_type==3 /*NT_GNU_BUILD_ID*/) {
@@ -242,10 +244,14 @@ static void do_regular_file(int fd, char *name)
   // TODO: parsing JPEG for width/height is harder than GIF or PNG.
   else if (len>32 && !memcmp(toybuf, "\xff\xd8", 2)) xputs("JPEG image data");
 
-  // https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html
+  // https://en.wikipedia.org/wiki/Java_class_file#General_layout
   else if (len>8 && strstart(&s, "\xca\xfe\xba\xbe"))
-    xprintf("Java class file, version %d.%d\n",
-      (int)peek_be(s+2, 2), (int)peek_be(s, 2));
+    xprintf("Java class file, version %d.%d (Java 1.%d)\n",
+      (int)peek_be(s+2, 2), (int)peek_be(s, 2), (int)peek_be(s+2, 2)-44);
+
+  // https://source.android.com/devices/tech/dalvik/dex-format#dex-file-magic
+  else if (len>8 && strstart(&s, "dex\n") && s[3] == 0)
+    xprintf("Android dex file, version %s\n", s);
 
   // https://people.freebsd.org/~kientzle/libarchive/man/cpio.5.txt
   // the lengths for cpio are size of header + 9 bytes, since any valid
