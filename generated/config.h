@@ -260,6 +260,14 @@
 #define USE_HOSTNAME(...) __VA_ARGS__
 #define CFG_HWCLOCK 1
 #define USE_HWCLOCK(...) __VA_ARGS__
+#define CFG_I2CDETECT 1
+#define USE_I2CDETECT(...) __VA_ARGS__
+#define CFG_I2CDUMP 1
+#define USE_I2CDUMP(...) __VA_ARGS__
+#define CFG_I2CGET 1
+#define USE_I2CGET(...) __VA_ARGS__
+#define CFG_I2CSET 1
+#define USE_I2CSET(...) __VA_ARGS__
 #define CFG_ICONV 0
 #define USE_ICONV(...)
 #define CFG_ID 1

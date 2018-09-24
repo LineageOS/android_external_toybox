@@ -84,6 +84,24 @@
 #undef FOR_basename
 #endif
 
+// bc i(interactive)l(mathlib)q(quiet)s(standard)w(warn) i(interactive)l(mathlib)q(quiet)s(standard)w(warn)
+#undef OPTSTR_bc
+#define OPTSTR_bc "i(interactive)l(mathlib)q(quiet)s(standard)w(warn)"
+#ifdef CLEANUP_bc
+#undef CLEANUP_bc
+#undef FOR_bc
+#undef FLAG_warn
+#undef FLAG_w
+#undef FLAG_standard
+#undef FLAG_s
+#undef FLAG_quiet
+#undef FLAG_q
+#undef FLAG_mathlib
+#undef FLAG_l
+#undef FLAG_interactive
+#undef FLAG_i
+#endif
+
 // blkid    
 #undef OPTSTR_blkid
 #define OPTSTR_blkid 0
@@ -1015,9 +1033,9 @@
 #undef FLAG_t
 #endif
 
-// grep S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw] S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]
+// grep S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw] S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "S(exclude)*M(include)*C#B#A#ZzEFHabhinorsvwclqe*f*m#x[!wx][!EFw]"
+#define OPTSTR_grep "S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
@@ -1038,6 +1056,7 @@
 #undef FLAG_h
 #undef FLAG_b
 #undef FLAG_a
+#undef FLAG_I
 #undef FLAG_H
 #undef FLAG_F
 #undef FLAG_E
@@ -1209,6 +1228,48 @@
 #undef FLAG_rtc
 #undef FLAG_f
 #undef FLAG_fast
+#endif
+
+// i2cdetect >3aFly >3aFly
+#undef OPTSTR_i2cdetect
+#define OPTSTR_i2cdetect ">3aFly"
+#ifdef CLEANUP_i2cdetect
+#undef CLEANUP_i2cdetect
+#undef FOR_i2cdetect
+#undef FLAG_y
+#undef FLAG_l
+#undef FLAG_F
+#undef FLAG_a
+#endif
+
+// i2cdump <2>2fy <2>2fy
+#undef OPTSTR_i2cdump
+#define OPTSTR_i2cdump "<2>2fy"
+#ifdef CLEANUP_i2cdump
+#undef CLEANUP_i2cdump
+#undef FOR_i2cdump
+#undef FLAG_y
+#undef FLAG_f
+#endif
+
+// i2cget <3>3fy <3>3fy
+#undef OPTSTR_i2cget
+#define OPTSTR_i2cget "<3>3fy"
+#ifdef CLEANUP_i2cget
+#undef CLEANUP_i2cget
+#undef FOR_i2cget
+#undef FLAG_y
+#undef FLAG_f
+#endif
+
+// i2cset <4fy <4fy
+#undef OPTSTR_i2cset
+#define OPTSTR_i2cset "<4fy"
+#ifdef CLEANUP_i2cset
+#undef CLEANUP_i2cset
+#undef FOR_i2cset
+#undef FLAG_y
+#undef FLAG_f
 #endif
 
 // iconv   cst:f:
@@ -1872,17 +1933,17 @@
 #undef FLAG_n
 #endif
 
-// nl v#<1=1l#b:n:s:w#<0=6E v#<1=1l#b:n:s:w#<0=6E
+// nl v#<1=1l#w#<0=6Eb:n:s: v#<1=1l#w#<0=6Eb:n:s:
 #undef OPTSTR_nl
-#define OPTSTR_nl "v#<1=1l#b:n:s:w#<0=6E"
+#define OPTSTR_nl "v#<1=1l#w#<0=6Eb:n:s:"
 #ifdef CLEANUP_nl
 #undef CLEANUP_nl
 #undef FOR_nl
-#undef FLAG_E
-#undef FLAG_w
 #undef FLAG_s
 #undef FLAG_n
 #undef FLAG_b
+#undef FLAG_E
+#undef FLAG_w
 #undef FLAG_l
 #undef FLAG_v
 #endif
@@ -2001,18 +2062,18 @@
 #undef FLAG_d
 #endif
 
-// patch (dry-run)d:ulp#i:R (dry-run)xd:ulp#i:R
+// patch (dry-run)ulp#d:i:R (dry-run)xulp#d:i:R
 #undef OPTSTR_patch
-#define OPTSTR_patch "(dry-run)d:ulp#i:R"
+#define OPTSTR_patch "(dry-run)ulp#d:i:R"
 #ifdef CLEANUP_patch
 #undef CLEANUP_patch
 #undef FOR_patch
 #undef FLAG_R
 #undef FLAG_i
+#undef FLAG_d
 #undef FLAG_p
 #undef FLAG_l
 #undef FLAG_u
-#undef FLAG_d
 #undef FLAG_x
 #undef FLAG_dry_run
 #endif
@@ -3356,6 +3417,22 @@
 #endif
 #endif
 
+#ifdef FOR_bc
+#ifndef TT
+#define TT this.bc
+#endif
+#define FLAG_warn (1<<0)
+#define FLAG_w (1<<0)
+#define FLAG_standard (1<<1)
+#define FLAG_s (1<<1)
+#define FLAG_quiet (1<<2)
+#define FLAG_q (1<<2)
+#define FLAG_mathlib (1<<3)
+#define FLAG_l (1<<3)
+#define FLAG_interactive (1<<4)
+#define FLAG_i (1<<4)
+#endif
+
 #ifdef FOR_blkid
 #ifndef TT
 #define TT this.blkid
@@ -4164,18 +4241,19 @@
 #define FLAG_h (1<<14)
 #define FLAG_b (1<<15)
 #define FLAG_a (1<<16)
-#define FLAG_H (1<<17)
-#define FLAG_F (1<<18)
-#define FLAG_E (1<<19)
-#define FLAG_z (1<<20)
-#define FLAG_Z (1<<21)
-#define FLAG_A (1<<22)
-#define FLAG_B (1<<23)
-#define FLAG_C (1<<24)
-#define FLAG_include (1<<25)
-#define FLAG_M (1<<25)
-#define FLAG_exclude (1<<26)
-#define FLAG_S (1<<26)
+#define FLAG_I (1<<17)
+#define FLAG_H (1<<18)
+#define FLAG_F (1<<19)
+#define FLAG_E (1<<20)
+#define FLAG_z (1<<21)
+#define FLAG_Z (1<<22)
+#define FLAG_A (1<<23)
+#define FLAG_B (1<<24)
+#define FLAG_C (1<<25)
+#define FLAG_include (1<<26)
+#define FLAG_M (1<<26)
+#define FLAG_exclude (1<<27)
+#define FLAG_S (1<<27)
 #endif
 
 #ifdef FOR_groupadd
@@ -4309,6 +4387,40 @@
 #define FLAG_rtc (1<<6)
 #define FLAG_f (1<<6)
 #define FLAG_fast (1<<7)
+#endif
+
+#ifdef FOR_i2cdetect
+#ifndef TT
+#define TT this.i2cdetect
+#endif
+#define FLAG_y (1<<0)
+#define FLAG_l (1<<1)
+#define FLAG_F (1<<2)
+#define FLAG_a (1<<3)
+#endif
+
+#ifdef FOR_i2cdump
+#ifndef TT
+#define TT this.i2cdump
+#endif
+#define FLAG_y (1<<0)
+#define FLAG_f (1<<1)
+#endif
+
+#ifdef FOR_i2cget
+#ifndef TT
+#define TT this.i2cget
+#endif
+#define FLAG_y (1<<0)
+#define FLAG_f (1<<1)
+#endif
+
+#ifdef FOR_i2cset
+#ifndef TT
+#define TT this.i2cset
+#endif
+#define FLAG_y (1<<0)
+#define FLAG_f (1<<1)
 #endif
 
 #ifdef FOR_iconv
@@ -4868,11 +4980,11 @@
 #ifndef TT
 #define TT this.nl
 #endif
-#define FLAG_E (1<<0)
-#define FLAG_w (1<<1)
-#define FLAG_s (1<<2)
-#define FLAG_n (1<<3)
-#define FLAG_b (1<<4)
+#define FLAG_s (1<<0)
+#define FLAG_n (1<<1)
+#define FLAG_b (1<<2)
+#define FLAG_E (1<<3)
+#define FLAG_w (1<<4)
 #define FLAG_l (1<<5)
 #define FLAG_v (1<<6)
 #endif
@@ -4979,10 +5091,10 @@
 #endif
 #define FLAG_R (1<<0)
 #define FLAG_i (1<<1)
-#define FLAG_p (1<<2)
-#define FLAG_l (1<<3)
-#define FLAG_u (1<<4)
-#define FLAG_d (1<<5)
+#define FLAG_d (1<<2)
+#define FLAG_p (1<<3)
+#define FLAG_l (1<<4)
+#define FLAG_u (1<<5)
 #define FLAG_x (FORCED_FLAG<<6)
 #define FLAG_dry_run (1<<7)
 #endif

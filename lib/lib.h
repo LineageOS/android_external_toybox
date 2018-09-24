@@ -285,8 +285,8 @@ int tty_fd(void);
 int terminal_size(unsigned *xx, unsigned *yy);
 int terminal_probesize(unsigned *xx, unsigned *yy);
 int scan_key_getsize(char *scratch, int miliwait, unsigned *xx, unsigned *yy);
-int set_terminal(int fd, int raw, struct termios *old);
-void xset_terminal(int fd, int raw, struct termios *old);
+int set_terminal(int fd, int raw, int speed, struct termios *old);
+void xset_terminal(int fd, int raw, int speed, struct termios *old);
 int scan_key(char *scratch, int miliwait);
 void tty_esc(char *s);
 void tty_jump(int x, int y);
@@ -313,6 +313,11 @@ void comma_collate(char **old, char *new);
 char *comma_iterate(char **list, int *len);
 int comma_scan(char *optlist, char *opt, int clean);
 int comma_scanall(char *optlist, char *scanlist);
+
+// deflate.c
+
+long long gzip_fd(int infd, int outfd);
+long long gunzip_fd(int infd, int outfd);
 
 // getmountlist.c
 struct mtab_list {
