@@ -473,6 +473,17 @@ struct arping_data {
              unicast_flag;
 };
 
+// toys/pending/bc.c
+
+struct bc_data {
+  long tty;
+
+  unsigned long sig;
+  unsigned long sigc;
+  unsigned long signe;
+  long sig_other;
+};
+
 // toys/pending/bootchartd.c
 
 struct bootchartd_data {
@@ -981,12 +992,11 @@ struct cmp_data {
 
 struct cp_data {
   union {
+    // install's options
     struct {
-      // install's options
-      char *group;
-      char *user;
-      char *mode;
+      char *g, *o, *m;
     } i;
+    // cp's options
     struct {
       char *preserve;
     } c;
@@ -1003,16 +1013,13 @@ struct cp_data {
 // toys/posix/cpio.c
 
 struct cpio_data {
-  char *archive;
-  char *pass;
-  char *fmt;
+  char *F, *p, *H;
 };
 
 // toys/posix/cut.c
 
 struct cut_data {
-  char *d;
-  char *O;
+  char *d, *O;
   struct arg_list *select[5]; // we treat them the same, so loop through
 
   int pairs;
@@ -1022,9 +1029,7 @@ struct cut_data {
 // toys/posix/date.c
 
 struct date_data {
-  char *file;
-  char *setfmt;
-  char *showdate;
+  char *r, *D, *d;
 
   unsigned nano;
 };
@@ -1032,7 +1037,7 @@ struct date_data {
 // toys/posix/df.c
 
 struct df_data {
-  struct arg_list *fstype;
+  struct arg_list *t;
 
   long units;
   int column_widths[5];
@@ -1042,7 +1047,7 @@ struct df_data {
 // toys/posix/du.c
 
 struct du_data {
-  long maxdepth;
+  long d;
 
   unsigned long depth, total;
   dev_t st_dev;
@@ -1058,7 +1063,7 @@ struct env_data {
 // toys/posix/expand.c
 
 struct expand_data {
-  struct arg_list *tabs;
+  struct arg_list *t;
 
   unsigned tabcount, *tab;
 };
@@ -1100,16 +1105,15 @@ struct grep_data {
 // toys/posix/head.c
 
 struct head_data {
-  long bytes;
-  long lines;
+  long c, n;
+
   int file_no;
 };
 
 // toys/posix/iconv.c
 
 struct iconv_data {
-  char *from;
-  char *to;
+  char *f, *t;
 
   void *ic;
 };
@@ -1123,25 +1127,23 @@ struct id_data {
 // toys/posix/kill.c
 
 struct kill_data {
-  char *signame;
-  struct arg_list *olist;
+  char *s;
+  struct arg_list *o;
 };
 
 // toys/posix/logger.c
 
 struct logger_data {
-  char *priority;
-  char *ident;
+  char *p, *t;
 };
 
 // toys/posix/ls.c
 
 struct ls_data {
-  long ll;
+  long l;
   char *color;
 
   struct dirtree *files, *singledir;
-
   unsigned screen_width;
   int nl_title;
   char *escmore;
@@ -1150,14 +1152,13 @@ struct ls_data {
 // toys/posix/mkdir.c
 
 struct mkdir_data {
-  char *arg_mode;
-  char *arg_context;
+  char *m, *Z;
 };
 
 // toys/posix/mkfifo.c
 
 struct mkfifo_data {
-  char *m_string;
+  char *m;
   char *Z;
 
   mode_t mode;
@@ -1166,18 +1167,14 @@ struct mkfifo_data {
 // toys/posix/nice.c
 
 struct nice_data {
-  long priority;
+  long n;
 };
 
 // toys/posix/nl.c
 
 struct nl_data {
-  long w;
-  char *s;
-  char *n;
-  char *b;
-  long l;
-  long v;
+  char *s, *n, *b;
+  long w, l, v;
 
   // Count of consecutive blank lines for -l has to persist between files
   long lcount;
@@ -1186,11 +1183,9 @@ struct nl_data {
 // toys/posix/od.c
 
 struct od_data {
-  struct arg_list *output_base;
-  char *address_base;
-  long max_count;
-  long width;
-  long jump_bytes;
+  struct arg_list *t;
+  char *A;
+  long N, w, j;
 
   int address_idx;
   unsigned types, leftover, star;
@@ -1210,9 +1205,8 @@ struct paste_data {
 // toys/posix/patch.c
 
 struct patch_data {
-  char *infile;
-  long prefix;
-  char *dir;
+  char *i, *d;
+  long p;
 
   struct double_list *current_hunk;
   long oldline, oldlen, newline, newlen;
@@ -1226,40 +1220,19 @@ struct patch_data {
 struct ps_data {
   union {
     struct {
-      struct arg_list *G;
-      struct arg_list *g;
-      struct arg_list *U;
-      struct arg_list *u;
-      struct arg_list *t;
-      struct arg_list *s;
-      struct arg_list *p;
-      struct arg_list *O;
-      struct arg_list *o;
-      struct arg_list *P;
-      struct arg_list *k;
+      struct arg_list *G, *g, *U, *u, *t, *s, *p, *O, *o, *P, *k;
     } ps;
     struct {
-      long n;
-      long m;
+      long n, m;
       char *d;
       long s;
-      struct arg_list *u;
-      struct arg_list *p;
-      struct arg_list *o;
-      struct arg_list *k;
-      struct arg_list *O;
+      struct arg_list *u, *p, *o, *k, *O;
 
       long d_ms;
     } top;
     struct {
       char *L;
-      struct arg_list *G;
-      struct arg_list *g;
-      struct arg_list *P;
-      struct arg_list *s;
-      struct arg_list *t;
-      struct arg_list *U;
-      struct arg_list *u;
+      struct arg_list *G, *g, *P, *s, *t, *U, *u;
       char *d;
 
       void *regexes, *snapshot;
@@ -1283,14 +1256,13 @@ struct ps_data {
 // toys/posix/renice.c
 
 struct renice_data {
-  long nArgu;
+  long n;
 };
 
 // toys/posix/sed.c
 
 struct sed_data {
-  struct arg_list *f;
-  struct arg_list *e;
+  struct arg_list *f, *e;
 
   // processed pattern list
   struct double_list *pattern;
@@ -1305,10 +1277,9 @@ struct sed_data {
 // toys/posix/sort.c
 
 struct sort_data {
-  char *key_separator;
-  struct arg_list *raw_keys;
-  char *outfile;
-  char *ignore1, ignore2;   // GNU compatability NOPs for -S and -T.
+  char *t;
+  struct arg_list *k;
+  char *o, *T, S;
 
   void *key_list;
   int linecount;
@@ -1318,9 +1289,7 @@ struct sort_data {
 // toys/posix/split.c
 
 struct split_data {
-  long lines;
-  long bytes;
-  long suflen;
+  long l, b, a;
 
   char *outfile;
 };
@@ -1328,15 +1297,14 @@ struct split_data {
 // toys/posix/strings.c
 
 struct strings_data {
-  long num;
+  long n;
   char *t;
 };
 
 // toys/posix/tail.c
 
 struct tail_data {
-  long lines;
-  long bytes;
+  long n, c;
 
   int file_no, ffd, *files;
 };
@@ -1350,15 +1318,13 @@ struct tee_data {
 // toys/posix/touch.c
 
 struct touch_data {
-  char *time;
-  char *file;
-  char *date;
+  char *t, *r, *d;
 };
 
 // toys/posix/ulimit.c
 
 struct ulimit_data {
-  long pid;
+  long P;
 };
 
 // toys/posix/uniq.c
@@ -1385,11 +1351,8 @@ struct wc_data {
 // toys/posix/xargs.c
 
 struct xargs_data {
-  long max_bytes;
-  long max_entries;
-  long L;
-  char *eofstr;
-  char *I;
+  long s, n, L;
+  char *E, *I;
 
   long entries, bytes;
   char delim;
@@ -1450,6 +1413,7 @@ extern union global_union {
 	struct xxd_data xxd;
 	struct arp_data arp;
 	struct arping_data arping;
+	struct bc_data bc;
 	struct bootchartd_data bootchartd;
 	struct brctl_data brctl;
 	struct crond_data crond;
