@@ -244,7 +244,7 @@
 
 #define HELP_i2cset "usage: i2cset [-fy] BUS CHIP ADDR VALUE... MODE\n\nWrites an i2c register. MODE is b for byte, w for 16-bit word, i for I2C block.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
-#define HELP_i2cget "usage: i2cget [-fy] BUS CHIP ADDR [MODE]\n\nReads an i2c register.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
+#define HELP_i2cget "usage: i2cget [-fy] BUS CHIP ADDR\n\nReads an i2c register.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
 #define HELP_i2cdump "usage: i2cdump [-fy] BUS CHIP\n\nDumps i2c registers.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
