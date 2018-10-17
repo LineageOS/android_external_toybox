@@ -951,7 +951,9 @@ struct vi_data {
 // toys/pending/watch.c
 
 struct watch_data {
-  int interval;
+  int n;
+
+  pid_t pid, oldpid;
 };
 
 // toys/pending/wget.c

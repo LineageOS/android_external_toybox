@@ -977,9 +977,9 @@
 #undef FLAG_P
 #endif
 
-// getconf   l
+// getconf   >2l
 #undef OPTSTR_getconf
-#define OPTSTR_getconf "l"
+#define OPTSTR_getconf ">2l"
 #ifdef CLEANUP_getconf
 #undef CLEANUP_getconf
 #undef FOR_getconf
@@ -3231,12 +3231,13 @@
 #undef FOR_w
 #endif
 
-// watch   ^<1n#<0=2teb
+// watch   ^<1n#<100=2000tebx
 #undef OPTSTR_watch
-#define OPTSTR_watch "^<1n#<0=2teb"
+#define OPTSTR_watch "^<1n#<100=2000tebx"
 #ifdef CLEANUP_watch
 #undef CLEANUP_watch
 #undef FOR_watch
+#undef FLAG_x
 #undef FLAG_b
 #undef FLAG_e
 #undef FLAG_t
@@ -6070,10 +6071,11 @@
 #ifndef TT
 #define TT this.watch
 #endif
-#define FLAG_b (FORCED_FLAG<<0)
-#define FLAG_e (FORCED_FLAG<<1)
-#define FLAG_t (FORCED_FLAG<<2)
-#define FLAG_n (FORCED_FLAG<<3)
+#define FLAG_x (FORCED_FLAG<<0)
+#define FLAG_b (FORCED_FLAG<<1)
+#define FLAG_e (FORCED_FLAG<<2)
+#define FLAG_t (FORCED_FLAG<<3)
+#define FLAG_n (FORCED_FLAG<<4)
 #endif
 
 #ifdef FOR_wc
