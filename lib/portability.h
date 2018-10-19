@@ -244,7 +244,6 @@ pid_t xfork(void);
 // use toybox before they're ready to switch to host bionic.
 #ifdef __BIONIC__
 #include <android/log.h>
-#include <cutils/sched_policy.h>
 #include <sys/system_properties.h>
 #else
 typedef enum android_LogPriority {
@@ -262,13 +261,25 @@ static inline int __android_log_write(int pri, const char *tag, const char *msg)
 {
   return -1;
 }
-static inline int get_sched_policy(int tid, void *policy) {return 0;}
-static inline char *get_sched_policy_name(int policy) {return "unknown";}
 #define PROP_VALUE_MAX 92
 static inline int __system_property_set(const char *key, const char *value)
 {
   return -1;
 }
+#endif
+
+// libcutils is in AOSP but not Android NDK r18
+#if defined(__BIONIC__) && !defined(__ANDROID_NDK__)
+#include <cutils/sched_policy.h>
+#else
+static inline int get_sched_policy(int tid, void *policy) {return 0;}
+static inline char *get_sched_policy_name(int policy) {return "unknown";}
+#endif
+
+// The NDK has liblog.so but not liblog.c for static builds, and it's
+// just a stub version anyway.
+#ifdef __ANDROID_NDK__
+int __android_log_write(int prio, const char* tag, const char* text) {return 0;}
 #endif
 
 #ifndef SYSLOG_NAMES
