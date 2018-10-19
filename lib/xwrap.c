@@ -795,6 +795,7 @@ long xparsetime(char *arg, long units, long *fraction)
   long l;
   char *end;
 
+  if (*arg != '.' && !isdigit(*arg)) error_exit("bad %s", arg);
   if (CFG_TOYBOX_FLOAT) d = strtod(arg, &end);
   else l = strtoul(arg, &end, 10);
 
@@ -841,12 +842,18 @@ char *xtzset(char *new)
 }
 
 // Set a signal handler
-void xsignal(int signal, void *handler)
+void xsignal_flags(int signal, void *handler, int flags)
 {
   struct sigaction *sa = (void *)libbuf;
 
   memset(sa, 0, sizeof(struct sigaction));
   sa->sa_handler = handler;
+  sa->sa_flags = flags;
 
   if (sigaction(signal, sa, 0)) perror_exit("xsignal %d", signal);
+}
+
+void xsignal(int signal, void *handler)
+{
+  xsignal_flags(signal, handler, 0);
 }

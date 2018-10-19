@@ -7,6 +7,9 @@ export LC_ALL=C
 set -o pipefail
 source ./configure
 
+[ ! -z "$CROSS_COMPILE" ] && [ ! -e "$CROSS_COMPILE"cc ] &&
+  echo "missing ${CROSS_COMPILE}cc" && exit 1
+
 [ -z "$KCONFIG_CONFIG" ] && KCONFIG_CONFIG=.config
 [ -z "$OUTNAME" ] && OUTNAME=toybox
 UNSTRIPPED="generated/unstripped/$(basename "$OUTNAME")"
@@ -260,42 +263,6 @@ then
   echo "generated/help.h"
   generated/config2help Config.in $KCONFIG_CONFIG > generated/help.h || exit 1
 fi
-
-mksysconf()
-{
-  echo "int ${1}_vals[] = {" &&
-
-  # Extract names, remove blank lines, filter, replace unknown #defines
-  # with UNKNOWN
-  sed -n "/char [*]${1}_names[[]/"',/^}/s/[^"]*"\([^"]*\) *",*/\1\n/pg' \
-    toys/posix/getconf.c | grep -v '^$' | $2 |
-    sed -e "$DEFINES" -e "t;d;a UNKNOWN" | xargs | tr ' ' ',' &&
-  echo '};'
-}
-
-if ! [ generated/getconf.h -nt toys/posix/getconf.c ]
-then
-  echo generated/getconf.h
-
-  # Dump #define list for limits.h and unistd.h, create sed expression to
-  # match known defines
-  DEFINES="$(echo -e '#include <limits.h>\n#include <unistd.h>' | \
-    gcc -E -dM - | \
-    sed -n 's@^#define[ \t][ \t]*\([^ \t(]*\)[ \t].*@s/^\1$/\&/@p' )"
-
-  # Extract limit names, compare against limits.h #defines, replace unknown
-  # ones with UNKNOWN
-
-  {
-    mksysconf sysconf \
-      sed\ 's/^_POSIX2/2/;s/^PTHREAD/THREAD/;s/^_POSIX_//;s/^_XOPEN_/XOPEN_/;s/^/_SC_/' &&
-    mksysconf confstr sed\ 's/.*/_CS_&/' &&
-    mksysconf limit cat
-  } > generated/getconf.h
-
-  unset HEADERS
-fi
-
 
 [ ! -z "$NOBUILD" ] && exit 0
 
