@@ -1369,9 +1369,9 @@
 #undef FOR_iorenice
 #endif
 
-// iotop >0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq >0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq
+// iotop >0AaKOHk*o*p*u*s#<1=7d%<100=3000m#n#<1bq >0AaKOHk*o*p*u*s#<1=7d%<100=3000m#n#<1bq
 #undef OPTSTR_iotop
-#define OPTSTR_iotop ">0AaKOHk*o*p*u*s#<1=7d:m#n#<1bq"
+#define OPTSTR_iotop ">0AaKOHk*o*p*u*s#<1=7d%<100=3000m#n#<1bq"
 #ifdef CLEANUP_iotop
 #undef CLEANUP_iotop
 #undef FOR_iotop
@@ -2112,9 +2112,9 @@
 #undef FLAG_s
 #endif
 
-// ping <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=3w#<0qf46[-46] <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=3w#<0qf46[-46]
+// ping <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i%W#<0=3w#<0qf46[-46] <1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i%W#<0=3w#<0qf46[-46]
 #undef OPTSTR_ping
-#define OPTSTR_ping "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=3w#<0qf46[-46]"
+#define OPTSTR_ping "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i%W#<0=3w#<0qf46[-46]"
 #ifdef CLEANUP_ping
 #undef CLEANUP_ping
 #undef FOR_ping
@@ -2889,9 +2889,9 @@
 #undef FLAG_v
 #endif
 
-// top >0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO] >0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO]
+// top >0O*Hk*o*p*u*s#<1d%<100=3000m#n#<1bq[!oO] >0O*Hk*o*p*u*s#<1d%<100=3000m#n#<1bq[!oO]
 #undef OPTSTR_top
-#define OPTSTR_top ">0O*Hk*o*p*u*s#<1d:m#n#<1bq[!oO]"
+#define OPTSTR_top ">0O*Hk*o*p*u*s#<1d%<100=3000m#n#<1bq[!oO]"
 #ifdef CLEANUP_top
 #undef CLEANUP_top
 #undef FOR_top
