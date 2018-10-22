@@ -172,6 +172,7 @@ void xsetuser(struct passwd *pwd);
 char *xreadlink(char *name);
 double xstrtod(char *s);
 long xparsetime(char *arg, long units, long *fraction);
+long long xparsemillitime(char *arg);
 void xpidfile(char *name);
 void xregcomp(regex_t *preg, char *rexec, int cflags);
 char *xtzset(char *new);
@@ -293,6 +294,7 @@ void tty_esc(char *s);
 void tty_jump(int x, int y);
 void tty_reset(void);
 void tty_sigreset(int i);
+void start_redraw(unsigned *width, unsigned *height);
 
 // net.c
 int xsocket(int domain, int type, int protocol);
