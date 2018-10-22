@@ -190,18 +190,12 @@ struct netstat_data {
 // toys/net/ping.c
 
 struct ping_data {
-  long w;
-  long W;
-  char *i;
+  long w, W, i;
   char *I;
-  long s;
-  long c;
-  long t;
-  long m;
+  long s, c, t, m;
 
   struct sockaddr *sa;
   int sock;
-  long i_ms;
   unsigned long sent, recv, fugit, min, max;
 };
 
@@ -1225,12 +1219,8 @@ struct ps_data {
       struct arg_list *G, *g, *U, *u, *t, *s, *p, *O, *o, *P, *k;
     } ps;
     struct {
-      long n, m;
-      char *d;
-      long s;
+      long n, m, d, s;
       struct arg_list *u, *p, *o, *k, *O;
-
-      long d_ms;
     } top;
     struct {
       char *L;
