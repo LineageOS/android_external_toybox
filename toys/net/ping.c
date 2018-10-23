@@ -11,7 +11,7 @@
  * Yes, I wimped out and capped -s at sizeof(toybuf), waiting for a complaint...
 
 // -s > 4088 = sizeof(toybuf)-sizeof(struct icmphdr), then kernel adds 20 bytes
-USE_PING(NEWTOY(ping, "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i:W#<0=3w#<0qf46[-46]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_PING(NEWTOY(ping, "<1>1m#t#<0>255=64c#<0=3s#<0>4088=56I:i%W#<0=3w#<0qf46[-46]", TOYFLAG_USR|TOYFLAG_BIN))
 USE_PING(OLDTOY(ping6, ping, TOYFLAG_USR|TOYFLAG_BIN))
  
 config PING
@@ -27,17 +27,17 @@ config PING
     echo it receives back, with round trip time. Returns true if host alive.
 
     Options:
-    -4, -6      Force IPv4 or IPv6
-    -c CNT      Send CNT many packets (default 3, 0 = infinite)
-    -f          Flood (print . and \b to show drops, default -c 15 -i 0.2)
-    -i TIME     Interval between packets (default 1, need root for < .2)
-    -I IFACE/IP Source interface or address
-    -m MARK     Tag outgoing packets using SO_MARK
-    -q          Quiet (stops after one returns true if host is alive)
-    -s SIZE     Data SIZE in bytes (default 56)
-    -t TTL      Set Time To Live (number of hops)
-    -W SEC      Seconds to wait for response after last -c packet (default 3)
-    -w SEC      Exit after this many seconds
+    -4, -6		Force IPv4 or IPv6
+    -c CNT		Send CNT many packets (default 3, 0 = infinite)
+    -f		Flood (print . and \b to show drops, default -c 15 -i 0.2)
+    -i TIME		Interval between packets (default 1, need root for < .2)
+    -I IFACE/IP	Source interface or address
+    -m MARK		Tag outgoing packets using SO_MARK
+    -q		Quiet (stops after one returns true if host is alive)
+    -s SIZE		Data SIZE in bytes (default 56)
+    -t TTL		Set Time To Live (number of hops)
+    -W SEC		Seconds to wait for response after last -c packet (default 3)
+    -w SEC		Exit after this many seconds
 */
 
 #define FOR_ping 
@@ -47,18 +47,12 @@ config PING
 #include <netinet/ip_icmp.h>
 
 GLOBALS(
-  long w;
-  long W;
-  char *i;
+  long w, W, i;
   char *I;
-  long s;
-  long c;
-  long t;
-  long m;
+  long s, c, t, m;
 
   struct sockaddr *sa;
   int sock;
-  long i_ms;
   unsigned long sent, recv, fugit, min, max;
 )
 
@@ -115,13 +109,8 @@ void ping_main(void)
   struct icmphdr *ih = (void *)toybuf;
 
   // Interval
-  if (TT.i) {
-    long frac;
-
-    TT.i_ms = xparsetime(TT.i, 1000, &frac) * 1000;
-    TT.i_ms += frac;
-    if (TT.i_ms<200 && getuid()) error_exit("need root for -i <200");
-  } else TT.i_ms = (toys.optflags&FLAG_f) ? 200 : 1000;
+  if (!(toys.optflags&FLAG_i)) TT.i = (toys.optflags&FLAG_f) ? 200 : 1000;
+  else if (TT.i<200 && getuid()) error_exit("need root for -i <200");
   if (!(toys.optflags&FLAG_s)) TT.s = 56; // 64-PHDR_LEN
   if ((toys.optflags&(FLAG_f|FLAG_c)) == FLAG_f) TT.c = 15;
 
@@ -230,7 +219,7 @@ void ping_main(void)
 
     // Time to send the next packet?
     if (!tW && tnext-tnow <= 0) {
-      tnext += TT.i_ms;
+      tnext += TT.i;
 
       memset(ih, 0, sizeof(*ih));
       ih->type = (ai->ai_family == AF_INET) ? 8 : 128;
