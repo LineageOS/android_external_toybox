@@ -14,8 +14,7 @@ source ./configure
 [ -z "$OUTNAME" ] && OUTNAME=toybox
 UNSTRIPPED="generated/unstripped/$(basename "$OUTNAME")"
 
-# Since each cc invocation is short, launch half again as many processes
-# as we have processors so they don't exit faster than we can start them.
+# Try to keep one more cc invocation going than we have processors
 [ -z "$CPUS" ] && CPUS=$(($(nproc)+1))
 
 if [ -z "$SED" ]
@@ -90,18 +89,20 @@ genbuildsh()
 
   echo "#!/bin/sh"
   echo
+  echo "PATH='$PATH'"
+  echo
   echo "BUILD='$BUILD'"
   echo
-  echo "FILES='$LIBFILES $TOYFILES'"
-  echo
   echo "LINK='$LINK'"
+  echo
+  echo "FILES='$LIBFILES $TOYFILES'"
   echo
   echo
   echo '$BUILD $FILES $LINK'
 }
 
-if ! cmp -s <(genbuildsh | head -n 3) \
-          <(head -n 3 generated/build.sh 2>/dev/null)
+if ! cmp -s <(genbuildsh | head -n 6 ; echo LINK="'"$LDOPTIMIZE $LDFLAGS) \
+          <(head -n 7 generated/build.sh 2>/dev/null | sed '7s/ -o .*//')
 then
   echo -n "Library probe"
 
@@ -336,8 +337,10 @@ do_loudly $BUILD $LNKFILES $LINK || exit 1
 if [ ! -z "$NOSTRIP" ] ||
   ! do_loudly ${CROSS_COMPILE}${STRIP} "$UNSTRIPPED" -o "$OUTNAME"
 then
-  echo "strip failed, using unstripped" && cp "$UNSTRIPPED" "$OUTNAME" ||
-  exit 1
+  echo "strip failed, using unstripped" &&
+  rm -f "$OUTNAME" &&
+  cp "$UNSTRIPPED" "$OUTNAME" ||
+    exit 1
 fi
 
 # gcc 4.4's strip command is buggy, and doesn't set the executable bit on
