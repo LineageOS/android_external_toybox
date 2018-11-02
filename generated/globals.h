@@ -431,6 +431,14 @@ struct truncate_data {
   int type;
 };
 
+// toys/other/watch.c
+
+struct watch_data {
+  int n;
+
+  pid_t pid, oldpid;
+};
+
 // toys/other/xxd.c
 
 struct xxd_data {
@@ -942,14 +950,6 @@ struct vi_data {
   char *statline;
 };
 
-// toys/pending/watch.c
-
-struct watch_data {
-  int n;
-
-  pid_t pid, oldpid;
-};
-
 // toys/pending/wget.c
 
 struct wget_data {
@@ -1402,6 +1402,7 @@ extern union global_union {
 	struct switch_root_data switch_root;
 	struct timeout_data timeout;
 	struct truncate_data truncate;
+	struct watch_data watch;
 	struct xxd_data xxd;
 	struct arp_data arp;
 	struct arping_data arping;
@@ -1450,7 +1451,6 @@ extern union global_union {
 	struct traceroute_data traceroute;
 	struct useradd_data useradd;
 	struct vi_data vi;
-	struct watch_data watch;
 	struct wget_data wget;
 	struct chgrp_data chgrp;
 	struct chmod_data chmod;
