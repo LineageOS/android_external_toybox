@@ -1034,14 +1034,17 @@
 #undef FLAG_t
 #endif
 
-// grep S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw] S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw]
+// grep S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw] S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "S(exclude)*M(include)*C#B#A#ZzEFHIabhinorsvwclqe*f*m#x[!wx][!EFw]"
+#define OPTSTR_grep "S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
 #undef FLAG_x
 #undef FLAG_m
+#undef FLAG_A
+#undef FLAG_B
+#undef FLAG_C
 #undef FLAG_f
 #undef FLAG_e
 #undef FLAG_q
@@ -1063,9 +1066,6 @@
 #undef FLAG_E
 #undef FLAG_z
 #undef FLAG_Z
-#undef FLAG_A
-#undef FLAG_B
-#undef FLAG_C
 #undef FLAG_include
 #undef FLAG_M
 #undef FLAG_exclude
@@ -4229,30 +4229,30 @@
 #endif
 #define FLAG_x (1<<0)
 #define FLAG_m (1<<1)
-#define FLAG_f (1<<2)
-#define FLAG_e (1<<3)
-#define FLAG_q (1<<4)
-#define FLAG_l (1<<5)
-#define FLAG_c (1<<6)
-#define FLAG_w (1<<7)
-#define FLAG_v (1<<8)
-#define FLAG_s (1<<9)
-#define FLAG_r (1<<10)
-#define FLAG_o (1<<11)
-#define FLAG_n (1<<12)
-#define FLAG_i (1<<13)
-#define FLAG_h (1<<14)
-#define FLAG_b (1<<15)
-#define FLAG_a (1<<16)
-#define FLAG_I (1<<17)
-#define FLAG_H (1<<18)
-#define FLAG_F (1<<19)
-#define FLAG_E (1<<20)
-#define FLAG_z (1<<21)
-#define FLAG_Z (1<<22)
-#define FLAG_A (1<<23)
-#define FLAG_B (1<<24)
-#define FLAG_C (1<<25)
+#define FLAG_A (1<<2)
+#define FLAG_B (1<<3)
+#define FLAG_C (1<<4)
+#define FLAG_f (1<<5)
+#define FLAG_e (1<<6)
+#define FLAG_q (1<<7)
+#define FLAG_l (1<<8)
+#define FLAG_c (1<<9)
+#define FLAG_w (1<<10)
+#define FLAG_v (1<<11)
+#define FLAG_s (1<<12)
+#define FLAG_r (1<<13)
+#define FLAG_o (1<<14)
+#define FLAG_n (1<<15)
+#define FLAG_i (1<<16)
+#define FLAG_h (1<<17)
+#define FLAG_b (1<<18)
+#define FLAG_a (1<<19)
+#define FLAG_I (1<<20)
+#define FLAG_H (1<<21)
+#define FLAG_F (1<<22)
+#define FLAG_E (1<<23)
+#define FLAG_z (1<<24)
+#define FLAG_Z (1<<25)
 #define FLAG_include (1<<26)
 #define FLAG_M (1<<26)
 #define FLAG_exclude (1<<27)
