@@ -24,7 +24,7 @@
 //  git merge toybox/master
 
 //  # Regenerate generated files.
-//  make
+//  NOBUILD=1 scripts/make.sh
 
 //  # Make any necessary Android.bp changes and rebuild.
 //  mm -j32
