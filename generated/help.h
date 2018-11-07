@@ -136,9 +136,9 @@
 
 #define HELP_which "usage: which [-a] filename ...\n\nSearch $PATH for executable files matching filename(s).\n\n-a	Show all matches\n\n"
 
-#define HELP_w "usage: w\n\nShow who is logged on and since how long they logged in.\n\n"
-
 #define HELP_watch "usage: watch [-teb] [-n SEC] PROG ARGS\n\nRun PROG every -n seconds, showing output. Hit q to quit.\n\n-n  Loop period in seconds (default 2)\n-t  Don't print header\n-e  Exit on error\n-b  Beep on command error\n-x	Exec command directly (vs \"sh -c\")\n\n"
+
+#define HELP_w "usage: w\n\nShow who is logged on and since how long they logged in.\n\n"
 
 #define HELP_vmstat "usage: vmstat [-n] [DELAY [COUNT]]\n\nPrint virtual memory statistics, repeating each DELAY seconds, COUNT times.\n(With no DELAY, prints one line. With no COUNT, repeats until killed.)\n\nShow processes running and blocked, kilobytes swapped, free, buffered, and\ncached, kilobytes swapped in and out per second, file disk blocks input and\noutput per second, interrupts and context switches per second, percent\nof CPU time spent running user code, system code, idle, and awaiting I/O.\nFirst line is since system started, later lines are since last line.\n\n-n	Display the header only once\n\n"
 
@@ -164,7 +164,7 @@
 
 #define HELP_switch_root "usage: switch_root [-c /dev/console] NEW_ROOT NEW_INIT...\n\nUse from PID 1 under initramfs to free initramfs, chroot to NEW_ROOT,\nand exec NEW_INIT.\n\n-c	Redirect console to device in NEW_ROOT\n-h	Hang instead of exiting on failure (avoids kernel panic)\n\n"
 
-#define HELP_swapon "usage: swapon [-d] [-p priority] filename\n\nEnable swapping on a given device/file.\n\n-d	Discard freed SSD pages\n\n"
+#define HELP_swapon "usage: swapon [-d] [-p priority] filename\n\nEnable swapping on a given device/file.\n\n-d	Discard freed SSD pages\n-p	Priority (highest priority areas allocated first)\n\n"
 
 #define HELP_swapoff "usage: swapoff swapregion\n\nDisable swapping on a given swapregion.\n\n"
 
@@ -318,9 +318,9 @@
 
 #define HELP_useradd "usage: useradd [-SDH] [-h DIR] [-s SHELL] [-G GRP] [-g NAME] [-u UID] USER [GROUP]\n\nCreate new user, or add USER to GROUP\n\n-D       Don't assign a password\n-g NAME  Real name\n-G GRP   Add user to existing group\n-h DIR   Home directory\n-H       Don't create home directory\n-s SHELL Login shell\n-S       Create a system user\n-u UID   User id\n\n"
 
-#define HELP_tr "usage: tr [-cds] SET1 [SET2]\n\nTranslate, squeeze, or delete characters from stdin, writing to stdout\n\n-c/-C  Take complement of SET1\n-d     Delete input characters coded SET1\n-s     Squeeze multiple output characters of SET2 into one character\n\n"
-
 #define HELP_traceroute "usage: traceroute [-46FUIldnvr] [-f 1ST_TTL] [-m MAXTTL] [-p PORT] [-q PROBES]\n[-s SRC_IP] [-t TOS] [-w WAIT_SEC] [-g GATEWAY] [-i IFACE] [-z PAUSE_MSEC] HOST [BYTES]\n\ntraceroute6 [-dnrv] [-m MAXTTL] [-p PORT] [-q PROBES][-s SRC_IP] [-t TOS] [-w WAIT_SEC]\n  [-i IFACE] HOST [BYTES]\n\nTrace the route to HOST\n\n-4,-6 Force IP or IPv6 name resolution\n-F    Set the don't fragment bit (supports IPV4 only)\n-U    Use UDP datagrams instead of ICMP ECHO (supports IPV4 only)\n-I    Use ICMP ECHO instead of UDP datagrams (supports IPV4 only)\n-l    Display the TTL value of the returned packet (supports IPV4 only)\n-d    Set SO_DEBUG options to socket\n-n    Print numeric addresses\n-v    verbose\n-r    Bypass routing tables, send directly to HOST\n-m    Max time-to-live (max number of hops)(RANGE 1 to 255)\n-p    Base UDP port number used in probes(default 33434)(RANGE 1 to 65535)\n-q    Number of probes per TTL (default 3)(RANGE 1 to 255)\n-s    IP address to use as the source address\n-t    Type-of-service in probe packets (default 0)(RANGE 0 to 255)\n-w    Time in seconds to wait for a response (default 3)(RANGE 0 to 86400)\n-g    Loose source route gateway (8 max) (supports IPV4 only)\n-z    Pause Time in milisec (default 0)(RANGE 0 to 86400) (supports IPV4 only)\n-f    Start from the 1ST_TTL hop (instead from 1)(RANGE 1 to 255) (supports IPV4 only)\n-i    Specify a network interface to operate with\n\n"
+
+#define HELP_tr "usage: tr [-cds] SET1 [SET2]\n\nTranslate, squeeze, or delete characters from stdin, writing to stdout\n\n-c/-C  Take complement of SET1\n-d     Delete input characters coded SET1\n-s     Squeeze multiple output characters of SET2 into one character\n\n"
 
 #define HELP_tftpd "usage: tftpd [-cr] [-u USER] [DIR]\n\nTransfer file from/to tftp server.\n\n-r	read only\n-c	Allow file creation via upload\n-u	run as USER\n-l	Log to syslog (inetd mode requires this)\n\n"
 
@@ -416,9 +416,9 @@
 
 #define HELP_dhcpd "usage: dhcpd [-46fS] [-i IFACE] [-P N] [CONFFILE]\n\n -f    Run in foreground\n -i Interface to use\n -S    Log to syslog too\n -P N  Use port N (default ipv4 67, ipv6 547)\n -4, -6    Run as a DHCPv4 or DHCPv6 server\n\n"
 
-#define HELP_dhcp "usage: dhcp [-fbnqvoCRB] [-i IFACE] [-r IP] [-s PROG] [-p PIDFILE]\n            [-H HOSTNAME] [-V VENDOR] [-x OPT:VAL] [-O OPT]\n\n     Configure network dynamicaly using DHCP.\n\n   -i Interface to use (default eth0)\n   -p Create pidfile\n   -s Run PROG at DHCP events (default /usr/share/dhcp/default.script)\n   -B Request broadcast replies\n   -t Send up to N discover packets\n   -T Pause between packets (default 3 seconds)\n   -A Wait N seconds after failure (default 20)\n   -f Run in foreground\n   -b Background if lease is not obtained\n   -n Exit if lease is not obtained\n   -q Exit after obtaining lease\n   -R Release IP on exit\n   -S Log to syslog too\n   -a Use arping to validate offered address\n   -O Request option OPT from server (cumulative)\n   -o Don't request any options (unless -O is given)\n   -r Request this IP address\n   -x OPT:VAL  Include option OPT in sent packets (cumulative)\n   -F Ask server to update DNS mapping for NAME\n   -H Send NAME as client hostname (default none)\n   -V VENDOR Vendor identifier (default 'toybox VERSION')\n   -C Don't send MAC as client identifier\n   -v Verbose\n\n   Signals:\n   USR1  Renew current lease\n   USR2  Release current lease\n\n\n"
-
 #define HELP_dhcp6 "usage: dhcp6 [-fbnqvR] [-i IFACE] [-r IP] [-s PROG] [-p PIDFILE]\n\n      Configure network dynamicaly using DHCP.\n\n    -i Interface to use (default eth0)\n    -p Create pidfile\n    -s Run PROG at DHCP events\n    -t Send up to N Solicit packets\n    -T Pause between packets (default 3 seconds)\n    -A Wait N seconds after failure (default 20)\n    -f Run in foreground\n    -b Background if lease is not obtained\n    -n Exit if lease is not obtained\n    -q Exit after obtaining lease\n    -R Release IP on exit\n    -S Log to syslog too\n    -r Request this IP address\n    -v Verbose\n\n    Signals:\n    USR1  Renew current lease\n    USR2  Release current lease\n\n"
+
+#define HELP_dhcp "usage: dhcp [-fbnqvoCRB] [-i IFACE] [-r IP] [-s PROG] [-p PIDFILE]\n            [-H HOSTNAME] [-V VENDOR] [-x OPT:VAL] [-O OPT]\n\n     Configure network dynamicaly using DHCP.\n\n   -i Interface to use (default eth0)\n   -p Create pidfile\n   -s Run PROG at DHCP events (default /usr/share/dhcp/default.script)\n   -B Request broadcast replies\n   -t Send up to N discover packets\n   -T Pause between packets (default 3 seconds)\n   -A Wait N seconds after failure (default 20)\n   -f Run in foreground\n   -b Background if lease is not obtained\n   -n Exit if lease is not obtained\n   -q Exit after obtaining lease\n   -R Release IP on exit\n   -S Log to syslog too\n   -a Use arping to validate offered address\n   -O Request option OPT from server (cumulative)\n   -o Don't request any options (unless -O is given)\n   -r Request this IP address\n   -x OPT:VAL  Include option OPT in sent packets (cumulative)\n   -F Ask server to update DNS mapping for NAME\n   -H Send NAME as client hostname (default none)\n   -V VENDOR Vendor identifier (default 'toybox VERSION')\n   -C Don't send MAC as client identifier\n   -v Verbose\n\n   Signals:\n   USR1  Renew current lease\n   USR2  Release current lease\n\n\n"
 
 #define HELP_dd "usage: dd [if=FILE] [of=FILE] [ibs=N] [obs=N] [bs=N] [count=N] [skip=N]\n        [seek=N] [conv=notrunc|noerror|sync|fsync] [status=noxfer|none]\n\nCopy/convert files.\n\nif=FILE		Read from FILE instead of stdin\nof=FILE		Write to FILE instead of stdout\nbs=N		Read and write N bytes at a time\nibs=N		Read N bytes at a time\nobs=N		Write N bytes at a time\ncount=N		Copy only N input blocks\nskip=N		Skip N input blocks\nseek=N		Skip N output blocks\nconv=notrunc	Don't truncate output file\nconv=noerror	Continue after read errors\nconv=sync	Pad blocks with zeros\nconv=fsync	Physically write data out before finishing\nstatus=noxfer	Don't show transfer rate\nstatus=none	Don't show transfer rate or records in/out\n\nNumbers may be suffixed by c (*1), w (*2), b (*512), kD (*1000), k (*1024),\nMD (*1000*1000), M (*1024*1024), GD (*1000*1000*1000) or G (*1024*1024*1024).\n\n"
 
