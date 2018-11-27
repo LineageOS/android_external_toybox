@@ -9,8 +9,7 @@ struct getprop_data {
 // toys/android/log.c
 
 struct log_data {
-  char *tag;
-  char *pri;
+  char *t, *p;
 };
 
 // toys/example/hello.c
@@ -24,15 +23,14 @@ struct hello_data {
 struct skeleton_data {
   union {
     struct {
-      char *b_string;
-      long c_number;
-      struct arg_list *d_list;
-      long e_count;
-      char *also_string;
-      char *blubber_string;
+      char *b;
+      long c;
+      struct arg_list *d;
+      long e;
+      char *also, *blubber;
     } s;
     struct {
-      long b_number;
+      long b;
     } a;
   };
 
@@ -42,8 +40,7 @@ struct skeleton_data {
 // toys/lsb/dmesg.c
 
 struct dmesg_data {
-  long level;
-  long size;
+  long n, s;
 
   int use_color;
   time_t tea;
@@ -52,13 +49,13 @@ struct dmesg_data {
 // toys/lsb/hostname.c
 
 struct hostname_data {
-  char *fname;
+  char *F;
 };
 
 // toys/lsb/killall.c
 
 struct killall_data {
-  char *sig;
+  char *s;
 
   int signum;
   pid_t cur_pid;
@@ -86,14 +83,13 @@ struct md5sum_data {
 // toys/lsb/mknod.c
 
 struct mknod_data {
-  char *arg_context;
-  char *m;
+  char *Z, *m;
 };
 
 // toys/lsb/mktemp.c
 
 struct mktemp_data {
-  char *tmpdir;
+  char *p;
 };
 
 // toys/lsb/mount.c
@@ -111,7 +107,7 @@ struct mount_data {
 // toys/lsb/passwd.c
 
 struct passwd_data {
-  char *algo;
+  char *a;
 };
 
 // toys/lsb/pidof.c
@@ -123,8 +119,7 @@ struct pidof_data {
 // toys/lsb/seq.c
 
 struct seq_data {
-  char *sep;
-  char *fmt;
+  char *s, *f;
 
   int precision;
 };
@@ -147,9 +142,7 @@ struct umount_data {
 // toys/net/ftpget.c
 
 struct ftpget_data {
-  char *user;
-  char *port;
-  char *password;
+  char *u, *p, *P;
 
   int fd;
 };
@@ -172,12 +165,8 @@ struct microcom_data {
 // toys/net/netcat.c
 
 struct netcat_data {
-  char *filename;        // -f read from filename instead of network
-  long quit_delay;       // -q Exit after EOF from stdin after # seconds.
-  char *source_address;  // -s Bind to a specific source address.
-  long port;             // -p Bind to a specific source port.
-  long idle;             // -W Wait # seconds for more data
-  long wait;             // -w Wait # seconds for a connection.
+  char *f, *s;
+  long q, p, W, w;
 };
 
 // toys/net/netstat.c
@@ -190,9 +179,8 @@ struct netstat_data {
 // toys/net/ping.c
 
 struct ping_data {
-  long w, W, i;
   char *I;
-  long s, c, t, m;
+  long w, W, i, s, c, t, m;
 
   struct sockaddr *sa;
   int sock;
@@ -202,7 +190,7 @@ struct ping_data {
 // toys/net/tunctl.c
 
 struct tunctl_data {
-  char *user;
+  char *u;
 };
 
 // toys/other/acpi.c
@@ -215,7 +203,7 @@ struct acpi_data {
 // toys/other/base64.c
 
 struct base64_data {
-  long columns;
+  long w;
 
   unsigned total;
 };
@@ -223,14 +211,13 @@ struct base64_data {
 // toys/other/blockdev.c
 
 struct blockdev_data {
-  long bsz;
-  long ra;
+  long setbsz, setra;
 };
 
 // toys/other/chrt.c
 
 struct chrt_data {
-  long pid;
+  long p;
 };
 
 // toys/other/dos2unix.c
@@ -311,8 +298,8 @@ struct losetup_data {
 // toys/other/lspci.c
 
 struct lspci_data {
-  char *ids;
-  long numeric;
+  char *i;
+  long n;
 
   FILE *db;
 };
@@ -354,8 +341,8 @@ struct modinfo_data {
 // toys/other/nsenter.c
 
 struct nsenter_data {
-  char *nsnames[6];
-  long targetpid;
+  char *Uupnmi[6];
+  long t;
 };
 
 // toys/other/oneit.c
@@ -467,6 +454,7 @@ struct arping_data {
 
 struct bc_data {
   long tty;
+  long ttyin;
 
   unsigned long sig;
   unsigned long sigc;
@@ -942,6 +930,12 @@ struct vi_data {
 
 struct wget_data {
   char *filename;
+};
+
+// toys/posix/basename.c
+
+struct basename_data {
+  char *s;
 };
 
 // toys/posix/chgrp.c
@@ -1433,6 +1427,7 @@ extern union global_union {
 	struct useradd_data useradd;
 	struct vi_data vi;
 	struct wget_data wget;
+	struct basename_data basename;
 	struct chgrp_data chgrp;
 	struct chmod_data chmod;
 	struct cksum_data cksum;
