@@ -1144,15 +1144,17 @@
 #undef FLAG_c
 #endif
 
-// head ?n#<0=10c#<0qv[-nc] ?n#<0=10c#<0qv[-nc]
+// head ?n(lines)#<0=10c(bytes)#<0qv[-nc] ?n(lines)#<0=10c(bytes)#<0qv[-nc]
 #undef OPTSTR_head
-#define OPTSTR_head "?n#<0=10c#<0qv[-nc]"
+#define OPTSTR_head "?n(lines)#<0=10c(bytes)#<0qv[-nc]"
 #ifdef CLEANUP_head
 #undef CLEANUP_head
 #undef FOR_head
 #undef FLAG_v
 #undef FLAG_q
+#undef FLAG_bytes
 #undef FLAG_c
+#undef FLAG_lines
 #undef FLAG_n
 #endif
 
@@ -1795,12 +1797,13 @@
 #undef FLAG_L
 #endif
 
-// mktemp >1uqd(directory)p(tmpdir): >1uqd(directory)p(tmpdir):
+// mktemp >1uqd(directory)p(tmpdir):t >1uqd(directory)p(tmpdir):t
 #undef OPTSTR_mktemp
-#define OPTSTR_mktemp ">1uqd(directory)p(tmpdir):"
+#define OPTSTR_mktemp ">1uqd(directory)p(tmpdir):t"
 #ifdef CLEANUP_mktemp
 #undef CLEANUP_mktemp
 #undef FOR_mktemp
+#undef FLAG_t
 #undef FLAG_tmpdir
 #undef FLAG_p
 #undef FLAG_directory
@@ -4338,7 +4341,9 @@
 #endif
 #define FLAG_v (1<<0)
 #define FLAG_q (1<<1)
+#define FLAG_bytes (1<<2)
 #define FLAG_c (1<<2)
+#define FLAG_lines (1<<3)
 #define FLAG_n (1<<3)
 #endif
 
@@ -4877,12 +4882,13 @@
 #ifndef TT
 #define TT this.mktemp
 #endif
-#define FLAG_tmpdir (1<<0)
-#define FLAG_p (1<<0)
-#define FLAG_directory (1<<1)
-#define FLAG_d (1<<1)
-#define FLAG_q (1<<2)
-#define FLAG_u (1<<3)
+#define FLAG_t (1<<0)
+#define FLAG_tmpdir (1<<1)
+#define FLAG_p (1<<1)
+#define FLAG_directory (1<<2)
+#define FLAG_d (1<<2)
+#define FLAG_q (1<<3)
+#define FLAG_u (1<<4)
 #endif
 
 #ifdef FOR_modinfo
