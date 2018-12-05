@@ -232,6 +232,7 @@ cc_defaults {
         "-Wall",
         "-Werror",
         "-Wno-char-subscripts",
+        "-Wno-deprecated-declarations",
         "-Wno-missing-field-initializers",
         "-Wno-sign-compare",
         "-Wno-string-plus-int",
