@@ -981,7 +981,7 @@
 #undef FLAG_P
 #endif
 
-// getconf   >2al
+// getconf >2al >2al
 #undef OPTSTR_getconf
 #define OPTSTR_getconf ">2al"
 #ifdef CLEANUP_getconf
@@ -1282,7 +1282,7 @@
 #undef FLAG_f
 #endif
 
-// iconv   cst:f:
+// iconv cst:f: cst:f:
 #undef OPTSTR_iconv
 #define OPTSTR_iconv "cst:f:"
 #ifdef CLEANUP_iconv
@@ -1969,7 +1969,7 @@
 #undef FOR_nohup
 #endif
 
-// nproc   (all)
+// nproc (all) (all)
 #undef OPTSTR_nproc
 #define OPTSTR_nproc "(all)"
 #ifdef CLEANUP_nproc
@@ -3246,7 +3246,7 @@
 #undef FOR_w
 #endif
 
-// watch   ^<1n%<100=2000tebx
+// watch ^<1n%<100=2000tebx ^<1n%<100=2000tebx
 #undef OPTSTR_watch
 #define OPTSTR_watch "^<1n%<100=2000tebx"
 #ifdef CLEANUP_watch
@@ -4198,8 +4198,8 @@
 #ifndef TT
 #define TT this.getconf
 #endif
-#define FLAG_l (FORCED_FLAG<<0)
-#define FLAG_a (FORCED_FLAG<<1)
+#define FLAG_l (1<<0)
+#define FLAG_a (1<<1)
 #endif
 
 #ifdef FOR_getenforce
@@ -4453,10 +4453,10 @@
 #ifndef TT
 #define TT this.iconv
 #endif
-#define FLAG_f (FORCED_FLAG<<0)
-#define FLAG_t (FORCED_FLAG<<1)
-#define FLAG_s (FORCED_FLAG<<2)
-#define FLAG_c (FORCED_FLAG<<3)
+#define FLAG_f (1<<0)
+#define FLAG_t (1<<1)
+#define FLAG_s (1<<2)
+#define FLAG_c (1<<3)
 #endif
 
 #ifdef FOR_id
@@ -5028,7 +5028,7 @@
 #ifndef TT
 #define TT this.nproc
 #endif
-#define FLAG_all (FORCED_FLAG<<0)
+#define FLAG_all (1<<0)
 #endif
 
 #ifdef FOR_nsenter
@@ -6101,11 +6101,11 @@
 #ifndef TT
 #define TT this.watch
 #endif
-#define FLAG_x (FORCED_FLAG<<0)
-#define FLAG_b (FORCED_FLAG<<1)
-#define FLAG_e (FORCED_FLAG<<2)
-#define FLAG_t (FORCED_FLAG<<3)
-#define FLAG_n (FORCED_FLAG<<4)
+#define FLAG_x (1<<0)
+#define FLAG_b (1<<1)
+#define FLAG_e (1<<2)
+#define FLAG_t (1<<3)
+#define FLAG_n (1<<4)
 #endif
 
 #ifdef FOR_wc
