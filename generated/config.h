@@ -220,8 +220,8 @@
 #define USE_FTPGET(...)
 #define CFG_FTPPUT 0
 #define USE_FTPPUT(...)
-#define CFG_GETCONF 0
-#define USE_GETCONF(...)
+#define CFG_GETCONF 1
+#define USE_GETCONF(...) __VA_ARGS__
 #define CFG_GETENFORCE 1
 #define USE_GETENFORCE(...) __VA_ARGS__
 #define CFG_GETFATTR 1
@@ -268,8 +268,8 @@
 #define USE_I2CGET(...) __VA_ARGS__
 #define CFG_I2CSET 1
 #define USE_I2CSET(...) __VA_ARGS__
-#define CFG_ICONV 0
-#define USE_ICONV(...)
+#define CFG_ICONV 1
+#define USE_ICONV(...) __VA_ARGS__
 #define CFG_ID 1
 #define USE_ID(...) __VA_ARGS__
 #define CFG_ID_Z 1
@@ -412,8 +412,8 @@
 #define USE_NL(...) __VA_ARGS__
 #define CFG_NOHUP 1
 #define USE_NOHUP(...) __VA_ARGS__
-#define CFG_NPROC 0
-#define USE_NPROC(...)
+#define CFG_NPROC 1
+#define USE_NPROC(...) __VA_ARGS__
 #define CFG_NSENTER 1
 #define USE_NSENTER(...) __VA_ARGS__
 #define CFG_OD 1
@@ -634,8 +634,8 @@
 #define USE_VI(...)
 #define CFG_VMSTAT 1
 #define USE_VMSTAT(...) __VA_ARGS__
-#define CFG_WATCH 0
-#define USE_WATCH(...)
+#define CFG_WATCH 1
+#define USE_WATCH(...) __VA_ARGS__
 #define CFG_WC 1
 #define USE_WC(...) __VA_ARGS__
 #define CFG_WGET 0
