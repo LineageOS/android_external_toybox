@@ -55,7 +55,6 @@ cc_defaults {
         "lib/args.c",
         "lib/commas.c",
         "lib/dirtree.c",
-        "lib/getmountlist.c",
         "lib/help.c",
         "lib/lib.c",
         "lib/linestack.c",
