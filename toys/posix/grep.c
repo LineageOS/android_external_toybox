@@ -68,7 +68,7 @@ GLOBALS(
   struct arg_list *f, *e, *M, *S;
 
   char indelim, outdelim;
-  int found;
+  int found, tried;
 )
 
 // Emit line with various potential prefixes and delimiter
@@ -79,8 +79,11 @@ static void outline(char *line, char dash, char *name, long lcount, long bcount,
   if (!line || (lcount && (toys.optflags&FLAG_n)))
     printf("%ld%c", lcount, line ? dash : TT.outdelim);
   if (bcount && (toys.optflags&FLAG_b)) printf("%ld%c", bcount-1, dash);
-// Support embedded NUL bytes in output
-  if (line) xprintf("%.*s%c", trim, line, TT.outdelim);
+  if (line) {
+    // support embedded NUL bytes in output
+    fwrite(line, 1, trim, stdout);
+    xputc(TT.outdelim);
+  }
 }
 
 // Show matches in one file
@@ -92,6 +95,7 @@ static void do_grep(int fd, char *name)
   FILE *file;
   int bin = 0;
 
+  TT.tried++;
   if (!fd) name = "(standard input)";
 
   // Only run binary file check on lseekable files.
@@ -233,21 +237,22 @@ static void do_grep(int fd, char *name)
         else if (!(toys.optflags & FLAG_o)) {
           while (dlb) {
             struct double_list *dl = dlist_pop(&dlb);
+            unsigned *uu = (void *)(dl->data+((strlen(dl->data)+1)|3)+1);
 
-            outline(dl->data, '-', name, lcount-before, 0, -1);
+            outline(dl->data, '-', name, lcount-before, uu[0]+1, uu[1]);
             free(dl->data);
             free(dl);
             before--;
           }
 
-          outline(line, ':', name, lcount, bcount, -1);
+          outline(line, ':', name, lcount, bcount, ulen);
           if (TT.A) after = TT.A+1;
         } else outline(start+matches.rm_so, ':', name, lcount, bcount,
                        matches.rm_eo-matches.rm_so);
       }
 
       start += skip;
-      if (!(toys.optflags & FLAG_o)) break;
+      if (!FLAG(o)) break;
     } while (*start);
     offset += len;
 
@@ -256,10 +261,16 @@ static void do_grep(int fd, char *name)
       int discard = (after || TT.B);
 
       if (after && --after) {
-        outline(line, '-', name, lcount, 0, -1);
+        outline(line, '-', name, lcount, 0, ulen);
         discard = 0;
       }
       if (discard && TT.B) {
+        unsigned *uu, ul = (ulen+1)|3;
+
+        line = xrealloc(line, ul+8);
+        uu = (void *)(line+ul+1);
+        uu[0] = offset-len;
+        uu[1] = ulen;
         dlist_add(&dlb, line);
         line = 0;
         if (++before>TT.B) {
@@ -284,6 +295,12 @@ static void do_grep(int fd, char *name)
 
   // loopfiles will also close the fd, but this frees an (opaque) struct.
   fclose(file);
+  while (dlb) {
+    struct double_list *dl = dlist_pop(&dlb);
+
+    free(dl->data);
+    free(dl);
+  }
 }
 
 static void parse_regex(void)
@@ -417,5 +434,5 @@ void grep_main(void)
       else dirtree_read(*ss, do_grep_r);
     }
   } else loopfiles_rw(ss, O_RDONLY|WARN_ONLY, 0, do_grep);
-  toys.exitval = !TT.found;
+  if (TT.tried == toys.optc || (FLAG(q)&&TT.found)) toys.exitval = !TT.found;
 }
