@@ -1071,7 +1071,7 @@ struct grep_data {
   struct arg_list *f, *e, *M, *S;
 
   char indelim, outdelim;
-  int found;
+  int found, tried;
 };
 
 // toys/posix/head.c
