@@ -2397,9 +2397,9 @@
 #undef FOR_runcon
 #endif
 
-// sed (help)(version)e*f*inEr[+Er] (help)(version)e*f*inEr[+Er]
+// sed (help)(version)e*f*i:;nEr[+Er] (help)(version)e*f*i:;nEr[+Er]
 #undef OPTSTR_sed
-#define OPTSTR_sed "(help)(version)e*f*inEr[+Er]"
+#define OPTSTR_sed "(help)(version)e*f*i:;nEr[+Er]"
 #ifdef CLEANUP_sed
 #undef CLEANUP_sed
 #undef FOR_sed
