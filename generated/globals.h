@@ -1229,6 +1229,7 @@ struct renice_data {
 // toys/posix/sed.c
 
 struct sed_data {
+  char *i;
   struct arg_list *f, *e;
 
   // processed pattern list
