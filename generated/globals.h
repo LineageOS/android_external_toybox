@@ -66,8 +66,6 @@ struct killall_data {
 // toys/lsb/md5sum.c
 
 struct md5sum_data {
-  struct arg_list *c;
-
   int sawline;
 
   // Crypto variables blanked after summing
@@ -1070,6 +1068,7 @@ struct grep_data {
   long m, A, B, C;
   struct arg_list *f, *e, *M, *S;
 
+  struct double_list *reg;
   char indelim, outdelim;
   int found, tried;
 };
