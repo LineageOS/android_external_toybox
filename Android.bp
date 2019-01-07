@@ -236,6 +236,7 @@ cc_defaults {
         "-Wno-char-subscripts",
         "-Wno-deprecated-declarations",
         "-Wno-missing-field-initializers",
+        "-Wno-pointer-arith",
         "-Wno-sign-compare",
         "-Wno-string-plus-int",
         "-Wno-unused-parameter",
