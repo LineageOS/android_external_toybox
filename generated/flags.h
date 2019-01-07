@@ -1685,12 +1685,15 @@
 #undef FLAG_d
 #endif
 
-// md5sum bc*[!bc] bc*[!bc]
+// md5sum bc(check)s(status)[!bc] bc(check)s(status)[!bc]
 #undef OPTSTR_md5sum
-#define OPTSTR_md5sum "bc*[!bc]"
+#define OPTSTR_md5sum "bc(check)s(status)[!bc]"
 #ifdef CLEANUP_md5sum
 #undef CLEANUP_md5sum
 #undef FOR_md5sum
+#undef FLAG_status
+#undef FLAG_s
+#undef FLAG_check
 #undef FLAG_c
 #undef FLAG_b
 #endif
@@ -2266,12 +2269,13 @@
 #undef FOR_readahead
 #endif
 
-// readlink <1>1nqmef[-mef] <1>1nqmef[-mef]
+// readlink <1>1nqmef(canonicalize)[-mef] <1>1nqmef(canonicalize)[-mef]
 #undef OPTSTR_readlink
-#define OPTSTR_readlink "<1>1nqmef[-mef]"
+#define OPTSTR_readlink "<1>1nqmef(canonicalize)[-mef]"
 #ifdef CLEANUP_readlink
 #undef CLEANUP_readlink
 #undef FOR_readlink
+#undef FLAG_canonicalize
 #undef FLAG_f
 #undef FLAG_e
 #undef FLAG_m
@@ -2479,12 +2483,15 @@
 #undef FLAG_c
 #endif
 
-// sha1sum bc*[!bc] bc*[!bc]
+// sha1sum bc(check)s(status)[!bc] bc(check)s(status)[!bc]
 #undef OPTSTR_sha1sum
-#define OPTSTR_sha1sum "bc*[!bc]"
+#define OPTSTR_sha1sum "bc(check)s(status)[!bc]"
 #ifdef CLEANUP_sha1sum
 #undef CLEANUP_sha1sum
 #undef FOR_sha1sum
+#undef FLAG_status
+#undef FLAG_s
+#undef FLAG_check
 #undef FLAG_c
 #undef FLAG_b
 #endif
@@ -2539,9 +2546,9 @@
 #undef FOR_sleep
 #endif
 
-// sort gS:T:mo:k*t:xbMcszdfirun gS:T:mo:k*t:xbMcszdfirun
+// sort gS:T:mo:k*t:xVbMcszdfirun gS:T:mo:k*t:xVbMcszdfirun
 #undef OPTSTR_sort
-#define OPTSTR_sort "gS:T:mo:k*t:xbMcszdfirun"
+#define OPTSTR_sort "gS:T:mo:k*t:xVbMcszdfirun"
 #ifdef CLEANUP_sort
 #undef CLEANUP_sort
 #undef FOR_sort
@@ -2556,6 +2563,7 @@
 #undef FLAG_c
 #undef FLAG_M
 #undef FLAG_b
+#undef FLAG_V
 #undef FLAG_x
 #undef FLAG_t
 #undef FLAG_k
@@ -4793,8 +4801,11 @@
 #ifndef TT
 #define TT this.md5sum
 #endif
-#define FLAG_c (1<<0)
-#define FLAG_b (1<<1)
+#define FLAG_status (1<<0)
+#define FLAG_s (1<<0)
+#define FLAG_check (1<<1)
+#define FLAG_c (1<<1)
+#define FLAG_b (1<<2)
 #endif
 
 #ifdef FOR_mdev
@@ -5286,6 +5297,7 @@
 #ifndef TT
 #define TT this.readlink
 #endif
+#define FLAG_canonicalize (1<<0)
 #define FLAG_f (1<<0)
 #define FLAG_e (1<<1)
 #define FLAG_m (1<<2)
@@ -5457,8 +5469,11 @@
 #ifndef TT
 #define TT this.sha1sum
 #endif
-#define FLAG_c (1<<0)
-#define FLAG_b (1<<1)
+#define FLAG_status (1<<0)
+#define FLAG_s (1<<0)
+#define FLAG_check (1<<1)
+#define FLAG_c (1<<1)
+#define FLAG_b (1<<2)
 #endif
 
 #ifdef FOR_shred
@@ -5518,14 +5533,15 @@
 #define FLAG_c (1<<8)
 #define FLAG_M (1<<9)
 #define FLAG_b (1<<10)
-#define FLAG_x (1<<11)
-#define FLAG_t (1<<12)
-#define FLAG_k (1<<13)
-#define FLAG_o (1<<14)
-#define FLAG_m (1<<15)
-#define FLAG_T (1<<16)
-#define FLAG_S (1<<17)
-#define FLAG_g (1<<18)
+#define FLAG_V (1<<11)
+#define FLAG_x (1<<12)
+#define FLAG_t (1<<13)
+#define FLAG_k (1<<14)
+#define FLAG_o (1<<15)
+#define FLAG_m (1<<16)
+#define FLAG_T (1<<17)
+#define FLAG_S (1<<18)
+#define FLAG_g (1<<19)
 #endif
 
 #ifdef FOR_split
