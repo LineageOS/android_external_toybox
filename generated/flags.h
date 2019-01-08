@@ -92,15 +92,10 @@
 #ifdef CLEANUP_bc
 #undef CLEANUP_bc
 #undef FOR_bc
-#undef FLAG_warn
 #undef FLAG_w
-#undef FLAG_standard
 #undef FLAG_s
-#undef FLAG_quiet
 #undef FLAG_q
-#undef FLAG_mathlib
 #undef FLAG_l
-#undef FLAG_interactive
 #undef FLAG_i
 #endif
 
@@ -313,8 +308,6 @@
 #ifdef CLEANUP_cmp
 #undef CLEANUP_cmp
 #undef FOR_cmp
-#undef FLAG_quiet
-#undef FLAG_silent
 #undef FLAG_s
 #undef FLAG_l
 #endif
@@ -346,7 +339,6 @@
 #undef FOR_cp
 #undef FLAG_i
 #undef FLAG_f
-#undef FLAG_remove_destination
 #undef FLAG_F
 #undef FLAG_n
 #undef FLAG_v
@@ -360,7 +352,6 @@
 #undef FLAG_L
 #undef FLAG_H
 #undef FLAG_R
-#undef FLAG_parents
 #undef FLAG_D
 #undef FLAG_preserve
 #endif
@@ -372,7 +363,6 @@
 #undef CLEANUP_cpio
 #undef FOR_cpio
 #undef FLAG_o
-#undef FLAG_verbose
 #undef FLAG_v
 #undef FLAG_F
 #undef FLAG_t
@@ -432,7 +422,6 @@
 #undef FLAG_D
 #undef FLAG_s
 #undef FLAG_d
-#undef FLAG_output_delimiter
 #undef FLAG_O
 #undef FLAG_C
 #undef FLAG_F
@@ -645,36 +634,21 @@
 #ifdef CLEANUP_diff
 #undef CLEANUP_diff
 #undef FOR_diff
-#undef FLAG_unified
 #undef FLAG_U
-#undef FLAG_recursive
 #undef FLAG_r
-#undef FLAG_new_file
 #undef FLAG_N
-#undef FLAG_starting_file
 #undef FLAG_S
-#undef FLAG_label
 #undef FLAG_L
-#undef FLAG_text
 #undef FLAG_a
-#undef FLAG_brief
 #undef FLAG_q
-#undef FLAG_report_identical_files
 #undef FLAG_s
-#undef FLAG_initial_tab
 #undef FLAG_T
-#undef FLAG_ignore_case
 #undef FLAG_i
-#undef FLAG_ignore_all_space
 #undef FLAG_w
-#undef FLAG_expand_tabs
 #undef FLAG_t
 #undef FLAG_u
-#undef FLAG_ignore_space_change
 #undef FLAG_b
-#undef FLAG_minimal
 #undef FLAG_d
-#undef FLAG_ignore_blank_lines
 #undef FLAG_B
 #undef FLAG_color
 #endif
@@ -701,7 +675,6 @@
 #undef FLAG_T
 #undef FLAG_S
 #undef FLAG_C
-#undef FLAG_follow
 #undef FLAG_w
 #endif
 
@@ -1038,9 +1011,9 @@
 #undef FLAG_t
 #endif
 
-// grep S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw] S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]
+// grep (color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw] (color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]"
+#define OPTSTR_grep "(color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclqe*f*C#B#A#m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
@@ -1070,10 +1043,9 @@
 #undef FLAG_E
 #undef FLAG_z
 #undef FLAG_Z
-#undef FLAG_include
 #undef FLAG_M
-#undef FLAG_exclude
 #undef FLAG_S
+#undef FLAG_color
 #endif
 
 // groupadd   <1>2g#<0S
@@ -1152,9 +1124,7 @@
 #undef FOR_head
 #undef FLAG_v
 #undef FLAG_q
-#undef FLAG_bytes
 #undef FLAG_c
-#undef FLAG_lines
 #undef FLAG_n
 #endif
 
@@ -1223,19 +1193,12 @@
 #ifdef CLEANUP_hwclock
 #undef CLEANUP_hwclock
 #undef FOR_hwclock
-#undef FLAG_systohc
 #undef FLAG_w
-#undef FLAG_show
 #undef FLAG_r
-#undef FLAG_hctosys
 #undef FLAG_s
-#undef FLAG_systz
 #undef FLAG_t
-#undef FLAG_localtime
 #undef FLAG_l
-#undef FLAG_utc
 #undef FLAG_u
-#undef FLAG_rtc
 #undef FLAG_f
 #undef FLAG_fast
 #endif
@@ -1577,9 +1540,7 @@
 #undef FLAG_j
 #undef FLAG_o
 #undef FLAG_r
-#undef FLAG_show
 #undef FLAG_s
-#undef FLAG_sizelimit
 #undef FLAG_S
 #endif
 
@@ -1691,9 +1652,7 @@
 #ifdef CLEANUP_md5sum
 #undef CLEANUP_md5sum
 #undef FOR_md5sum
-#undef FLAG_status
 #undef FLAG_s
-#undef FLAG_check
 #undef FLAG_c
 #undef FLAG_b
 #endif
@@ -1736,8 +1695,6 @@
 #undef CLEANUP_mkdir
 #undef FOR_mkdir
 #undef FLAG_m
-#undef FLAG_parents
-#undef FLAG_parent
 #undef FLAG_p
 #undef FLAG_v
 #undef FLAG_Z
@@ -1776,7 +1733,6 @@
 #undef CLEANUP_mknod
 #undef FOR_mknod
 #undef FLAG_Z
-#undef FLAG_mode
 #undef FLAG_m
 #endif
 
@@ -1807,9 +1763,7 @@
 #undef CLEANUP_mktemp
 #undef FOR_mktemp
 #undef FLAG_t
-#undef FLAG_tmpdir
 #undef FLAG_p
-#undef FLAG_directory
 #undef FLAG_d
 #undef FLAG_q
 #undef FLAG_u
@@ -1888,7 +1842,6 @@
 #undef FOR_mv
 #undef FLAG_i
 #undef FLAG_f
-#undef FLAG_remove_destination
 #undef FLAG_F
 #undef FLAG_n
 #undef FLAG_v
@@ -1990,21 +1943,13 @@
 #ifdef CLEANUP_nsenter
 #undef CLEANUP_nsenter
 #undef FOR_nsenter
-#undef FLAG_user
 #undef FLAG_U
-#undef FLAG_uts
 #undef FLAG_u
-#undef FLAG_pid
 #undef FLAG_p
-#undef FLAG_net
 #undef FLAG_n
-#undef FLAG_mount
 #undef FLAG_m
-#undef FLAG_ipc
 #undef FLAG_i
-#undef FLAG_target
 #undef FLAG_t
-#undef FLAG_no_fork
 #undef FLAG_F
 #endif
 
@@ -2197,7 +2142,6 @@
 #ifdef CLEANUP_printenv
 #undef CLEANUP_printenv
 #undef FOR_printenv
-#undef FLAG_null
 #undef FLAG_0
 #endif
 
@@ -2224,7 +2168,6 @@
 #undef FLAG_T
 #undef FLAG_t
 #undef FLAG_s
-#undef FLAG_pid
 #undef FLAG_p
 #undef FLAG_O
 #undef FLAG_o
@@ -2236,9 +2179,7 @@
 #undef FLAG_d
 #undef FLAG_A
 #undef FLAG_a
-#undef FLAG_ppid
 #undef FLAG_P
-#undef FLAG_sort
 #undef FLAG_k
 #endif
 
@@ -2275,7 +2216,6 @@
 #ifdef CLEANUP_readlink
 #undef CLEANUP_readlink
 #undef FOR_readlink
-#undef FLAG_canonicalize
 #undef FLAG_f
 #undef FLAG_e
 #undef FLAG_m
@@ -2489,9 +2429,7 @@
 #ifdef CLEANUP_sha1sum
 #undef CLEANUP_sha1sum
 #undef FOR_sha1sum
-#undef FLAG_status
 #undef FLAG_s
-#undef FLAG_check
 #undef FLAG_c
 #undef FLAG_b
 #endif
@@ -2758,37 +2696,21 @@
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
-#undef FLAG_file
 #undef FLAG_f
-#undef FLAG_directory
 #undef FLAG_C
-#undef FLAG_files_from
 #undef FLAG_T
-#undef FLAG_exclude_from
 #undef FLAG_X
-#undef FLAG_touch
 #undef FLAG_m
-#undef FLAG_to_stdout
 #undef FLAG_O
-#undef FLAG_gzip
 #undef FLAG_z
-#undef FLAG_bzip2
 #undef FLAG_j
-#undef FLAG_verbose
 #undef FLAG_v
-#undef FLAG_list
 #undef FLAG_t
-#undef FLAG_extract
 #undef FLAG_x
-#undef FLAG_dereference
 #undef FLAG_h
-#undef FLAG_create
 #undef FLAG_c
-#undef FLAG_keep_old
 #undef FLAG_k
-#undef FLAG_same_permissions
 #undef FLAG_p
-#undef FLAG_no_same_owner
 #undef FLAG_o
 #undef FLAG_to_command
 #undef FLAG_exclude
@@ -3135,21 +3057,13 @@
 #ifdef CLEANUP_unshare
 #undef CLEANUP_unshare
 #undef FOR_unshare
-#undef FLAG_user
 #undef FLAG_U
-#undef FLAG_uts
 #undef FLAG_u
-#undef FLAG_pid
 #undef FLAG_p
-#undef FLAG_net
 #undef FLAG_n
-#undef FLAG_mount
 #undef FLAG_m
-#undef FLAG_ipc
 #undef FLAG_i
-#undef FLAG_map_root_user
 #undef FLAG_r
-#undef FLAG_fork
 #undef FLAG_f
 #endif
 
@@ -3220,7 +3134,6 @@
 #ifdef CLEANUP_uuidgen
 #undef CLEANUP_uuidgen
 #undef FOR_uuidgen
-#undef FLAG_random
 #undef FLAG_r
 #endif
 
@@ -3450,15 +3363,10 @@
 #ifndef TT
 #define TT this.bc
 #endif
-#define FLAG_warn (1<<0)
 #define FLAG_w (1<<0)
-#define FLAG_standard (1<<1)
 #define FLAG_s (1<<1)
-#define FLAG_quiet (1<<2)
 #define FLAG_q (1<<2)
-#define FLAG_mathlib (1<<3)
 #define FLAG_l (1<<3)
-#define FLAG_interactive (1<<4)
 #define FLAG_i (1<<4)
 #endif
 
@@ -3631,8 +3539,6 @@
 #ifndef TT
 #define TT this.cmp
 #endif
-#define FLAG_quiet (1<<0)
-#define FLAG_silent (1<<0)
 #define FLAG_s (1<<0)
 #define FLAG_l (1<<1)
 #endif
@@ -3658,7 +3564,6 @@
 #endif
 #define FLAG_i (1<<0)
 #define FLAG_f (1<<1)
-#define FLAG_remove_destination (1<<2)
 #define FLAG_F (1<<2)
 #define FLAG_n (1<<3)
 #define FLAG_v (1<<4)
@@ -3672,7 +3577,6 @@
 #define FLAG_L (1<<12)
 #define FLAG_H (1<<13)
 #define FLAG_R (1<<14)
-#define FLAG_parents (1<<15)
 #define FLAG_D (1<<15)
 #define FLAG_preserve (1<<16)
 #endif
@@ -3682,7 +3586,6 @@
 #define TT this.cpio
 #endif
 #define FLAG_o (1<<0)
-#define FLAG_verbose (1<<1)
 #define FLAG_v (1<<1)
 #define FLAG_F (1<<2)
 #define FLAG_t (1<<3)
@@ -3734,7 +3637,6 @@
 #define FLAG_D (1<<1)
 #define FLAG_s (1<<2)
 #define FLAG_d (1<<3)
-#define FLAG_output_delimiter (1<<4)
 #define FLAG_O (1<<4)
 #define FLAG_C (1<<5)
 #define FLAG_F (1<<6)
@@ -3923,36 +3825,21 @@
 #ifndef TT
 #define TT this.diff
 #endif
-#define FLAG_unified (1<<0)
 #define FLAG_U (1<<0)
-#define FLAG_recursive (1<<1)
 #define FLAG_r (1<<1)
-#define FLAG_new_file (1<<2)
 #define FLAG_N (1<<2)
-#define FLAG_starting_file (1<<3)
 #define FLAG_S (1<<3)
-#define FLAG_label (1<<4)
 #define FLAG_L (1<<4)
-#define FLAG_text (1<<5)
 #define FLAG_a (1<<5)
-#define FLAG_brief (1<<6)
 #define FLAG_q (1<<6)
-#define FLAG_report_identical_files (1<<7)
 #define FLAG_s (1<<7)
-#define FLAG_initial_tab (1<<8)
 #define FLAG_T (1<<8)
-#define FLAG_ignore_case (1<<9)
 #define FLAG_i (1<<9)
-#define FLAG_ignore_all_space (1<<10)
 #define FLAG_w (1<<10)
-#define FLAG_expand_tabs (1<<11)
 #define FLAG_t (1<<11)
 #define FLAG_u (1<<12)
-#define FLAG_ignore_space_change (1<<13)
 #define FLAG_b (1<<13)
-#define FLAG_minimal (1<<14)
 #define FLAG_d (1<<14)
-#define FLAG_ignore_blank_lines (1<<15)
 #define FLAG_B (1<<15)
 #define FLAG_color (1<<16)
 #endif
@@ -3975,7 +3862,6 @@
 #define FLAG_T (1<<5)
 #define FLAG_S (1<<6)
 #define FLAG_C (1<<7)
-#define FLAG_follow (1<<8)
 #define FLAG_w (1<<8)
 #endif
 
@@ -4282,10 +4168,9 @@
 #define FLAG_E (1<<23)
 #define FLAG_z (1<<24)
 #define FLAG_Z (1<<25)
-#define FLAG_include (1<<26)
 #define FLAG_M (1<<26)
-#define FLAG_exclude (1<<27)
 #define FLAG_S (1<<27)
+#define FLAG_color (1<<28)
 #endif
 
 #ifdef FOR_groupadd
@@ -4352,9 +4237,7 @@
 #endif
 #define FLAG_v (1<<0)
 #define FLAG_q (1<<1)
-#define FLAG_bytes (1<<2)
 #define FLAG_c (1<<2)
-#define FLAG_lines (1<<3)
 #define FLAG_n (1<<3)
 #endif
 
@@ -4409,19 +4292,12 @@
 #ifndef TT
 #define TT this.hwclock
 #endif
-#define FLAG_systohc (1<<0)
 #define FLAG_w (1<<0)
-#define FLAG_show (1<<1)
 #define FLAG_r (1<<1)
-#define FLAG_hctosys (1<<2)
 #define FLAG_s (1<<2)
-#define FLAG_systz (1<<3)
 #define FLAG_t (1<<3)
-#define FLAG_localtime (1<<4)
 #define FLAG_l (1<<4)
-#define FLAG_utc (1<<5)
 #define FLAG_u (1<<5)
-#define FLAG_rtc (1<<6)
 #define FLAG_f (1<<6)
 #define FLAG_fast (1<<7)
 #endif
@@ -4703,9 +4579,7 @@
 #define FLAG_j (1<<4)
 #define FLAG_o (1<<5)
 #define FLAG_r (1<<6)
-#define FLAG_show (1<<7)
 #define FLAG_s (1<<7)
-#define FLAG_sizelimit (1<<8)
 #define FLAG_S (1<<8)
 #endif
 
@@ -4801,9 +4675,7 @@
 #ifndef TT
 #define TT this.md5sum
 #endif
-#define FLAG_status (1<<0)
 #define FLAG_s (1<<0)
-#define FLAG_check (1<<1)
 #define FLAG_c (1<<1)
 #define FLAG_b (1<<2)
 #endif
@@ -4838,8 +4710,6 @@
 #define TT this.mkdir
 #endif
 #define FLAG_m (1<<0)
-#define FLAG_parents (1<<1)
-#define FLAG_parent (1<<1)
 #define FLAG_p (1<<1)
 #define FLAG_v (1<<2)
 #define FLAG_Z (1<<3)
@@ -4872,7 +4742,6 @@
 #define TT this.mknod
 #endif
 #define FLAG_Z (1<<0)
-#define FLAG_mode (1<<1)
 #define FLAG_m (1<<1)
 #endif
 
@@ -4897,9 +4766,7 @@
 #define TT this.mktemp
 #endif
 #define FLAG_t (1<<0)
-#define FLAG_tmpdir (1<<1)
 #define FLAG_p (1<<1)
-#define FLAG_directory (1<<2)
 #define FLAG_d (1<<2)
 #define FLAG_q (1<<3)
 #define FLAG_u (1<<4)
@@ -4966,7 +4833,6 @@
 #endif
 #define FLAG_i (1<<0)
 #define FLAG_f (1<<1)
-#define FLAG_remove_destination (1<<2)
 #define FLAG_F (1<<2)
 #define FLAG_n (1<<3)
 #define FLAG_v (1<<4)
@@ -5052,21 +4918,13 @@
 #ifndef TT
 #define TT this.nsenter
 #endif
-#define FLAG_user (1<<0)
 #define FLAG_U (1<<0)
-#define FLAG_uts (1<<1)
 #define FLAG_u (1<<1)
-#define FLAG_pid (1<<2)
 #define FLAG_p (1<<2)
-#define FLAG_net (1<<3)
 #define FLAG_n (1<<3)
-#define FLAG_mount (1<<4)
 #define FLAG_m (1<<4)
-#define FLAG_ipc (1<<5)
 #define FLAG_i (1<<5)
-#define FLAG_target (1<<6)
 #define FLAG_t (1<<6)
-#define FLAG_no_fork (1<<7)
 #define FLAG_F (1<<7)
 #endif
 
@@ -5231,7 +5089,6 @@
 #ifndef TT
 #define TT this.printenv
 #endif
-#define FLAG_null (1<<0)
 #define FLAG_0 (1<<0)
 #endif
 
@@ -5254,7 +5111,6 @@
 #define FLAG_T (1<<6)
 #define FLAG_t (1<<7)
 #define FLAG_s (1<<8)
-#define FLAG_pid (1<<9)
 #define FLAG_p (1<<9)
 #define FLAG_O (1<<10)
 #define FLAG_o (1<<11)
@@ -5266,9 +5122,7 @@
 #define FLAG_d (1<<17)
 #define FLAG_A (1<<18)
 #define FLAG_a (1<<19)
-#define FLAG_ppid (1<<20)
 #define FLAG_P (1<<20)
-#define FLAG_sort (1<<21)
 #define FLAG_k (1<<21)
 #endif
 
@@ -5297,7 +5151,6 @@
 #ifndef TT
 #define TT this.readlink
 #endif
-#define FLAG_canonicalize (1<<0)
 #define FLAG_f (1<<0)
 #define FLAG_e (1<<1)
 #define FLAG_m (1<<2)
@@ -5469,9 +5322,7 @@
 #ifndef TT
 #define TT this.sha1sum
 #endif
-#define FLAG_status (1<<0)
 #define FLAG_s (1<<0)
-#define FLAG_check (1<<1)
 #define FLAG_c (1<<1)
 #define FLAG_b (1<<2)
 #endif
@@ -5694,37 +5545,21 @@
 #ifndef TT
 #define TT this.tar
 #endif
-#define FLAG_file (1<<0)
 #define FLAG_f (1<<0)
-#define FLAG_directory (1<<1)
 #define FLAG_C (1<<1)
-#define FLAG_files_from (1<<2)
 #define FLAG_T (1<<2)
-#define FLAG_exclude_from (1<<3)
 #define FLAG_X (1<<3)
-#define FLAG_touch (1<<4)
 #define FLAG_m (1<<4)
-#define FLAG_to_stdout (1<<5)
 #define FLAG_O (1<<5)
-#define FLAG_gzip (1<<6)
 #define FLAG_z (1<<6)
-#define FLAG_bzip2 (1<<7)
 #define FLAG_j (1<<7)
-#define FLAG_verbose (1<<8)
 #define FLAG_v (1<<8)
-#define FLAG_list (1<<9)
 #define FLAG_t (1<<9)
-#define FLAG_extract (1<<10)
 #define FLAG_x (1<<10)
-#define FLAG_dereference (1<<11)
 #define FLAG_h (1<<11)
-#define FLAG_create (1<<12)
 #define FLAG_c (1<<12)
-#define FLAG_keep_old (1<<13)
 #define FLAG_k (1<<13)
-#define FLAG_same_permissions (1<<14)
 #define FLAG_p (1<<14)
-#define FLAG_no_same_owner (1<<15)
 #define FLAG_o (1<<15)
 #define FLAG_to_command (1<<16)
 #define FLAG_exclude (1<<17)
@@ -6019,21 +5854,13 @@
 #ifndef TT
 #define TT this.unshare
 #endif
-#define FLAG_user (1<<0)
 #define FLAG_U (1<<0)
-#define FLAG_uts (1<<1)
 #define FLAG_u (1<<1)
-#define FLAG_pid (1<<2)
 #define FLAG_p (1<<2)
-#define FLAG_net (1<<3)
 #define FLAG_n (1<<3)
-#define FLAG_mount (1<<4)
 #define FLAG_m (1<<4)
-#define FLAG_ipc (1<<5)
 #define FLAG_i (1<<5)
-#define FLAG_map_root_user (1<<6)
 #define FLAG_r (1<<6)
-#define FLAG_fork (1<<7)
 #define FLAG_f (1<<7)
 #endif
 
@@ -6090,7 +5917,6 @@
 #ifndef TT
 #define TT this.uuidgen
 #endif
-#define FLAG_random (1<<0)
 #define FLAG_r (1<<0)
 #endif
 
