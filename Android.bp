@@ -261,6 +261,7 @@ cc_defaults {
                 "acpi",
                 "base64",
                 "basename",
+                "bc",
                 "blockdev",
                 "cal",
                 "cat",
