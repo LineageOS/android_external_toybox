@@ -1067,7 +1067,9 @@ struct find_data {
 struct grep_data {
   long m, A, B, C;
   struct arg_list *f, *e, *M, *S;
+  char *color;
 
+  char *purple, *cyan, *red, *green, *grey;
   struct double_list *reg;
   char indelim, outdelim;
   int found, tried;
