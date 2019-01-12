@@ -2026,12 +2026,13 @@
 #undef FLAG_d
 #endif
 
-// patch (dry-run)ulp#d:i:R (dry-run)xulp#d:i:R
+// patch (dry-run)ulp#d:i:Rs(quiet) (dry-run)xulp#d:i:Rs(quiet)
 #undef OPTSTR_patch
-#define OPTSTR_patch "(dry-run)ulp#d:i:R"
+#define OPTSTR_patch "(dry-run)ulp#d:i:Rs(quiet)"
 #ifdef CLEANUP_patch
 #undef CLEANUP_patch
 #undef FOR_patch
+#undef FLAG_s
 #undef FLAG_R
 #undef FLAG_i
 #undef FLAG_d
@@ -4993,14 +4994,15 @@
 #ifndef TT
 #define TT this.patch
 #endif
-#define FLAG_R (1<<0)
-#define FLAG_i (1<<1)
-#define FLAG_d (1<<2)
-#define FLAG_p (1<<3)
-#define FLAG_l (1<<4)
-#define FLAG_u (1<<5)
-#define FLAG_x (FORCED_FLAG<<6)
-#define FLAG_dry_run (1<<7)
+#define FLAG_s (1<<0)
+#define FLAG_R (1<<1)
+#define FLAG_i (1<<2)
+#define FLAG_d (1<<3)
+#define FLAG_p (1<<4)
+#define FLAG_l (1<<5)
+#define FLAG_u (1<<6)
+#define FLAG_x (FORCED_FLAG<<7)
+#define FLAG_dry_run (1<<8)
 #endif
 
 #ifdef FOR_pgrep
