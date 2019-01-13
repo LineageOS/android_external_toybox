@@ -2342,12 +2342,13 @@
 #undef FOR_runcon
 #endif
 
-// sed (help)(version)e*f*i:;nEr[+Er] (help)(version)e*f*i:;nEr[+Er]
+// sed (help)(version)e*f*i:;nErz(null-data)[+Er] (help)(version)e*f*i:;nErz(null-data)[+Er]
 #undef OPTSTR_sed
-#define OPTSTR_sed "(help)(version)e*f*i:;nEr[+Er]"
+#define OPTSTR_sed "(help)(version)e*f*i:;nErz(null-data)[+Er]"
 #ifdef CLEANUP_sed
 #undef CLEANUP_sed
 #undef FOR_sed
+#undef FLAG_z
 #undef FLAG_r
 #undef FLAG_E
 #undef FLAG_n
@@ -2532,9 +2533,9 @@
 #undef FOR_start
 #endif
 
-// stat <1c:fLt <1c:fLt
+// stat <1c:(format)fLt <1c:(format)fLt
 #undef OPTSTR_stat
-#define OPTSTR_stat "<1c:fLt"
+#define OPTSTR_stat "<1c:(format)fLt"
 #ifdef CLEANUP_stat
 #undef CLEANUP_stat
 #undef FOR_stat
@@ -5258,14 +5259,15 @@
 #ifndef TT
 #define TT this.sed
 #endif
-#define FLAG_r (1<<0)
-#define FLAG_E (1<<1)
-#define FLAG_n (1<<2)
-#define FLAG_i (1<<3)
-#define FLAG_f (1<<4)
-#define FLAG_e (1<<5)
-#define FLAG_version (1<<6)
-#define FLAG_help (1<<7)
+#define FLAG_z (1<<0)
+#define FLAG_r (1<<1)
+#define FLAG_E (1<<2)
+#define FLAG_n (1<<3)
+#define FLAG_i (1<<4)
+#define FLAG_f (1<<5)
+#define FLAG_e (1<<6)
+#define FLAG_version (1<<7)
+#define FLAG_help (1<<8)
 #endif
 
 #ifdef FOR_sendevent
