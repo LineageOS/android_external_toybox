@@ -160,4 +160,9 @@ testing "skip start of range" "sed -e n -e '1,2s/b/c/'" "a\nb\n" "" "a\nb\n"
 testing "bonus backslashes" \
   "sed -e 'a \l \x\' -e \"\$(echo -e 'ab\\\nc')\"" \
   "hello\nl x\nab\nc\n" "" "hello\n"
+
+# toybox saying "no }" here broke the AOSP build.
+testing "end b with }" "sed -n '/START/{:a;n;/END/q;p;ba}'" "b\nc\n" \
+  "" "a\nSTART\nb\nc\nEND\nd"
+
 # -i with $ last line test
