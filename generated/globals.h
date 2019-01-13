@@ -1241,6 +1241,7 @@ struct sed_data {
   long nextlen, rememberlen, count;
   int fdout, noeol;
   unsigned xx;
+  char delim;
 };
 
 // toys/posix/sort.c
