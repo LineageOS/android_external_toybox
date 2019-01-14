@@ -253,7 +253,7 @@ int regexec0(regex_t *preg, char *string, long len, int nmatch,
   regmatch_t pmatch[], int eflags);
 char *getusername(uid_t uid);
 char *getgroupname(gid_t gid);
-void do_lines(int fd, void (*call)(char **pline, long len));
+void do_lines(int fd, char delim, void (*call)(char **pline, long len));
 long environ_bytes();
 long long millitime(void);
 char *format_iso_time(char *buf, size_t len, struct timespec *ts);
@@ -305,8 +305,8 @@ int xsocket(int domain, int type, int protocol);
 void xsetsockopt(int fd, int level, int opt, void *val, socklen_t len);
 struct addrinfo *xgetaddrinfo(char *host, char *port, int family, int socktype,
   int protocol, int flags);
-int xconnect(struct addrinfo *ai_arg);
-int xbind(struct addrinfo *ai_arg);
+int xconnect(struct addrinfo *ai);
+int xbind(struct addrinfo *ai);
 int xpoll(struct pollfd *fds, int nfds, int timeout);
 int pollinate(int in1, int in2, int out1, int out2, int timeout, int shutdown_timeout);
 char *ntop(struct sockaddr *sa);
