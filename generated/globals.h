@@ -761,6 +761,12 @@ struct sh_data {
   long lineno;
 };
 
+// toys/pending/sntp.c
+
+struct sntp_data {
+  int unused;
+};
+
 // toys/pending/stty.c
 
 struct stty_data {
@@ -1415,6 +1421,7 @@ extern union global_union {
 	struct openvt_data openvt;
 	struct route_data route;
 	struct sh_data sh;
+	struct sntp_data sntp;
 	struct stty_data stty;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
