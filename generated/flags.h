@@ -2486,6 +2486,14 @@
 #undef FOR_sleep
 #endif
 
+// sntp   <1
+#undef OPTSTR_sntp
+#define OPTSTR_sntp "<1"
+#ifdef CLEANUP_sntp
+#undef CLEANUP_sntp
+#undef FOR_sntp
+#endif
+
 // sort gS:T:mo:k*t:xVbMcszdfirun gS:T:mo:k*t:xVbMcszdfirun
 #undef OPTSTR_sort
 #define OPTSTR_sort "gS:T:mo:k*t:xVbMcszdfirun"
@@ -5370,6 +5378,12 @@
 #ifdef FOR_sleep
 #ifndef TT
 #define TT this.sleep
+#endif
+#endif
+
+#ifdef FOR_sntp
+#ifndef TT
+#define TT this.sntp
 #endif
 #endif
 
