@@ -67,13 +67,16 @@ int xbind(struct addrinfo *ai)
 int xpoll(struct pollfd *fds, int nfds, int timeout)
 {
   int i;
+  long long now, then = timeout>0 ? millitime() : 0;
 
   for (;;) {
-    if (0>(i = poll(fds, nfds, timeout))) {
-      if (toys.signal) return i;
-      if (errno != EINTR && errno != ENOMEM) perror_exit("xpoll");
-      else if (timeout>0) timeout--;
-    } else return i;
+    if (0<=(i = poll(fds, nfds, timeout)) || toys.signal) return i;
+    if (errno != EINTR && errno != ENOMEM) perror_exit("xpoll");
+    else {
+      now = millitime();
+      timeout -= now-then;
+      then = now;
+    }
   }
 }
 
@@ -125,4 +128,13 @@ char *ntop(struct sockaddr *sa)
   inet_ntop(sa->sa_family, addr, libbuf, sizeof(libbuf));
 
   return libbuf;
+}
+
+void xsendto(int sockfd, void *buf, size_t len, struct sockaddr *dest)
+{
+  int rc = sendto(sockfd, buf, len, 0, dest,
+    dest->sa_family == AF_INET ? sizeof(struct sockaddr_in) :
+      sizeof(struct sockaddr_in6));
+
+  if (rc != len) perror_exit("sendto");
 }

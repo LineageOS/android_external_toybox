@@ -518,6 +518,8 @@
 #define USE_SLEEP_FLOAT(...) __VA_ARGS__
 #define CFG_SLEEP 1
 #define USE_SLEEP(...) __VA_ARGS__
+#define CFG_SNTP 0
+#define USE_SNTP(...)
 #define CFG_SORT_BIG 1
 #define USE_SORT_BIG(...) __VA_ARGS__
 #define CFG_SORT_FLOAT 1
