@@ -108,7 +108,7 @@
 
 #define HELP_killall "usage: killall [-l] [-iqv] [-SIGNAL|-s SIGNAL] PROCESS_NAME...\n\nSend a signal (default: TERM) to all processes with the given names.\n\n-i	Ask for confirmation before killing\n-l	Print list of all available signals\n-q	Don't print any warnings or error messages\n-s	Send SIGNAL instead of SIGTERM\n-v	Report if the signal was successfully sent\n\n"
 
-#define HELP_hostname "usage: hostname [-bsf] [-F FILENAME] [newname]\n\nGet/set the current hostname.\n\n-b	Set hostname to 'localhost' if otherwise unset\n-d	Show DNS domain name (no host)\n-f	Show fully-qualified name (host+domain, FQDN)\n-F	Set hostname to contents of FILENAME\n-s	Show short host name (no domain)\n\n"
+#define HELP_hostname "usage: hostname [-bdsf] [-F FILENAME] [newname]\n\nGet/set the current hostname.\n\n-b	Set hostname to 'localhost' if otherwise unset\n-d	Show DNS domain name (no host)\n-f	Show fully-qualified name (host+domain, FQDN)\n-F	Set hostname to contents of FILENAME\n-s	Show short host name (no domain)\n\n"
 
 #define HELP_dmesg "usage: dmesg [-Cc] [-r|-t|-T] [-n LEVEL] [-s SIZE] [-w]\n\nPrint or control the kernel ring buffer.\n\n-C	Clear ring buffer without printing\n-c	Clear ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-S	Use syslog(2) rather than /dev/kmsg\n-s	Show the last SIZE many bytes\n-T	Human readable timestamps\n-t	Don't print timestamps\n-w	Keep waiting for more output (aka --follow)\n\n"
 
@@ -340,7 +340,7 @@
 
 #define HELP_stty "usage: stty [-ag] [-F device] SETTING...\n\nGet/set terminal configuration.\n\n-F	Open device instead of stdin\n-a	Show all current settings (default differences from \"sane\")\n-g	Show all current settings usable as input to stty\n\nSpecial characters (syntax ^c or undef): intr quit erase kill eof eol eol2\nswtch start stop susp rprnt werase lnext discard\n\nControl/input/output/local settings as shown by -a, '-' prefix to disable\n\nCombo settings: cooked/raw, evenp/oddp/parity, nl, ek, sane\n\nN	set input and output speed (ispeed N or ospeed N for just one)\ncols N	set number of columns\nrows N	set number of rows\nline N	set line discipline\nmin N	set minimum chars per read\ntime N	set read timeout\nspeed	show speed only\nsize	show size only\n\n"
 
-#define HELP_sntp "usage: sntp SERVER...\n\nSimple Network Time Protocol client, set system clock from a server.\n\n"
+#define HELP_sntp "usage: sntp [-sm] [-p PORT] SERVER...\n\nSimple Network Time Protocol client, set system clock from a server.\n\n-p	Use PORT (default 123)\n-s	Serer\n\n"
 
 #define HELP_exit "usage: exit [status]\n\nExit shell.  If no return value supplied on command line, use value\nof most recent command, or 0 if none.\n\n"
 
@@ -438,7 +438,7 @@
 
 #define HELP_xargs_pedantic "This version supports insane posix whitespace handling rendered obsolete\nby -0 mode.\n\n\n"
 
-#define HELP_xargs "usage: xargs [-ptxr0] [-s NUM] [-n NUM] [-L NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-s	Size in bytes per command line\n-n	Max number of arguments per command\n-0	Each argument is NULL terminated, no whitespace or quote processing\n#-p	Prompt for y/n from tty before running each command\n#-t	Trace, print command line to stderr\n#-x	Exit if can't fit everything in one command\n#-r	Don't run command with empty input\n#-L	Max number of lines of input per command\n-E	stop at line matching string\n\n"
+#define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr\n\n"
 
 #define HELP_who "usage: who\n\nPrint logged user information on system\n\n"
 
