@@ -2486,12 +2486,14 @@
 #undef FOR_sleep
 #endif
 
-// sntp   <1
+// sntp   sp:
 #undef OPTSTR_sntp
-#define OPTSTR_sntp "<1"
+#define OPTSTR_sntp "sp:"
 #ifdef CLEANUP_sntp
 #undef CLEANUP_sntp
 #undef FOR_sntp
+#undef FLAG_p
+#undef FLAG_s
 #endif
 
 // sort gS:T:mo:k*t:xVbMcszdfirun gS:T:mo:k*t:xVbMcszdfirun
@@ -3232,9 +3234,9 @@
 #undef FLAG_a
 #endif
 
-// xargs ^I:E:L#ptxrn#<1s#0[!0E] ^I:E:L#ptxrn#<1s#0[!0E]
+// xargs ^I:E:ptrn#<1s#0[!0E] ^I:E:ptrn#<1s#0[!0E]
 #undef OPTSTR_xargs
-#define OPTSTR_xargs "^I:E:L#ptxrn#<1s#0[!0E]"
+#define OPTSTR_xargs "^I:E:ptrn#<1s#0[!0E]"
 #ifdef CLEANUP_xargs
 #undef CLEANUP_xargs
 #undef FOR_xargs
@@ -3242,10 +3244,8 @@
 #undef FLAG_s
 #undef FLAG_n
 #undef FLAG_r
-#undef FLAG_x
 #undef FLAG_t
 #undef FLAG_p
-#undef FLAG_L
 #undef FLAG_E
 #undef FLAG_I
 #endif
@@ -5385,6 +5385,8 @@
 #ifndef TT
 #define TT this.sntp
 #endif
+#define FLAG_p (FORCED_FLAG<<0)
+#define FLAG_s (FORCED_FLAG<<1)
 #endif
 
 #ifdef FOR_sort
@@ -6013,12 +6015,10 @@
 #define FLAG_s (1<<1)
 #define FLAG_n (1<<2)
 #define FLAG_r (1<<3)
-#define FLAG_x (1<<4)
-#define FLAG_t (1<<5)
-#define FLAG_p (1<<6)
-#define FLAG_L (1<<7)
-#define FLAG_E (1<<8)
-#define FLAG_I (1<<9)
+#define FLAG_t (1<<4)
+#define FLAG_p (1<<5)
+#define FLAG_E (1<<6)
+#define FLAG_I (1<<7)
 #endif
 
 #ifdef FOR_xxd
