@@ -434,11 +434,7 @@ cc_defaults {
 toybox_libraries = [
     "liblog",
     "libselinux",
-    // libcutils dependency is needed only for <cutils/sched_policy.h>
-    // inclusion from lib/portability.h. When it's changed to include
-    // <processgroup/sched_policy.h> this dependency should be dropped
     "libcutils",
-    "libprocessgroup",
     "libcrypto",
     "libz",
 ]
