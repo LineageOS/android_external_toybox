@@ -764,7 +764,7 @@ struct sh_data {
 // toys/pending/sntp.c
 
 struct sntp_data {
-  int unused;
+  char *p, *m;
 };
 
 // toys/pending/stty.c
@@ -1326,7 +1326,7 @@ struct wc_data {
 // toys/posix/xargs.c
 
 struct xargs_data {
-  long s, n, L;
+  long s, n;
   char *E, *I;
 
   long entries, bytes;
