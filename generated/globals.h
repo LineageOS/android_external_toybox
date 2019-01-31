@@ -259,7 +259,7 @@ struct hexedit_data {
 // toys/other/hwclock.c
 
 struct hwclock_data {
-  char *fname;
+  char *f;
 
   int utc;
 };
