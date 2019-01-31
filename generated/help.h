@@ -340,7 +340,7 @@
 
 #define HELP_stty "usage: stty [-ag] [-F device] SETTING...\n\nGet/set terminal configuration.\n\n-F	Open device instead of stdin\n-a	Show all current settings (default differences from \"sane\")\n-g	Show all current settings usable as input to stty\n\nSpecial characters (syntax ^c or undef): intr quit erase kill eof eol eol2\nswtch start stop susp rprnt werase lnext discard\n\nControl/input/output/local settings as shown by -a, '-' prefix to disable\n\nCombo settings: cooked/raw, evenp/oddp/parity, nl, ek, sane\n\nN	set input and output speed (ispeed N or ospeed N for just one)\ncols N	set number of columns\nrows N	set number of rows\nline N	set line discipline\nmin N	set minimum chars per read\ntime N	set read timeout\nspeed	show speed only\nsize	show size only\n\n"
 
-#define HELP_sntp "usage: sntp [-sm] [-p PORT] SERVER...\n\nSimple Network Time Protocol client, set system clock from a server.\n\n-p	Use PORT (default 123)\n-s	Serer\n\n"
+#define HELP_sntp "usage: sntp [-saS] [-dD[-m ADDRESS] [-p PORT] [SERVER]\n\nSimple Network Time Protocol client. Query SERVER and display time.\n\n-p	Use PORT (default 123)\n-s	Set system clock suddenly\n-a	Adjust system clock gradually\n-S	Serve time instead of querying (bind to SERVER address if specified)\n-m	Wait for updates from multicast ADDRESS (RFC 4330 says use 224.0.1.1)\n-d	Daemonize (run in background re-querying )\n-D	Daemonize but stay in foreground: re-query time every 1000 seconds\n\n"
 
 #define HELP_exit "usage: exit [status]\n\nExit shell.  If no return value supplied on command line, use value\nof most recent command, or 0 if none.\n\n"
 
