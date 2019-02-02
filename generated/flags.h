@@ -1527,6 +1527,14 @@
 #undef FOR_logname
 #endif
 
+// logwrapper    
+#undef OPTSTR_logwrapper
+#define OPTSTR_logwrapper 0
+#ifdef CLEANUP_logwrapper
+#undef CLEANUP_logwrapper
+#undef FOR_logwrapper
+#endif
+
 // losetup >2S(sizelimit)#s(show)ro#j:fdca[!afj] >2S(sizelimit)#s(show)ro#j:fdca[!afj]
 #undef OPTSTR_losetup
 #define OPTSTR_losetup ">2S(sizelimit)#s(show)ro#j:fdca[!afj]"
@@ -4580,6 +4588,12 @@
 #ifdef FOR_logname
 #ifndef TT
 #define TT this.logname
+#endif
+#endif
+
+#ifdef FOR_logwrapper
+#ifndef TT
+#define TT this.logwrapper
 #endif
 #endif
 

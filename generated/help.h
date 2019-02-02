@@ -60,6 +60,8 @@
 
 #define HELP_skeleton "usage: skeleton [-a] [-b STRING] [-c NUMBER] [-d LIST] [-e COUNT] [...]\n\nTemplate for new commands. You don't need this.\n\nWhen creating a new command, copy this file and delete the parts you\ndon't need. Be sure to replace all instances of \"skeleton\" (upper and lower\ncase) with your new command name.\n\nFor simple commands, \"hello.c\" is probably a better starting point.\n\n"
 
+#define HELP_logwrapper "usage: logwrapper ...\n\nAppend command line to $WRAPLOG, then call second instance\nof command in $PATH.\n\n"
+
 #define HELP_hostid "usage: hostid\n\nPrint the numeric identifier for the current host.\n\n"
 
 #define HELP_hello "usage: hello\n\nA hello world program.\n\nMostly used as a simple template for adding new commands.\nOccasionally nice to smoketest kernel booting via \"init=/usr/bin/hello\".\n\n"
