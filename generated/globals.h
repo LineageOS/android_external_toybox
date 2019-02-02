@@ -451,13 +451,9 @@ struct arping_data {
 // toys/pending/bc.c
 
 struct bc_data {
-  long tty;
-  long ttyin;
-
-  unsigned long sig;
-  unsigned long sigc;
-  unsigned long signe;
-  long sig_other;
+  // This actually needs to be a BcVm*, but the toybox build
+  // system complains if I make it so. Instead, we'll just cast.
+  char *vm;
 };
 
 // toys/pending/bootchartd.c
