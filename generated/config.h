@@ -322,6 +322,8 @@
 #define USE_LOGNAME(...) __VA_ARGS__
 #define CFG_LOG 1
 #define USE_LOG(...) __VA_ARGS__
+#define CFG_LOGWRAPPER 0
+#define USE_LOGWRAPPER(...)
 #define CFG_LOSETUP 1
 #define USE_LOSETUP(...) __VA_ARGS__
 #define CFG_LSATTR 1
