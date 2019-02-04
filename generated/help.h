@@ -442,7 +442,7 @@
 
 #define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr\n\n"
 
-#define HELP_who "usage: who\n\nPrint logged user information on system\n\n"
+#define HELP_who "usage: who\n\nPrint information about logged in users.\n\n"
 
 #define HELP_wc "usage: wc -lwcm [FILE...]\n\nCount lines, words, and characters in input.\n\n-l	Show lines\n-w	Show words\n-c	Show bytes\n-m	Show characters\n\nBy default outputs lines, words, bytes, and filename for each\nargument (or from stdin if none). Displays only either bytes\nor characters.\n\n"
 
