@@ -2494,12 +2494,14 @@
 #undef FOR_sleep
 #endif
 
-// sntp   m:Sp:asdD[!as]
+// sntp   m:Sp:asdDqr#<4>17=10[!as]
 #undef OPTSTR_sntp
-#define OPTSTR_sntp "m:Sp:asdD[!as]"
+#define OPTSTR_sntp "m:Sp:asdDqr#<4>17=10[!as]"
 #ifdef CLEANUP_sntp
 #undef CLEANUP_sntp
 #undef FOR_sntp
+#undef FLAG_r
+#undef FLAG_q
 #undef FLAG_D
 #undef FLAG_d
 #undef FLAG_s
@@ -5404,13 +5406,15 @@
 #ifndef TT
 #define TT this.sntp
 #endif
-#define FLAG_D (FORCED_FLAG<<0)
-#define FLAG_d (FORCED_FLAG<<1)
-#define FLAG_s (FORCED_FLAG<<2)
-#define FLAG_a (FORCED_FLAG<<3)
-#define FLAG_p (FORCED_FLAG<<4)
-#define FLAG_S (FORCED_FLAG<<5)
-#define FLAG_m (FORCED_FLAG<<6)
+#define FLAG_r (FORCED_FLAG<<0)
+#define FLAG_q (FORCED_FLAG<<1)
+#define FLAG_D (FORCED_FLAG<<2)
+#define FLAG_d (FORCED_FLAG<<3)
+#define FLAG_s (FORCED_FLAG<<4)
+#define FLAG_a (FORCED_FLAG<<5)
+#define FLAG_p (FORCED_FLAG<<6)
+#define FLAG_S (FORCED_FLAG<<7)
+#define FLAG_m (FORCED_FLAG<<8)
 #endif
 
 #ifdef FOR_sort
