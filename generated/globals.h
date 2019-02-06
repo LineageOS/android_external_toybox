@@ -185,6 +185,13 @@ struct ping_data {
   unsigned long sent, recv, fugit, min, max;
 };
 
+// toys/net/sntp.c
+
+struct sntp_data {
+  long r;
+  char *p, *m;
+};
+
 // toys/net/tunctl.c
 
 struct tunctl_data {
@@ -755,12 +762,6 @@ struct sh_data {
   char *command;
 
   long lineno;
-};
-
-// toys/pending/sntp.c
-
-struct sntp_data {
-  char *p, *m;
 };
 
 // toys/pending/stty.c
@@ -1352,6 +1353,7 @@ extern union global_union {
 	struct netcat_data netcat;
 	struct netstat_data netstat;
 	struct ping_data ping;
+	struct sntp_data sntp;
 	struct tunctl_data tunctl;
 	struct acpi_data acpi;
 	struct base64_data base64;
@@ -1417,7 +1419,6 @@ extern union global_union {
 	struct openvt_data openvt;
 	struct route_data route;
 	struct sh_data sh;
-	struct sntp_data sntp;
 	struct stty_data stty;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
