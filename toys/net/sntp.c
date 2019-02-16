@@ -6,7 +6,7 @@
 
   modes: oneshot display, oneshot set, persist, serve, multi
 
-USE_SNTP(NEWTOY(sntp, "m:Sp:asdDqr#<4>17=10[!as]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_SNTP(NEWTOY(sntp, "M:m:Sp:asdDqr#<4>17=10[!as]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config SNTP
   bool "sntp"
@@ -21,6 +21,7 @@ config SNTP
     -a	Adjust system clock gradually
     -S	Serve time instead of querying (bind to SERVER address if specified)
     -m	Wait for updates from multicast ADDRESS (RFC 4330 says use 224.0.1.1)
+    -M	Multicast server on ADDRESS
     -d	Daemonize (run in background re-querying )
     -D	Daemonize but stay in foreground: re-query time every 1000 seconds
     -r	Retry shift (every 1<<SHIFT seconds)
@@ -32,49 +33,11 @@ config SNTP
 
 GLOBALS(
   long r;
-  char *p, *m;
+  char *p, *m, *M;
 )
 
 // Seconds from 1900 to 1970, including appropriate leap days
 #define SEVENTIES 2208988800L
-
-union socksaddr {
-  struct sockaddr_in in;
-  struct sockaddr_in6 in6;
-};
-
-// timeout in milliseconds
-int xrecvwait(int fd, char *buf, int len, union socksaddr *sa, int timeout)
-{
-  socklen_t sl = sizeof(*sa);
-
-  if (timeout >= 0) {
-    struct pollfd pfd;
-
-    pfd.fd = fd;
-    pfd.events = POLLIN;
-    if (!xpoll(&pfd, 1, timeout)) return 0;
-  }
-
-  len = recvfrom(fd, buf, len, 0, (void *)sa, &sl);
-  if (len<0) perror_exit("recvfrom");
-
-  return len;
-}
-
-// Adjust timespec by nanosecond offset
-static void nanomove(struct timespec *ts, long long offset)
-{
-  long long nano = ts->tv_nsec + offset, secs = nano/1000000000;
-
-  ts->tv_sec += secs;
-  nano %= 1000000000;
-  if (nano<0) {
-    ts->tv_sec--;
-    nano += 1000000000;
-  }
-  ts->tv_nsec = nano;
-}
 
 // Get time and return ntptime (saving timespec in pointer if not null)
 // NTP time is high 32 bits = seconds since 1970 (blame RFC 868), low 32 bits
@@ -102,12 +65,6 @@ static void doublyso(unsigned long long now, struct timespec *tv)
   tv->tv_sec = (now>>32) + (1LL<<32)*!(now&(1LL<<63));
   tv->tv_sec -= SEVENTIES; // Force signed math for Y2038 fixup
   tv->tv_nsec = ((now&0xFFFFFFFF)*1000000000)>>32;
-}
-
-// return difference between two timespecs in nanosecs
-static long long nanodiff(struct timespec *old, struct timespec *new)
-{
-  return (new->tv_sec - old->tv_sec)*1000000000LL+(new->tv_nsec - old->tv_nsec);
 }
 
 void sntp_main(void)
