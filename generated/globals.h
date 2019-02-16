@@ -189,7 +189,7 @@ struct ping_data {
 
 struct sntp_data {
   long r;
-  char *p, *m;
+  char *p, *m, *M;
 };
 
 // toys/net/tunctl.c
