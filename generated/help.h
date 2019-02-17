@@ -116,7 +116,7 @@
 
 #define HELP_tunctl "usage: tunctl [-dtT] [-u USER] NAME\n\nCreate and delete tun/tap virtual ethernet devices.\n\n-T	Use tap (ethernet frames) instead of tun (ip packets)\n-d	Delete tun/tap device\n-t	Create tun/tap device\n-u	Set owner (user who can read/write device without root access)\n\n\n"
 
-#define HELP_sntp "usage: sntp [-saSdDqm] [-r SHIFT] [-m ADDRESS] [-p PORT] [SERVER]\n\nSimple Network Time Protocol client. Query SERVER and display time.\n\n-p	Use PORT (default 123)\n-s	Set system clock suddenly\n-a	Adjust system clock gradually\n-S	Serve time instead of querying (bind to SERVER address if specified)\n-m	Wait for updates from multicast ADDRESS (RFC 4330 says use 224.0.1.1)\n-d	Daemonize (run in background re-querying )\n-D	Daemonize but stay in foreground: re-query time every 1000 seconds\n-r	Retry shift (every 1<<SHIFT seconds)\n-q	Quiet (don't display time)\n\n"
+#define HELP_sntp "usage: sntp [-saSdDqm] [-r SHIFT] [-m ADDRESS] [-p PORT] [SERVER]\n\nSimple Network Time Protocol client. Query SERVER and display time.\n\n-p	Use PORT (default 123)\n-s	Set system clock suddenly\n-a	Adjust system clock gradually\n-S	Serve time instead of querying (bind to SERVER address if specified)\n-m	Wait for updates from multicast ADDRESS (RFC 4330 says use 224.0.1.1)\n-M	Multicast server on ADDRESS\n-d	Daemonize (run in background re-querying )\n-D	Daemonize but stay in foreground: re-query time every 1000 seconds\n-r	Retry shift (every 1<<SHIFT seconds)\n-q	Quiet (don't display time)\n\n"
 
 #define HELP_rfkill "Usage: rfkill COMMAND [DEVICE]\n\nEnable/disable wireless devices.\n\nCommands:\nlist [DEVICE]   List current state\nblock DEVICE    Disable device\nunblock DEVICE  Enable device\n\nDEVICE is an index number, or one of:\nall, wlan(wifi), bluetooth, uwb(ultrawideband), wimax, wwan, gps, fm.\n\n"
 
@@ -190,7 +190,7 @@
 
 #define HELP_realpath "usage: realpath FILE...\n\nDisplay the canonical absolute pathname\n\n"
 
-#define HELP_readlink "usage: readlink FILE\n\nWith no options, show what symlink points to, return error if not symlink.\n\nOptions for producing cannonical paths (all symlinks/./.. resolved):\n\n-e	Canonical path to existing entry (fail if missing)\n-f	Full path (fail if directory missing)\n-m	Ignore missing entries, show where it would be\n-n	No trailing newline\n-q	Quiet (no output, just error code)\n\n"
+#define HELP_readlink "usage: readlink FILE\n\nWith no options, show what symlink points to, return error if not symlink.\n\nOptions for producing canonical paths (all symlinks/./.. resolved):\n\n-e	Canonical path to existing entry (fail if missing)\n-f	Full path (fail if directory missing)\n-m	Ignore missing entries, show where it would be\n-n	No trailing newline\n-q	Quiet (no output, just error code)\n\n"
 
 #define HELP_readahead "usage: readahead FILE...\n\nPreload files into disk cache.\n\n"
 
@@ -212,7 +212,7 @@
 
 #define HELP_nbd_client "usage: nbd-client [-ns] HOST PORT DEVICE\n\n-n	Do not fork into background\n-s	nbd swap support (lock server into memory)\n\n"
 
-#define HELP_mountpoint "usage: mountpoint [-q] [-d] directory\n       mountpoint [-q] [-x] device\n\n-q	Be quiet, return zero if directory is a mountpoint\n-d	Print major/minor device number of the directory\n-x	Print major/minor device number of the block device\n\n"
+#define HELP_mountpoint "usage: mountpoint [-qd] DIR\n       mountpoint [-qx] DEVICE\n\nCheck whether the directory or device is a mountpoint.\n\n-q	Be quiet, return zero if directory is a mountpoint\n-d	Print major/minor device number of the directory\n-x	Print major/minor device number of the block device\n\n"
 
 #define HELP_modinfo "usage: modinfo [-0] [-b basedir] [-k kernrelease] [-F field] [modulename...]\n\nDisplay module fields for all specified modules, looking in\n<basedir>/lib/modules/<kernrelease>/ (kernrelease defaults to uname -r).\n\n"
 
@@ -492,7 +492,7 @@
 
 #define HELP_renice "usage: renice [-gpu] -n increment ID ...\n\n"
 
-#define HELP_pwd "usage: pwd [-L|-P]\n\nPrint working (current) directory.\n\n-L	Use shell's path from $PWD (when applicable)\n-P	Print cannonical absolute path\n\n"
+#define HELP_pwd "usage: pwd [-L|-P]\n\nPrint working (current) directory.\n\n-L	Use shell's path from $PWD (when applicable)\n-P	Print canonical absolute path\n\n"
 
 #define HELP_pkill "usage: pkill [-fnovx] [-SIGNAL|-l SIGNAL] [PATTERN] [-G GID,] [-g PGRP,] [-P PPID,] [-s SID,] [-t TERM,] [-U UID,] [-u EUID,]\n\n-l	Send SIGNAL (default SIGTERM)\n-V	Verbose\n-f	Check full command line for PATTERN\n-G	Match real Group ID(s)\n-g	Match Process Group(s) (0 is current user)\n-n	Newest match only\n-o	Oldest match only\n-P	Match Parent Process ID(s)\n-s	Match Session ID(s) (0 for current)\n-t	Match Terminal(s)\n-U	Match real User ID(s)\n-u	Match effective User ID(s)\n-v	Negate the match\n-x	Match whole command (not substring)\n\n"
 
