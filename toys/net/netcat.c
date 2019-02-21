@@ -59,8 +59,7 @@ GLOBALS(
 static void timeout(int signum)
 {
   if (TT.w) error_exit("Timeout");
-  // TODO This should be xexit() but would need siglongjmp()...
-  exit(0);
+  xexit();
 }
 
 static void set_alarm(int seconds)
@@ -72,8 +71,7 @@ static void set_alarm(int seconds)
 void netcat_main(void)
 {
   int sockfd = -1, in1 = 0, in2 = 0, out1 = 1, out2 = 1;
-  int family = AF_UNSPEC;
-  int type = SOCK_STREAM;
+  int family = AF_UNSPEC, type = SOCK_STREAM;
   pid_t child;
 
   // Addjust idle and quit_delay to miliseconds or -1 for no timeout
@@ -88,13 +86,10 @@ void netcat_main(void)
       (!(toys.optflags&(FLAG_l|FLAG_L)) && toys.optc!=2))
         help_exit("bad argument count");
 
-  if (toys.optflags&FLAG_4)
-    family = AF_INET;
-  else if (toys.optflags&FLAG_6)
-    family = AF_INET6;
+  if (toys.optflags&FLAG_4) family = AF_INET;
+  else if (toys.optflags&FLAG_6) family = AF_INET6;
 
-  if (toys.optflags&FLAG_u)
-    type = SOCK_DGRAM;
+  if (toys.optflags&FLAG_u) type = SOCK_DGRAM;
 
   if (TT.f) in1 = out2 = xopen(TT.f, O_RDWR);
   else {
@@ -115,40 +110,8 @@ void netcat_main(void)
       struct sockaddr* address = (void*)toybuf;
       socklen_t len = sizeof(struct sockaddr_storage);
 
-      if (TT.s) {
-        sprintf(toybuf, "%ld", TT.p);
-        sockfd = xbind(xgetaddrinfo(TT.s, toybuf, family, type, 0, 0));
-      } else {
-        size_t bind_addrlen;
-
-        // If we weren't given an address with which to resolve which family to
-        // use, we have to choose.
-        if (family == AF_UNSPEC) family = AF_INET;
-
-        address->sa_family = family;
-
-        if (family == AF_INET6) {
-          struct sockaddr_in6* addr_in6 = (void*)address;
-          bind_addrlen = sizeof(*addr_in6);
-          addr_in6->sin6_port = SWAP_BE16(TT.p);
-          addr_in6->sin6_addr = in6addr_any;
-        } else {
-          struct sockaddr_in* addr_in = (void*)address;
-          bind_addrlen = sizeof(*addr_in);
-          addr_in->sin_port = SWAP_BE16(TT.p);
-          addr_in->sin_addr.s_addr = INADDR_ANY;
-        }
-
-        sockfd = xsocket(family, type, 0);
-
-        {
-          int val = 1;
-          xsetsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
-        }
-
-        if (bind(sockfd, address, bind_addrlen))
-          perror_exit("bind");
-      }
+      sprintf(toybuf, "%ld", TT.p);
+      sockfd = xbind(xgetaddrinfo(TT.s, toybuf, family, type, 0, 0));
 
       if (listen(sockfd, 5)) error_exit("listen");
       if (!TT.p) {
