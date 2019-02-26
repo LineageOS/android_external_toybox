@@ -291,9 +291,8 @@ struct login_data {
 // toys/other/losetup.c
 
 struct losetup_data {
-  char *jfile;
-  long offset;
-  long size;
+  char *j;
+  long o, S;
 
   int openflags;
   dev_t jdev;

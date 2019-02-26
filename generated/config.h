@@ -346,6 +346,8 @@
 #define USE_LS_Z(...) __VA_ARGS__
 #define CFG_MAKEDEVS 1
 #define USE_MAKEDEVS(...) __VA_ARGS__
+#define CFG_MCOOKIE 0
+#define USE_MCOOKIE(...)
 #define CFG_MD5SUM 1
 #define USE_MD5SUM(...) __VA_ARGS__
 #define CFG_MDEV_CONF 0
