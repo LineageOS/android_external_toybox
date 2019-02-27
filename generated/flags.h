@@ -99,12 +99,14 @@
 #undef FLAG_i
 #endif
 
-// blkid    
+// blkid UL[!LU] UL[!LU]
 #undef OPTSTR_blkid
-#define OPTSTR_blkid 0
+#define OPTSTR_blkid "UL[!LU]"
 #ifdef CLEANUP_blkid
 #undef CLEANUP_blkid
 #undef FOR_blkid
+#undef FLAG_L
+#undef FLAG_U
 #endif
 
 // blockdev <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(getra)(setra)#<0(flushbufs)(rereadpt) <1>1(setro)(setrw)(getro)(getss)(getbsz)(setbsz)#<0(getsz)(getsize)(getsize64)(getra)(setra)#<0(flushbufs)(rereadpt)
@@ -1012,9 +1014,9 @@
 #undef FLAG_t
 #endif
 
-// grep (color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclq(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw] (color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclq(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]
+// grep (color):;S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw] (color):;S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "(color):;S(exclude)*M(include)*ZzEFHIabhinorsvwclq(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]"
+#define OPTSTR_grep "(color):;S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
@@ -3411,6 +3413,8 @@
 #ifndef TT
 #define TT this.blkid
 #endif
+#define FLAG_L (1<<0)
+#define FLAG_U (1<<1)
 #endif
 
 #ifdef FOR_blockdev
