@@ -150,6 +150,8 @@
 #define USE_DEMO_SCANKEY(...)
 #define CFG_DEMO_UTF8TOWC 0
 #define USE_DEMO_UTF8TOWC(...)
+#define CFG_DEVMEM 1
+#define USE_DEVMEM(...) __VA_ARGS__
 #define CFG_DF 1
 #define USE_DF(...) __VA_ARGS__
 #define CFG_DHCP6 0

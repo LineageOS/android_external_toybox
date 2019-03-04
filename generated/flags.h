@@ -548,6 +548,14 @@
 #undef FOR_demo_utf8towc
 #endif
 
+// devmem <1>3 <1>3
+#undef OPTSTR_devmem
+#define OPTSTR_devmem "<1>3"
+#ifdef CLEANUP_devmem
+#undef CLEANUP_devmem
+#undef FOR_devmem
+#endif
+
 // df HPkhit*a[-HPkh] HPkhit*a[-HPkh]
 #undef OPTSTR_df
 #define OPTSTR_df "HPkhit*a[-HPkh]"
@@ -3785,6 +3793,12 @@
 #ifdef FOR_demo_utf8towc
 #ifndef TT
 #define TT this.demo_utf8towc
+#endif
+#endif
+
+#ifdef FOR_devmem
+#ifndef TT
+#define TT this.devmem
 #endif
 #endif
 

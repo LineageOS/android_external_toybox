@@ -282,8 +282,7 @@ struct ionice_data {
 // toys/other/login.c
 
 struct login_data {
-  char *hostname;
-  char *username;
+  char *h, *f;
 
   int login_timeout, login_fail_timeout;
 };
