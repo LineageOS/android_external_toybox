@@ -86,7 +86,7 @@
 
 #define HELP_passwd_sad "Password changes are checked to make sure they're at least 6 chars long,\ndon't include the entire username (but not a subset of it), or the entire\nprevious password (but changing password1, password2, password3 is fine).\nThis heuristic accepts \"aaaaaa\" and \"123456\".\n\n"
 
-#define HELP_passwd "usage: passwd [-a ALGO] [-dlu] <account name>\n\nupdate user's authentication tokens. Default : current user\n\n-a ALGO	Encryption method (des, md5, sha256, sha512) default: des\n-d		Set password to ''\n-l		Lock (disable) account\n-u		Unlock (enable) account\n\n"
+#define HELP_passwd "usage: passwd [-a ALGO] [-dlu] [USER]\n\nUpdate user's authentication tokens. Defaults to current user.\n\n-a ALGO	Encryption method (des, md5, sha256, sha512) default: des\n-d		Set password to ''\n-l		Lock (disable) account\n-u		Unlock (enable) account\n\n"
 
 #define HELP_mount "usage: mount [-afFrsvw] [-t TYPE] [-o OPTION,] [[DEVICE] DIR]\n\nMount new filesystem(s) on directories. With no arguments, display existing\nmounts.\n\n-a	Mount all entries in /etc/fstab (with -t, only entries of that TYPE)\n-O	Only mount -a entries that have this option\n-f	Fake it (don't actually mount)\n-r	Read only (same as -o ro)\n-w	Read/write (default, same as -o rw)\n-t	Specify filesystem type\n-v	Verbose\n\nOPTIONS is a comma separated list of options, which can also be supplied\nas --longopts.\n\nAutodetects loopback mounts (a file on a directory) and bind mounts (file\non file, directory on directory), so you don't need to say --bind or --loop.\nYou can also \"mount -a /path\" to mount everything in /etc/fstab under /path,\neven if it's noauto. DEVICE starting with UUID= is identified by blkid -U.\n\n\n"
 
@@ -118,13 +118,13 @@
 
 #define HELP_sntp "usage: sntp [-saSdDqm] [-r SHIFT] [-m ADDRESS] [-p PORT] [SERVER]\n\nSimple Network Time Protocol client. Query SERVER and display time.\n\n-p	Use PORT (default 123)\n-s	Set system clock suddenly\n-a	Adjust system clock gradually\n-S	Serve time instead of querying (bind to SERVER address if specified)\n-m	Wait for updates from multicast ADDRESS (RFC 4330 says use 224.0.1.1)\n-M	Multicast server on ADDRESS\n-d	Daemonize (run in background re-querying )\n-D	Daemonize but stay in foreground: re-query time every 1000 seconds\n-r	Retry shift (every 1<<SHIFT seconds)\n-q	Quiet (don't display time)\n\n"
 
-#define HELP_rfkill "Usage: rfkill COMMAND [DEVICE]\n\nEnable/disable wireless devices.\n\nCommands:\nlist [DEVICE]   List current state\nblock DEVICE    Disable device\nunblock DEVICE  Enable device\n\nDEVICE is an index number, or one of:\nall, wlan(wifi), bluetooth, uwb(ultrawideband), wimax, wwan, gps, fm.\n\n"
+#define HELP_rfkill "usage: rfkill COMMAND [DEVICE]\n\nEnable/disable wireless devices.\n\nCommands:\nlist [DEVICE]   List current state\nblock DEVICE    Disable device\nunblock DEVICE  Enable device\n\nDEVICE is an index number, or one of:\nall, wlan(wifi), bluetooth, uwb(ultrawideband), wimax, wwan, gps, fm.\n\n"
 
 #define HELP_ping "usage: ping [OPTIONS] HOST\n\nCheck network connectivity by sending packets to a host and reporting\nits response.\n\nSend ICMP ECHO_REQUEST packets to ipv4 or ipv6 addresses and prints each\necho it receives back, with round trip time. Returns true if host alive.\n\nOptions:\n-4, -6		Force IPv4 or IPv6\n-c CNT		Send CNT many packets (default 3, 0 = infinite)\n-f		Flood (print . and \\b to show drops, default -c 15 -i 0.2)\n-i TIME		Interval between packets (default 1, need root for < .2)\n-I IFACE/IP	Source interface or address\n-m MARK		Tag outgoing packets using SO_MARK\n-q		Quiet (stops after one returns true if host is alive)\n-s SIZE		Data SIZE in bytes (default 56)\n-t TTL		Set Time To Live (number of hops)\n-W SEC		Seconds to wait for response after last -c packet (default 3)\n-w SEC		Exit after this many seconds\n\n"
 
 #define HELP_netstat "usage: netstat [-pWrxwutneal]\n\nDisplay networking information. Default is netstat -tuwx\n\n-r	Routing table\n-a	All sockets (not just connected)\n-l	Listening server sockets\n-t	TCP sockets\n-u	UDP sockets\n-w	Raw sockets\n-x	Unix sockets\n-e	Extended info\n-n	Don't resolve names\n-W	Wide display\n-p	Show PID/program name of sockets\n\n"
 
-#define HELP_netcat "usage: netcat [-46t] [-lL COMMAND...] [-u] [-wpq #] [-s addr] {IPADDR PORTNUM|-f FILENAME}\n\n-4	Force IPv4\n-6	Force IPv6\n-L	Listen for multiple incoming connections (server mode)\n-W	SECONDS timeout for more data on an idle connection\n-f	Use FILENAME (ala /dev/ttyS0) instead of network\n-l	Listen for one incoming connection\n-p	Local port number\n-q	Quit SECONDS after EOF on stdin, even if stdout hasn't closed yet\n-s	Local source address\n-t	Allocate tty (must come before -l or -L)\n-u	Use UDP\n-w	SECONDS timeout to establish connection\n\nUse \"stty 115200 -F /dev/ttyS0 && stty raw -echo -ctlecho\" with\nnetcat -f to connect to a serial port.\n\nThe command line after -l or -L is executed (as a child process) to handle\neach incoming connection. If blank -l waits for a connection and forwards\nit to stdin/stdout. If no -p specified, -l prints port it bound to and\nbackgrounds itself (returning immediately).\n\nFor a quick-and-dirty server, try something like:\nnetcat -s 127.0.0.1 -p 1234 -tL /bin/bash -l\n"
+#define HELP_netcat "usage: netcat [-46t] [-lL COMMAND...] [-u] [-wpq #] [-s addr] {IPADDR PORTNUM|-f FILENAME}\n\nForward stdin/stdout to a file or network connection.\n\n-4	Force IPv4\n-6	Force IPv6\n-L	Listen for multiple incoming connections (server mode)\n-W	SECONDS timeout for more data on an idle connection\n-f	Use FILENAME (ala /dev/ttyS0) instead of network\n-l	Listen for one incoming connection\n-p	Local port number\n-q	Quit SECONDS after EOF on stdin, even if stdout hasn't closed yet\n-s	Local source address\n-t	Allocate tty (must come before -l or -L)\n-u	Use UDP\n-w	SECONDS timeout to establish connection\n\nUse \"stty 115200 -F /dev/ttyS0 && stty raw -echo -ctlecho\" with\nnetcat -f to connect to a serial port.\n\nThe command line after -l or -L is executed (as a child process) to handle\neach incoming connection. If blank -l waits for a connection and forwards\nit to stdin/stdout. If no -p specified, -l prints port it bound to and\nbackgrounds itself (returning immediately).\n\nFor a quick-and-dirty server, try something like:\nnetcat -s 127.0.0.1 -p 1234 -tL /bin/bash -l\n"
 
 #define HELP_microcom "usage: microcom [-s SPEED] [-X] DEVICE\n\nSimple serial console.\n\n-s	Set baud rate to SPEED\n-X	Ignore ^@ (send break) and ^] (exit)\n\n"
 
@@ -184,7 +184,7 @@
 
 #define HELP_rev "usage: rev [FILE...]\n\nOutput each line reversed, when no files are given stdin is used.\n\n"
 
-#define HELP_reset "usage: reset\n\nreset the terminal\n\n"
+#define HELP_reset "usage: reset\n\nReset the terminal.\n\n"
 
 #define HELP_reboot "usage: reboot/halt/poweroff [-fn]\n\nRestart, halt or powerdown the system.\n\n-f	Don't signal init\n-n	Don't sync before stopping the system\n\n"
 
@@ -198,7 +198,7 @@
 
 #define HELP_printenv "usage: printenv [-0] [env_var...]\n\nPrint environment variables.\n\n-0	Use \\0 as delimiter instead of \\n\n\n"
 
-#define HELP_pmap "usage: pmap [-xq] [pids...]\n\nReports the memory map of a process or processes.\n\n-x	Show the extended format\n-q	Do not display some header/footer lines\n\n"
+#define HELP_pmap "usage: pmap [-xq] [pids...]\n\nReport the memory map of a process or processes.\n\n-x	Show the extended format\n-q	Do not display some header/footer lines\n\n"
 
 #define HELP_pivot_root "usage: pivot_root OLD NEW\n\nSwap OLD and NEW filesystems (as if by simultaneous mount --move), and\nmove all processes with chdir or chroot under OLD into NEW (including\nkernel threads) so OLD may be unmounted.\n\nThe directory NEW must exist under OLD. This doesn't work on initramfs,\nwhich can't be moved (about the same way PID 1 can't be killed; see\nswitch_root instead).\n\n"
 
@@ -216,7 +216,7 @@
 
 #define HELP_modinfo "usage: modinfo [-0] [-b basedir] [-k kernrelease] [-F field] [modulename...]\n\nDisplay module fields for all specified modules, looking in\n<basedir>/lib/modules/<kernrelease>/ (kernrelease defaults to uname -r).\n\n"
 
-#define HELP_mkswap "usage: mkswap [-L LABEL] DEVICE\n\nSets up a Linux swap area on a device or file.\n\n"
+#define HELP_mkswap "usage: mkswap [-L LABEL] DEVICE\n\nSet up a Linux swap area on a device or file.\n\n"
 
 #define HELP_mkpasswd "usage: mkpasswd [-P FD] [-m TYPE] [-S SALT] [PASSWORD] [SALT]\n\nCrypt PASSWORD using crypt(3)\n\n-P FD	Read password from file descriptor FD\n-m TYPE	Encryption method (des, md5, sha256, or sha512; default is des)\n-S SALT\n\n"
 
@@ -250,15 +250,15 @@
 
 #define HELP_inotifyd "usage: inotifyd PROG FILE[:MASK] ...\n\nWhen a filesystem event matching MASK occurs to a FILE, run PROG as:\n\n  PROG EVENTS FILE [DIRFILE]\n\nIf PROG is \"-\" events are sent to stdout.\n\nThis file is:\n  a  accessed    c  modified    e  metadata change  w  closed (writable)\n  r  opened      D  deleted     M  moved            0  closed (unwritable)\n  u  unmounted   o  overflow    x  unwatchable\n\nA file in this directory is:\n  m  moved in    y  moved out   n  created          d  deleted\n\nWhen x event happens for all FILEs, inotifyd exits (after waiting for PROG).\n\n"
 
-#define HELP_i2cset "usage: i2cset [-fy] BUS CHIP ADDR VALUE... MODE\n\nWrites an i2c register. MODE is b for byte, w for 16-bit word, i for I2C block.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
+#define HELP_i2cset "usage: i2cset [-fy] BUS CHIP ADDR VALUE... MODE\n\nWrite an i2c register. MODE is b for byte, w for 16-bit word, i for I2C block.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
-#define HELP_i2cget "usage: i2cget [-fy] BUS CHIP ADDR\n\nReads an i2c register.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
+#define HELP_i2cget "usage: i2cget [-fy] BUS CHIP ADDR\n\nRead an i2c register.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
-#define HELP_i2cdump "usage: i2cdump [-fy] BUS CHIP\n\nDumps i2c registers.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
+#define HELP_i2cdump "usage: i2cdump [-fy] BUS CHIP\n\nDump i2c registers.\n\n-f	Force access to busy devices\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
-#define HELP_i2cdetect "usage: i2cdetect [-ary] BUS [FIRST LAST]\nusage: i2cdetect -F BUS\nusage: i2cdetect -l\n\nDetects i2c devices.\n\n-a	All addresses (0x00-0x7f rather than 0x03-0x77)\n-F	Show functionality\n-l	List all buses\n-r	Probe with SMBus Read Byte\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
+#define HELP_i2cdetect "usage: i2cdetect [-ary] BUS [FIRST LAST]\nusage: i2cdetect -F BUS\nusage: i2cdetect -l\n\nDetect i2c devices.\n\n-a	All addresses (0x00-0x7f rather than 0x03-0x77)\n-F	Show functionality\n-l	List all buses\n-r	Probe with SMBus Read Byte\n-y	Answer \"yes\" to confirmation prompts (for script use)\n\n"
 
-#define HELP_hwclock "usage: hwclock [-rswtluf]\n\n-f FILE	Use specified device file instead of /dev/rtc (--rtc)\n-l	Hardware clock uses localtime (--localtime)\n-r	Show hardware clock time (--show)\n-s	Set system time from hardware clock (--hctosys)\n-t	Set the system time based on the current timezone (--systz)\n-u	Hardware clock uses UTC (--utc)\n-w	Set hardware clock from system time (--systohc)\n\n"
+#define HELP_hwclock "usage: hwclock [-rswtluf]\n\nGet/set the hardware clock.\n\n-f FILE	Use specified device file instead of /dev/rtc (--rtc)\n-l	Hardware clock uses localtime (--localtime)\n-r	Show hardware clock time (--show)\n-s	Set system time from hardware clock (--hctosys)\n-t	Set the system time based on the current timezone (--systz)\n-u	Hardware clock uses UTC (--utc)\n-w	Set hardware clock from system time (--systohc)\n\n"
 
 #define HELP_hexedit "usage: hexedit FILENAME\n\nHexadecimal file editor. All changes are written to disk immediately.\n\n-r	Read only (display but don't edit)\n\nKeys:\nArrows        Move left/right/up/down by one line/column\nPg Up/Pg Dn   Move up/down by one page\n0-9, a-f      Change current half-byte to hexadecimal value\nu             Undo\nq/^c/^d/<esc> Quit\n\n"
 
@@ -286,6 +286,8 @@
 
 #define HELP_dos2unix "usage: dos2unix [FILE...]\n\nConvert newline format from dos \"\\r\\n\" to unix \"\\n\".\nIf no files listed copy from stdin, \"-\" is a synonym for stdin.\n\n"
 
+#define HELP_devmem "usage: devmem ADDR [WIDTH [DATA]]\n\nRead/write physical address via /dev/mem.\n\nWIDTH is 1, 2, 4, or 8 bytes (default 4).\n\n"
+
 #define HELP_count "usage: count\n\nCopy stdin to stdout, displaying simple progress indicator to stderr.\n\n"
 
 #define HELP_clear "Clear the screen.\n\n"
@@ -304,9 +306,9 @@
 
 #define HELP_blockdev "usage: blockdev --OPTION... BLOCKDEV...\n\nCall ioctl(s) on each listed block device\n\n--setro		Set read only\n--setrw		Set read write\n--getro		Get read only\n--getss		Get sector size\n--getbsz	Get block size\n--setbsz BYTES	Set block size\n--getsz		Get device size in 512-byte sectors\n--getsize	Get device size in sectors (deprecated)\n--getsize64	Get device size in bytes\n--getra		Get readahead in 512-byte sectors\n--setra SECTORS	Set readahead\n--flushbufs	Flush buffers\n--rereadpt	Reread partition table\n\n"
 
-#define HELP_fstype "usage: fstype DEV...\n\nPrints type of filesystem on a block device or image.\n\n"
+#define HELP_fstype "usage: fstype DEV...\n\nPrint type of filesystem on a block device or image.\n\n"
 
-#define HELP_blkid "usage: blkid [-UL] DEV...\n\nPrints type, label and UUID of filesystem on a block device or image.\n\n-U	Show UUID only (or device with that UUID)\n-L	Show LABEL only (or device with that LABEL)\n\n"
+#define HELP_blkid "usage: blkid [-UL] DEV...\n\nPrint type, label and UUID of filesystem on a block device or image.\n\n-U	Show UUID only (or device with that UUID)\n-L	Show LABEL only (or device with that LABEL)\n\n"
 
 #define HELP_base64 "usage: base64 [-di] [-w COLUMNS] [FILE...]\n\nEncode or decode in base64.\n\n-d	Decode\n-i	Ignore non-alphabetic characters\n-w	Wrap output at COLUMNS (default 76 or 0 for no wrap)\n\n"
 
@@ -438,7 +440,7 @@
 
 #define HELP_arping "usage: arping [-fqbDUA] [-c CNT] [-w TIMEOUT] [-I IFACE] [-s SRC_IP] DST_IP\n\nSend ARP requests/replies\n\n-f         Quit on first ARP reply\n-q         Quiet\n-b         Keep broadcasting, don't go unicast\n-D         Duplicated address detection mode\n-U         Unsolicited ARP mode, update your neighbors\n-A         ARP answer mode, update your neighbors\n-c N       Stop after sending N ARP requests\n-w TIMEOUT Time to wait for ARP reply, seconds\n-I IFACE   Interface to use (default eth0)\n-s SRC_IP  Sender IP address\nDST_IP     Target IP address\n\n"
 
-#define HELP_arp "Usage: arp\n[-vn] [-H HWTYPE] [-i IF] -a [HOSTNAME]\n[-v]              [-i IF] -d HOSTNAME [pub]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [temp]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [netmask MASK] pub\n[-v]  [-H HWTYPE] [-i IF] -Ds HOSTNAME IFACE [netmask MASK] pub\n\nManipulate ARP cache\n\n-a    Display (all) hosts\n-s    Set new ARP entry\n-d    Delete a specified entry\n-v    Verbose\n-n    Don't resolve names\n-i IF Network interface\n-D    Read <hwaddr> from given device\n-A,-p AF  Protocol family\n-H    HWTYPE Hardware address type\n\n\n"
+#define HELP_arp "usage: arp\n[-vn] [-H HWTYPE] [-i IF] -a [HOSTNAME]\n[-v]              [-i IF] -d HOSTNAME [pub]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [temp]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [netmask MASK] pub\n[-v]  [-H HWTYPE] [-i IF] -Ds HOSTNAME IFACE [netmask MASK] pub\n\nManipulate ARP cache\n\n-a    Display (all) hosts\n-s    Set new ARP entry\n-d    Delete a specified entry\n-v    Verbose\n-n    Don't resolve names\n-i IF Network interface\n-D    Read <hwaddr> from given device\n-A,-p AF  Protocol family\n-H    HWTYPE Hardware address type\n\n\n"
 
 #define HELP_xargs_pedantic "This version supports insane posix whitespace handling rendered obsolete\nby -0 mode.\n\n\n"
 
@@ -452,7 +454,7 @@
 
 #define HELP_uudecode "usage: uudecode [-o OUTFILE] [INFILE]\n\nDecode file from stdin (or INFILE).\n\n-o	Write to OUTFILE instead of filename in header\n\n"
 
-#define HELP_unlink "usage: unlink FILE\n\nDeletes one file.\n\n"
+#define HELP_unlink "usage: unlink FILE\n\nDelete one file.\n\n"
 
 #define HELP_uniq "usage: uniq [-cduiz] [-w maxchars] [-f fields] [-s char] [input_file [output_file]]\n\nReport or filter out repeated lines in a file\n\n-c	Show counts before each line\n-d	Show only lines that are repeated\n-u	Show only lines that are unique\n-i	Ignore case when comparing lines\n-z	Lines end with \\0 not \\n\n-w	Compare maximum X chars per line\n-f	Ignore first X fields\n-s	Ignore first X chars\n\n"
 
@@ -512,7 +514,7 @@
 
 #define HELP_paste "usage: paste [-s] [-d DELIMITERS] [FILE...]\n\nMerge corresponding lines from each input file.\n\n-d	List of delimiter characters to separate fields with (default is \\t)\n-s	Sequential mode: turn each input file into one line of output\n\n"
 
-#define HELP_od "usage: od [-bcdosxv] [-j #] [-N #] [-w #] [-A doxn] [-t acdfoux[#]]\n\n-A	Address base (decimal, octal, hexadecimal, none)\n-j	Skip this many bytes of input\n-N	Stop dumping after this many bytes\n-t	Output type a(scii) c(har) d(ecimal) f(loat) o(ctal) u(nsigned) (he)x\n	plus optional size in bytes\n	aliases: -b=-t o1, -c=-t c, -d=-t u2, -o=-t o2, -s=-t d2, -x=-t x2\n-v	Don't collapse repeated lines together\n-w	Total line width in bytes (default 16)\n\n"
+#define HELP_od "usage: od [-bcdosxv] [-j #] [-N #] [-w #] [-A doxn] [-t acdfoux[#]]\n\nDump data in octal/hex.\n\n-A	Address base (decimal, octal, hexadecimal, none)\n-j	Skip this many bytes of input\n-N	Stop dumping after this many bytes\n-t	Output type a(scii) c(har) d(ecimal) f(loat) o(ctal) u(nsigned) (he)x\n	plus optional size in bytes\n	aliases: -b=-t o1, -c=-t c, -d=-t u2, -o=-t o2, -s=-t d2, -x=-t x2\n-v	Don't collapse repeated lines together\n-w	Total line width in bytes (default 16)\n\n"
 
 #define HELP_nohup "usage: nohup COMMAND [ARGS...]\n\nRun a command that survives the end of its terminal.\n\nRedirect tty on stdin to /dev/null, tty on stdout to \"nohup.out\".\n\n"
 
@@ -526,7 +528,7 @@
 
 #define HELP_mkdir "usage: mkdir [-vp] [-m mode] [dirname...]\n\nCreate one or more directories.\n\n-m	Set permissions of directory to mode\n-p	Make parent directories as needed\n-v	Verbose\n\n"
 
-#define HELP_ls "usage: ls [-ACFHLRSZacdfhiklmnpqrstux1] [--color[=auto]] [directory...]\n\nlist files\n\nwhat to show:\n-a  all files including .hidden    -b  escape nongraphic chars\n-c  use ctime for timestamps       -d  directory, not contents\n-i  inode number                   -p  put a '/' after dir names\n-q  unprintable chars as '?'       -s  storage used (1024 byte units)\n-u  use access time for timestamps -A  list all files but . and ..\n-H  follow command line symlinks   -L  follow symlinks\n-R  recursively list in subdirs    -F  append /dir *exe @sym |FIFO\n-Z  security context\n\noutput formats:\n-1  list one file per line         -C  columns (sorted vertically)\n-g  like -l but no owner           -h  human readable sizes\n-l  long (show full details)       -m  comma separated\n-n  like -l but numeric uid/gid    -o  like -l but no group\n-x  columns (horizontal sort)      -ll long with nanoseconds (--full-time)\n--color  device=yellow  symlink=turquoise/red  dir=blue  socket=purple\n         files: exe=green  suid=red  suidfile=redback  stickydir=greenback\n         =auto means detect if output is a tty.\n\nsorting (default is alphabetical):\n-f  unsorted    -r  reverse    -t  timestamp    -S  size\n\n"
+#define HELP_ls "usage: ls [-ACFHLRSZacdfhiklmnpqrstux1] [--color[=auto]] [directory...]\n\nList files.\n\nwhat to show:\n-a  all files including .hidden    -b  escape nongraphic chars\n-c  use ctime for timestamps       -d  directory, not contents\n-i  inode number                   -p  put a '/' after dir names\n-q  unprintable chars as '?'       -s  storage used (1024 byte units)\n-u  use access time for timestamps -A  list all files but . and ..\n-H  follow command line symlinks   -L  follow symlinks\n-R  recursively list in subdirs    -F  append /dir *exe @sym |FIFO\n-Z  security context\n\noutput formats:\n-1  list one file per line         -C  columns (sorted vertically)\n-g  like -l but no owner           -h  human readable sizes\n-l  long (show full details)       -m  comma separated\n-n  like -l but numeric uid/gid    -o  like -l but no group\n-x  columns (horizontal sort)      -ll long with nanoseconds (--full-time)\n--color  device=yellow  symlink=turquoise/red  dir=blue  socket=purple\n         files: exe=green  suid=red  suidfile=redback  stickydir=greenback\n         =auto means detect if output is a tty.\n\nsorting (default is alphabetical):\n-f  unsorted    -r  reverse    -t  timestamp    -S  size\n\n"
 
 #define HELP_logger "usage: logger [-s] [-t TAG] [-p [FACILITY.]PRIORITY] [message...]\n\nLog message (or stdin) to syslog.\n\n-s	Also write message to stderr\n-t	Use TAG instead of username to identify message source\n-p	Specify PRIORITY with optional FACILITY. Default is \"user.notice\"\n\n"
 
@@ -576,17 +578,17 @@
 
 #define HELP_cut "usage: cut [-Ds] [-bcfF LIST] [-dO DELIM] [FILE...]\n\nPrint selected parts of lines from each FILE to standard output.\n\nEach selection LIST is comma separated, either numbers (counting from 1)\nor dash separated ranges (inclusive, with X- meaning to end of line and -X\nfrom start). By default selection ranges are sorted and collated, use -D\nto prevent that.\n\n-b	Select bytes\n-c	Select UTF-8 characters\n-C	Select unicode columns\n-d	Use DELIM (default is TAB for -f, run of whitespace for -F)\n-D	Don't sort/collate selections or match -fF lines without delimiter\n-f	Select fields (words) separated by single DELIM character\n-F	Select fields separated by DELIM regex\n-O	Output delimiter (default one space for -F, input delim for -f)\n-s	Skip lines without delimiters\n\n"
 
-#define HELP_cpio "usage: cpio -{o|t|i|p DEST} [-v] [--verbose] [-F FILE] [--no-preserve-owner]\n       [ignored: -mdu -H newc]\n\ncopy files into and out of a \"newc\" format cpio archive\n\n-F FILE	Use archive FILE instead of stdin/stdout\n-p DEST	Copy-pass mode, copy stdin file list to directory DEST\n-i	Extract from archive into file system (stdin=archive)\n-o	Create archive (stdin=list of files, stdout=archive)\n-t	Test files (list only, stdin=archive, stdout=list of files)\n-v	Verbose\n--no-preserve-owner (don't set ownership during extract)\n--trailer Add legacy trailer (prevents concatenation)\n\n"
+#define HELP_cpio "usage: cpio -{o|t|i|p DEST} [-v] [--verbose] [-F FILE] [--no-preserve-owner]\n       [ignored: -mdu -H newc]\n\nCopy files into and out of a \"newc\" format cpio archive.\n\n-F FILE	Use archive FILE instead of stdin/stdout\n-p DEST	Copy-pass mode, copy stdin file list to directory DEST\n-i	Extract from archive into file system (stdin=archive)\n-o	Create archive (stdin=list of files, stdout=archive)\n-t	Test files (list only, stdin=archive, stdout=list of files)\n-v	Verbose\n--no-preserve-owner (don't set ownership during extract)\n--trailer Add legacy trailer (prevents concatenation)\n\n"
 
 #define HELP_install "usage: install [-dDpsv] [-o USER] [-g GROUP] [-m MODE] [SOURCE...] DEST\n\nCopy files and set attributes.\n\n-d	Act like mkdir -p\n-D	Create leading directories for DEST\n-g	Make copy belong to GROUP\n-m	Set permissions to MODE\n-o	Make copy belong to USER\n-p	Preserve timestamps\n-s	Call \"strip -p\"\n-v	Verbose\n\n"
 
-#define HELP_mv "usage: mv [-fivn] SOURCE... DEST\"\n\n-f	Force copy by deleting destination file\n-i	Interactive, prompt before overwriting existing DEST\n-v	Verbose\n-n	No clobber (don't overwrite DEST)\n\n"
+#define HELP_mv "usage: mv [-fivn] SOURCE... DEST\n\n-f	Force copy by deleting destination file\n-i	Interactive, prompt before overwriting existing DEST\n-v	Verbose\n-n	No clobber (don't overwrite DEST)\n\n"
 
 #define HELP_cp_preserve "--preserve takes either a comma separated list of attributes, or the first\nletter(s) of:\n\n        mode - permissions (ignore umask for rwx, copy suid and sticky bit)\n   ownership - user and group\n  timestamps - file creation, modification, and access times.\n     context - security context\n       xattr - extended attributes\n         all - all of the above\n\nusage: cp [--preserve=motcxa] [-adlnrsvfipRHLP] SOURCE... DEST\n\nCopy files from SOURCE to DEST.  If more than one SOURCE, DEST must\nbe a directory.\n-v	Verbose\n-s	Symlink instead of copy\n-r	Synonym for -R\n-n	No clobber (don't overwrite DEST)\n-l	Hard link instead of copy\n-d	Don't dereference symlinks\n-a	Same as -dpr\n-P	Do not follow symlinks [default]\n-L	Follow all symlinks\n-H	Follow symlinks listed on command line\n-R	Recurse into subdirectories (DEST must be a directory)\n-p	Preserve timestamps, ownership, and mode\n-i	Interactive, prompt before overwriting existing DEST\n-F	Delete any existing destination file first (--remove-destination)\n-f	Delete destination files we can't write to\n-D	Create leading dirs under DEST (--parents)\n"
 
 #define HELP_cp "usage: cp [--preserve=motcxa] [-adlnrsvfipRHLP] SOURCE... DEST\n\nCopy files from SOURCE to DEST.  If more than one SOURCE, DEST must\nbe a directory.\n-v	Verbose\n-s	Symlink instead of copy\n-r	Synonym for -R\n-n	No clobber (don't overwrite DEST)\n-l	Hard link instead of copy\n-d	Don't dereference symlinks\n-a	Same as -dpr\n-P	Do not follow symlinks [default]\n-L	Follow all symlinks\n-H	Follow symlinks listed on command line\n-R	Recurse into subdirectories (DEST must be a directory)\n-p	Preserve timestamps, ownership, and mode\n-i	Interactive, prompt before overwriting existing DEST\n-F	Delete any existing destination file first (--remove-destination)\n-f	Delete destination files we can't write to\n-D	Create leading dirs under DEST (--parents)\n--preserve takes either a comma separated list of attributes, or the first\nletter(s) of:\n\n        mode - permissions (ignore umask for rwx, copy suid and sticky bit)\n   ownership - user and group\n  timestamps - file creation, modification, and access times.\n     context - security context\n       xattr - extended attributes\n         all - all of the above\n\n"
 
-#define HELP_comm "usage: comm [-123] FILE1 FILE2\n\nReads FILE1 and FILE2, which should be ordered, and produces three text\ncolumns as output: lines only in FILE1; lines only in FILE2; and lines\nin both files. Filename \"-\" is a synonym for stdin.\n\n-1	Suppress the output column of lines unique to FILE1\n-2	Suppress the output column of lines unique to FILE2\n-3	Suppress the output column of lines duplicated in FILE1 and FILE2\n\n"
+#define HELP_comm "usage: comm [-123] FILE1 FILE2\n\nRead FILE1 and FILE2, which should be ordered, and produce three text\ncolumns as output: lines only in FILE1; lines only in FILE2; and lines\nin both files. Filename \"-\" is a synonym for stdin.\n\n-1	Suppress the output column of lines unique to FILE1\n-2	Suppress the output column of lines unique to FILE2\n-3	Suppress the output column of lines duplicated in FILE1 and FILE2\n\n"
 
 #define HELP_cmp "usage: cmp [-l] [-s] FILE1 FILE2\n\nCompare the contents of two files.\n\n-l	Show all differing bytes\n-s	Silent\n\n"
 
