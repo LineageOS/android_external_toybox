@@ -232,6 +232,9 @@ void loopfiles_rw(char **argv, int flags, int permissions,
   void (*function)(int fd, char *name));
 void loopfiles(char **argv, void (*function)(int fd, char *name));
 void loopfiles_lines(char **argv, void (*function)(char **pline, long len));
+long long sendfile_len(int in, int out, long long len);
+long long xsendfile_len(int in, int out, long long len);
+void xsendfile_pad(int in, int out, long long len);
 long long xsendfile(int in, int out);
 int wfchmodat(int rc, char *name, mode_t mode);
 int copy_tempfile(int fdin, char *name, char **tempname);
@@ -259,6 +262,8 @@ void do_lines(int fd, char delim, void (*call)(char **pline, long len));
 long environ_bytes();
 long long millitime(void);
 char *format_iso_time(char *buf, size_t len, struct timespec *ts);
+void reset_env(struct passwd *p, int clear);
+void loggit(int priority, char *format, ...);
 
 #define HR_SPACE 1 // Space between number and units
 #define HR_B     2 // Use "B" for single byte units

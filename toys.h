@@ -18,6 +18,7 @@
 #include <inttypes.h>
 #include <limits.h>
 #include <math.h>
+#include <paths.h>
 #include <pwd.h>
 #include <regex.h>
 #include <sched.h>
@@ -89,7 +90,7 @@ extern struct toy_list {
   char *name;
   void (*toy_main)(void);
   char *options;
-  int flags;
+  unsigned flags;
 } toy_list[];
 
 // Global context shared by all commands.
