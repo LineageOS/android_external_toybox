@@ -803,15 +803,17 @@ struct syslogd_data {
 // toys/pending/tar.c
 
 struct tar_data {
-  char *fname;
-  char *dir;
-  struct arg_list *inc_file;
-  struct arg_list *exc_file;
-  char *tocmd;
+  char *f, *C;
+  struct arg_list *T, *X;
+  char *to_command;
   struct arg_list *exc;
 
+// exc is an argument but inc isn't?
   struct arg_list *inc, *pass;
   void *inodes, *handle;
+  char *cwd;
+  int fd;
+  unsigned short offset; // only ever used to calculate 512 byte padding
 };
 
 // toys/pending/tcpsvd.c
