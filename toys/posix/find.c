@@ -33,7 +33,8 @@ config FIND
     -newer FILE     newer mtime than FILE     -mindepth # at least # dirs down
     -depth          ignore contents of dir    -maxdepth # at most # dirs down
     -inum  N        inode number N            -empty      empty files and dirs
-    -type [bcdflps] (block, char, dir, file, symlink, pipe, socket)
+    -type [bcdflps]   (block, char, dir, file, symlink, pipe, socket)
+    -context PATTERN  security context
 
     Numbers N may be prefixed by a - (less than) or + (greater than). Units for
     -Xtime are d (days, default), h (hours), m (minutes), or s (seconds).
@@ -189,7 +190,7 @@ static void execdir(struct dirtree *new, int flush)
       aa->execdir = bb;
     }
   }
-} 
+}
 
 // Call this with 0 for first pass argument parsing and syntax checking (which
 // populates argdata). Later commands traverse argdata (in order) when they
@@ -347,6 +348,16 @@ static int do_find(struct dirtree *new)
           if (i) free(name);
         }
         free(path);
+      } else if (!CFG_TOYBOX_LSM_NONE && !strcmp(s, "context")) {
+        if (check) {
+          char *path = dirtree_path(new, 0), *context;
+
+          if (lsm_get_context(path, &context) != -1) {
+            test = !fnmatch(ss[1], context, 0);
+            free(context);
+          } else test = 0;
+          free(path);
+        }
       } else if (!strcmp(s, "perm")) {
         if (check) {
           char *m = ss[1];
@@ -385,13 +396,11 @@ static int do_find(struct dirtree *new)
           if (copy != ss[1]) free(copy);
         }
       } else if (!strcmp(s, "size")) {
-        if (check)
-          test = compare_numsign(new->st.st_size, 512, ss[1]);
+        if (check) test = compare_numsign(new->st.st_size, 512, ss[1]);
       } else if (!strcmp(s, "links")) {
         if (check) test = compare_numsign(new->st.st_nlink, 0, ss[1]);
       } else if (!strcmp(s, "inum")) {
-        if (check)
-          test = compare_numsign(new->st.st_ino, 0, ss[1]);
+        if (check) test = compare_numsign(new->st.st_ino, 0, ss[1]);
       } else if (!strcmp(s, "mindepth") || !strcmp(s, "maxdepth")) {
         if (check) {
           struct dirtree *dt = new;
@@ -544,7 +553,7 @@ cont:
     if (!print && test) do_print(new, '\n');
 
     if (S_ISDIR(new->st.st_mode)) execdir(new, 0);
- 
+
   } else dlist_terminate(TT.argdata);
 
   return recurse;
