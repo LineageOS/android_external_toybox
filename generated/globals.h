@@ -810,10 +810,20 @@ struct tar_data {
 
 // exc is an argument but inc isn't?
   struct arg_list *inc, *pass;
-  void *inodes, *handle;
+  void *inodes;
   char *cwd;
   int fd;
-  unsigned short offset; // only ever used to calculate 512 byte padding
+
+  // Parsed information about a tar header.
+  struct {
+    char *name, *link_target, *uname, *gname;
+    long long size;
+    uid_t uid;
+    gid_t gid;
+    mode_t mode;
+    time_t mtime;
+    dev_t device;
+  } hdr;
 };
 
 // toys/pending/tcpsvd.c
