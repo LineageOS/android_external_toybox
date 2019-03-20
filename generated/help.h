@@ -50,7 +50,7 @@
 
 #define HELP_log "usage: log [-p PRI] [-t TAG] MESSAGE...\n\nLogs message to logcat.\n\n-p	Use the given priority instead of INFO:\n	d: DEBUG  e: ERROR  f: FATAL  i: INFO  v: VERBOSE  w: WARN  s: SILENT\n-t	Use the given tag instead of \"log\"\n\n"
 
-#define HELP_load_policy "usage: load_policy FILE\n\nLoad the specified policy file.\n\n"
+#define HELP_load_policy "usage: load_policy FILE\n\nLoad the specified SELinux policy file.\n\n"
 
 #define HELP_getprop "usage: getprop [NAME [DEFAULT]]\n\nGets an Android system property, or lists them all.\n\n"
 
@@ -296,7 +296,7 @@
 
 #define HELP_chrt "usage: chrt [-Rmofrbi] {-p PID [PRIORITY] | [PRIORITY COMMAND...]}\n\nGet/set a process' real-time scheduling policy and priority.\n\n-p	Set/query given pid (instead of running COMMAND)\n-R	Set SCHED_RESET_ON_FORK\n-m	Show min/max priorities available\n\nSet policy (default -r):\n\n  -o  SCHED_OTHER    -f  SCHED_FIFO    -r  SCHED_RR\n  -b  SCHED_BATCH    -i  SCHED_IDLE\n\n"
 
-#define HELP_chroot "usage: chroot NEWPATH [commandline...]\n\nRun command within a new root directory. If no command, run /bin/sh.\n\n"
+#define HELP_chroot "usage: chroot NEWROOT [COMMAND [ARG...]]\n\nRun command within a new root directory. If no command, run /bin/sh.\n\n"
 
 #define HELP_chcon "usage: chcon [-hRv] CONTEXT FILE...\n\nChange the SELinux security context of listed file[s].\n\n-h	Change symlinks instead of what they point to\n-R	Recurse into subdirectories\n-v	Verbose\n\n"
 
@@ -482,7 +482,7 @@
 
 #define HELP_split "usage: split [-a SUFFIX_LEN] [-b BYTES] [-l LINES] [INPUT [OUTPUT]]\n\nCopy INPUT (or stdin) data to a series of OUTPUT (or \"x\") files with\nalphabetically increasing suffix (aa, ab, ac... az, ba, bb...).\n\n-a	Suffix length (default 2)\n-b	BYTES/file (10, 10k, 10m, 10g...)\n-l	LINES/file (default 1000)\n\n"
 
-#define HELP_sort "usage: sort [-Mbcdfginrsuz] [FILE...] [-k#[,#[x]] [-t X]] [-o FILE]\n\nSort all lines of text from input files (or stdin) to stdout.\n-M	Month sort (jan, feb, etc)\n-V	Version numbers (name-1.234-rc6.5b.tgz)\n-b	Ignore leading blanks (or trailing blanks in second part of key)\n-c	Check whether input is sorted\n-d	Dictionary order (use alphanumeric and whitespace chars only)\n-f	Force uppercase (case insensitive sort)\n-g	General numeric sort (double precision with nan and inf)\n-i	Ignore nonprinting characters\n-k	Sort by \"key\" (see below)\n-n	Numeric order (instead of alphabetical)\n-o	Output to FILE instead of stdout\n-r	Reverse\n-s	Skip fallback sort (only sort with keys)\n-t	Use a key separator other than whitespace\n-u	Unique lines only\n-x	Hexadecimal numerical sort\n-z	Zero (null) terminated lines\n\nSorting by key looks at a subset of the words on each line.  -k2\nuses the second word to the end of the line, -k2,2 looks at only\nthe second word, -k2,4 looks from the start of the second to the end\nof the fourth word.  Specifying multiple keys uses the later keys as\ntie breakers, in order.  A type specifier appended to a sort key\n(such as -2,2n) applies only to sorting that key.\n"
+#define HELP_sort "usage: sort [-Mbcdfginrsuz] [FILE...] [-k#[,#[x]] [-t X]] [-o FILE]\n\nSort all lines of text from input files (or stdin) to stdout.\n-M	Month sort (jan, feb, etc)\n-V	Version numbers (name-1.234-rc6.5b.tgz)\n-b	Ignore leading blanks (or trailing blanks in second part of key)\n-c	Check whether input is sorted\n-d	Dictionary order (use alphanumeric and whitespace chars only)\n-f	Force uppercase (case insensitive sort)\n-g	General numeric sort (double precision with nan and inf)\n-i	Ignore nonprinting characters\n-k	Sort by \"key\" (see below)\n-n	Numeric order (instead of alphabetical)\n-o	Output to FILE instead of stdout\n-r	Reverse\n-s	Skip fallback sort (only sort with keys)\n-t	Use a key separator other than whitespace\n-u	Unique lines only\n-x	Hexadecimal numerical sort\n-z	Zero (null) terminated lines\n\nSorting by key looks at a subset of the words on each line. -k2 uses the\nsecond word to the end of the line, -k2,2 looks at only the second word,\n-k2,4 looks from the start of the second to the end of the fourth word.\n-k2.4,5 starts from the fourth character of the second word, to the end\nof the fifth word. Specifying multiple keys uses the later keys as tie\nbreakers, in order. A type specifier appended to a sort key (such as -2,2n)\napplies only to sorting that key.\n"
 
 #define HELP_sleep "usage: sleep DURATION\n\nWait before exiting.\n\nDURATION can be a decimal fraction. An optional suffix can be \"m\"\n(minutes), \"h\" (hours), \"d\" (days), or \"s\" (seconds, the default).\n\n"
 
@@ -514,11 +514,11 @@
 
 #define HELP_od "usage: od [-bcdosxv] [-j #] [-N #] [-w #] [-A doxn] [-t acdfoux[#]]\n\nDump data in octal/hex.\n\n-A	Address base (decimal, octal, hexadecimal, none)\n-j	Skip this many bytes of input\n-N	Stop dumping after this many bytes\n-t	Output type a(scii) c(har) d(ecimal) f(loat) o(ctal) u(nsigned) (he)x\n	plus optional size in bytes\n	aliases: -b=-t o1, -c=-t c, -d=-t u2, -o=-t o2, -s=-t d2, -x=-t x2\n-v	Don't collapse repeated lines together\n-w	Total line width in bytes (default 16)\n\n"
 
-#define HELP_nohup "usage: nohup COMMAND [ARGS...]\n\nRun a command that survives the end of its terminal.\n\nRedirect tty on stdin to /dev/null, tty on stdout to \"nohup.out\".\n\n"
+#define HELP_nohup "usage: nohup COMMAND [ARG...]\n\nRun a command that survives the end of its terminal.\n\nRedirect tty on stdin to /dev/null, tty on stdout to \"nohup.out\".\n\n"
 
 #define HELP_nl "usage: nl [-E] [-l #] [-b MODE] [-n STYLE] [-s SEPARATOR] [-w WIDTH] [FILE...]\n\nNumber lines of input.\n\n-E	Use extended regex syntax (when doing -b pREGEX)\n-b	Which lines to number: a (all) t (non-empty, default) pREGEX (pattern)\n-l	Only count last of this many consecutive blank lines\n-n	Number STYLE: ln (left justified) rn (right justified) rz (zero pad)\n-s	Separator to use between number and line (instead of TAB)\n-w	Width of line numbers (default 6)\n\n"
 
-#define HELP_nice "usage: nice [-n PRIORITY] command [args...]\n\nRun a command line at an increased or decreased scheduling priority.\n\nHigher numbers make a program yield more CPU time, from -20 (highest\npriority) to 19 (lowest).  By default processes inherit their parent's\nniceness (usually 0).  By default this command adds 10 to the parent's\npriority.  Only root can set a negative niceness level.\n\n"
+#define HELP_nice "usage: nice [-n PRIORITY] COMMAND [ARG...]\n\nRun a command line at an increased or decreased scheduling priority.\n\nHigher numbers make a program yield more CPU time, from -20 (highest\npriority) to 19 (lowest).  By default processes inherit their parent's\nniceness (usually 0).  By default this command adds 10 to the parent's\npriority.  Only root can set a negative niceness level.\n\n"
 
 #define HELP_mkfifo "usage: mkfifo [-Z CONTEXT] [NAME...]\n\nCreate FIFOs (named pipes).\n\n-Z	Security context\n"
 
@@ -550,7 +550,7 @@
 
 #define HELP_head "usage: head [-n number] [file...]\n\nCopy first lines from files to stdout. If no files listed, copy from\nstdin. Filename \"-\" is a synonym for stdin.\n\n-n	Number of lines to copy\n-c	Number of bytes to copy\n-q	Never print headers\n-v	Always print headers\n\n"
 
-#define HELP_grep "usage: grep [-EFrivwcloqsHbhn] [-ABC NUM] [-m MAX] [-e REGEX]... [-MS PATTERN]... [-f REGFILE] [FILE]...\n\nShow lines matching regular expressions. If no -e, first argument is\nregular expression to match. With no files (or \"-\" filename) read stdin.\nReturns 0 if matched, 1 if no match found.\n\n-e  Regex to match. (May be repeated.)\n-f  File listing regular expressions to match.\n\nfile search:\n-r  Recurse into subdirectories (defaults FILE to \".\")\n-M  Match filename pattern (--include)\n-S  Skip filename pattern (--exclude)\n-I  Ignore binary files\n\nmatch type:\n-A  Show NUM lines after     -B  Show NUM lines before match\n-C  NUM lines context (A+B)  -E  extended regex syntax\n-F  fixed (literal match)    -a  always text (not binary)\n-i  case insensitive         -m  match MAX many lines\n-v  invert match             -w  whole word (implies -E)\n-x  whole line               -z  input NUL terminated\n\ndisplay modes: (default: matched line)\n-c  count of matching lines  -l  show only matching filenames\n-o  only matching part       -q  quiet (errors only)\n-s  silent (no error msg)    -Z  output NUL terminated\n\noutput prefix (default: filename if checking more than 1 file)\n-H  force filename           -b  byte offset of match\n-h  hide filename            -n  line number of match\n\n"
+#define HELP_grep "usage: grep [-EFrivwcloqsHbhn] [-ABC NUM] [-m MAX] [-e REGEX]... [-MS PATTERN]... [-f REGFILE] [FILE]...\n\nShow lines matching regular expressions. If no -e, first argument is\nregular expression to match. With no files (or \"-\" filename) read stdin.\nReturns 0 if matched, 1 if no match found, 2 for command errors.\n\n-e  Regex to match. (May be repeated.)\n-f  File listing regular expressions to match.\n\nfile search:\n-r  Recurse into subdirectories (defaults FILE to \".\")\n-M  Match filename pattern (--include)\n-S  Skip filename pattern (--exclude)\n-I  Ignore binary files\n\nmatch type:\n-A  Show NUM lines after     -B  Show NUM lines before match\n-C  NUM lines context (A+B)  -E  extended regex syntax\n-F  fixed (literal match)    -a  always text (not binary)\n-i  case insensitive         -m  match MAX many lines\n-v  invert match             -w  whole word (implies -E)\n-x  whole line               -z  input NUL terminated\n\ndisplay modes: (default: matched line)\n-c  count of matching lines  -l  show only matching filenames\n-o  only matching part       -q  quiet (errors only)\n-s  silent (no error msg)    -Z  output NUL terminated\n\noutput prefix (default: filename if checking more than 1 file)\n-H  force filename           -b  byte offset of match\n-h  hide filename            -n  line number of match\n\n"
 
 #define HELP_getconf "usage: getconf -a [PATH] | -l | NAME [PATH]\n\nGet system configuration values. Values from pathconf(3) require a path.\n\n-a	Show all (defaults to \"/\" if no path given)\n-l	List available value names (grouped by source)\n\n"
 
@@ -562,7 +562,7 @@
 
 #define HELP_expand "usage: expand [-t TABLIST] [FILE...]\n\nExpand tabs to spaces according to tabstops.\n\n-t	TABLIST\n\nSpecify tab stops, either a single number instead of the default 8,\nor a comma separated list of increasing numbers representing tabstop\npositions (absolute, not increments) with each additional tab beyond\nthat becoming one space.\n\n"
 
-#define HELP_env "usage: env [-i] [-u NAME] [NAME=VALUE...] [command [option...]]\n\nSet the environment for command invocation, or list environment variables.\n\n-i	Clear existing environment\n-u NAME	Remove NAME from the environment\n-0	Use null instead of newline in output\n\n"
+#define HELP_env "usage: env [-i] [-u NAME] [NAME=VALUE...] [COMMAND [ARG...]]\n\nSet the environment for command invocation, or list environment variables.\n\n-i	Clear existing environment\n-u NAME	Remove NAME from the environment\n-0	Use null instead of newline in output\n\n"
 
 #define HELP_echo "usage: echo [-ne] [args...]\n\nWrite each argument to stdout, with one space between each, followed\nby a newline.\n\n-n	No trailing newline\n-e	Process the following escape sequences:\n	\\\\	Backslash\n	\\0NNN	Octal values (1 to 3 digits)\n	\\a	Alert (beep/flash)\n	\\b	Backspace\n	\\c	Stop output here (avoids trailing newline)\n	\\f	Form feed\n	\\n	Newline\n	\\r	Carriage return\n	\\t	Horizontal tab\n	\\v	Vertical tab\n	\\xHH	Hexadecimal values (1 to 2 digits)\n\n"
 
