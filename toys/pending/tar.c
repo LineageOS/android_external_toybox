@@ -54,32 +54,26 @@ GLOBALS(
 
 // exc is an argument but inc isn't?
   struct arg_list *inc, *pass;
-  void *inodes, *handle;
+  void *inodes;
   char *cwd;
   int fd;
-  unsigned short offset; // only ever used to calculate 512 byte padding
+
+  // Parsed information about a tar header.
+  struct {
+    char *name, *link_target, *uname, *gname;
+    long long size;
+    uid_t uid;
+    gid_t gid;
+    mode_t mode;
+    time_t mtime;
+    dev_t device;
+  } hdr;
 )
 
 struct tar_hdr {
   char name[100], mode[8], uid[8], gid[8],size[12], mtime[12], chksum[8],
        type, link[100], magic[8], uname[32], gname[32], major[8], minor[8],
        prefix[155], padd[12];
-};
-
-// Parsed information about a tar header.
-struct file_header {
-  char *name, *link_target, *uname, *gname;
-  long long size;
-  uid_t uid;
-  gid_t gid;
-  mode_t mode;
-  time_t mtime;
-  dev_t device;
-};
-
-struct archive_handler {
-  struct file_header file_hdr;
-  void (*extract_handler)(struct archive_handler*);
 };
 
 struct inode_list {
@@ -115,11 +109,20 @@ static struct inode_list *seen_inode(void **list, struct stat *st, char *name)
   return 0;
 }
 
+// Calculate packet checksum, with cksum field treated as 8 spaces
+static unsigned cksum(void *data)
+{
+  unsigned i, cksum = 8*' ';
+
+  for (i = 0; i<500; i += (i==147) ? 9 : 1) cksum += ((char *)data)[i];
+
+  return cksum;
+}
+
 static void write_longname(char *name, char type)
 {
   struct tar_hdr tmp[2];
-  unsigned int sum = 0;
-  int i, sz = strlen(name) +1;
+  int sz = strlen(name) +1;
 
   memset(tmp, 0, sizeof(tmp));
   strcpy(tmp->name, "././@LongLink");
@@ -132,10 +135,7 @@ static void write_longname(char *name, char type)
   strcpy(tmp->magic, "ustar  ");
 
   // Calculate checksum
-  memset(tmp->chksum, ' ', 8);
-  for (i = 0; i < 512; i++) sum += ((char *)tmp)[i];
-// TODO: why is this -1 when the rest aren't?
-  itoo(tmp->chksum, sizeof(tmp->chksum)-1, sum);
+  itoo(tmp->chksum, sizeof(tmp->chksum), cksum(&tmp));
 
   // write header and name, padded with NUL to block size
   xwrite(TT.fd, tmp, sizeof(*tmp));
@@ -153,13 +153,6 @@ static int filter(struct arg_list *lst, char *name)
 static void skippy(long long len)
 {
   if (lskip(TT.fd, len)) perror_exit("EOF");
-  TT.offset += len;
-}
-
-static void sendlen(int fd, long long len)
-{
-  xsendfile_len(TT.fd, fd, len);
-  TT.offset += len;
 }
 
 // actually void **, but automatic typecasting doesn't work with void ** :(
@@ -170,7 +163,7 @@ static void alloread(void *buf, int len)
   free(*b);
   *b = xmalloc(len+1);
   xreadall(TT.fd, *b, len);
-  TT.offset += len;
+  b[len] = 0;
 }
 
 static void add_file(char **nam, struct stat *st)
@@ -181,7 +174,6 @@ static void add_file(char **nam, struct stat *st)
   struct inode_list *node = node;
   int i, fd =-1;
   char *c, *p, *name = *nam, *lnk, *hname, buf[512] = {0,};
-  unsigned int sum = 0;
   static int warn = 1;
 
   for (p = name; *p; p++)
@@ -210,7 +202,6 @@ static void add_file(char **nam, struct stat *st)
   itoo(hdr.gid, sizeof(hdr.gid), st->st_gid);
   itoo(hdr.size, sizeof(hdr.size), 0); //set size later
   itoo(hdr.mtime, sizeof(hdr.mtime), st->st_mtime);
-  memset(hdr.chksum, ' ', sizeof(hdr.chksum));
 
   // Hard link or symlink?
   i = !!S_ISLNK(st->st_mode);
@@ -252,9 +243,7 @@ static void add_file(char **nam, struct stat *st)
     snprintf(hdr.gname, sizeof(hdr.gname), "%s", gr->gr_name);
   else sprintf(hdr.gname, "%d", st->st_gid);
 
-  //calculate chksum.
-  for (i = 0; i < 512; i++) sum += ((char*)&hdr)[i];
-  itoo(hdr.chksum, sizeof(hdr.chksum)-1, sum);
+  itoo(hdr.chksum, sizeof(hdr.chksum)-1, cksum(&hdr));
   if (FLAG(v)) printf("%s\n",hname);
   xwrite(TT.fd, (void*)&hdr, 512);
 
@@ -288,28 +277,14 @@ static int add_to_tar(struct dirtree *node)
   return ((DIRTREE_RECURSE | (FLAG(h)?DIRTREE_SYMFOLLOW:0)));
 }
 
-static void extract_stream(struct archive_handler *tar_hdl)
-{
-  int pipefd[2] = {TT.fd, -1};
-
-  xpopen_both((char *[]){FLAG(z)?"gunzip":"bunzip2", "-cf", "-", NULL}, pipefd);
-  close(TT.fd);
-  TT.fd = pipefd[1];
-}
-
-static void extract_to_stdout(struct archive_handler *tar)
-{
-  sendlen(0, tar->file_hdr.size);
-}
-
-static void extract_to_command(struct archive_handler *tar)
+// Does anybody actually use this?
+static void extract_to_command(void)
 {
   int pipefd[2], status = 0;
   pid_t cpid;
-  struct file_header *file_hdr = &tar->file_hdr;
 
   xpipe(pipefd);
-  if (!S_ISREG(file_hdr->mode)) return; //only regular files are supported.
+  if (!S_ISREG(TT.hdr.mode)) return; //only regular files are supported.
 
   cpid = fork();
   if (cpid == -1) perror_exit("fork");
@@ -318,18 +293,18 @@ static void extract_to_command(struct archive_handler *tar)
     char buf[64], *argv[4] = {"sh", "-c", TT.to_command, NULL};
 
     setenv("TAR_FILETYPE", "f", 1);
-    sprintf(buf, "%0o", file_hdr->mode);
+    sprintf(buf, "%0o", TT.hdr.mode);
     setenv("TAR_MODE", buf, 1);
-    sprintf(buf, "%ld", (long)file_hdr->size);
+    sprintf(buf, "%ld", (long)TT.hdr.size);
     setenv("TAR_SIZE", buf, 1);
-    setenv("TAR_FILENAME", file_hdr->name, 1);
-    setenv("TAR_UNAME", file_hdr->uname, 1);
-    setenv("TAR_GNAME", file_hdr->gname, 1);
-    sprintf(buf, "%0o", (int)file_hdr->mtime);
+    setenv("TAR_FILENAME", TT.hdr.name, 1);
+    setenv("TAR_UNAME", TT.hdr.uname, 1);
+    setenv("TAR_GNAME", TT.hdr.gname, 1);
+    sprintf(buf, "%0o", (int)TT.hdr.mtime);
     setenv("TAR_MTIME", buf, 1);
-    sprintf(buf, "%0o", file_hdr->uid);
+    sprintf(buf, "%0o", TT.hdr.uid);
     setenv("TAR_UID", buf, 1);
-    sprintf(buf, "%0o", file_hdr->gid);
+    sprintf(buf, "%0o", TT.hdr.gid);
     setenv("TAR_GID", buf, 1);
 
     xclose(pipefd[1]); // Close unused write
@@ -338,7 +313,7 @@ static void extract_to_command(struct archive_handler *tar)
     xexec(argv);
   } else {
     xclose(pipefd[0]);  // Close unused read end
-    sendlen(pipefd[1], file_hdr->size);
+    xsendfile_len(TT.fd, pipefd[1], TT.hdr.size);
     xclose(pipefd[1]);
     waitpid(cpid, &status, 0);
     if (WIFSIGNALED(status))
@@ -346,95 +321,89 @@ static void extract_to_command(struct archive_handler *tar)
   }
 }
 
-static void extract_to_disk(struct archive_handler *tar)
+static void extract_to_disk(void)
 {
   int flags, dst_fd = -1;
   char *s;
   struct stat ex;
-  struct file_header *file_hdr = &tar->file_hdr;
 
 // while not if
-  flags = strlen(file_hdr->name);
+  flags = strlen(TT.hdr.name);
   if (flags>2)
-    if (strstr(file_hdr->name, "/../") || !strcmp(file_hdr->name, "../") ||
-        !strcmp(file_hdr->name+flags-3, "/.."))
-      error_msg("drop %s", file_hdr->name);
+    if (strstr(TT.hdr.name, "/../") || !strcmp(TT.hdr.name, "../") ||
+        !strcmp(TT.hdr.name+flags-3, "/.."))
+      error_msg("drop %s", TT.hdr.name);
 
-  if (file_hdr->name[flags-1] == '/') file_hdr->name[flags-1] = 0;
+  if (TT.hdr.name[flags-1] == '/') TT.hdr.name[flags-1] = 0;
   //Regular file with preceding path
-  if ((s = strrchr(file_hdr->name, '/'))) {
-    if (mkpath(file_hdr->name) && errno !=EEXIST) {
-      error_msg(":%s: not created", file_hdr->name);
-      return;
-    }
-  }
+  if ((s = strrchr(TT.hdr.name, '/')) && mkpath(TT.hdr.name) && errno !=EEXIST)
+      return error_msg(":%s: not created", TT.hdr.name);
 
   //remove old file, if exists
-  if (!FLAG(k) && !S_ISDIR(file_hdr->mode) && !lstat(file_hdr->name, &ex))
-    if (unlink(file_hdr->name))
-      perror_msg("can't remove: %s", file_hdr->name);
+  if (!FLAG(k) && !S_ISDIR(TT.hdr.mode) && !lstat(TT.hdr.name, &ex))
+    if (unlink(TT.hdr.name)) perror_msg("can't remove: %s", TT.hdr.name);
 
   //hard link
-  if (S_ISREG(file_hdr->mode) && file_hdr->link_target) {
-    if (link(file_hdr->link_target, file_hdr->name))
-      perror_msg("can't link '%s' -> '%s'",file_hdr->name, file_hdr->link_target);
+  if (S_ISREG(TT.hdr.mode) && TT.hdr.link_target) {
+    if (link(TT.hdr.link_target, TT.hdr.name))
+      perror_msg("can't link '%s' -> '%s'", TT.hdr.name, TT.hdr.link_target);
     goto COPY;
   }
 
-  switch (file_hdr->mode & S_IFMT) {
+  switch (TT.hdr.mode & S_IFMT) {
     case S_IFREG:
       flags = O_WRONLY|O_CREAT|O_EXCL;
       if (FLAG(overwrite)) flags = O_WRONLY|O_CREAT|O_TRUNC;
-      dst_fd = open(file_hdr->name, flags, file_hdr->mode & 07777);
-      if (dst_fd == -1) perror_msg("%s: can't open", file_hdr->name);
+      dst_fd = open(TT.hdr.name, flags, TT.hdr.mode & 07777);
+      if (dst_fd == -1) perror_msg("%s: can't open", TT.hdr.name);
       break;
     case S_IFDIR:
-      if ((mkdir(file_hdr->name, file_hdr->mode) == -1) && errno != EEXIST)
-        perror_msg("%s: can't create", file_hdr->name);
+      if ((mkdir(TT.hdr.name, TT.hdr.mode) == -1) && errno != EEXIST)
+        perror_msg("%s: can't create", TT.hdr.name);
       break;
     case S_IFLNK:
-      if (symlink(file_hdr->link_target, file_hdr->name))
-        perror_msg("can't link '%s' -> '%s'",file_hdr->name, file_hdr->link_target);
+      if (symlink(TT.hdr.link_target, TT.hdr.name))
+        perror_msg("can't link '%s' -> '%s'", TT.hdr.name, TT.hdr.link_target);
       break;
     case S_IFBLK:
     case S_IFCHR:
     case S_IFIFO:
-      if (mknod(file_hdr->name, file_hdr->mode, file_hdr->device))
-        perror_msg("can't create '%s'", file_hdr->name);
+      if (mknod(TT.hdr.name, TT.hdr.mode, TT.hdr.device))
+        perror_msg("can't create '%s'", TT.hdr.name);
       break;
     default:
-      printf("type %o not supported\n", file_hdr->mode);
+      printf("type %o not supported\n", TT.hdr.mode);
       break;
   }
 
   //copy file....
 COPY:
-  sendlen(dst_fd, file_hdr->size);
+  xsendfile_len(TT.fd, dst_fd, TT.hdr.size);
   close(dst_fd);
 
-  if (S_ISLNK(file_hdr->mode)) return;
   if (!FLAG(o)) {
     //set ownership..., --no-same-owner, --numeric-owner
-    uid_t u = file_hdr->uid;
-    gid_t g = file_hdr->gid;
+    uid_t u = TT.hdr.uid;
+    gid_t g = TT.hdr.gid;
 
     if (!FLAG(numeric_owner)) {
-      struct group *gr = getgrnam(file_hdr->gname);
-      struct passwd *pw = getpwnam(file_hdr->uname);
+      struct group *gr = getgrnam(TT.hdr.gname);
+      struct passwd *pw = getpwnam(TT.hdr.uname);
       if (pw) u = pw->pw_uid;
       if (gr) g = gr->gr_gid;
     }
-    if (!geteuid() && chown(file_hdr->name, u, g))
-      perror_msg("chown %d:%d '%s'", u, g, file_hdr->name);;
+    if (!geteuid() && lchown(TT.hdr.name, u, g))
+      perror_msg("chown %d:%d '%s'", u, g, TT.hdr.name);;
   }
 
-  if (FLAG(p)) // || !FLAG(no_same_permissions))
-    chmod(file_hdr->name, file_hdr->mode);
+  // || !FLAG(no_same_permissions))
+  if (FLAG(p) && !S_ISLNK(TT.hdr.mode)) chmod(TT.hdr.name, TT.hdr.mode);
 
+// TODO: defer directory mtime until we've finished with contents
   //apply mtime
   if (!FLAG(m)) {
-    struct timeval times[2] = {{file_hdr->mtime, 0},{file_hdr->mtime, 0}};
-    utimes(file_hdr->name, times);
+    struct timeval times[2] = {{TT.hdr.mtime, 0},{TT.hdr.mtime, 0}};
+    utimes(TT.hdr.name, times);
   }
 }
 
@@ -460,202 +429,148 @@ static void file_to_list(char *file, struct arg_list **llist)
 }
 
 //convert octal to int
-static int otoi(char *str, int len)
+static unsigned long long otoi(char *str, int len)
 {
-  long val;
-  char *endp, inp[len+1]; //1 for NUL termination
+  unsigned long long val;
 
-  memcpy(inp, str, len);
-  inp[len] = '\0'; //nul-termination made sure
-  val = strtol(inp, &endp, 8);
-  if (*endp && *endp != ' ') error_exit("invalid param");
-  return (int)val;
-}
+// todo: base-256 encoding, just do it symmetrically for all fields
+  str[len-1] = 0;
+  val = strtoull(str, &str, 8);
+  if (*str && *str != ' ') error_exit("bad header");
 
-static char *process_extended_hdr(struct archive_handler *tar, int size)
-{
-  char *value = NULL, *p, *buf = 0;
-
-  alloread(&buf, size);
-  buf[size] = 0;
-  p = buf;
-
-  while (size) {
-    char *key;
-    int len, n;
-
-    // extended records are of the format: "LEN NAME=VALUE\n"
-    sscanf(p, "%d %n", &len, &n);
-    key = p + n;
-    p += len;
-    size -= len;
-    p[-1] = 0;
-    if (size < 0) {
-      error_msg("corrupted extended header");
-      break;
-    }
-
-    len = strlen("path=");
-    if (!strncmp(key, "path=", len)) {
-      value = key + strlen("path=");
-      break;
-    }
-  }
-  if (value) value = xstrdup(value);
-  free(buf);
-  return value;
+  return val;
 }
 
 static void unpack_tar(void)
 {
-  struct archive_handler *tar_hdl = TT.handle;
   struct tar_hdr tar;
-  struct file_header *file_hdr;
-  int i, j, maj, min, sz, e = 0;
-  unsigned int cksum;
+  int i;
   char *s;
 
   for (;;) {
     // align to next block and read it
-// This is the only consumer of TT.offset
-    if (TT.offset&511) skippy(512-TT.offset%512);
-    i = readall(TT.fd, &tar, 512);
-    if (i != 512) {
-      if (i >= 2) goto CHECK_MAGIC; //may be a small (<512 byte)zipped file
-      error_exit("read error");
-    }
+    if (TT.hdr.size%512) skippy(512-TT.hdr.size%512);
 
-    if (!tar.name[0]) {
-      if (e) return; //end of tar 2 empty blocks
-      e = 1;//empty jump to next block
-// never clear e, so they don't have to be _consecutive_???
-      continue;
-    }
+    i = readall(TT.fd, &tar, 512);
+    if (i != 512) error_exit("read error");
+    // ensure null temination even of pathological packets
+    tar.padd[0] = 0;
+    // End of tar
+    if (!*tar.name) return;
+
 // can you append a bzip to a gzip _within_ a tarball? Nested compress?
 // Or compressed data after uncompressed data?
-    if (strncmp(tar.magic, "ustar", 5)) {
-      // Try detecting .gz or .bz2 by looking for their magic.
-CHECK_MAGIC:
-      if ((!strncmp(tar.name, "\x1f\x8b", 2) || !strncmp(tar.name, "BZh", 3))
-          && !lseek(TT.fd, -i, SEEK_CUR)) {
-        toys.optflags |= (*tar.name == 'B') ? FLAG_j : FLAG_z;
-        extract_stream(tar_hdl);
-        continue;
-      }
-      error_exit("invalid tar format");
-    }
-// moved this down here so it doesn't have to be undone
-    TT.offset += i;
+    if (memcmp(tar.magic, "ustar", 5)) error_exit("bad header");
+    if (cksum(&tar) != otoi(tar.chksum, sizeof(tar.chksum)))
+      error_exit("bad cksum");
+    TT.hdr.size = otoi(tar.size, sizeof(tar.size));
 
-    // Calculate checksum, with cksum field treated as eight spaces
-    cksum = 8*' ';
-    for (j = 0; j<500; j += (j==147) ? 9 : 1) cksum += ((char*)&tar)[j];
+    // If this header isn't writing something to the filesystem
+    if (tar.type<'0' || tar.type>'7') {
+      if (tar.type == 'K') alloread(&TT.hdr.link_target, TT.hdr.size);
+      else if (tar.type == 'L') alloread(&TT.hdr.name, TT.hdr.size);
+      else if (tar.type == 'x') {
+        char *p, *buf = 0;
+        int i, len, n;
 
-    if (cksum != otoi(tar.chksum, sizeof(tar.chksum))) error_exit("bad cksum");
+        // Posix extended record "LEN NAME=VALUE\n" format
+        alloread(&buf, TT.hdr.size);
+        for (p = buf; (p-buf)<TT.hdr.size; p += len) {
+          if ((i = sscanf(p, "%u path=%n", &len, &n))<1 || len<4 ||
+              len>TT.hdr.size)
+          {
+            error_msg("corrupted extended header");
+            break;
+          }
+          p[len-1] = 0;
+          if (i == 2) {
+            TT.hdr.name = xstrdup(p+n);
+            break;
+          }
+        }
+        free(buf);
 
-    file_hdr = &tar_hdl->file_hdr;
-    memset(file_hdr, 0, sizeof(struct file_header));
-    file_hdr->mode = otoi(tar.mode, sizeof(tar.mode));
-    file_hdr->uid = otoi(tar.uid, sizeof(tar.uid));
-    file_hdr->gid = otoi(tar.gid, sizeof(tar.gid));
-    file_hdr->size = otoi(tar.size, sizeof(tar.size));
-    file_hdr->mtime = otoi(tar.mtime, sizeof(tar.mtime));
-    file_hdr->uname = xstrdup(tar.uname);
-    file_hdr->gname = xstrdup(tar.gname);
-    maj = otoi(tar.major, sizeof(tar.major));
-    min = otoi(tar.minor, sizeof(tar.minor));
-    file_hdr->device = dev_makedev(maj, min);
-
-    if (tar.type <= '7') {
-      if (tar.link[0]) {
-        sz = sizeof(tar.link);
-        file_hdr->link_target = xmalloc(sz + 1);
-        memcpy(file_hdr->link_target, tar.link, sz);
-        file_hdr->link_target[sz] = '\0';
-      }
-
-      file_hdr->name = xzalloc(256);// pathname supported size
-      if (tar.prefix[0]) {
-        memcpy(file_hdr->name, tar.prefix, sizeof(tar.prefix));
-        sz = strlen(file_hdr->name);
-        if (file_hdr->name[sz-1] != '/') file_hdr->name[sz] = '/';
-      }
-      sz = strlen(file_hdr->name);
-      memcpy(file_hdr->name + sz, tar.name, sizeof(tar.name));
-// TODO: won't the vfs tell us?
-      if (file_hdr->name[255]) error_exit("filename too long");
-    }
-
-    // Headers that don't immediately result in creating a new node
-    if (strchr("KLxDMNSVg", tar.type)) {
-      if (tar.type == 'K') alloread(&file_hdr->link_target, file_hdr->size);
-      else if (tar.type == 'L') alloread(&file_hdr->name, file_hdr->size);
-      else if (tar.type == 'x') process_extended_hdr(tar_hdl, file_hdr->size);
-      else skippy(file_hdr->size);
+      // This could be if (strchr("DMNSVg", tar.type)) but an unknown header
+      // type with trailing contents is unlikely to have a valid type & cksum
+      } else skippy(TT.hdr.size);
 
       continue;
     }
 
-    // Specified file type?
-    if (isdigit(tar.type))
-      file_hdr->mode |= (char []){8,8,10,2,6,4,1,8,0,0}[tar.type-'0']<<12;
+    // At this point, we're writing something to the filesystem. Parse fields.
+    TT.hdr.mode = otoi(tar.mode, sizeof(tar.mode));
+    TT.hdr.mode |= (char []){8,8,10,2,6,4,1,8}[tar.type-'0']<<12;
+    TT.hdr.uid = otoi(tar.uid, sizeof(tar.uid));
+    TT.hdr.gid = otoi(tar.gid, sizeof(tar.gid));
+    TT.hdr.mtime = otoi(tar.mtime, sizeof(tar.mtime));
+    TT.hdr.device = dev_makedev(otoi(tar.major, sizeof(tar.major)),
+      otoi(tar.minor, sizeof(tar.minor)));
+
+    TT.hdr.uname = xstrndup(tar.uname, sizeof(tar.uname));
+    TT.hdr.gname = xstrndup(tar.gname, sizeof(tar.gname));
+    if (!TT.hdr.link_target && *tar.link)
+      TT.hdr.link_target = xstrndup(tar.link, sizeof(tar.link));
+    if (!TT.hdr.name) {
+      i = strnlen(tar.prefix, sizeof(tar.prefix));
+      TT.hdr.name = xmprintf("%.*s%s%.*s", i, tar.prefix,
+        (i && tar.prefix[i-1] != '/') ? "/" : "",
+        (int)sizeof(tar.name), tar.name);
+    }
 
     // Directories sometimes recorded as "file with trailing slash"
-    if (S_ISREG(file_hdr->mode) && (s = strend(file_hdr->name, "/"))) {
+    if (S_ISREG(TT.hdr.mode) && (s = strend(TT.hdr.name, "/"))) {
       *s = 0;
-      file_hdr->mode = (file_hdr->mode & ~S_IFMT) | S_IFDIR;
+      TT.hdr.mode = (TT.hdr.mode & ~S_IFMT) | S_IFDIR;
     }
 
-// TODO: what?
-    if ((file_hdr->link_target && *(file_hdr->link_target)) 
-        || S_ISLNK(file_hdr->mode) || S_ISDIR(file_hdr->mode))
-      file_hdr->size = 0;
+    // Hardlinks, symlinks, and directories do not have contents in archive
+    // (Neither do fifo, block or char devices, but not testing for that...?)
+    if ((TT.hdr.link_target && *TT.hdr.link_target) 
+        || S_ISLNK(TT.hdr.mode) || S_ISDIR(TT.hdr.mode))
+      TT.hdr.size = 0;
 
     // Skip excluded files
-    if (filter(TT.exc, file_hdr->name) ||
-        (TT.inc && !filter(TT.inc, file_hdr->name))) {
-      skippy(file_hdr->size);
-// TODO: awkward
-      goto FREE;
-    }
+    if (filter(TT.exc, TT.hdr.name) || (TT.inc && !filter(TT.inc, TT.hdr.name)))
+      skippy(TT.hdr.size);
+    else {
+
 // TODO: wrong, shouldn't grow endlessly, mark seen TT.inc instead
-    add_to_list(&TT.pass, xstrdup(file_hdr->name));
+      add_to_list(&TT.pass, xstrdup(TT.hdr.name));
 
-    if (FLAG(t)) {
-      if (FLAG(v)) {
-        char perm[11];
-        struct tm *lc = localtime((const time_t*)&(file_hdr->mtime));
+      if (FLAG(t)) {
+        if (FLAG(v)) {
+          char perm[11];
+          struct tm *lc = localtime(&TT.hdr.mtime);
 
-        mode_to_string(file_hdr->mode, perm);
-        printf("%s %s/%s %9ld %d-%02d-%02d %02d:%02d:%02d ",perm,file_hdr->uname,
-            file_hdr->gname, (long)file_hdr->size, 1900+lc->tm_year,
-            1+lc->tm_mon, lc->tm_mday, lc->tm_hour, lc->tm_min, lc->tm_sec);
+          mode_to_string(TT.hdr.mode, perm);
+          printf("%s %s/%s %9ld %d-%02d-%02d %02d:%02d:%02d ", perm,
+              TT.hdr.uname, TT.hdr.gname, (long)TT.hdr.size, 1900+lc->tm_year,
+              1+lc->tm_mon, lc->tm_mday, lc->tm_hour, lc->tm_min, lc->tm_sec);
+        }
+        printf("%s", TT.hdr.name);
+        if (TT.hdr.link_target) printf(" -> %s", TT.hdr.link_target);
+        xputc('\n');
+        skippy(TT.hdr.size);
+      } else {
+        if (FLAG(v)) printf("%s\n", TT.hdr.name);
+        if (FLAG(O)) xsendfile_len(TT.fd, 0, TT.hdr.size);
+        else if (FLAG(to_command)) extract_to_command();
+        else extract_to_disk();
       }
-      printf("%s",file_hdr->name);
-      if (file_hdr->link_target) printf(" -> %s",file_hdr->link_target);
-      xputc('\n');
-      skippy(file_hdr->size);
-    } else {
-      if (FLAG(v)) printf("%s\n",file_hdr->name);
-      tar_hdl->extract_handler(tar_hdl);
     }
-FREE:
-    free(file_hdr->name);
-    free(file_hdr->link_target);
-    free(file_hdr->uname);
-    free(file_hdr->gname);
+
+    free(TT.hdr.name);
+    free(TT.hdr.link_target);
+    free(TT.hdr.uname);
+    free(TT.hdr.gname);
+    TT.hdr.name = TT.hdr.link_target = 0;
   }
 }
 
 void tar_main(void)
 {
-  struct archive_handler *tar_hdl;
   struct arg_list *tmp;
   char *s, **args = toys.optargs;
-
-// TODO: zap
-  TT.handle = tar_hdl = xzalloc(sizeof(struct archive_handler));
-  tar_hdl->extract_handler = extract_to_disk;
 
   // When extracting to command
   signal(SIGPIPE, SIG_IGN);
@@ -682,11 +597,23 @@ void tar_main(void)
 
   // Are we reading?
   if (FLAG(x)||FLAG(t)) {
-    if (FLAG(O)) tar_hdl->extract_handler = extract_to_stdout;
-    if (FLAG(to_command)) tar_hdl->extract_handler = extract_to_command;
-
 // TODO: autodtect
-    if (FLAG(j)||FLAG(z)) extract_stream(tar_hdl);
+
+// Try detecting .gz or .bz2 by looking for their magic.
+//      if ((!memcmp(tar.name, "\x1f\x8b", 2) || !memcmp(tar.name, "BZh", 3))
+//          && !lseek(TT.fd, -i, SEEK_CUR)) {
+//        toys.optflags |= (*tar.name == 'B') ? FLAG_j : FLAG_z;
+//        extract_stream(tar_hdl);
+//        continue;
+//      }
+    if (FLAG(j)||FLAG(z)) {
+      int pipefd[2] = {TT.fd, -1};
+
+      xpopen_both((char *[]){FLAG(z)?"gunzip":"bunzip2", "-cf", "-", NULL},
+        pipefd);
+      close(TT.fd);
+      TT.fd = pipefd[1];
+    }
 
     unpack_tar();
     for (tmp = TT.inc; tmp; tmp = tmp->next)
@@ -703,7 +630,6 @@ void tar_main(void)
       close(TT.fd);
       TT.fd = pipefd[0];
     }
-// TODO cowardly empty archive
     for (tmp = TT.inc; tmp; tmp = tmp->next)
       dirtree_flagread(tmp->arg, FLAG(h)?DIRTREE_SYMFOLLOW:0, add_to_tar);
 
