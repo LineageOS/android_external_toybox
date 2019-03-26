@@ -805,14 +805,13 @@ struct syslogd_data {
 struct tar_data {
   char *f, *C;
   struct arg_list *T, *X;
-  char *to_command;
-  struct arg_list *exc;
+  char *to_command, *owner, *group;
+  struct arg_list *exclude;
 
-// exc is an argument but inc isn't?
-  struct arg_list *inc, *pass;
+  struct double_list *incl, *excl, *seen;
   void *inodes;
   char *cwd;
-  int fd;
+  int fd, ouid, ggid;
 
   // Parsed information about a tar header.
   struct {
@@ -937,8 +936,11 @@ struct useradd_data {
 // toys/pending/vi.c
 
 struct vi_data {
-  struct linestack *ls;
-  char *statline;
+    int cur_col;
+    int cur_row;
+    unsigned screen_height;
+    unsigned screen_width;
+    int vi_mode;
 };
 
 // toys/pending/wget.c
