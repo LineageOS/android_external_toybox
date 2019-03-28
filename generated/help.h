@@ -320,7 +320,7 @@
 
 #define HELP_wget "usage: wget -f filename URL\n-f filename: specify the filename to be saved\nURL: HTTP uniform resource location and only HTTP, not HTTPS\n\nexamples:\n  wget -f index.html http://www.example.com\n  wget -f sample.jpg http://www.example.com:8080/sample.jpg\n\n"
 
-#define HELP_vi "usage: vi FILE\n\nVisual text editor. Predates the existence of standardized cursor keys,\nso the controls are weird and historical.\n\n"
+#define HELP_vi "usage: vi FILE\nVisual text editor. Predates the existence of standardized cursor keys,\nso the controls are weird and historical.\n\n"
 
 #define HELP_userdel "usage: userdel [-r] USER\nusage: deluser [-r] USER\n\nDelete USER from the SYSTEM\n\n-r	remove home directory\n\n"
 
@@ -340,7 +340,7 @@
 
 #define HELP_tcpsvd "usage: tcpsvd [-hEv] [-c N] [-C N[:MSG]] [-b N] [-u User] [-l Name] IP Port Prog\nusage: udpsvd [-hEv] [-c N] [-u User] [-l Name] IP Port Prog\n\nCreate TCP/UDP socket, bind to IP:PORT and listen for incoming connection.\nRun PROG for each connection.\n\nIP            IP to listen on, 0 = all\nPORT          Port to listen on\nPROG ARGS     Program to run\n-l NAME       Local hostname (else looks up local hostname in DNS)\n-u USER[:GRP] Change to user/group after bind\n-c N          Handle up to N (> 0) connections simultaneously\n-b N          (TCP Only) Allow a backlog of approximately N TCP SYNs\n-C N[:MSG]    (TCP Only) Allow only up to N (> 0) connections from the same IP\n              New connections from this IP address are closed\n              immediately. MSG is written to the peer before close\n-h            Look up peer's hostname\n-E            Don't set up environment variables\n-v            Verbose\n\n"
 
-#define HELP_tar "usage: tar [-cxtjzhmvO] [-X FILE] [-T FILE] [-f TARFILE] [-C DIR]\n\nCreate, extract, or list files in a .tar (or compressed t?z) file.\n\nOptions:\nc  Create                x  Extract               t  Test\nf  Name of TARFILE       C  Change to DIR first   v  Verbose: show filenames\no  Ignore owner          h  Follow symlinks       m  Ignore mtime\nj  Force bzip2 format    z  Force gzip format\nO  Extract to stdout\nX  File of names to exclude\nT  File of names to include\n--exclude=FILE File pattern(s) to exclude\n\n"
+#define HELP_tar "usage: tar [-cxtjzhmvO] [-X FILE] [-T FILE] [-f TARFILE] [-C DIR]\n\nCreate, extract, or list files in a .tar (or compressed t?z) file.\n\nOptions:\nc  Create                x  Extract               t  Test\nf  Name of TARFILE       C  Change to DIR first   v  Verbose: show filenames\no  Ignore owner          h  Follow symlinks       m  Ignore mtime\nj  bzip2 compression     z  gzip compression\nO  Extract to stdout     X  exclude names in FILE T  include names in FILE\n--exclude=FILE File pattern(s) to exclude\n\n"
 
 #define HELP_syslogd "usage: syslogd  [-a socket] [-O logfile] [-f config file] [-m interval]\n                [-p socket] [-s SIZE] [-b N] [-R HOST] [-l N] [-nSLKD]\n\nSystem logging utility\n\n-a      Extra unix socket for listen\n-O FILE Default log file <DEFAULT: /var/log/messages>\n-f FILE Config file <DEFAULT: /etc/syslog.conf>\n-p      Alternative unix domain socket <DEFAULT : /dev/log>\n-n      Avoid auto-backgrounding\n-S      Smaller output\n-m MARK interval <DEFAULT: 20 minutes> (RANGE: 0 to 71582787)\n-R HOST Log to IP or hostname on PORT (default PORT=514/UDP)\"\n-L      Log locally and via network (default is network only if -R)\"\n-s SIZE Max size (KB) before rotation (default:200KB, 0=off)\n-b N    rotated logs to keep (default:1, max=99, 0=purge)\n-K      Log to kernel printk buffer (use dmesg to read it)\n-l N    Log only messages more urgent than prio(default:8 max:8 min:1)\n-D      Drop duplicates\n\n"
 
@@ -490,7 +490,7 @@
 
 #define HELP_rmdir "usage: rmdir [-p] [dirname...]\n\nRemove one or more directories.\n\n-p	Remove path\n\n"
 
-#define HELP_rm "usage: rm [-fiRr] FILE...\n\nRemove each argument from the filesystem.\n\n-f	Force: remove without confirmation, no error if it doesn't exist\n-i	Interactive: prompt for confirmation\n-rR	Recursive: remove directory contents\n\n"
+#define HELP_rm "usage: rm [-fiRrv] FILE...\n\nRemove each argument from the filesystem.\n\n-f	Force: remove without confirmation, no error if it doesn't exist\n-i	Interactive: prompt for confirmation\n-rR	Recursive: remove directory contents\n-v	Verbose\n\n"
 
 #define HELP_renice "usage: renice [-gpu] -n increment ID ...\n\n"
 
