@@ -934,7 +934,7 @@
 #undef FOR_fstype
 #endif
 
-// fsync   <1d
+// fsync <1d <1d
 #undef OPTSTR_fsync
 #define OPTSTR_fsync "<1d"
 #ifdef CLEANUP_fsync
@@ -4131,7 +4131,7 @@
 #ifndef TT
 #define TT this.fsync
 #endif
-#define FLAG_d (FORCED_FLAG<<0)
+#define FLAG_d (1<<0)
 #endif
 
 #ifdef FOR_ftpget
