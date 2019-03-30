@@ -809,6 +809,7 @@ struct tar_data {
   struct arg_list *exclude;
 
   struct double_list *incl, *excl, *seen;
+  struct string_list *dirs;
   void *inodes;
   char *cwd;
   int fd, ouid, ggid;
