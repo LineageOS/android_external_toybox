@@ -216,8 +216,8 @@
 #define USE_FSFREEZE(...) __VA_ARGS__
 #define CFG_FSTYPE 0
 #define USE_FSTYPE(...)
-#define CFG_FSYNC 0
-#define USE_FSYNC(...)
+#define CFG_FSYNC 1
+#define USE_FSYNC(...) __VA_ARGS__
 #define CFG_FTPGET 0
 #define USE_FTPGET(...)
 #define CFG_FTPPUT 0
