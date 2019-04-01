@@ -18,7 +18,7 @@
  * Extract into dir same as filename, --restrict? "Tarball is splodey"
  *
 
-USE_TAR(NEWTOY(tar, "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_TAR(NEWTOY(tar, "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config TAR
   bool "tar"
@@ -43,14 +43,21 @@ config TAR
 GLOBALS(
   char *f, *C;
   struct arg_list *T, *X;
-  char *to_command, *owner, *group;
+  char *to_command, *owner, *group, *mtime;
   struct arg_list *exclude;
 
   struct double_list *incl, *excl, *seen;
   struct string_list *dirs;
-  void *inodes;
   char *cwd;
-  int fd, ouid, ggid;
+  int fd, ouid, ggid, hlc, warn;
+  time_t mtt;
+
+  // hardlinks seen so far (hlc many)
+  struct {
+    char *arg;
+    ino_t ino;
+    dev_t dev;
+  } *hlx;
 
   // Parsed information about a tar header.
   struct {
@@ -82,7 +89,7 @@ static void itoo(char *str, int len, unsigned long long val)
 }
 #define ITOO(x, y) itoo(x, sizeof(x), y)
 
-//convert octal (or base-256) to int
+// convert octal (or base-256) to int
 static unsigned long long otoi(char *str, unsigned len)
 {
   unsigned long long val = 0;
@@ -95,33 +102,6 @@ static unsigned long long otoi(char *str, unsigned len)
   }
 
   return val;
-}
-
-
-struct inode_list {
-  struct inode_list *next;
-  char *arg;
-  ino_t ino;
-  dev_t dev;
-};
-
-static struct inode_list *seen_inode(void **list, struct stat *st, char *name)
-{
-  if (!S_ISDIR(st->st_mode) && st->st_nlink > 1) {
-    struct inode_list *new;
-
-    for (new = *list; new; new = new->next)
-      if(new->ino == st->st_ino && new->dev == st->st_dev)
-        return new;
-
-    new = xzalloc(sizeof(*new));
-    new->ino = st->st_ino;
-    new->dev = st->st_dev;
-    new->arg = xstrdup(name);
-    new->next = *list;
-    *list = new;
-  }
-  return 0;
 }
 
 // Calculate packet checksum, with cksum field treated as 8 spaces
@@ -176,9 +156,10 @@ static void skippy(long long len)
   if (lskip(TT.fd, len)) perror_exit("EOF");
 }
 
-// actually void **, but automatic typecasting doesn't work with void ** :(
+// allocate and read data from TT.fd
 static void alloread(void *buf, int len)
 {
+  // actually void **, but automatic typecasting doesn't work with void ** :(
   void **b = buf;
 
   free(*b);
@@ -192,32 +173,39 @@ static void add_file(char **nam, struct stat *st)
   struct tar_hdr hdr;
   struct passwd *pw = pw;
   struct group *gr = gr;
-  struct inode_list *node = node;
   int i, fd =-1;
   char *c, *p, *name = *nam, *lnk, *hname;
-  static int warn = 1;
 
+  // exclusion defaults to --no-anchored and --wildcards-match-slash
   for (p = name; *p; p++)
     if ((p == name || p[-1] == '/') && *p != '/' && filter(TT.excl, p)) return;
 
   if (S_ISDIR(st->st_mode) && name[strlen(name)-1] != '/') {
-    lnk = xmprintf("%s/",name);
+    lnk = xmprintf("%s/", name);
     free(name);
     *nam = name = lnk;
   }
-  hname = name;
-  //remove leading '/' or relative path '../' component
-  if (*hname == '/') hname++;
+
+  // remove leading / and any .. entries from saved name
+  for (hname = name; *hname == '/'; hname++);
+  for (c = hname;;) {
+    if (!(c = strstr(c, ".."))) break;
+    if (c == hname || c[-1] == '/') {
+      if (!c[2]) return;
+      if (c[2]=='/') c = hname = c+3;
+    } else c+= 2;
+  }
   if (!*hname) return;
-  while ((c = strstr(hname, "../"))) hname = c + 3;
-  if (warn && hname != name) {
+
+  if (TT.warn && hname != name) {
     fprintf(stderr, "removing leading '%.*s' from member names\n",
            (int)(hname-name), name);
-    warn = 0;
+    TT.warn = 0;
   }
 
   if (TT.owner) st->st_uid = TT.ouid;
   if (TT.group) st->st_gid = TT.ggid;
+  if (TT.mtime) st->st_mtime = TT.mtt;
 
   memset(&hdr, 0, sizeof(hdr));
   strncpy(hdr.name, hname, sizeof(hdr.name));
@@ -227,11 +215,39 @@ static void add_file(char **nam, struct stat *st)
   ITOO(hdr.size, 0); //set size later
   ITOO(hdr.mtime, st->st_mtime);
 
-  // Hard link or symlink?
-  i = !!S_ISLNK(st->st_mode);
-  if (i || (node = seen_inode(&TT.inodes, st, hname))) {
-    hdr.type = '1'+i;
-    if (!(lnk = i ? xreadlink(name) : node->arg)) return perror_msg("readlink");
+  // Hard link or symlink? i=0 neither, i=1 hardlink, i=2 symlink
+
+  // Are there hardlinks to a non-directory entry?
+  if (st->st_nlink>1 && !S_ISDIR(st->st_mode)) {
+    // Have we seen this dev&ino before?
+    for (i = 0; i<TT.hlc; i++) {
+      if (st->st_ino == TT.hlx[i].ino && st->st_dev == TT.hlx[i].dev)
+        break;
+    }
+    if (i != TT.hlc) {
+      lnk = TT.hlx[i].arg;
+      i = 1;
+    } else {
+      // first time we've seen it, store as normal file.
+      if (!(TT.hlc&255)) TT.hlx = xrealloc(TT.hlx, TT.hlc+256);
+      TT.hlx[TT.hlc].arg = xstrdup(hname);
+      TT.hlx[TT.hlc].ino = st->st_ino;
+      TT.hlx[TT.hlc].dev = st->st_dev;
+      TT.hlc++;
+      i = 0;
+    }
+  } else i = 0;
+
+  // !i because hardlink to a symlink is a thing.
+  if (!i && S_ISLNK(st->st_mode)) {
+    i = 2;
+    lnk = xreadlink(name);
+  }
+
+  // Handle file types
+  if (i) {
+    hdr.type = '0'+i;
+    if (i==2 && !(lnk = xreadlink(name))) return perror_msg("readlink");
     if (strlen(lnk) > sizeof(hdr.link)) write_longname(lnk, 'K');
     strncpy(hdr.link, lnk, sizeof(hdr.link));
     if (i) free(lnk);
@@ -249,28 +265,22 @@ static void add_file(char **nam, struct stat *st)
   if (strlen(hname) > sizeof(hdr.name)) write_longname(hname, 'L');
   strcpy(hdr.magic, "ustar  ");
   if (!FLAG(numeric_owner)) {
-    if (!TT.owner && !(pw = bufgetpwuid(st->st_uid)))
-      sprintf(hdr.uname, "%d", st->st_uid);
-    else snprintf(hdr.uname, sizeof(hdr.uname), "%s",
-      TT.owner ? TT.owner : pw->pw_name);
-    if (!TT.group && !(gr = bufgetgrgid(st->st_gid)))
-      sprintf(hdr.gname, "%d", st->st_gid);
-    else snprintf(hdr.gname, sizeof(hdr.gname), "%s",
-      TT.group ? TT.group : gr->gr_name);
+    if (TT.owner || (pw = bufgetpwuid(st->st_uid)))
+      strncpy(hdr.uname, TT.owner ? TT.owner : pw->pw_name, sizeof(hdr.uname));
+    if (TT.group || (gr = bufgetgrgid(st->st_gid)))
+      strncpy(hdr.gname, TT.group ? TT.group : gr->gr_name, sizeof(hdr.gname));
   }
 
   itoo(hdr.chksum, sizeof(hdr.chksum)-1, cksum(&hdr));
   hdr.chksum[7] = ' ';
 
-  if (FLAG(v)) printf("%s\n",hname);
-  xwrite(TT.fd, (void*)&hdr, 512);
+  if (FLAG(v)) printf("%s\n", hname);
 
-  //write actual data to archive
+  // Write header and data to archive
+  xwrite(TT.fd, &hdr, 512);
   if (hdr.type != '0') return; //nothing to write
-  if ((fd = open(name, O_RDONLY)) < 0) {
-    perror_msg("can't open '%s'", name);
-    return;
-  }
+  if ((fd = open(name, O_RDONLY)) < 0)
+    return perror_msg("can't open '%s'", name);
   xsendfile_pad(fd, TT.fd, st->st_size);
   if (st->st_size%512) writeall(TT.fd, toybuf, (512-(st->st_size%512)));
   close(fd);
@@ -315,7 +325,7 @@ static void extract_to_command(void)
     setenv("TAR_FILENAME", TT.hdr.name, 1);
     setenv("TAR_UNAME", TT.hdr.uname, 1);
     setenv("TAR_GNAME", TT.hdr.gname, 1);
-    sprintf(buf, "%0o", (int)TT.hdr.mtime);
+    sprintf(buf, "%0llo", (long long)TT.hdr.mtime);
     setenv("TAR_MTIME", buf, 1);
     sprintf(buf, "%0o", TT.hdr.uid);
     setenv("TAR_UID", buf, 1);
@@ -336,7 +346,6 @@ static void extract_to_command(void)
   }
 }
 
-
 // Do pending directory utimes(), NULL to flush all.
 static int dirflush(char *name)
 {
@@ -345,8 +354,8 @@ static int dirflush(char *name)
   // Barf if name not in TT.cwd
   if (name) {
     ss = s = xabspath(name, -1);
-    if (TT.cwd && (!strstart(&ss, TT.cwd) || (*ss && *ss!='/'))) {
-      error_msg("'%s' not under '%s'", ss, TT.cwd);
+    if (TT.cwd[1] && (!strstart(&ss, TT.cwd) || *ss!='/')) {
+      error_msg("'%s' not under '%s'", name, TT.cwd);
       free(s);
 
       return 1;
@@ -359,10 +368,15 @@ static int dirflush(char *name)
     long long ll = *(long long *)TT.dirs->str;
     struct timeval times[2] = {{ll, 0},{ll, 0}};
 
+    // If next file is under (or equal to) this dir, keep waiting
     if (name && strstart(&ss, ss = s) && (!*ss || *ss=='/')) break;
-    if (utimes(TT.dirs->str+sizeof(long long), times)) perror_msg("utimes %lld %s", *(long long *)TT.dirs->str, TT.dirs->str+sizeof(long long));
+
+    if (utimes(TT.dirs->str+sizeof(long long), times))
+      perror_msg("utimes %lld %s", ll,
+        TT.dirs->str+sizeof(long long));
     free(llist_pop(&TT.dirs));
   }
+  free(s);
 
   // name was under TT.cwd
   return 0;
@@ -415,16 +429,16 @@ static void extract_to_disk(void)
     //set ownership..., --no-same-owner, --numeric-owner
     int u = TT.hdr.uid, g = TT.hdr.gid;
 
-    if (TT.owner) u = TT.ouid;
+    if (TT.owner) TT.hdr.uid = TT.ouid;
     else if (!FLAG(numeric_owner)) {
       struct passwd *pw = getpwnam(TT.hdr.uname);
-      if (pw && (TT.owner || !FLAG(numeric_owner))) u = pw->pw_uid;
+      if (pw && (TT.owner || !FLAG(numeric_owner))) TT.hdr.uid = pw->pw_uid;
     }
 
-    if (TT.group) g = TT.ggid;
+    if (TT.group) TT.hdr.gid = TT.ggid;
     else if (!FLAG(numeric_owner)) {
       struct group *gr = getgrnam(TT.hdr.gname);
-      if (gr) g = gr->gr_gid;
+      if (gr) TT.hdr.gid = gr->gr_gid;
     }
 
     if (lchown(name, u, g)) perror_msg("chown %d:%d '%s'", u, g, name);;
@@ -458,6 +472,7 @@ static void unpack_tar(void)
   struct double_list *walk, *delete;
   struct tar_hdr tar;
   int i, and = 0;
+  unsigned maj, min;
   char *s;
 
   for (;;) {
@@ -498,9 +513,8 @@ static void unpack_tar(void)
         // Posix extended record "LEN NAME=VALUE\n" format
         alloread(&buf, TT.hdr.size);
         for (p = buf; (p-buf)<TT.hdr.size; p += len) {
-          if ((i = sscanf(p, "%u path=%n", &len, &n))<1 || len<4 ||
-              len>TT.hdr.size)
-          {
+          i = sscanf(p, "%u path=%n", &len, &n);
+          if (i<1 || len<4 || len>TT.hdr.size) {
             error_msg("bad header");
             break;
           }
@@ -524,11 +538,25 @@ static void unpack_tar(void)
     TT.hdr.uid = otoi(tar.uid, sizeof(tar.uid));
     TT.hdr.gid = otoi(tar.gid, sizeof(tar.gid));
     TT.hdr.mtime = otoi(tar.mtime, sizeof(tar.mtime));
-    TT.hdr.device = dev_makedev(otoi(tar.major, sizeof(tar.major)),
-      otoi(tar.minor, sizeof(tar.minor)));
+    maj = otoi(tar.major, sizeof(tar.major));
+    min = otoi(tar.minor, sizeof(tar.minor));
+    TT.hdr.device = dev_makedev(maj, min);
 
-    TT.hdr.uname = xstrndup(TT.owner ? TT.owner : tar.uname,sizeof(tar.uname));
-    TT.hdr.gname = xstrndup(TT.group ? TT.group : tar.gname,sizeof(tar.gname));
+    TT.hdr.uname = xstrndup(TT.owner ? TT.owner : tar.uname, sizeof(tar.uname));
+    TT.hdr.gname = xstrndup(TT.group ? TT.group : tar.gname, sizeof(tar.gname));
+
+    if (TT.owner) TT.hdr.uid = TT.ouid;
+    else if (!FLAG(numeric_owner)) {
+      struct passwd *pw = getpwnam(TT.hdr.uname);
+      if (pw && (TT.owner || !FLAG(numeric_owner))) TT.hdr.uid = pw->pw_uid;
+    }
+
+    if (TT.group) TT.hdr.gid = TT.ggid;
+    else if (!FLAG(numeric_owner)) {
+      struct group *gr = getgrnam(TT.hdr.gname);
+      if (gr) TT.hdr.gid = gr->gr_gid;
+    }
+
     if (!TT.hdr.link_target && *tar.link)
       TT.hdr.link_target = xstrndup(tar.link, sizeof(tar.link));
     if (!TT.hdr.name) {
@@ -569,14 +597,15 @@ static void unpack_tar(void)
       skippy(TT.hdr.size);
     else if (FLAG(t)) {
       if (FLAG(v)) {
-        struct tm *lc = localtime(&TT.hdr.mtime);
+        struct tm *lc = localtime(TT.mtime ? &TT.mtt : &TT.hdr.mtime);
         char perm[11];
 
         mode_to_string(TT.hdr.mode, perm);
-        printf("%s %s/%s %9lld %d-%02d-%02d %02d:%02d:%02d ", perm,
-            TT.hdr.uname, TT.hdr.gname, (long long)TT.hdr.size,
-            1900+lc->tm_year, 1+lc->tm_mon, lc->tm_mday, lc->tm_hour,
-            lc->tm_min, lc->tm_sec);
+        printf("%s %s/%s ", perm, TT.hdr.uname, TT.hdr.gname);
+        if (tar.type=='3' || tar.type=='4') printf("%u,%u", maj, min);
+        else printf("%9lld", (long long)TT.hdr.size);
+        printf("  %d-%02d-%02d %02d:%02d:%02d ", 1900+lc->tm_year, 1+lc->tm_mon,
+          lc->tm_mday, lc->tm_hour, lc->tm_min, lc->tm_sec);
       }
       printf("%s", TT.hdr.name);
       if (TT.hdr.link_target) printf(" -> %s", TT.hdr.link_target);
@@ -619,6 +648,7 @@ void tar_main(void)
   if (!geteuid()) toys.optflags |= FLAG_p;
   if (TT.owner) TT.ouid = xgetuid(TT.owner);
   if (TT.group) TT.ggid = xgetgid(TT.group);
+  if (TT.mtime) xparsedate(TT.mtime, &TT.mtt, (void *)&s, 1); 
 
   // Collect file list. Note: trim_list appends to TT.incl when !TT.X
   for (;TT.X; TT.X = TT.X->next) do_lines(xopenro(TT.X->arg), '\n', trim_list);
@@ -635,8 +665,7 @@ void tar_main(void)
 
   // Get destination directory
   if (TT.C) xchdir(TT.C);
-  s = xgetcwd();
-  TT.cwd = (strcmp(s, "/")) ? xabspath(s = xgetcwd(), 1) : 0;
+  TT.cwd = xabspath(s = xgetcwd(), 1);
   free(s);
 
   // Are we reading?
@@ -659,7 +688,7 @@ void tar_main(void)
       }
     }
 
-  // are we writing? (Don't have to test flag here one of 3 must be set)
+  // are we writing? (Don't have to test flag here, one of 3 must be set)
   } else {
     struct double_list *dl = TT.incl;
 
@@ -670,9 +699,17 @@ void tar_main(void)
       close(TT.fd);
       TT.fd = pipefd[0];
     }
-    do dirtree_flagread(dl->data, FLAG(h)?DIRTREE_SYMFOLLOW:0, add_to_tar);
-    while (TT.incl != (dl = dl->next));
+    do {
+      TT.warn = 1;
+      dirtree_flagread(dl->data, FLAG(h)?DIRTREE_SYMFOLLOW:0, add_to_tar);
+    } while (TT.incl != (dl = dl->next));
 
     writeall(TT.fd, toybuf, 1024);
+  }
+
+  if (CFG_TOYBOX_FREE) {
+    while(TT.hlc) free(TT.hlx[--TT.hlc].arg);
+    free(TT.hlx);
+    close(TT.fd);
   }
 }
