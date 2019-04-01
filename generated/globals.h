@@ -805,14 +805,21 @@ struct syslogd_data {
 struct tar_data {
   char *f, *C;
   struct arg_list *T, *X;
-  char *to_command, *owner, *group;
+  char *to_command, *owner, *group, *mtime;
   struct arg_list *exclude;
 
   struct double_list *incl, *excl, *seen;
   struct string_list *dirs;
-  void *inodes;
   char *cwd;
-  int fd, ouid, ggid;
+  int fd, ouid, ggid, hlc, warn;
+  time_t mtt;
+
+  // hardlinks seen so far (hlc many)
+  struct {
+    char *arg;
+    ino_t ino;
+    dev_t dev;
+  } *hlx;
 
   // Parsed information about a tar header.
   struct {
