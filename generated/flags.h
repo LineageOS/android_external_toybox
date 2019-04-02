@@ -934,7 +934,7 @@
 #undef FOR_fstype
 #endif
 
-// fsync   <1d
+// fsync <1d <1d
 #undef OPTSTR_fsync
 #define OPTSTR_fsync "<1d"
 #ifdef CLEANUP_fsync
@@ -2321,12 +2321,13 @@
 #undef FOR_rfkill
 #endif
 
-// rm fiRr[-fi] fiRr[-fi]
+// rm fiRrv[-fi] fiRrv[-fi]
 #undef OPTSTR_rm
-#define OPTSTR_rm "fiRr[-fi]"
+#define OPTSTR_rm "fiRrv[-fi]"
 #ifdef CLEANUP_rm
 #undef CLEANUP_rm
 #undef FOR_rm
+#undef FLAG_v
 #undef FLAG_r
 #undef FLAG_R
 #undef FLAG_i
@@ -2741,9 +2742,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
+// tar &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
+#define OPTSTR_tar "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2764,6 +2765,9 @@
 #undef FLAG_p
 #undef FLAG_o
 #undef FLAG_to_command
+#undef FLAG_owner
+#undef FLAG_group
+#undef FLAG_mtime
 #undef FLAG_exclude
 #undef FLAG_overwrite
 #undef FLAG_no_same_permissions
@@ -4128,7 +4132,7 @@
 #ifndef TT
 #define TT this.fsync
 #endif
-#define FLAG_d (FORCED_FLAG<<0)
+#define FLAG_d (1<<0)
 #endif
 
 #ifdef FOR_ftpget
@@ -5291,10 +5295,11 @@
 #ifndef TT
 #define TT this.rm
 #endif
-#define FLAG_r (1<<0)
-#define FLAG_R (1<<1)
-#define FLAG_i (1<<2)
-#define FLAG_f (1<<3)
+#define FLAG_v (1<<0)
+#define FLAG_r (1<<1)
+#define FLAG_R (1<<2)
+#define FLAG_i (1<<3)
+#define FLAG_f (1<<4)
 #endif
 
 #ifdef FOR_rmdir
@@ -5656,11 +5661,14 @@
 #define FLAG_p (1<<14)
 #define FLAG_o (1<<15)
 #define FLAG_to_command (1<<16)
-#define FLAG_exclude (1<<17)
-#define FLAG_overwrite (1<<18)
-#define FLAG_no_same_permissions (1<<19)
-#define FLAG_numeric_owner (1<<20)
-#define FLAG_no_recursion (1<<21)
+#define FLAG_owner (1<<17)
+#define FLAG_group (1<<18)
+#define FLAG_mtime (1<<19)
+#define FLAG_exclude (1<<20)
+#define FLAG_overwrite (1<<21)
+#define FLAG_no_same_permissions (1<<22)
+#define FLAG_numeric_owner (1<<23)
+#define FLAG_no_recursion (1<<24)
 #endif
 
 #ifdef FOR_taskset

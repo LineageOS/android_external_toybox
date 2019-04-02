@@ -521,7 +521,7 @@ void xstat(char *path, struct stat *st)
 char *xabspath(char *path, int exact)
 {
   struct string_list *todo, *done = 0;
-  int try = 9999, dirfd = open("/", 0), missing = 0;
+  int try = 9999, dirfd = open("/", O_PATH), missing = 0;
   char *ret;
 
   // If this isn't an absolute path, start with cwd.
@@ -554,7 +554,7 @@ char *xabspath(char *path, int exact)
 
       if (missing) missing--;
       else {
-        if (-1 == (x = openat(dirfd, "..", 0))) goto error;
+        if (-1 == (x = openat(dirfd, "..", O_PATH))) goto error;
         close(dirfd);
         dirfd = x;
       }
@@ -578,7 +578,7 @@ char *xabspath(char *path, int exact)
       }
       if (errno != EINVAL && (exact || todo)) goto error;
 
-      fd = openat(dirfd, new->str, 0);
+      fd = openat(dirfd, new->str, O_PATH);
       if (fd == -1 && (exact || todo || errno != ENOENT)) goto error;
       close(dirfd);
       dirfd = fd;
@@ -591,7 +591,7 @@ char *xabspath(char *path, int exact)
       llist_traverse(done, free);
       done=0;
       close(dirfd);
-      dirfd = open("/", 0);
+      dirfd = open("/", O_PATH);
     }
     free(new);
 
@@ -611,7 +611,7 @@ char *xabspath(char *path, int exact)
 
   try = 2;
   while (done) {
-    struct string_list *temp = llist_pop(&done);;
+    struct string_list *temp = llist_pop(&done);
 
     if (todo) try++;
     try += strlen(temp->str);
@@ -943,4 +943,92 @@ void xsignal_flags(int signal, void *handler, int flags)
 void xsignal(int signal, void *handler)
 {
   xsignal_flags(signal, handler, 0);
+}
+
+
+time_t xvali_date(struct tm *tm, char *str)
+{
+  time_t t;
+
+  if (tm && (unsigned)tm->tm_sec<=60 && (unsigned)tm->tm_min<=59
+     && (unsigned)tm->tm_hour<=23 && tm->tm_mday && (unsigned)tm->tm_mday<=31
+     && (unsigned)tm->tm_mon<=11 && (t = mktime(tm)) != -1) return t;
+
+  error_exit("bad date %s", str);
+}
+
+// Parse date string (relative to current *t). Sets time_t and nanoseconds.
+void xparsedate(char *str, time_t *t, unsigned *nano, int endian)
+{
+  struct tm tm;
+  time_t now = *t;
+  int len = 0, i = 0;
+  // Formats with years must come first. Posix can't agree on whether 12 digits
+  // has year before (touch -t) or year after (date), so support both.
+  char *s = str, *p, *oldtz = 0, *formats[] = {"%Y-%m-%d %T", "%Y-%m-%dT%T",
+    "%H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d", "%H:%M", "%m%d%H%M",
+    endian ? "%m%d%H%M%y" : "%y%m%d%H%M",
+    endian ? "%m%d%H%M%C%y" : "%C%y%m%d%H%M"};
+
+  *nano = 0;
+
+  // Parse @UNIXTIME[.FRACTION]
+  if (*str == '@') {
+    long long ll;
+
+    // Collect seconds and nanoseconds.
+    // &ll is not just t because we can't guarantee time_t is 64 bit (yet).
+    sscanf(s, "@%lld%n", &ll, &len);
+    if (s[len]=='.') {
+      s += len+1;
+      for (len = 0; len<9; len++) {
+        *nano *= 10;
+        if (isdigit(*s)) *nano += *s++-'0';
+      }
+    }
+    *t = ll;
+    if (!s[len]) return;
+    xvali_date(0, str);
+  }
+
+  // Trailing Z means UTC timezone, don't expect libc to know this.
+  // (Trimming it off here means it won't show up in error messages.)
+  if ((i = strlen(str)) && toupper(str[i-1])=='Z') {
+    str[--i] = 0;
+    oldtz = getenv("TZ");
+    if (oldtz) oldtz = xstrdup(oldtz);
+    setenv("TZ", "UTC0", 1);
+  }
+
+  // Try each format
+  for (i = 0; i<ARRAY_LEN(formats); i++) {
+    localtime_r(&now, &tm);
+    tm.tm_hour = tm.tm_min = tm.tm_sec = 0;
+    tm.tm_isdst = -endian;
+
+    if ((p = strptime(s, formats[i], &tm))) {
+      if (*p == '.') {
+        p++;
+        // If format didn't already specify seconds, grab seconds
+        if (i>2) {
+          len = 0;
+          sscanf(p, "%2u%n", &tm.tm_sec, &len);
+          p += len;
+        }
+        // nanoseconds
+        for (len = 0; len<9; len++) {
+          *nano *= 10;
+          if (isdigit(*p)) *nano += *p++-'0';
+        }
+      }
+
+      if (!*p) break;
+    }
+  }
+
+  // Sanity check field ranges
+  *t = xvali_date((i!=ARRAY_LEN(formats)) ? &tm : 0, str);
+
+  if (oldtz) setenv("TZ", oldtz, 1);
+  free(oldtz);
 }
