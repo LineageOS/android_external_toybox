@@ -181,6 +181,8 @@ void xregcomp(regex_t *preg, char *rexec, int cflags);
 char *xtzset(char *new);
 void xsignal_flags(int signal, void *handler, int flags);
 void xsignal(int signal, void *handler);
+time_t xvali_date(struct tm *tm, char *str);
+void xparsedate(char *str, time_t *t, unsigned *nano, int endian);
 
 // lib.c
 void verror_msg(char *msg, int err, va_list va);
@@ -369,7 +371,7 @@ mode_t string_to_mode(char *mode_str, mode_t base);
 void mode_to_string(mode_t mode, char *buf);
 char *getdirname(char *name);
 char *getbasename(char *name);
-int fileunderdir(char *file, char *dir);
+char *fileunderdir(char *file, char *dir);
 void names_to_pid(char **names, int (*callback)(pid_t pid, char *name));
 
 pid_t __attribute__((returns_twice)) xvforkwrap(pid_t pid);
