@@ -544,7 +544,7 @@
 
 #define HELP_groups "usage: groups [user]\n\nPrint the groups a user is in.\n\n"
 
-#define HELP_id "usage: id [-GZgnru] \n\nPrint user and group ID.\n-G	Show only the group IDs\n-Z	Show only security context\n-g	Show only the effective group ID\n-n	Print names instead of numeric IDs (to be used with -Ggu)\n-r	Show real ID instead of effective ID\n-u	Show only the effective user ID\n"
+#define HELP_id "usage: id [-GZgnru] [USER...]\n\nPrint user and group ID.\n-G	Show only the group IDs\n-Z	Show only security context\n-g	Show only the effective group ID\n-n	Print names instead of numeric IDs (to be used with -Ggu)\n-r	Show real ID instead of effective ID\n-u	Show only the effective user ID\n"
 
 #define HELP_iconv "usage: iconv [-f FROM] [-t TO] [FILE...]\n\nConvert character encoding of files.\n\n-c	Omit invalid chars\n-f	Convert from (default utf8)\n-t	Convert to   (default utf8)\n\n"
 
