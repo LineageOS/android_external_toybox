@@ -811,7 +811,7 @@ struct tar_data {
   struct double_list *incl, *excl, *seen;
   struct string_list *dirs;
   char *cwd;
-  int fd, ouid, ggid, hlc, warn;
+  int fd, ouid, ggid, hlc, warn, adev, aino;
   time_t mtt;
 
   // hardlinks seen so far (hlc many)
@@ -822,7 +822,7 @@ struct tar_data {
   } *hlx;
 
   // Parsed information about a tar header.
-  struct {
+  struct tar_header {
     char *name, *link_target, *uname, *gname;
     long long size;
     uid_t uid;
