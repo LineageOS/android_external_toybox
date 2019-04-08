@@ -18,13 +18,13 @@
  * Extract into dir same as filename, --restrict? "Tarball is splodey"
  *
 
-USE_TAR(NEWTOY(tar, "&(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_TAR(NEWTOY(tar, "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config TAR
   bool "tar"
   default n
   help
-    usage: tar [-cxtjzhmvO] [-X FILE] [-T FILE] [-f TARFILE] [-C DIR]
+    usage: tar [-cxtfvohmjkO] [-XT FILE] [-f TARFILE] [-C DIR]
 
     Create, extract, or list files in a .tar (or compressed t?z) file. 
 
@@ -35,6 +35,7 @@ config TAR
     j  bzip2 compression     z  gzip compression
     O  Extract to stdout     X  exclude names in FILE T  include names in FILE
     --exclude=FILE File pattern(s) to exclude
+    --restrict  All archive contents must extract under a single subdirctory.
 */
 
 #define FOR_tar
@@ -150,6 +151,7 @@ static struct double_list *filter(struct double_list *lst, char *name)
   struct double_list *end = lst;
 
   if (lst)
+    // constant is FNM_LEADING_DIR
     do if (!fnmatch(lst->data, name, 1<<3)) return lst;
     while (end != (lst = lst->next));
 
@@ -193,9 +195,11 @@ static int add_to_tar(struct dirtree *node)
   name = dirtree_path(node, &i);
 
   // exclusion defaults to --no-anchored and --wildcards-match-slash
-  for (p = name; *p; p++)
-    if ((p == name || p[-1] == '/') && *p != '/' && filter(TT.excl, p))
-      goto done;
+  for (p = name; *p;) {
+    if (filter(TT.excl, p)) goto done;
+    while (*p && *p!='/') p++;
+    while (*p=='/') p++;
+  }
 
   // Consume the 1 extra byte alocated in dirtree_path()
   if (S_ISDIR(st->st_mode) && name[i-1] != '/') strcat(name, "/");
@@ -328,7 +332,7 @@ static void extract_to_command(void)
     setenv("TAR_FILETYPE", "f", 1);
     sprintf(buf, "%0o", TT.hdr.mode);
     setenv("TAR_MODE", buf, 1);
-    sprintf(buf, "%ld", (long)TT.hdr.size);
+    sprintf(buf, "%lld", (long long)TT.hdr.size);
     setenv("TAR_SIZE", buf, 1);
     setenv("TAR_FILENAME", TT.hdr.name, 1);
     setenv("TAR_UNAME", TT.hdr.uname, 1);
@@ -354,6 +358,14 @@ static void extract_to_command(void)
   }
 }
 
+static void wsettime(char *s, long long sec)
+{
+  struct timespec times[2] = {{sec, 0},{sec, 0}};
+
+  if (utimensat(AT_FDCWD, s, times, AT_SYMLINK_NOFOLLOW))
+    perror_msg("settime %lld %s", sec, s);
+}
+
 // Do pending directory utimes(), NULL to flush all.
 static int dirflush(char *name)
 {
@@ -368,20 +380,22 @@ static int dirflush(char *name)
 
       return 1;
     }
+
+    if (FLAG(restrict)) {
+      free(TT.cwd);
+      TT.cwd = strdup(s);
+      toys.optflags ^= FLAG_restrict;
+    }
   }
 
   // Set deferred utimes() for directories this file isn't under.
   // (Files must be depth-first ordered in tarball for this to matter.)
   while (TT.dirs) {
-    long long ll = *(long long *)TT.dirs->str;
-    struct timeval times[2] = {{ll, 0},{ll, 0}};
 
     // If next file is under (or equal to) this dir, keep waiting
     if (name && strstart(&ss, ss = s) && (!*ss || *ss=='/')) break;
 
-    if (utimes(TT.dirs->str+sizeof(long long), times))
-      perror_msg("utimes %lld %s", ll,
-        TT.dirs->str+sizeof(long long));
+    wsettime(TT.dirs->str+sizeof(long long), *(long long *)TT.dirs->str);
     free(llist_pop(&TT.dirs));
   }
   free(s);
@@ -453,7 +467,7 @@ static void extract_to_disk(void)
   }
 
   // || !FLAG(no_same_permissions))
-  if (FLAG(p) && !S_ISLNK(ala)) chmod(TT.hdr.name, ala);
+  if (!S_ISLNK(ala)) chmod(TT.hdr.name, FLAG(p) ? ala : ala&0777);
 
   // Apply mtime.
   if (!FLAG(m)) {
@@ -468,10 +482,7 @@ static void extract_to_disk(void)
       strcpy(sl->str+sizeof(long long), name);
       sl->next = TT.dirs;
       TT.dirs = sl;
-    } else {
-      struct timeval times[2] = {{TT.hdr.mtime, 0},{TT.hdr.mtime, 0}};
-      utimes(TT.hdr.name, times);
-    }
+    } else wsettime(TT.hdr.name, TT.hdr.mtime);
   }
 }
 
@@ -493,14 +504,11 @@ static void unpack_tar(struct tar_hdr *first)
       i = readall(TT.fd, &tar, 512);
     }
 
-    if (i && i != 512) error_exit("read error");
+    if (i && i!=512) error_exit("short header");
 
     // Two consecutive empty headers ends tar even if there's more data
     if (!i || !*tar.name) {
-      if (!i || and++) {
-        dirflush(0);
-        return;
-      }
+      if (!i || and++) return;
       TT.hdr.size = 0;
       continue;
     }
@@ -591,6 +599,7 @@ static void unpack_tar(struct tar_hdr *first)
 
     // Files are seen even if excluded, so check them here.
     // TT.seen points to first seen entry in TT.incl, or NULL if none yet.
+
     if ((delete = filter(TT.incl, TT.hdr.name)) && TT.incl != TT.seen) {
       if (!TT.seen) TT.seen = delete;
 
@@ -630,7 +639,7 @@ static void unpack_tar(struct tar_hdr *first)
       skippy(TT.hdr.size);
     } else {
       if (FLAG(v)) printf("%s\n", TT.hdr.name);
-      if (FLAG(O)) xsendfile_len(TT.fd, 0, TT.hdr.size);
+      if (FLAG(O)) xsendfile_len(TT.fd, 1, TT.hdr.size);
       else if (FLAG(to_command)) extract_to_command();
       else extract_to_disk();
     }
@@ -643,16 +652,22 @@ static void unpack_tar(struct tar_hdr *first)
   }
 }
 
-// Add copy of filename to TT.incl or TT.excl, minus trailing \n and /
-static void trim_list(char **pline, long len)
+// Add copy of filename (minus trailing \n and /) to dlist **
+static void trim2list(void *list, char *pline)
 {
-  char *n = strdup(*pline);
+  char *n = xstrdup(pline);
   int i = strlen(n);
 
-  dlist_add(TT.X ? &TT.excl : &TT.incl, n);
+  dlist_add(list, n);
   if (i && n[i-1]=='\n') i--;
   while (i && n[i-1] == '/') i--;
   n[i] = 0;
+}
+
+// do_lines callback, selects TT.incl or TT.excl based on call order
+static void do_XT(char **pline, long len)
+{
+  if (pline) trim2list(TT.X ? &TT.excl : &TT.incl, *pline);
 }
 
 void tar_main(void)
@@ -669,10 +684,12 @@ void tar_main(void)
   if (TT.group) TT.ggid = xgetgid(TT.group);
   if (TT.mtime) xparsedate(TT.mtime, &TT.mtt, (void *)&s, 1); 
 
-  // Collect file list. Note: trim_list appends to TT.incl when !TT.X
-  for (;TT.X; TT.X = TT.X->next) do_lines(xopenro(TT.X->arg), '\n', trim_list);
-  for (args = toys.optargs; *args; args++) trim_list(args, strlen(*args));
-  for (;TT.T; TT.T = TT.T->next) do_lines(xopenro(TT.T->arg), '\n', trim_list);
+  // Collect file list.
+  for (; TT.exclude; TT.exclude = TT.exclude->next)
+    trim2list(&TT.excl, TT.exclude->arg);
+  for (;TT.X; TT.X = TT.X->next) do_lines(xopenro(TT.X->arg), '\n', do_XT);
+  for (args = toys.optargs; *args; args++) trim2list(&TT.incl, *args);
+  for (;TT.T; TT.T = TT.T->next) do_lines(xopenro(TT.T->arg), '\n', do_XT);
 
   // If include file list empty, don't create empty archive
   if (FLAG(c)) {
@@ -704,11 +721,11 @@ void tar_main(void)
 
   // Are we reading?
   if (FLAG(x)||FLAG(t)) {
-    struct tar_hdr *hdr = (void *)(toybuf+sizeof(toybuf)-512);
+    struct tar_hdr *hdr = 0;
 
     // autodetect compression type when not specified
     if (!FLAG(j)&&!FLAG(z)) {
-      len = xread(TT.fd, hdr, 512);
+      len = xread(TT.fd, hdr = (void *)(toybuf+sizeof(toybuf)-512), 512);
       if (len!=512 || strncmp("ustar", hdr->magic, 5)) {
         // detect gzip and bzip signatures
         if (SWAP_BE16(*(short *)hdr)==0x1f8b) toys.optflags |= FLAG_z;
@@ -721,35 +738,48 @@ void tar_main(void)
     }
 
     if (FLAG(j)||FLAG(z)) {
-      int pipefd[2] = {hdr ? -1 : TT.fd, -1}, i;
+      int pipefd[2] = {hdr ? -1 : TT.fd, -1}, i, pid;
 
       xpopen_both((char *[]){FLAG(z)?"gunzip":"bunzip2", "-cf", "-", NULL},
         pipefd);
-      close(TT.fd);
-      TT.fd = pipefd[1];
 
-      // If we autodetected type but then couldn't lseek to put the data back
-      if (hdr) {
-        // dirty trick: move pipefd[0] to 0 so child closes spare copy
+      if (!hdr) {
+        // If we could seek, child gzip inherited fd and we read its output
+        close(TT.fd);
+        TT.fd = pipefd[1];
+
+      } else {
+
+        // If we autodetected type but then couldn't lseek to put the data back
+        // we have to loop reading data from TT.fd and pass it to gzip ourselves
+        // (starting with the block of data we read to autodetect).
+
+        // dirty trick: move gzip input pipe to stdin so child closes spare copy
         dup2(pipefd[0], 0);
         if (pipefd[0]) close(pipefd[0]);
 
-        // Fork a copy of ourselves to handle extraction (reads from zip proc)
-        pipefd[0] = TT.fd;
+        // Fork a copy of ourselves to handle extraction (reads from zip output
+        // pipe, writes to stdout).
+        pipefd[0] = pipefd[1];
         pipefd[1] = 1;
-        xpopen_both(0, pipefd);
-        close(TT.fd);
+        pid = xpopen_both(0, pipefd);
+        close(pipefd[1]);
 
         // loop writing collated data to zip proc
         xwrite(0, hdr, len);
         for (;;) {
-          if ((i = read(0, toybuf, sizeof(toybuf)))<1) return;
+          if ((i = read(TT.fd, toybuf, sizeof(toybuf)))<1) {
+            close(0);
+            xwaitpid(pid);
+            return;
+          }
           xwrite(0, toybuf, i);
         }
-      } else hdr = 0;
+      }
     }
 
     unpack_tar(hdr);
+    dirflush(0);
     if (TT.seen != TT.incl) {
       if (!TT.seen) TT.seen = TT.incl;
       while (TT.incl != TT.seen) {
@@ -787,8 +817,11 @@ void tar_main(void)
   }
 
   if (CFG_TOYBOX_FREE) {
+    llist_traverse(TT.excl, llist_free_double);
+    llist_traverse(TT.incl, llist_free_double);
     while(TT.hlc) free(TT.hlx[--TT.hlc].arg);
     free(TT.hlx);
+    free(TT.cwd);
     close(TT.fd);
   }
 }
