@@ -2742,9 +2742,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
+// tar &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
+#define OPTSTR_tar "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2774,6 +2774,7 @@
 #undef FLAG_numeric_owner
 #undef FLAG_no_recursion
 #undef FLAG_full_time
+#undef FLAG_restrict
 #endif
 
 // taskset <1^pa <1^pa
@@ -5671,6 +5672,7 @@
 #define FLAG_numeric_owner (1<<23)
 #define FLAG_no_recursion (1<<24)
 #define FLAG_full_time (1<<25)
+#define FLAG_restrict (1<<26)
 #endif
 
 #ifdef FOR_taskset
