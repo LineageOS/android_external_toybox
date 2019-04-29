@@ -46,6 +46,12 @@ struct dmesg_data {
   time_t tea;
 };
 
+// toys/lsb/gzip.c
+
+struct gzip_data {
+  int level;
+};
+
 // toys/lsb/hostname.c
 
 struct hostname_data {
@@ -637,12 +643,6 @@ struct groupadd_data {
   long gid;
 };
 
-// toys/pending/gzip.c
-
-struct gzip_data {
-  int level;
-};
-
 // toys/pending/host.c
 
 struct host_data {
@@ -698,6 +698,14 @@ struct lsof_data {
   struct stat *sought_files;
   struct double_list *all_sockets, *files;
   int last_shown_pid, shown_header;
+};
+
+// toys/pending/man.c
+
+struct man_data {
+  char *M, *k;
+
+  char any, cell, *f, *line;
 };
 
 // toys/pending/mke2fs.c
@@ -798,39 +806,6 @@ struct syslogd_data {
   struct unsocks *lsocks;  // list of listen sockets
   struct logfile *lfiles;  // list of write logfiles
   int sigfd[2];
-};
-
-// toys/pending/tar.c
-
-struct tar_data {
-  char *f, *C;
-  struct arg_list *T, *X;
-  char *to_command, *owner, *group, *mtime;
-  struct arg_list *exclude;
-
-  struct double_list *incl, *excl, *seen;
-  struct string_list *dirs;
-  char *cwd;
-  int fd, ouid, ggid, hlc, warn, adev, aino;
-  time_t mtt;
-
-  // hardlinks seen so far (hlc many)
-  struct {
-    char *arg;
-    ino_t ino;
-    dev_t dev;
-  } *hlx;
-
-  // Parsed information about a tar header.
-  struct tar_header {
-    char *name, *link_target, *uname, *gname;
-    long long size;
-    uid_t uid;
-    gid_t gid;
-    mode_t mode;
-    time_t mtime;
-    dev_t device;
-  } hdr;
 };
 
 // toys/pending/tcpsvd.c
@@ -949,6 +924,11 @@ struct vi_data {
     unsigned screen_height;
     unsigned screen_width;
     int vi_mode;
+    int count0;
+    int count1;
+    int vi_mov_flag;
+    int modified;
+    char vi_reg;
 };
 
 // toys/pending/wget.c
@@ -1306,6 +1286,39 @@ struct tail_data {
   int file_no, ffd, *files;
 };
 
+// toys/posix/tar.c
+
+struct tar_data {
+  char *f, *C;
+  struct arg_list *T, *X;
+  char *to_command, *owner, *group, *mtime;
+  struct arg_list *exclude;
+
+  struct double_list *incl, *excl, *seen;
+  struct string_list *dirs;
+  char *cwd;
+  int fd, ouid, ggid, hlc, warn, adev, aino;
+  time_t mtt;
+
+  // hardlinks seen so far (hlc many)
+  struct {
+    char *arg;
+    ino_t ino;
+    dev_t dev;
+  } *hlx;
+
+  // Parsed information about a tar header.
+  struct tar_header {
+    char *name, *link_target, *uname, *gname;
+    long long size;
+    uid_t uid;
+    gid_t gid;
+    mode_t mode;
+    time_t mtime;
+    dev_t device;
+  } hdr;
+};
+
 // toys/posix/tee.c
 
 struct tee_data {
@@ -1360,6 +1373,7 @@ extern union global_union {
 	struct hello_data hello;
 	struct skeleton_data skeleton;
 	struct dmesg_data dmesg;
+	struct gzip_data gzip;
 	struct hostname_data hostname;
 	struct killall_data killall;
 	struct md5sum_data md5sum;
@@ -1429,7 +1443,6 @@ extern union global_union {
 	struct getfattr_data getfattr;
 	struct getty_data getty;
 	struct groupadd_data groupadd;
-	struct gzip_data gzip;
 	struct host_data host;
 	struct ip_data ip;
 	struct ipcrm_data ipcrm;
@@ -1437,6 +1450,7 @@ extern union global_union {
 	struct klogd_data klogd;
 	struct last_data last;
 	struct lsof_data lsof;
+	struct man_data man;
 	struct mke2fs_data mke2fs;
 	struct modprobe_data modprobe;
 	struct more_data more;
@@ -1446,7 +1460,6 @@ extern union global_union {
 	struct stty_data stty;
 	struct sulogin_data sulogin;
 	struct syslogd_data syslogd;
-	struct tar_data tar;
 	struct tcpsvd_data tcpsvd;
 	struct telnet_data telnet;
 	struct telnetd_data telnetd;
@@ -1493,6 +1506,7 @@ extern union global_union {
 	struct split_data split;
 	struct strings_data strings;
 	struct tail_data tail;
+	struct tar_data tar;
 	struct tee_data tee;
 	struct touch_data touch;
 	struct ulimit_data ulimit;

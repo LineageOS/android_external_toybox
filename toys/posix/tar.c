@@ -18,11 +18,11 @@
  * Extract into dir same as filename, --restrict? "Tarball is splodey"
  *
 
-USE_TAR(NEWTOY(tar, "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_TAR(NEWTOY(tar, "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config TAR
   bool "tar"
-  default n
+  default y
   help
     usage: tar [-cxtfvohmjkO] [-XT FILE] [-f TARFILE] [-C DIR]
 
@@ -317,47 +317,6 @@ done:
   return (DIRTREE_RECURSE|(FLAG(h)?DIRTREE_SYMFOLLOW:0))*!FLAG(no_recursion);
 }
 
-// Does anybody actually use this?
-static void extract_to_command(void)
-{
-  int pipefd[2], status = 0;
-  pid_t cpid;
-
-  if (!S_ISREG(TT.hdr.mode)) return; //only regular files are supported.
-
-  xpipe(pipefd);
-  if (!(cpid = xfork())) {    // Child reads from pipe
-    char buf[64], *argv[4] = {"sh", "-c", TT.to_command, NULL};
-
-    setenv("TAR_FILETYPE", "f", 1);
-    sprintf(buf, "%0o", TT.hdr.mode);
-    setenv("TAR_MODE", buf, 1);
-    sprintf(buf, "%lld", (long long)TT.hdr.size);
-    setenv("TAR_SIZE", buf, 1);
-    setenv("TAR_FILENAME", TT.hdr.name, 1);
-    setenv("TAR_UNAME", TT.hdr.uname, 1);
-    setenv("TAR_GNAME", TT.hdr.gname, 1);
-    sprintf(buf, "%0llo", (long long)TT.hdr.mtime);
-    setenv("TAR_MTIME", buf, 1);
-    sprintf(buf, "%0o", TT.hdr.uid);
-    setenv("TAR_UID", buf, 1);
-    sprintf(buf, "%0o", TT.hdr.gid);
-    setenv("TAR_GID", buf, 1);
-
-    xclose(pipefd[1]); // Close unused write
-    dup2(pipefd[0], 0);
-    signal(SIGPIPE, SIG_DFL);
-    xexec(argv);
-  } else {
-    xclose(pipefd[0]);  // Close unused read end
-    xsendfile_len(TT.fd, pipefd[1], TT.hdr.size);
-    xclose(pipefd[1]);
-    waitpid(cpid, &status, 0);
-    if (WIFSIGNALED(status))
-      xprintf("tar : %d: child returned %d\n", cpid, WTERMSIG(status));
-  }
-}
-
 static void wsettime(char *s, long long sec)
 {
   struct timespec times[2] = {{sec, 0},{sec, 0}};
@@ -446,7 +405,6 @@ static void extract_to_disk(void)
   } else if (mknod(name, ala, TT.hdr.device))
     return perror_msg("can't create '%s'", name);
 
-
   // Set ownership
   if (!FLAG(o) && !geteuid()) {
     int u = TT.hdr.uid, g = TT.hdr.gid;
@@ -466,7 +424,6 @@ static void extract_to_disk(void)
     if (lchown(name, u, g)) perror_msg("chown %d:%d '%s'", u, g, name);;
   }
 
-  // || !FLAG(no_same_permissions))
   if (!S_ISLNK(ala)) chmod(TT.hdr.name, FLAG(p) ? ala : ala&0777);
 
   // Apply mtime.
@@ -640,8 +597,27 @@ static void unpack_tar(struct tar_hdr *first)
     } else {
       if (FLAG(v)) printf("%s\n", TT.hdr.name);
       if (FLAG(O)) xsendfile_len(TT.fd, 1, TT.hdr.size);
-      else if (FLAG(to_command)) extract_to_command();
-      else extract_to_disk();
+      else if (FLAG(to_command)) {
+        if (S_ISREG(TT.hdr.mode)) {
+          int fd, pid;
+
+          xsetenv("TAR_FILETYPE", "f");
+          xsetenv(xmprintf("TAR_MODE=%o", TT.hdr.mode), 0);
+          xsetenv(xmprintf("TAR_SIZE=%lld", TT.hdr.size), 0);
+          xsetenv("TAR_FILENAME", TT.hdr.name);
+          xsetenv("TAR_UNAME", TT.hdr.uname);
+          xsetenv("TAR_GNAME", TT.hdr.gname);
+          xsetenv(xmprintf("TAR_MTIME=%llo", (long long)TT.hdr.mtime), 0);
+          xsetenv(xmprintf("TAR_UID=%o", TT.hdr.uid), 0);
+          xsetenv(xmprintf("TAR_GID=%o", TT.hdr.gid), 0);
+
+          pid = xpopen((char *[]){"sh", "-c", TT.to_command, NULL}, &fd, 0);
+          // todo: short write exits tar here, other skips data.
+          xsendfile_len(TT.fd, fd, TT.hdr.size);
+          fd = xpclose(pid, fd);
+          if (fd) error_msg("%d: Child returned %d", pid, fd);
+        }
+      } else extract_to_disk();
     }
 
     free(TT.hdr.name);
@@ -724,12 +700,14 @@ void tar_main(void)
     struct tar_hdr *hdr = 0;
 
     // autodetect compression type when not specified
-    if (!FLAG(j)&&!FLAG(z)) {
+    if (!(FLAG(j)||FLAG(z)||FLAG(J))) {
       len = xread(TT.fd, hdr = (void *)(toybuf+sizeof(toybuf)-512), 512);
       if (len!=512 || strncmp("ustar", hdr->magic, 5)) {
         // detect gzip and bzip signatures
         if (SWAP_BE16(*(short *)hdr)==0x1f8b) toys.optflags |= FLAG_z;
         else if (!memcmp(hdr->name, "BZh", 3)) toys.optflags |= FLAG_j;
+        else if (peek_be(hdr->name, 7) == 0xfd377a585a0000)
+          toys.optflags |= FLAG_J;
         else error_exit("Not tar");
 
         // if we can seek back we don't need to loop and copy data
@@ -737,11 +715,13 @@ void tar_main(void)
       }
     }
 
-    if (FLAG(j)||FLAG(z)) {
+    if (FLAG(j)||FLAG(z)||FLAG(J)) {
       int pipefd[2] = {hdr ? -1 : TT.fd, -1}, i, pid;
+      char *cmd[] = {"bzcat", 0};
 
-      xpopen_both((char *[]){FLAG(z)?"gunzip":"bunzip2", "-cf", "-", NULL},
-        pipefd);
+      if (FLAG(J)) cmd[0] = "xzcat";
+      else if FLAG(z) cmd[0]++;
+      xpopen_both(cmd, pipefd);
 
       if (!hdr) {
         // If we could seek, child gzip inherited fd and we read its output
@@ -780,6 +760,10 @@ void tar_main(void)
 
     unpack_tar(hdr);
     dirflush(0);
+
+    // Each time a TT.incl entry is seen it's moved to the end of the list,
+    // with TT.seen pointing to first seen list entry. Anything between
+    // TT.incl and TT.seen wasn't encountered in archive..
     if (TT.seen != TT.incl) {
       if (!TT.seen) TT.seen = TT.incl;
       while (TT.incl != TT.seen) {
@@ -797,14 +781,17 @@ void tar_main(void)
       char *tbz[] = {".tbz", ".tbz2", ".tar.bz", ".tar.bz2"};
       if (strend(TT.f, ".tgz") || strend(TT.f, ".tar.gz"))
         toys.optflags |= FLAG_z;
+      if (strend(TT.f, ".txz") || strend(TT.f, ".tar.xz"))
+        toys.optflags |= FLAG_J;
       else for (len = 0; len<ARRAY_LEN(tbz); len++)
         if (strend(TT.f, tbz[len])) toys.optflags |= FLAG_j;
     }
 
-    if (FLAG(j)||FLAG(z)) {
+    if (FLAG(j)||FLAG(z)||FLAG(J)) {
       int pipefd[2] = {-1, TT.fd};
 
-      xpopen_both((char *[]){FLAG(z)?"gzip":"bzip2", "-f", NULL}, pipefd);
+      xpopen_both((char *[]){FLAG(z)?"gzip":FLAG(J)?"xz":"bzip2", "-f", NULL},
+        pipefd);
       close(TT.fd);
       TT.fd = pipefd[0];
     }
