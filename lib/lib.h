@@ -129,7 +129,7 @@ void xputsl(char *s, int len);
 void xputsn(char *s);
 void xputs(char *s);
 void xputc(char c);
-void xflush(void);
+void xflush(int flush);
 void xexec(char **argv);
 pid_t xpopen_both(char **argv, int *pipes);
 int xwaitpid(pid_t pid);
@@ -261,7 +261,6 @@ int regexec0(regex_t *preg, char *string, long len, int nmatch,
 char *getusername(uid_t uid);
 char *getgroupname(gid_t gid);
 void do_lines(int fd, char delim, void (*call)(char **pline, long len));
-long environ_bytes();
 long long millitime(void);
 char *format_iso_time(char *buf, size_t len, struct timespec *ts);
 void reset_env(struct passwd *p, int clear);
@@ -271,6 +270,13 @@ void loggit(int priority, char *format, ...);
 #define HR_B     2 // Use "B" for single byte units
 #define HR_1000  4 // Use decimal instead of binary units
 int human_readable(char *buf, unsigned long long num, int style);
+
+// env.c
+
+long environ_bytes();
+void xsetenv(char *name, char *val);
+void xunsetenv(char *name);
+void xclearenv(void);
 
 // linestack.c
 
@@ -295,14 +301,28 @@ int draw_trim_esc(char *str, int padto, int width, char *escmore,
   int (*escout)(FILE *out, int cols,int wc));
 int draw_trim(char *str, int padto, int width);
 
-// interestingtimes.c
+// tty.c
 int tty_fd(void);
 int terminal_size(unsigned *xx, unsigned *yy);
 int terminal_probesize(unsigned *xx, unsigned *yy);
+#define KEY_UP 0
+#define KEY_DOWN 1
+#define KEY_RIGHT 2
+#define KEY_LEFT 3
+#define KEY_PGUP 4
+#define KEY_PGDN 5
+#define KEY_HOME 6
+#define KEY_END 7
+#define KEY_INSERT 8
+#define KEY_DELETE 9
+#define KEY_FN 10 // F1 = KEY_FN+1, F2 = KEY_FN+2, ...
+#define KEY_SHIFT (1<<16)
+#define KEY_CTRL (1<<17)
+#define KEY_ALT (1<<18)
+int scan_key(char *scratch, int timeout_ms);
 int scan_key_getsize(char *scratch, int timeout_ms, unsigned *xx, unsigned *yy);
 int set_terminal(int fd, int raw, int speed, struct termios *old);
 void xset_terminal(int fd, int raw, int speed, struct termios *old);
-int scan_key(char *scratch, int timeout_ms);
 void tty_esc(char *s);
 void tty_jump(int x, int y);
 void tty_reset(void);
