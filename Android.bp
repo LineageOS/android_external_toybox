@@ -432,21 +432,25 @@ cc_defaults {
                 "yes",
                 "zcat",
             ],
+
+            shared_libs: [
+                // libcutils is needed only for <cutils/sched_policy.h>
+                // inclusion from lib/portability.h. When it's changed to include
+                // <processgroup/sched_policy.h> this dependency should be dropped
+                "libcutils",
+                "liblog",
+                "libprocessgroup",
+            ],
+        },
+        linux: {
+            shared_libs: [
+                "libcrypto",
+                "libselinux",
+                "libz",
+            ],
         },
     },
 }
-
-toybox_libraries = [
-    "liblog",
-    "libselinux",
-    // libcutils dependency is needed only for <cutils/sched_policy.h>
-    // inclusion from lib/portability.h. When it's changed to include
-    // <processgroup/sched_policy.h> this dependency should be dropped
-    "libcutils",
-    "libprocessgroup",
-    "libcrypto",
-    "libz",
-]
 
 //###########################################
 // toybox for /system, /vendor, and /recovery
@@ -457,7 +461,6 @@ cc_binary {
     defaults: ["toybox-defaults"],
     host_supported: true,
     recovery_available: true,
-    shared_libs: toybox_libraries,
     target: {
         darwin: {
             enabled: false,
@@ -468,6 +471,5 @@ cc_binary {
 cc_binary {
     name: "toybox_vendor",
     defaults: ["toybox-defaults"],
-    shared_libs: toybox_libraries,
     vendor: true,
 }
