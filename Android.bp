@@ -434,10 +434,6 @@ cc_defaults {
             ],
 
             shared_libs: [
-                // libcutils is needed only for <cutils/sched_policy.h>
-                // inclusion from lib/portability.h. When it's changed to include
-                // <processgroup/sched_policy.h> this dependency should be dropped
-                "libcutils",
                 "liblog",
                 "libprocessgroup",
             ],
