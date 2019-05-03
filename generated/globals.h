@@ -705,7 +705,8 @@ struct lsof_data {
 struct man_data {
   char *M, *k;
 
-  char any, cell, *f, *line;
+  char any, cell, ex, *f, k_done, *line, **sufs;
+  regex_t reg;
 };
 
 // toys/pending/mke2fs.c

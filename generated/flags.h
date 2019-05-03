@@ -727,14 +727,15 @@
 #undef FLAG_a
 #endif
 
-// echo ^?en ^?en
+// echo ^?Een[-eE] ^?Een[-eE]
 #undef OPTSTR_echo
-#define OPTSTR_echo "^?en"
+#define OPTSTR_echo "^?Een[-eE]"
 #ifdef CLEANUP_echo
 #undef CLEANUP_echo
 #undef FOR_echo
 #undef FLAG_n
 #undef FLAG_e
+#undef FLAG_E
 #endif
 
 // eject   >1stT[!tT]
@@ -1666,9 +1667,9 @@
 #undef FLAG_d
 #endif
 
-// man   <1>2k:M:
+// man   k:M:
 #undef OPTSTR_man
-#define OPTSTR_man "<1>2k:M:"
+#define OPTSTR_man "k:M:"
 #ifdef CLEANUP_man
 #undef CLEANUP_man
 #undef FOR_man
@@ -3982,6 +3983,7 @@
 #endif
 #define FLAG_n (1<<0)
 #define FLAG_e (1<<1)
+#define FLAG_E (1<<2)
 #endif
 
 #ifdef FOR_eject
