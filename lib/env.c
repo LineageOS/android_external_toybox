@@ -36,6 +36,7 @@ void xsetenv(char *name, char *val)
 
   // If we haven't snapshot initial environment state yet, do so now.
   if (!toys.envc) {
+    // envc is size +1 so even if env empty it's nonzero after initialization
     while (environ[toys.envc++]);
     memcpy(new = xmalloc(((toys.envc|0xff)+1)*sizeof(char *)),
       environ, toys.envc*sizeof(char *));
@@ -52,17 +53,15 @@ void xsetenv(char *name, char *val)
     if (val) new = xmprintf("%s=%s", name, val);
   }
 
-  envc = toys.envc-1;
+  envc = toys.envc-1;  // compensate for size +1 above
   for (i = 0; environ[i]; i++) {
     // Drop old entry, freeing as appropriate. Assumes no duplicates.
     if (!memcmp(name, environ[i], len) && environ[i][len]=='=') {
       if (i>=envc) free(environ[i]);
       else {
-        char **delete = environ+i;
-
         // move old entries down, add at end of old data
         toys.envc = envc--;
-        for (i=0; new ? i<envc : !!delete[i]; i++) delete[i] = delete[i+1];
+        for (; new ? i<envc : !!environ[i]; i++) environ[i] = environ[i+1];
         i = envc;
       }
       break;
