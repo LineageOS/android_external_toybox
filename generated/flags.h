@@ -2742,9 +2742,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
+// tar &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz] &(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
+#define OPTSTR_tar "&(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):[!txc][!jz]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2765,15 +2765,11 @@
 #undef FLAG_p
 #undef FLAG_o
 #undef FLAG_to_command
-#undef FLAG_owner
-#undef FLAG_group
-#undef FLAG_mtime
 #undef FLAG_exclude
 #undef FLAG_overwrite
 #undef FLAG_no_same_permissions
 #undef FLAG_numeric_owner
 #undef FLAG_no_recursion
-#undef FLAG_full_time
 #endif
 
 // taskset <1^pa <1^pa
@@ -5662,15 +5658,11 @@
 #define FLAG_p (1<<14)
 #define FLAG_o (1<<15)
 #define FLAG_to_command (1<<16)
-#define FLAG_owner (1<<17)
-#define FLAG_group (1<<18)
-#define FLAG_mtime (1<<19)
-#define FLAG_exclude (1<<20)
-#define FLAG_overwrite (1<<21)
-#define FLAG_no_same_permissions (1<<22)
-#define FLAG_numeric_owner (1<<23)
-#define FLAG_no_recursion (1<<24)
-#define FLAG_full_time (1<<25)
+#define FLAG_exclude (1<<17)
+#define FLAG_overwrite (1<<18)
+#define FLAG_no_same_permissions (1<<19)
+#define FLAG_numeric_owner (1<<20)
+#define FLAG_no_recursion (1<<21)
 #endif
 
 #ifdef FOR_taskset
