@@ -520,9 +520,9 @@
 #undef FLAG_Z
 #endif
 
-// demo_number   hdbs
+// demo_number   D#=3<3hdbs
 #undef OPTSTR_demo_number
-#define OPTSTR_demo_number "hdbs"
+#define OPTSTR_demo_number "D#=3<3hdbs"
 #ifdef CLEANUP_demo_number
 #undef CLEANUP_demo_number
 #undef FOR_demo_number
@@ -530,6 +530,7 @@
 #undef FLAG_b
 #undef FLAG_d
 #undef FLAG_h
+#undef FLAG_D
 #endif
 
 // demo_scankey    
@@ -2754,9 +2755,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa] &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]
+// tar &(sparse)(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa] &(sparse)(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]"
+#define OPTSTR_tar "&(sparse)(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2789,6 +2790,7 @@
 #undef FLAG_no_recursion
 #undef FLAG_full_time
 #undef FLAG_restrict
+#undef FLAG_sparse
 #endif
 
 // taskset <1^pa <1^pa
@@ -3806,6 +3808,7 @@
 #define FLAG_b (FORCED_FLAG<<1)
 #define FLAG_d (FORCED_FLAG<<2)
 #define FLAG_h (FORCED_FLAG<<3)
+#define FLAG_D (FORCED_FLAG<<4)
 #endif
 
 #ifdef FOR_demo_scankey
@@ -5699,6 +5702,7 @@
 #define FLAG_no_recursion (1<<26)
 #define FLAG_full_time (1<<27)
 #define FLAG_restrict (1<<28)
+#define FLAG_sparse (1<<29)
 #endif
 
 #ifdef FOR_taskset
