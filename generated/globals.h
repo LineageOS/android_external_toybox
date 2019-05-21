@@ -12,6 +12,12 @@ struct log_data {
   char *t, *p;
 };
 
+// toys/example/demo_number.c
+
+struct demo_number_data {
+  long D;
+};
+
 // toys/example/hello.c
 
 struct hello_data {
@@ -705,7 +711,7 @@ struct lsof_data {
 struct man_data {
   char *M, *k;
 
-  char any, cell, ex, *f, k_done, *line, **sufs;
+  char any, cell, ex, *f, k_done, *line, *m, **sct, **scts, **sufs;
   regex_t reg;
 };
 
@@ -1298,7 +1304,8 @@ struct tar_data {
   struct double_list *incl, *excl, *seen;
   struct string_list *dirs;
   char *cwd;
-  int fd, ouid, ggid, hlc, warn, adev, aino;
+  int fd, ouid, ggid, hlc, warn, adev, aino, sparselen;
+  long long *sparse;
   time_t mtt;
 
   // hardlinks seen so far (hlc many)
@@ -1371,6 +1378,7 @@ struct xargs_data {
 extern union global_union {
 	struct getprop_data getprop;
 	struct log_data log;
+	struct demo_number_data demo_number;
 	struct hello_data hello;
 	struct skeleton_data skeleton;
 	struct dmesg_data dmesg;
