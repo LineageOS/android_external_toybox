@@ -234,7 +234,7 @@ void loopfiles_rw(char **argv, int flags, int permissions,
   void (*function)(int fd, char *name));
 void loopfiles(char **argv, void (*function)(int fd, char *name));
 void loopfiles_lines(char **argv, void (*function)(char **pline, long len));
-long long sendfile_len(int in, int out, long long len);
+long long sendfile_len(int in, int out, long long len, long long *consumed);
 long long xsendfile_len(int in, int out, long long len);
 void xsendfile_pad(int in, int out, long long len);
 long long xsendfile(int in, int out);
@@ -269,6 +269,7 @@ void loggit(int priority, char *format, ...);
 #define HR_SPACE 1 // Space between number and units
 #define HR_B     2 // Use "B" for single byte units
 #define HR_1000  4 // Use decimal instead of binary units
+int human_readable_long(char *buf, unsigned long long num, int dgt, int style);
 int human_readable(char *buf, unsigned long long num, int style);
 
 // env.c
