@@ -1074,13 +1074,14 @@ struct find_data {
   int topdir, xdev, depth;
   time_t now;
   long max_bytes;
+  char *start;
 };
 
 // toys/posix/grep.c
 
 struct grep_data {
   long m, A, B, C;
-  struct arg_list *f, *e, *M, *S;
+  struct arg_list *f, *e, *M, *S, *exclude_dir;
   char *color;
 
   char *purple, *cyan, *red, *green, *grey;
@@ -1290,7 +1291,8 @@ struct strings_data {
 struct tail_data {
   long n, c;
 
-  int file_no, ffd, *files;
+  int file_no, last_fd;
+  struct xnotify *not;
 };
 
 // toys/posix/tar.c

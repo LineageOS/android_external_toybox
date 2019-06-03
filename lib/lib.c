@@ -1046,7 +1046,7 @@ char *getdirname(char *name)
 {
   char *s = xstrdup(name), *ss = strrchr(s, '/');
 
-  while (*ss && *ss == '/' && s != ss) *ss-- = 0;
+  while (ss && *ss && *ss == '/' && s != ss) *ss-- = 0;
 
   return s;
 }
@@ -1415,4 +1415,27 @@ void loggit(int priority, char *format, ...)
   vsyslog(priority, format, va);
   va_end(va);
   closelog();
+}
+
+// Calculate tar packet checksum, with cksum field treated as 8 spaces
+unsigned tar_cksum(void *data)
+{
+  unsigned i, cksum = 8*' ';
+
+  for (i = 0; i<500; i += (i==147) ? 9 : 1) cksum += ((char *)data)[i];
+
+  return cksum;
+}
+
+// is this a valid tar header?
+int is_tar_header(void *pkt)
+{
+  char *p = pkt;
+  int i = 0;
+
+  if (p[257] && memcmp("ustar", p+257, 5)) return 0;
+  if (p[148] != '0') return 0;
+  sscanf(p+148, "%8o", &i);
+
+  return i && tar_cksum(pkt) == i;
 }
