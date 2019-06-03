@@ -46,10 +46,19 @@ config FIND
     -print   Print match with newline  -print0    Print match with null
     -exec    Run command with path     -execdir   Run command in file's dir
     -ok      Ask before exec           -okdir     Ask before execdir
-    -delete  Remove matching file/dir
+    -delete         Remove matching file/dir
+    -printf FORMAT  Print using format string
 
     Commands substitute "{}" with matched file. End with ";" to run each file,
     or "+" (next argument after "{}") to collect and run with multiple files.
+
+    -printf FORMAT characters are \ escapes and:
+    %b 512 byte blocks used
+    %f  basename            %g  textual gid          %G  numeric gid
+    %i  decimal inode       %l  target of symlink    %m  octal mode
+    %M  ls format type/mode %p  path to file         %P  path to file minus DIR
+    %s  size in bytes       %T@ mod time as unixtime
+    %u  username            %U  numeric uid          %Z  security context
 */
 
 #define FOR_find
@@ -61,6 +70,7 @@ GLOBALS(
   int topdir, xdev, depth;
   time_t now;
   long max_bytes;
+  char *start;
 )
 
 struct execdir_data {
@@ -208,7 +218,7 @@ static int do_find(struct dirtree *new)
     if (new->parent) {
       if (!dirtree_notdotdot(new)) return 0;
       if (TT.xdev && new->st.st_dev != new->parent->st.st_dev) recurse = 0;
-    }
+    } else TT.start = new->name;
 
     if (S_ISDIR(new->st.st_mode)) {
       // Descending into new directory
@@ -535,6 +545,68 @@ static int do_find(struct dirtree *new)
 
         // Argument consumed, skip the check.
         goto cont;
+      } else if (!strcmp(s, "printf")) {
+        char *fmt, *ff, next[32], buf[64], ch;
+        long ll;
+        int len;
+
+        print++;
+        if (check) for (fmt = ss[1]; *fmt; fmt++) {
+          // Print the parts that aren't escapes
+          if (*fmt == '\\') {
+            if (!(ch = unescape(*++fmt))) error_exit("bad \\%c", *fmt);
+            putchar(ch);
+          } else if (*fmt != '%') putchar(*fmt);
+          else if (*++fmt == '%') putchar('%');
+          else {
+            fmt = next_printf(ff = fmt-1, 0);
+            if ((len = fmt-ff)>28) error_exit("bad %.*s", len+1, ff);
+            memcpy(next, ff, len);
+            ff = 0;
+            ch = *fmt;
+
+            // long long is its own stack size on LP64, so handle seperately
+            if (ch == 'i' || ch == 's') {
+              strcpy(next+len, "lld");
+              printf(next, (ch == 'i') ? (long long)new->st.st_ino
+                : (long long)new->st.st_size);
+            } else {
+
+              // LP64 says these are all a single "long" argument to printf
+              strcpy(next+len, "s");
+              if (ch == 'G') next[len] = 'd', ll = new->st.st_gid;
+              else if (ch == 'm') next[len] = 'o', ll = new->st.st_mode&~S_IFMT;
+              else if (ch == 'U') next[len] = 'd', ll = new->st.st_uid;
+              else if (ch == 'f') ll = (long)new->name;
+              else if (ch == 'g') ll = (long)getgroupname(new->st.st_gid);
+              else if (ch == 'u') ll = (long)getusername(new->st.st_uid);
+              else if (ch == 'l') {
+                char *path = dirtree_path(new, 0);
+
+                ll = (long)(ff = xreadlink(path));
+                free(path);
+                if (!ll) ll = (long)"";
+              } else if (ch == 'M') {
+                mode_to_string(new->st.st_mode, buf);
+                ll = (long)buf;
+              } else if (ch == 'P') {
+                ch = *TT.start;
+                *TT.start = 0;
+                ll = (long)(ff = dirtree_path(new, 0));
+                *TT.start = ch;
+              } else if (ch == 'p') ll = (long)(ff = dirtree_path(new, 0));
+              else if (ch == 'T') {
+                if (*++fmt!='@') error_exit("bad -printf %%T: %%T%c", *fmt);
+                sprintf(buf, "%ld.%ld", new->st.st_mtim.tv_sec,
+                             new->st.st_mtim.tv_nsec);
+                ll = (long)buf;
+              } else error_exit("bad -printf %%%c", ch);
+
+              printf(next, ll);
+              free(ff);
+            }
+          }
+        }
       } else goto error;
 
       // This test can go at the end because we do a syntax checking
