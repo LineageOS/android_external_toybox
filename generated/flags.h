@@ -2441,7 +2441,7 @@
 #undef FLAG_h
 #endif
 
-// setprop <2>2 <2>2
+// setprop   <2>2
 #undef OPTSTR_setprop
 #define OPTSTR_setprop "<2>2"
 #ifdef CLEANUP_setprop
