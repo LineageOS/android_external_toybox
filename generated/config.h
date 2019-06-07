@@ -500,8 +500,8 @@
 #define USE_SETENFORCE(...) __VA_ARGS__
 #define CFG_SETFATTR 1
 #define USE_SETFATTR(...) __VA_ARGS__
-#define CFG_SETPROP 1
-#define USE_SETPROP(...) __VA_ARGS__
+#define CFG_SETPROP 0
+#define USE_SETPROP(...)
 #define CFG_SETSID 1
 #define USE_SETSID(...) __VA_ARGS__
 #define CFG_SHA1SUM 1
@@ -536,12 +536,12 @@
 #define USE_SORT(...) __VA_ARGS__
 #define CFG_SPLIT 1
 #define USE_SPLIT(...) __VA_ARGS__
-#define CFG_START 1
-#define USE_START(...) __VA_ARGS__
+#define CFG_START 0
+#define USE_START(...)
 #define CFG_STAT 1
 #define USE_STAT(...) __VA_ARGS__
-#define CFG_STOP 1
-#define USE_STOP(...) __VA_ARGS__
+#define CFG_STOP 0
+#define USE_STOP(...)
 #define CFG_STRINGS 1
 #define USE_STRINGS(...) __VA_ARGS__
 #define CFG_STTY 1
