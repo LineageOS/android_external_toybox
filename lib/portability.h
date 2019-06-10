@@ -186,8 +186,24 @@ char *strcasestr(const char *haystack, const char *needle);
 #endif
 #endif
 
-#ifndef __FreeBSD__
+#if defined(__APPLE__) || defined(__linux__)
+// Linux and macOS has both have getxattr and friends in <sys/xattr.h>, but
+// they aren't compatible.
 #include <sys/xattr.h>
+ssize_t xattr_get(const char *, const char *, void *, size_t);
+ssize_t xattr_lget(const char *, const char *, void *, size_t);
+ssize_t xattr_fget(int fd, const char *, void *, size_t);
+ssize_t xattr_list(const char *, char *, size_t);
+ssize_t xattr_llist(const char *, char *, size_t);
+ssize_t xattr_flist(int, char *, size_t);
+ssize_t xattr_set(const char*, const char*, const void*, size_t, int);
+ssize_t xattr_lset(const char*, const char*, const void*, size_t, int);
+ssize_t xattr_fset(int, const char*, const void*, size_t, int);
+#endif
+
+// macOS doesn't have mknodat, but we can fake it.
+#ifdef __APPLE__
+int mknodat(int, const char*, mode_t, dev_t);
 #endif
 
 // Android is missing some headers and functions
@@ -251,7 +267,6 @@ pid_t xfork(void);
 // use toybox before they're ready to switch to host bionic.
 #ifdef __BIONIC__
 #include <android/log.h>
-#include <sys/system_properties.h>
 #else
 typedef enum android_LogPriority {
   ANDROID_LOG_UNKNOWN = 0,
@@ -265,11 +280,6 @@ typedef enum android_LogPriority {
   ANDROID_LOG_SILENT,
 } android_LogPriority;
 static inline int __android_log_write(int pri, const char *tag, const char *msg)
-{
-  return -1;
-}
-#define PROP_VALUE_MAX 92
-static inline int __system_property_set(const char *key, const char *value)
 {
   return -1;
 }
@@ -318,3 +328,7 @@ struct xnotify {
 struct xnotify *xnotify_init(int max);
 int xnotify_add(struct xnotify *not, int fd, char *path);
 int xnotify_wait(struct xnotify *not, char **path);
+
+#ifdef __APPLE__
+#define f_frsize f_iosize
+#endif
