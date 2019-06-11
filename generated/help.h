@@ -34,12 +34,6 @@
 
 #define HELP_toybox "usage: toybox [--long | --help | --version | [command] [arguments...]]\n\nWith no arguments, shows available commands. First argument is\nname of a command to run, followed by any arguments to that command.\n\n--long	Show path to each command\n\nTo install command symlinks, try:\n  for i in $(/bin/toybox --long); do ln -s /bin/toybox $i; done\n\nMost toybox commands also understand the following arguments:\n\n--help		Show command help (only)\n--version	Show toybox version (only)\n\nThe filename \"-\" means stdin/stdout, and \"--\" stops argument parsing.\n\nNumerical arguments accept a single letter suffix for\nkilo, mega, giga, tera, peta, and exabytes, plus an additional\n\"d\" to indicate decimal 1000's instead of 1024.\n\nDurations can be decimal fractions and accept minute (\"m\"), hour (\"h\"),\nor day (\"d\") suffixes (so 0.1m = 6s)."
 
-#define HELP_stop "usage: stop [SERVICE...]\n\nStop the given system service, or netd/surfaceflinger/zygotes."
-
-#define HELP_start "usage: start [SERVICE...]\n\nStarts the given system service, or netd/surfaceflinger/zygotes."
-
-#define HELP_setprop "usage: setprop NAME VALUE\n\nSets an Android system property."
-
 #define HELP_setenforce "usage: setenforce [enforcing|permissive|1|0]\n\nSets whether SELinux is enforcing (1) or permissive (0)."
 
 #define HELP_sendevent "usage: sendevent DEVICE TYPE CODE VALUE\n\nSends a Linux input event."
@@ -51,8 +45,6 @@
 #define HELP_log "usage: log [-p PRI] [-t TAG] MESSAGE...\n\nLogs message to logcat.\n\n-p	Use the given priority instead of INFO:\n	d: DEBUG  e: ERROR  f: FATAL  i: INFO  v: VERBOSE  w: WARN  s: SILENT\n-t	Use the given tag instead of \"log\""
 
 #define HELP_load_policy "usage: load_policy FILE\n\nLoad the specified SELinux policy file."
-
-#define HELP_getprop "usage: getprop [NAME [DEFAULT]]\n\nGets an Android system property, or lists them all."
 
 #define HELP_getenforce "usage: getenforce\n\nShows whether SELinux is disabled, enforcing, or permissive."
 
