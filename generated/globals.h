@@ -1,11 +1,3 @@
-// toys/android/getprop.c
-
-struct getprop_data {
-  size_t size;
-  char **nv; // name/value pairs: even=name, odd=value
-  struct selabel_handle *handle;
-};
-
 // toys/android/log.c
 
 struct log_data {
@@ -1378,7 +1370,6 @@ struct xargs_data {
 };
 
 extern union global_union {
-	struct getprop_data getprop;
 	struct log_data log;
 	struct demo_number_data demo_number;
 	struct hello_data hello;
