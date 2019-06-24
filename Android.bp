@@ -465,3 +465,19 @@ cc_binary {
     defaults: ["toybox-defaults"],
     vendor: true,
 }
+
+//###########################################
+// Running the toybox tests
+//###########################################
+
+sh_test {
+    name: "toybox-tests",
+    src: "run-tests-on-android.sh",
+    filename: "run-tests-on-android.sh",
+    test_suites: ["general-tests"],
+    test_config: "toybox-tests.xml",
+    data: [
+        "tests/**/*",
+        "scripts/runtest.sh",
+    ],
+}
