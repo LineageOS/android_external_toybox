@@ -1292,7 +1292,7 @@ struct tail_data {
 struct tar_data {
   char *f, *C;
   struct arg_list *T, *X;
-  char *to_command, *owner, *group, *mtime;
+  char *to_command, *owner, *group, *mtime, *mode;
   struct arg_list *exclude;
 
   struct double_list *incl, *excl, *seen;

@@ -1541,12 +1541,13 @@
 #undef FOR_logwrapper
 #endif
 
-// losetup >2S(sizelimit)#s(show)ro#j:fdca[!afj] >2S(sizelimit)#s(show)ro#j:fdca[!afj]
+// losetup >2S(sizelimit)#s(show)ro#j:fdcaD[!afj] >2S(sizelimit)#s(show)ro#j:fdcaD[!afj]
 #undef OPTSTR_losetup
-#define OPTSTR_losetup ">2S(sizelimit)#s(show)ro#j:fdca[!afj]"
+#define OPTSTR_losetup ">2S(sizelimit)#s(show)ro#j:fdcaD[!afj]"
 #ifdef CLEANUP_losetup
 #undef CLEANUP_losetup
 #undef FOR_losetup
+#undef FLAG_D
 #undef FLAG_a
 #undef FLAG_c
 #undef FLAG_d
@@ -2723,9 +2724,9 @@
 #undef FLAG_f
 #endif
 
-// tar &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa] &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]
+// tar &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mode):(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa] &(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mode):(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]
 #undef OPTSTR_tar
-#define OPTSTR_tar "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]"
+#define OPTSTR_tar "&(restrict)(full-time)(no-recursion)(numeric-owner)(no-same-permissions)(overwrite)(exclude)*(mode):(mtime):(group):(owner):(to-command):o(no-same-owner)p(same-permissions)k(keep-old)c(create)|h(dereference)x(extract)|t(list)|v(verbose)J(xz)j(bzip2)z(gzip)S(sparse)O(to-stdout)m(touch)X(exclude-from)*T(files-from)*C(directory):f(file):a[!txc][!jzJa]"
 #ifdef CLEANUP_tar
 #undef CLEANUP_tar
 #undef FOR_tar
@@ -2752,6 +2753,7 @@
 #undef FLAG_owner
 #undef FLAG_group
 #undef FLAG_mtime
+#undef FLAG_mode
 #undef FLAG_exclude
 #undef FLAG_overwrite
 #undef FLAG_no_same_permissions
@@ -4625,15 +4627,16 @@
 #ifndef TT
 #define TT this.losetup
 #endif
-#define FLAG_a (1<<0)
-#define FLAG_c (1<<1)
-#define FLAG_d (1<<2)
-#define FLAG_f (1<<3)
-#define FLAG_j (1<<4)
-#define FLAG_o (1<<5)
-#define FLAG_r (1<<6)
-#define FLAG_s (1<<7)
-#define FLAG_S (1<<8)
+#define FLAG_D (1<<0)
+#define FLAG_a (1<<1)
+#define FLAG_c (1<<2)
+#define FLAG_d (1<<3)
+#define FLAG_f (1<<4)
+#define FLAG_j (1<<5)
+#define FLAG_o (1<<6)
+#define FLAG_r (1<<7)
+#define FLAG_s (1<<8)
+#define FLAG_S (1<<9)
 #endif
 
 #ifdef FOR_ls
@@ -5640,13 +5643,14 @@
 #define FLAG_owner (1<<20)
 #define FLAG_group (1<<21)
 #define FLAG_mtime (1<<22)
-#define FLAG_exclude (1<<23)
-#define FLAG_overwrite (1<<24)
-#define FLAG_no_same_permissions (1<<25)
-#define FLAG_numeric_owner (1<<26)
-#define FLAG_no_recursion (1<<27)
-#define FLAG_full_time (1<<28)
-#define FLAG_restrict (1<<29)
+#define FLAG_mode (1<<23)
+#define FLAG_exclude (1<<24)
+#define FLAG_overwrite (1<<25)
+#define FLAG_no_same_permissions (1<<26)
+#define FLAG_numeric_owner (1<<27)
+#define FLAG_no_recursion (1<<28)
+#define FLAG_full_time (1<<29)
+#define FLAG_restrict (1<<30)
 #endif
 
 #ifdef FOR_taskset
