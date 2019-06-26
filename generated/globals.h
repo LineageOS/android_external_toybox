@@ -771,6 +771,30 @@ struct sh_data {
   char *command;
 
   long lineno;
+
+  // parse scratch space
+  struct double_list *parse;
+
+  // Running jobs.
+  struct sh_job {
+    struct sh_job *next, *prev;
+    unsigned jobno;
+
+    // Every pipeline has at least one set of arguments or it's Not A Thing
+    struct sh_arg {
+      char **v;
+      unsigned long c;
+    } pipeline;
+
+    // null terminated array of running processes in pipeline
+    struct sh_process {
+      struct string_list *delete; // expanded strings
+      int pid, exit;   // status? Stopped? Exited?
+      char *end;
+      struct sh_arg arg;
+    } *procs, *proc;
+  } *jobs, *job;
+  unsigned jobcnt;
 };
 
 // toys/pending/stty.c
