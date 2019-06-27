@@ -300,6 +300,7 @@ struct losetup_data {
   int openflags;
   dev_t jdev;
   ino_t jino;
+  char *dir;
 };
 
 // toys/other/lspci.c
