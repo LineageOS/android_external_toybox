@@ -38,7 +38,7 @@ test_toy() {
   adb shell -t "export FILES=/data/local/tmp/toybox-tests/tests/files/ ; \
                 export VERBOSE=1 ; \
                 export CMDNAME=$toy; \
-                export C=$toy; \
+                export C=\"\$(which $toy)\"; \
                 export LANG=en_US.UTF-8; \
                 mkdir $tmp_dir/$toy && cd $tmp_dir/$toy ; \
                 source /data/local/tmp/toybox-tests/runtest.sh ; \
