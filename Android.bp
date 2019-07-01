@@ -475,9 +475,12 @@ sh_test {
     src: "run-tests-on-android.sh",
     filename: "run-tests-on-android.sh",
     test_suites: ["general-tests"],
+    host_supported: true,
+    device_supported: false,
     test_config: "toybox-tests.xml",
     data: [
         "tests/**/*",
         "scripts/runtest.sh",
     ],
 }
+
