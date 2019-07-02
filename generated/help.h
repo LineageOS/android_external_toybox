@@ -212,7 +212,7 @@
 
 #define HELP_mountpoint "usage: mountpoint [-qd] DIR\n       mountpoint [-qx] DEVICE\n\nCheck whether the directory or device is a mountpoint.\n\n-q	Be quiet, return zero if directory is a mountpoint\n-d	Print major/minor device number of the directory\n-x	Print major/minor device number of the block device"
 
-#define HELP_modinfo "usage: modinfo [-0] [-b basedir] [-k kernrelease] [-F field] [modulename...]\n\nDisplay module fields for all specified modules, looking in\n<basedir>/lib/modules/<kernrelease>/ (kernrelease defaults to uname -r)."
+#define HELP_modinfo "usage: modinfo [-0] [-b basedir] [-k kernel] [-F field] [module|file...]\n\nDisplay module fields for modules specified by name or .ko path.\n\n-F  Only show the given field\n-0  Separate fields with NUL rather than newline\n-b  Use <basedir> as root for /lib/modules/\n-k  Look in given directory under /lib/modules/"
 
 #define HELP_mkswap "usage: mkswap [-L LABEL] DEVICE\n\nSet up a Linux swap area on a device or file."
 
