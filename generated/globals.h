@@ -344,6 +344,7 @@ struct modinfo_data {
   char *F, *k, *b;
 
   long mod;
+  int count;
 };
 
 // toys/other/nsenter.c
