@@ -17,10 +17,12 @@ if [ tty -s ]; then
   green="\033[1;32m"
   red="\033[1;31m"
   plain="\033[0m"
+  dash_t="-t"
 else
   green=""
   red=""
   plain=""
+  dash_t=""
 fi
 
 test_toy() {
@@ -29,7 +31,7 @@ test_toy() {
   echo
 
   location=$(adb shell "which $toy")
-  if [ $? -ne 0 ]; then
+  if [ -z "$location" ]; then
     echo "-- $toy not present"
     return
   fi
@@ -41,16 +43,17 @@ test_toy() {
     echo "-- note: $toy is non-toybox implementation"
   fi
 
-  adb shell -t "export FILES=/data/local/tmp/toybox-tests/tests/files/ ; \
-                export VERBOSE=1 ; \
-                export CMDNAME=$toy; \
-                export C=\"\$(which $toy)\"; \
-                export LANG=en_US.UTF-8; \
-                mkdir $tmp_dir/$toy && cd $tmp_dir/$toy ; \
-                source /data/local/tmp/toybox-tests/runtest.sh ; \
-                source /data/local/tmp/toybox-tests/tests/$toy.test ; \
-                if [ "\$FAILCOUNT" -ne 0 ]; then exit 1; fi; \
-                cd .. && rm -rf $toy"
+  adb shell $dash_t "\
+      export C=\"\$(which $toy)\"; \
+      export CMDNAME=$toy; \
+      export FILES=/data/local/tmp/toybox-tests/tests/files/ ; \
+      export LANG=en_US.UTF-8; \
+      export VERBOSE=1 ; \
+      mkdir $tmp_dir/$toy && cd $tmp_dir/$toy ; \
+      source /data/local/tmp/toybox-tests/runtest.sh ; \
+      source /data/local/tmp/toybox-tests/tests/$toy.test ; \
+      if [ "\$FAILCOUNT" -ne 0 ]; then exit 1; fi; \
+      cd .. && rm -rf $toy"
   if [ $? -eq 0 ]; then
     pass_count=$(($pass_count+1))
   else
