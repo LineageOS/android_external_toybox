@@ -13,7 +13,7 @@ adb push scripts/runtest.sh /data/local/tmp/toybox-tests/
 # Make a temporary directory on the device.
 tmp_dir=`adb shell mktemp --directory /data/local/tmp/toybox-tests-tmp.XXXXXXXXXX`
 
-if [ tty -s ]; then
+if tty -s; then
   green="\033[1;32m"
   red="\033[1;31m"
   plain="\033[0m"
