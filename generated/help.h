@@ -508,7 +508,7 @@
 
 #define HELP_nohup "usage: nohup COMMAND [ARG...]\n\nRun a command that survives the end of its terminal.\n\nRedirect tty on stdin to /dev/null, tty on stdout to \"nohup.out\"."
 
-#define HELP_nl "usage: nl [-E] [-l #] [-b MODE] [-n STYLE] [-s SEPARATOR] [-w WIDTH] [FILE...]\n\nNumber lines of input.\n\n-E	Use extended regex syntax (when doing -b pREGEX)\n-b	Which lines to number: a (all) t (non-empty, default) pREGEX (pattern)\n-l	Only count last of this many consecutive blank lines\n-n	Number STYLE: ln (left justified) rn (right justified) rz (zero pad)\n-s	Separator to use between number and line (instead of TAB)\n-w	Width of line numbers (default 6)"
+#define HELP_nl "usage: nl [-E] [-l #] [-b MODE] [-n STYLE] [-s SEPARATOR] [-v #] [-w WIDTH] [FILE...]\n\nNumber lines of input.\n\n-E	Use extended regex syntax (when doing -b pREGEX)\n-b	Which lines to number: a (all) t (non-empty, default) pREGEX (pattern)\n-l	Only count last of this many consecutive blank lines\n-n	Number STYLE: ln (left justified) rn (right justified) rz (zero pad)\n-s	Separator to use between number and line (instead of TAB)\n-v	Starting line number for each section (default 1)\n-w	Width of line numbers (default 6)"
 
 #define HELP_nice "usage: nice [-n PRIORITY] COMMAND [ARG...]\n\nRun a command line at an increased or decreased scheduling priority.\n\nHigher numbers make a program yield more CPU time, from -20 (highest\npriority) to 19 (lowest).  By default processes inherit their parent's\nniceness (usually 0).  By default this command adds 10 to the parent's\npriority.  Only root can set a negative niceness level."
 
