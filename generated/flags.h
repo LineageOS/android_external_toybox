@@ -1941,9 +1941,9 @@
 #undef FLAG_n
 #endif
 
-// nl v#<1=1l#w#<0=6Eb:n:s: v#<1=1l#w#<0=6Eb:n:s:
+// nl v#=1l#w#<0=6Eb:n:s: v#=1l#w#<0=6Eb:n:s:
 #undef OPTSTR_nl
-#define OPTSTR_nl "v#<1=1l#w#<0=6Eb:n:s:"
+#define OPTSTR_nl "v#=1l#w#<0=6Eb:n:s:"
 #ifdef CLEANUP_nl
 #undef CLEANUP_nl
 #undef FOR_nl
