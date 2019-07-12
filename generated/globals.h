@@ -479,7 +479,7 @@ struct bootchartd_data {
   int proc_accounting;
   int is_login;
 
-  void *head;
+  pid_t cur_pid;
 };
 
 // toys/pending/brctl.c
@@ -520,6 +520,7 @@ struct dd_data {
     long sz, count;
     unsigned long long offset;
   } in, out;
+  unsigned conv, iflag, oflag;
 };;
 
 // toys/pending/dhcp.c

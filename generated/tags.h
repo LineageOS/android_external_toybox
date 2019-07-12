@@ -1,3 +1,17 @@
+#define DD_conv_fsync                                    0
+#define _DD_conv_fsync                                   (1<<0)
+#define DD_conv_noerror                                  1
+#define _DD_conv_noerror                                 (1<<1)
+#define DD_conv_notrunc                                  2
+#define _DD_conv_notrunc                                 (1<<2)
+#define DD_conv_sync                                     3
+#define _DD_conv_sync                                    (1<<3)
+#define DD_iflag_count_bytes                              0
+#define _DD_iflag_count_bytes                             (1<<0)
+#define DD_iflag_skip_bytes                               1
+#define _DD_iflag_skip_bytes                              (1<<1)
+#define DD_oflag_seek_bytes                               0
+#define _DD_oflag_seek_bytes                              (1<<0)
 #define CP_mode                                     0
 #define _CP_mode                                    (1<<0)
 #define CP_ownership                                1
