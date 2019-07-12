@@ -639,9 +639,9 @@
 #undef FLAG_P
 #endif
 
-// diff <2>2(color)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3 <2>2(color)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3
+// diff <2>2(color)(strip-trailing-cr)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3 <2>2(color)(strip-trailing-cr)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3
 #undef OPTSTR_diff
-#define OPTSTR_diff "<2>2(color)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3"
+#define OPTSTR_diff "<2>2(color)(strip-trailing-cr)B(ignore-blank-lines)d(minimal)b(ignore-space-change)ut(expand-tabs)w(ignore-all-space)i(ignore-case)T(initial-tab)s(report-identical-files)q(brief)a(text)L(label)*S(starting-file):N(new-file)r(recursive)U(unified)#<0=3"
 #ifdef CLEANUP_diff
 #undef CLEANUP_diff
 #undef FOR_diff
@@ -661,6 +661,7 @@
 #undef FLAG_b
 #undef FLAG_d
 #undef FLAG_B
+#undef FLAG_strip_trailing_cr
 #undef FLAG_color
 #endif
 
@@ -1015,9 +1016,9 @@
 #undef FLAG_t
 #endif
 
-// grep (line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw] (line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]
+// grep (line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rRsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw] (line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rRsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]
 #undef OPTSTR_grep
-#define OPTSTR_grep "(line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]"
+#define OPTSTR_grep "(line-buffered)(color):;(exclude-dir)*S(exclude)*M(include)*ZzEFHIab(byte-offset)h(no-filename)ino(only-matching)rRsvwcl(files-with-matches)q(quiet)(silent)e*f*C#B#A#m#x[!wx][!EFw]"
 #ifdef CLEANUP_grep
 #undef CLEANUP_grep
 #undef FOR_grep
@@ -1034,6 +1035,7 @@
 #undef FLAG_w
 #undef FLAG_v
 #undef FLAG_s
+#undef FLAG_R
 #undef FLAG_r
 #undef FLAG_o
 #undef FLAG_n
@@ -2103,12 +2105,13 @@
 #undef FLAG_c
 #endif
 
-// pidof <1so: <1so:
+// pidof <1so:x <1so:x
 #undef OPTSTR_pidof
-#define OPTSTR_pidof "<1so:"
+#define OPTSTR_pidof "<1so:x"
 #ifdef CLEANUP_pidof
 #undef CLEANUP_pidof
 #undef FOR_pidof
+#undef FLAG_x
 #undef FLAG_o
 #undef FLAG_s
 #endif
@@ -3894,7 +3897,8 @@
 #define FLAG_b (1<<13)
 #define FLAG_d (1<<14)
 #define FLAG_B (1<<15)
-#define FLAG_color (1<<16)
+#define FLAG_strip_trailing_cr (1<<16)
+#define FLAG_color (1<<17)
 #endif
 
 #ifdef FOR_dirname
@@ -4203,24 +4207,25 @@
 #define FLAG_w (1<<10)
 #define FLAG_v (1<<11)
 #define FLAG_s (1<<12)
-#define FLAG_r (1<<13)
-#define FLAG_o (1<<14)
-#define FLAG_n (1<<15)
-#define FLAG_i (1<<16)
-#define FLAG_h (1<<17)
-#define FLAG_b (1<<18)
-#define FLAG_a (1<<19)
-#define FLAG_I (1<<20)
-#define FLAG_H (1<<21)
-#define FLAG_F (1<<22)
-#define FLAG_E (1<<23)
-#define FLAG_z (1<<24)
-#define FLAG_Z (1<<25)
-#define FLAG_M (1<<26)
-#define FLAG_S (1<<27)
-#define FLAG_exclude_dir (1<<28)
-#define FLAG_color (1<<29)
-#define FLAG_line_buffered (1<<30)
+#define FLAG_R (1<<13)
+#define FLAG_r (1<<14)
+#define FLAG_o (1<<15)
+#define FLAG_n (1<<16)
+#define FLAG_i (1<<17)
+#define FLAG_h (1<<18)
+#define FLAG_b (1<<19)
+#define FLAG_a (1<<20)
+#define FLAG_I (1<<21)
+#define FLAG_H (1<<22)
+#define FLAG_F (1<<23)
+#define FLAG_E (1<<24)
+#define FLAG_z (1<<25)
+#define FLAG_Z (1<<26)
+#define FLAG_M (1<<27)
+#define FLAG_S (1<<28)
+#define FLAG_exclude_dir (1<<29)
+#define FLAG_color (1<<30)
+#define FLAG_line_buffered (1<<31)
 #endif
 
 #ifdef FOR_groupadd
@@ -5104,8 +5109,9 @@
 #ifndef TT
 #define TT this.pidof
 #endif
-#define FLAG_o (1<<0)
-#define FLAG_s (1<<1)
+#define FLAG_x (1<<0)
+#define FLAG_o (1<<1)
+#define FLAG_s (1<<2)
 #endif
 
 #ifdef FOR_ping
