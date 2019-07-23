@@ -3271,9 +3271,9 @@
 #undef FLAG_a
 #endif
 
-// xargs ^I:E:ptrn#<1s#0[!0E] ^I:E:ptrn#<1s#0[!0E]
+// xargs ^E:ptrn#<1s#0[!0E] ^E:ptrn#<1s#0[!0E]
 #undef OPTSTR_xargs
-#define OPTSTR_xargs "^I:E:ptrn#<1s#0[!0E]"
+#define OPTSTR_xargs "^E:ptrn#<1s#0[!0E]"
 #ifdef CLEANUP_xargs
 #undef CLEANUP_xargs
 #undef FOR_xargs
@@ -3284,7 +3284,6 @@
 #undef FLAG_t
 #undef FLAG_p
 #undef FLAG_E
-#undef FLAG_I
 #endif
 
 // xxd >1c#l#o#g#<1=2iprs#[!rs] >1c#l#o#g#<1=2iprs#[!rs]
@@ -6092,7 +6091,6 @@
 #define FLAG_t (1<<4)
 #define FLAG_p (1<<5)
 #define FLAG_E (1<<6)
-#define FLAG_I (1<<7)
 #endif
 
 #ifdef FOR_xxd
