@@ -775,8 +775,7 @@ struct sh_data {
 
   long lineno;
 
-  // parse scratch space
-  struct double_list *parse;
+  struct double_list functions;
 
   // Running jobs.
   struct sh_job {
@@ -786,14 +785,13 @@ struct sh_data {
     // Every pipeline has at least one set of arguments or it's Not A Thing
     struct sh_arg {
       char **v;
-      unsigned long c;
+      int c;
     } pipeline;
 
     // null terminated array of running processes in pipeline
     struct sh_process {
       struct string_list *delete; // expanded strings
       int pid, exit;   // status? Stopped? Exited?
-      char *end;
       struct sh_arg arg;
     } *procs, *proc;
   } *jobs, *job;
@@ -1390,7 +1388,7 @@ struct wc_data {
 
 struct xargs_data {
   long s, n;
-  char *E, *I;
+  char *E;
 
   long entries, bytes;
   char delim;
