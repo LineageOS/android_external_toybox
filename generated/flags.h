@@ -1423,16 +1423,17 @@
 #undef FLAG_l
 #endif
 
-// killall ?s:lqvi ?s:lqvi
+// killall ?s:ilqvw ?s:ilqvw
 #undef OPTSTR_killall
-#define OPTSTR_killall "?s:lqvi"
+#define OPTSTR_killall "?s:ilqvw"
 #ifdef CLEANUP_killall
 #undef CLEANUP_killall
 #undef FOR_killall
-#undef FLAG_i
+#undef FLAG_w
 #undef FLAG_v
 #undef FLAG_q
 #undef FLAG_l
+#undef FLAG_i
 #undef FLAG_s
 #endif
 
@@ -4536,11 +4537,12 @@
 #ifndef TT
 #define TT this.killall
 #endif
-#define FLAG_i (1<<0)
+#define FLAG_w (1<<0)
 #define FLAG_v (1<<1)
 #define FLAG_q (1<<2)
 #define FLAG_l (1<<3)
-#define FLAG_s (1<<4)
+#define FLAG_i (1<<4)
+#define FLAG_s (1<<5)
 #endif
 
 #ifdef FOR_killall5
