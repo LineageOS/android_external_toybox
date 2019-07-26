@@ -100,7 +100,7 @@
 
 #define HELP_md5sum "usage: md5sum [-bcs] [FILE]...\n\nCalculate md5 hash for each input file, reading from stdin if none.\nOutput one hash (32 hex digits) for each input file, followed by filename.\n\n-b	Brief (hash only, no filename)\n-c	Check each line of each FILE is the same hash+filename we'd output\n-s	No output, exit status 0 if all hashes match, 1 otherwise"
 
-#define HELP_killall "usage: killall [-l] [-iqv] [-SIGNAL|-s SIGNAL] PROCESS_NAME...\n\nSend a signal (default: TERM) to all processes with the given names.\n\n-i	Ask for confirmation before killing\n-l	Print list of all available signals\n-q	Don't print any warnings or error messages\n-s	Send SIGNAL instead of SIGTERM\n-v	Report if the signal was successfully sent"
+#define HELP_killall "usage: killall [-l] [-iqv] [-SIGNAL|-s SIGNAL] PROCESS_NAME...\n\nSend a signal (default: TERM) to all processes with the given names.\n\n-i	Ask for confirmation before killing\n-l	Print list of all available signals\n-q	Don't print any warnings or error messages\n-s	Send SIGNAL instead of SIGTERM\n-v	Report if the signal was successfully sent\n-w	Wait until all signaled processes are dead"
 
 #define HELP_hostname "usage: hostname [-bdsf] [-F FILENAME] [newname]\n\nGet/set the current hostname.\n\n-b	Set hostname to 'localhost' if otherwise unset\n-d	Show DNS domain name (no host)\n-f	Show fully-qualified name (host+domain, FQDN)\n-F	Set hostname to contents of FILENAME\n-s	Show short host name (no domain)"
 
