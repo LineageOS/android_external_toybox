@@ -65,6 +65,7 @@ struct killall_data {
   pid_t cur_pid;
   char **names;
   short *err;
+  struct int_list { struct int_list *next; int val; } *pids;
 };
 
 // toys/lsb/md5sum.c
