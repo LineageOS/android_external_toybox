@@ -39,8 +39,10 @@ test_toy() {
   echo "-- $toy"
 
   implementation=$(adb shell "realpath $location")
+  non_toy=false
   if [ "$implementation" != "/system/bin/toybox" ]; then
     echo "-- note: $toy is non-toybox implementation"
+    non_toy=true
   fi
 
   adb shell $dash_t "\
@@ -56,6 +58,8 @@ test_toy() {
       cd .. && rm -rf $toy"
   if [ $? -eq 0 ]; then
     pass_count=$(($pass_count+1))
+  elif [ "$non_toy" = "true" ]; then
+    non_toy_failures="$non_toy_failures $toy"
   else
     failures="$failures $toy"
   fi
@@ -90,6 +94,9 @@ echo
 echo -e "${green}PASSED${plain}: $pass_count"
 for failure in $failures; do
   echo -e "${red}FAILED${plain}: $failure"
+done
+for failure in $non_toy_failures; do
+  echo -e "${red}FAILED${plain}: $failure (ignoring)"
 done
 
 # We should have run *something*...
