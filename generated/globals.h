@@ -783,6 +783,7 @@ struct sh_data {
   long lineno;
 
   struct double_list functions;
+  unsigned options;
 
   // Running jobs.
   struct sh_job {
