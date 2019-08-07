@@ -343,7 +343,6 @@ cc_defaults {
                 "mktemp",
                 "microcom",
                 "modinfo",
-                "modprobe",
                 "more",
                 "mount",
                 "mountpoint",
