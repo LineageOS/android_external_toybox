@@ -306,7 +306,7 @@
 
 #define HELP_fstype "usage: fstype DEV...\n\nPrint type of filesystem on a block device or image."
 
-#define HELP_blkid "usage: blkid [-UL] DEV...\n\nPrint type, label and UUID of filesystem on a block device or image.\n\n-U	Show UUID only (or device with that UUID)\n-L	Show LABEL only (or device with that LABEL)"
+#define HELP_blkid "usage: blkid [-s TAG] [-UL] DEV...\n\nPrint type, label and UUID of filesystem on a block device or image.\n\n-U	Show UUID only (or device with that UUID)\n-L	Show LABEL only (or device with that LABEL)\n-s TAG	Only show matching tags (default all)"
 
 #define HELP_base64 "usage: base64 [-di] [-w COLUMNS] [FILE...]\n\nEncode or decode in base64.\n\n-d	Decode\n-i	Ignore non-alphabetic characters\n-w	Wrap output at COLUMNS (default 76 or 0 for no wrap)"
 
