@@ -99,12 +99,13 @@
 #undef FLAG_i
 #endif
 
-// blkid UL[!LU] UL[!LU]
+// blkid ULs*[!LU] ULs*[!LU]
 #undef OPTSTR_blkid
-#define OPTSTR_blkid "UL[!LU]"
+#define OPTSTR_blkid "ULs*[!LU]"
 #ifdef CLEANUP_blkid
 #undef CLEANUP_blkid
 #undef FOR_blkid
+#undef FLAG_s
 #undef FLAG_L
 #undef FLAG_U
 #endif
@@ -3421,8 +3422,9 @@
 #ifndef TT
 #define TT this.blkid
 #endif
-#define FLAG_L (1<<0)
-#define FLAG_U (1<<1)
+#define FLAG_s (1<<0)
+#define FLAG_L (1<<1)
+#define FLAG_U (1<<2)
 #endif
 
 #ifdef FOR_blockdev
