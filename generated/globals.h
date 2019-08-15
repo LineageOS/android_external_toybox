@@ -218,6 +218,12 @@ struct base64_data {
   unsigned total;
 };
 
+// toys/other/blkid.c
+
+struct blkid_data {
+  struct arg_list *s;
+};
+
 // toys/other/blockdev.c
 
 struct blockdev_data {
@@ -1295,6 +1301,7 @@ struct sort_data {
   void *key_list;
   int linecount;
   char **lines;
+  char *name;
 };
 
 // toys/posix/split.c
@@ -1431,6 +1438,7 @@ extern union global_union {
 	struct tunctl_data tunctl;
 	struct acpi_data acpi;
 	struct base64_data base64;
+	struct blkid_data blkid;
 	struct blockdev_data blockdev;
 	struct chrt_data chrt;
 	struct dos2unix_data dos2unix;
