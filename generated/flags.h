@@ -329,9 +329,9 @@
 #undef FOR_count
 #endif
 
-// cp <2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni] <2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]
+// cp <2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni] <2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]
 #undef OPTSTR_cp
-#define OPTSTR_cp "<2(preserve):;RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]"
+#define OPTSTR_cp "<2(preserve):;D(parents)RHLPprdaslvnF(remove-destination)fi[-HLPd][-ni]"
 #ifdef CLEANUP_cp
 #undef CLEANUP_cp
 #undef FOR_cp
@@ -351,6 +351,8 @@
 #undef FLAG_L
 #undef FLAG_H
 #undef FLAG_R
+#undef FLAG_parents
+#undef FLAG_D
 #undef FLAG_preserve
 #endif
 
@@ -3560,7 +3562,9 @@
 #define FLAG_L (1<<12)
 #define FLAG_H (1<<13)
 #define FLAG_R (1<<14)
-#define FLAG_preserve (1<<15)
+#define FLAG_parents (1<<15)
+#define FLAG_D (1<<15)
+#define FLAG_preserve (1<<16)
 #endif
 
 #ifdef FOR_cpio
