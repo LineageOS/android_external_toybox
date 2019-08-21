@@ -187,11 +187,8 @@ int mkpathat(int atfd, char *dir, mode_t lastmode, int flags)
       *s = 0;
     } else if (*s) continue;
 
-    // Use the mode from the -m option only for the last directory.
-    if (!save) {
-      if (flags&1) mode = lastmode;
-      else break;
-    }
+    if (flags&1) mode = lastmode;
+    else break;
 
     if (mkdirat(atfd, dir, mode)) {
       if (!(flags&2) || errno != EEXIST) return 1;
