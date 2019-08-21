@@ -1,0 +1,7 @@
+-lutil
+-lcrypt
+-lm
+-lresolv
+-lselinux
+-lcrypto
+-lz
