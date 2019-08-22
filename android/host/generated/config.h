@@ -66,8 +66,8 @@
 #define USE_DU(...) __VA_ARGS__
 #define CFG_ECHO 1
 #define USE_ECHO(...) __VA_ARGS__
-#define CFG_ENV 0
-#define USE_ENV(...)
+#define CFG_ENV 1
+#define USE_ENV(...) __VA_ARGS__
 #define CFG_EXPAND 0
 #define USE_EXPAND(...)
 #define CFG_FALSE 0
@@ -152,8 +152,8 @@
 #define USE_RMDIR(...) __VA_ARGS__
 #define CFG_SED 1
 #define USE_SED(...) __VA_ARGS__
-#define CFG_SLEEP 0
-#define USE_SLEEP(...)
+#define CFG_SLEEP 1
+#define USE_SLEEP(...) __VA_ARGS__
 #define CFG_SORT 1
 #define USE_SORT(...) __VA_ARGS__
 #define CFG_SORT_FLOAT 1
@@ -462,8 +462,8 @@
 #define USE_RMMOD(...)
 #define CFG_SETFATTR 0
 #define USE_SETFATTR(...)
-#define CFG_SETSID 0
-#define USE_SETSID(...)
+#define CFG_SETSID 1
+#define USE_SETSID(...) __VA_ARGS__
 #define CFG_SHRED 0
 #define USE_SHRED(...)
 #define CFG_STAT 1
@@ -616,8 +616,8 @@
 #define USE_TOYBOX_SELINUX(...)
 #define CFG_TOYBOX_SMACK 0
 #define USE_TOYBOX_SMACK(...)
-#define CFG_TOYBOX_LIBCRYPTO 0
-#define USE_TOYBOX_LIBCRYPTO(...)
+#define CFG_TOYBOX_LIBCRYPTO 1
+#define USE_TOYBOX_LIBCRYPTO(...) __VA_ARGS__
 #define CFG_TOYBOX_LIBZ 1
 #define USE_TOYBOX_LIBZ(...) __VA_ARGS__
 #define CFG_TOYBOX_FLOAT 1
