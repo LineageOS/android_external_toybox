@@ -752,7 +752,7 @@
 #undef FLAG_s
 #endif
 
-// env   ^0iu*
+// env ^0iu* ^0iu*
 #undef OPTSTR_env
 #define OPTSTR_env "^0iu*"
 #ifdef CLEANUP_env
@@ -2440,7 +2440,7 @@
 #undef FLAG_h
 #endif
 
-// setsid   ^<1t
+// setsid ^<1t ^<1t
 #undef OPTSTR_setsid
 #define OPTSTR_setsid "^<1t"
 #ifdef CLEANUP_setsid
@@ -2512,7 +2512,7 @@
 #undef FLAG_b
 #endif
 
-// sleep   <1
+// sleep <1 <1
 #undef OPTSTR_sleep
 #define OPTSTR_sleep "<1"
 #ifdef CLEANUP_sleep
@@ -3979,9 +3979,9 @@
 #ifndef TT
 #define TT this.env
 #endif
-#define FLAG_u (FORCED_FLAG<<0)
-#define FLAG_i (FORCED_FLAG<<1)
-#define FLAG_0 (FORCED_FLAG<<2)
+#define FLAG_u (1<<0)
+#define FLAG_i (1<<1)
+#define FLAG_0 (1<<2)
 #endif
 
 #ifdef FOR_exit
@@ -5387,7 +5387,7 @@
 #ifndef TT
 #define TT this.setsid
 #endif
-#define FLAG_t (FORCED_FLAG<<0)
+#define FLAG_t (1<<0)
 #endif
 
 #ifdef FOR_sh
