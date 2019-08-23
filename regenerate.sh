@@ -2,7 +2,7 @@
 
 set -e
 
-rm -rf .config generated/ android/device/ android/host/
+rm -rf .config generated/ android/
 
 function generate() {
   which=$1
@@ -19,5 +19,6 @@ function generate() {
   rm -rf .config generated/
 }
 
-generate "host"
 generate "device"
+generate "linux"
+generate "mac"
