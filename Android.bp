@@ -140,6 +140,7 @@ cc_defaults {
         "-Wno-sign-compare",
         "-Wno-string-plus-int",
         "-Wno-unused-parameter",
+        "-Wno-unused-variable",
         "-funsigned-char",
         "-ffunction-sections",
         "-fdata-sections",
@@ -157,12 +158,12 @@ cc_defaults {
     ],
 
     target: {
-        host: {
-           local_include_dirs: ["android/host"],
-           cflags: ["-Wno-unused-variable"],
+        linux_glibc: {
+            local_include_dirs: ["android/linux"],
         },
 
         darwin: {
+            local_include_dirs: ["android/mac"],
             cflags: [
                 // You can't have toybox cp(1) on macOS before 10.13.
                 "-mmacosx-version-min=10.13",
@@ -174,6 +175,10 @@ cc_defaults {
                 // also getting from <sys/param.h>.
                 "-Wno-macro-redefined",
             ],
+        },
+
+        linux: {
+            srcs: ["toys/posix/ps.c"],
         },
 
         android: {
@@ -274,7 +279,6 @@ cc_defaults {
                 "toys/posix/nl.c",
                 "toys/posix/nohup.c",
                 "toys/posix/printf.c",
-                "toys/posix/ps.c",
                 "toys/posix/renice.c",
                 "toys/posix/split.c",
                 "toys/posix/strings.c",
