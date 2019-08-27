@@ -255,7 +255,7 @@ CONFIG_STAT=y
 # CONFIG_SWITCH_ROOT is not set
 # CONFIG_SYSCTL is not set
 # CONFIG_TAC is not set
-# CONFIG_NPROC is not set
+CONFIG_NPROC=y
 # CONFIG_TASKSET is not set
 CONFIG_TIMEOUT=y
 # CONFIG_TRUNCATE is not set

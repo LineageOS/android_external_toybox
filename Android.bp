@@ -178,7 +178,10 @@ cc_defaults {
         },
 
         linux: {
-            srcs: ["toys/posix/ps.c"],
+            srcs: [
+                "toys/posix/ps.c",
+                "toys/other/taskset.c",
+            ],
         },
 
         android: {
@@ -250,7 +253,6 @@ cc_defaults {
                 "toys/other/swapon.c",
                 "toys/other/sysctl.c",
                 "toys/other/tac.c",
-                "toys/other/taskset.c",
                 "toys/other/truncate.c",
                 "toys/other/uptime.c",
                 "toys/other/usleep.c",
