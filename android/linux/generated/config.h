@@ -478,8 +478,8 @@
 #define USE_SYSCTL(...)
 #define CFG_TAC 0
 #define USE_TAC(...)
-#define CFG_NPROC 0
-#define USE_NPROC(...)
+#define CFG_NPROC 1
+#define USE_NPROC(...) __VA_ARGS__
 #define CFG_TASKSET 0
 #define USE_TASKSET(...)
 #define CFG_TIMEOUT 1
