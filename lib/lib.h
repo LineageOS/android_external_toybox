@@ -186,6 +186,7 @@ void xsignal_flags(int signal, void *handler, int flags);
 void xsignal(int signal, void *handler);
 time_t xvali_date(struct tm *tm, char *str);
 void xparsedate(char *str, time_t *t, unsigned *nano, int endian);
+char *xgetline(FILE *fp, int *len);
 
 // lib.c
 void verror_msg(char *msg, int err, va_list va);
@@ -249,6 +250,7 @@ void replace_tempfile(int fdin, int fdout, char **tempname);
 void crc_init(unsigned int *crc_table, int little_endian);
 void base64_init(char *p);
 int yesno(int def);
+int fyesno(FILE *fp, int def);
 int qstrcmp(const void *a, const void *b);
 void create_uuid(char *uuid);
 char *show_uuid(char *uuid);
