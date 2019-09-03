@@ -322,7 +322,7 @@ struct lspci_data {
 // toys/other/makedevs.c
 
 struct makedevs_data {
-  char *fname;
+  char *d;
 };
 
 // toys/other/mix.c
@@ -1408,6 +1408,7 @@ struct xargs_data {
 
   long entries, bytes;
   char delim;
+  FILE *tty;
 };
 
 extern union global_union {

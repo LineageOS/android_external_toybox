@@ -39,7 +39,7 @@ struct toy_list *toy_find(char *name)
   // If the name starts with "toybox" accept that as a match.  Otherwise
   // skip the first entry, which is out of order.
 
-  if (!strncmp(name,"toybox",6)) return toy_list;
+  if (!strncmp(name, "toybox", 6)) return toy_list;
   bottom = 1;
 
   // Binary search to find this command.
@@ -49,7 +49,7 @@ struct toy_list *toy_find(char *name)
     int result;
 
     middle = (top+bottom)/2;
-    if (middle<bottom || middle>top) return NULL;
+    if (middle<bottom || middle>top) return 0;
     result = strcmp(name,toy_list[middle].name);
     if (!result) return toy_list+middle;
     if (result<0) top = --middle;
@@ -189,8 +189,12 @@ void toybox_main(void)
   // Try dereferencing one layer of symlink
   if (toys.argv[1]) {
     toy_exec(toys.argv+1);
-    if (0<readlink(toys.argv[1], libbuf, sizeof(libbuf)))
-      toy_exec_which(toy_find(basename(libbuf)), toys.argv);
+    if (0<readlink(toys.argv[1], libbuf, sizeof(libbuf))) {
+      struct toy_list *tl= toy_find(basename(libbuf));
+
+      if (tl == toy_list) unknown(basename(toys.argv[1]));
+      else toy_exec_which(tl, toys.argv);
+    }
   }
 
   // For early error reporting
