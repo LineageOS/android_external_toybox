@@ -222,7 +222,7 @@
 
 #define HELP_mcookie "usage: mcookie [-vV]\n\nGenerate a 128-bit strong random number.\n\n-v  show entropy source (verbose)\n-V  show version"
 
-#define HELP_makedevs "usage: makedevs [-d device_table] rootdir\n\nCreate a range of special files as specified in a device table.\n\n-d	File containing device table (default reads from stdin)\n\nEach line of of the device table has the fields:\n<name> <type> <mode> <uid> <gid> <major> <minor> <start> <increment> <count>\nWhere name is the file name, and type is one of the following:\n\nb	Block device\nc	Character device\nd	Directory\nf	Regular file\np	Named pipe (fifo)\n\nOther fields specify permissions, user and group id owning the file,\nand additional fields for device special files. Use '-' for blank entries,\nunspecified fields are treated as '-'."
+#define HELP_makedevs "usage: makedevs [-d device_table] rootdir\n\nCreate a range of special files as specified in a device table.\n\n-d	File containing device table (default reads from stdin)\n\nEach line of the device table has the fields:\n<name> <type> <mode> <uid> <gid> <major> <minor> <start> <increment> <count>\nWhere name is the file name, and type is one of the following:\n\nb	Block device\nc	Character device\nd	Directory\nf	Regular file\np	Named pipe (fifo)\n\nOther fields specify permissions, user and group id owning the file,\nand additional fields for device special files. Use '-' for blank entries,\nunspecified fields are treated as '-'."
 
 #define HELP_lsusb "usage: lsusb\n\nList USB hosts/devices."
 
@@ -374,7 +374,7 @@
 
 #define HELP_mdev "usage: mdev [-s]\n\nCreate devices in /dev using information from /sys.\n\n-s	Scan all entries in /sys to populate /dev"
 
-#define HELP_man "usage: man [-k STRING] | [SECTION] COMMAND\n\nRead manual page for system command.\n\n-k	Search short\n\nMan pages are divided into 8 sections, each with an info page (man 8 info).\n1) executables, 2) syscalls, 3) library functions, 4) /dev files,\n5) file formats (ala /etc/hosts), 6) games, 7) miscelanous, 8) sysadmin\n\nIf you don't specify a section it'll show the lowest numbered one,\nbut \"man 1 mkdir\" and \"man 2 mkdir\" are different things.\n\nThe shell builtins don't have section 1 man pages, see the \"help\" command."
+#define HELP_man "usage: man [-M PATH] [-k STRING] | [SECTION] COMMAND\n\nRead manual page for system command.\n\n-k	List pages with STRING in their short description\n-M	Override $MANPATH\n\nMan pages are divided into 8 sections:\n1 commands      2 system calls  3 library functions  4 /dev files\n5 file formats  6 games         7 miscellaneous      8 system management\n\nSections are searched in the order 1 8 3 2 5 4 6 7 unless you specify a\nsection. Each section has a page called \"intro\", and there's a global\nintroduction under \"man-pages\"."
 
 #define HELP_lsof "usage: lsof [-lt] [-p PID1,PID2,...] [FILE...]\n\nList all open files belonging to all active processes, or processes using\nlisted FILE(s).\n\n-l	list uids numerically\n-p	for given comma-separated pids only (default all pids)\n-t	terse (pid only) output"
 
@@ -434,9 +434,7 @@
 
 #define HELP_arp "usage: arp\n[-vn] [-H HWTYPE] [-i IF] -a [HOSTNAME]\n[-v]              [-i IF] -d HOSTNAME [pub]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [temp]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [netmask MASK] pub\n[-v]  [-H HWTYPE] [-i IF] -Ds HOSTNAME IFACE [netmask MASK] pub\n\nManipulate ARP cache\n\n-a    Display (all) hosts\n-s    Set new ARP entry\n-d    Delete a specified entry\n-v    Verbose\n-n    Don't resolve names\n-i IF Network interface\n-D    Read <hwaddr> from given device\n-A,-p AF  Protocol family\n-H    HWTYPE Hardware address type"
 
-#define HELP_xargs_pedantic "This version supports insane posix whitespace handling rendered obsolete\nby -0 mode."
-
-#define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr"
+#define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-o	Open tty for COMMAND's stdin (default /dev/null)\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr"
 
 #define HELP_who "usage: who\n\nPrint information about logged in users."
 
