@@ -14,44 +14,42 @@
 // limitations under the License.
 //
 
-//
-// To sync with upstream:
-//
+/*
 
-//  # Update.
-//  git remote add toybox https://github.com/landley/toybox.git
-//  git fetch toybox
-//  git merge toybox/master
+   --- To sync with upstream:
 
-//  # Regenerate generated files.
-//  ./regenerate.sh
+    # Update source and regenerate generated files.
+    git remote add toybox https://github.com/landley/toybox.git
+    git fetch toybox && git merge toybox/master && ./regenerate.sh
 
-//  # Make any necessary Android.bp changes and rebuild.
-//  mm -j32
+    # Make any necessary Android.bp changes and rebuild.
+    mm -j32
 
-//  # Run all the tests.
-//  ./run-tests-on-android.sh
-//  # Run a single test.
-//  ./run-tests-on-android.sh wc
+    # Run all the tests.
+    ./run-tests-on-android.sh
+    # Run a single test.
+    ./run-tests-on-android.sh wc
 
-//  # Upload changes.
-//  git commit -a --amend
-//  git push aosp HEAD:refs/for/master  # Push to gerrit for review.
-//  git push aosp HEAD:master  # Push directly, avoiding gerrit.
+    # Upload changes.
+    git commit -a --amend
+    git push aosp HEAD:refs/for/master  # Push to gerrit for review.
+    git push aosp HEAD:master           # Push directly, avoiding gerrit.
 
-//
-// To add a toy:
-//
 
-//  # Edit .config to enable the toy you want to add and regenerate the
-//  # generated files:
-//  ./regenerate.sh
+   --- To add a toy:
 
-//  # Edit `srcs` below to add the toy (in toybox-defaults if it's for both host
-//  # and device, or just in the target: section if it's for the device only).
+    # Edit the three .config-* files to enable the toy you want for the targets
+    # you want it on, and regenerate the generated files:
+    ./regenerate.sh
 
-//  # If you just want to use it as "toybox x" rather than "x", you can stop now.
-//  # If you want this toy to have a symbolic link in /system/bin, add the toy to symlinks.
+    # Edit the relevant `srcs` below, depending on where the toy should be
+    # available.
+
+    # If you just want to use the toy via "toybox x" rather than "x", you can
+    # stop now. If you want this toy to have a symbolic link in /system/bin,
+    # add the toy to symlinks.
+
+*/
 
 cc_defaults {
     name: "toybox-defaults",
