@@ -217,7 +217,7 @@ static int do_find(struct dirtree *new)
   // skip . and .. below topdir, handle -xdev and -depth
   if (new) {
     // Handle stat failures first.
-    if (!new->st.st_blksize && !new->st.st_dev && !new->st.st_ino) {
+    if (new->again&2) {
       if (!new->parent || errno != ENOENT) {
         perror_msg("'%s'", s = dirtree_path(new, 0));
         free(s);
@@ -569,7 +569,15 @@ static int do_find(struct dirtree *new)
         if (check) for (fmt = ss[1]; *fmt; fmt++) {
           // Print the parts that aren't escapes
           if (*fmt == '\\') {
-            if (!(ch = unescape(*++fmt))) error_exit("bad \\%c", *fmt);
+            int slash = *++fmt, n = unescape(slash);
+
+            if (n) ch = n;
+            else if (slash=='c') break;
+            else if (slash=='0') {
+              ch = 0;
+              while (*fmt>='0' && *fmt<='7' && n++<3) ch=(ch*8)+*(fmt++)-'0';
+              --fmt;
+            } else error_exit("bad \\%c", *fmt);
             putchar(ch);
           } else if (*fmt != '%') putchar(*fmt);
           else if (*++fmt == '%') putchar('%');
