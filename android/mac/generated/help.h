@@ -394,7 +394,7 @@
 
 #define HELP_init "usage: init\n\nSystem V style init.\n\nFirst program to run (as PID 1) when the system comes up, reading\n/etc/inittab to determine actions."
 
-#define HELP_host "usage: host [-av] [-t TYPE] NAME [SERVER]\n\nPerform DNS lookup on NAME, which can be a domain name to lookup,\nor an IPv4 dotted or IPv6 colon-separated address to reverse lookup.\nSERVER (if present) is the DNS server to use.\n\n-a	no idea\n-t	not a clue\n-v	verbose"
+#define HELP_host "usage: host [-av] [-t TYPE] NAME [SERVER]\n\nPerform DNS lookup on NAME, which can be a domain name to lookup,\nor an IPv4 dotted or IPv6 colon-separated address to reverse lookup.\nSERVER (if present) is the DNS server to use.\n\n-a	-v -t ANY\n-t TYPE	query records of type TYPE\n-v	verbose"
 
 #define HELP_groupdel "usage: groupdel [USER] GROUP\n\nDelete a group or remove a user from a group"
 

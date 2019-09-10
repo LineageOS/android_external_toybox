@@ -967,6 +967,8 @@ struct vi_data {
     int vi_mov_flag;
     int modified;
     char vi_reg;
+    char *last_search;
+    int tabstop;
 };
 
 // toys/pending/wget.c
