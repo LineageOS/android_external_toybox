@@ -40,7 +40,7 @@ config SED
     apply only to the specified line(s). Commands without an address apply to
     every line. Addresses are of the form:
 
-      [ADDRESS[,ADDRESS]]COMMAND
+      [ADDRESS[,ADDRESS]][!]COMMAND
 
     The ADDRESS may be a decimal line number (starting at 1), a /regular
     expression/ within a pair of forward slashes, or the character "$" which
@@ -68,6 +68,8 @@ config SED
 
     Each COMMAND starts with a single character. The following commands take
     no arguments:
+
+      !  Run this command when the test _didn't_ match.
 
       {  Start a new command block, continuing until a corresponding "}".
          Command blocks may nest. If the block has an address, commands within
@@ -461,11 +463,14 @@ static void sed_line(char **pline, long plen)
       char *l = (c=='P') ? strchr(line, '\n') : 0;
 
       if (emit(line, l ? l-line : len, eol)) break;
-    } else if (c=='q') {
+    } else if (c=='q' || c=='Q') {
       if (pline) *pline = (void *)1;
       free(TT.nextline);
+      if (!toys.exitval && command->arg1)
+        toys.exitval = atoi(command->arg1+(char *)command);
       TT.nextline = 0;
       TT.nextlen = 0;
+      if (c=='Q') line = 0;
 
       break;
     } else if (c=='s') {
@@ -818,15 +823,16 @@ static void parse_pattern(char **pline, long len)
     while (isspace(*line)) line++;
     if (!*line) break;
 
-    while (*line == '!') {
+    if (*line == '!') {
       command->not = 1;
       line++;
     }
     while (isspace(*line)) line++;
+    if (!*line) break;
 
     c = command->c = *(line++);
     if (strchr("}:", c) && i) break;
-    if (strchr("aiqr=", c) && i>1) break;
+    if (strchr("aiqQr=", c) && i>1) break;
 
     // Allocate memory and copy out of toybuf now that we know how big it is
     command = xmemdup(toybuf, reg-toybuf);
@@ -953,7 +959,7 @@ writenow:
       if (len != strlen(s)) goto error;
       reg = extend_string((void *)&command, s, reg-(char*)command, len);
       free(s);
-    } else if (strchr("abcirtTw:", c)) {
+    } else if (strchr("abcirtTqQw:", c)) {
       int end;
 
       // trim leading spaces
@@ -964,11 +970,19 @@ writenow:
 resume_a:
       command->hit = 0;
 
-      // btT: end with space or semicolon, aicrw continue to newline.
-      if (!(end = strcspn(line, strchr(":btT", c) ? "}; \t\r\n\v\f" : "\n"))) {
-        // Argument's optional for btT
-        if (strchr("btT", c)) continue;
+      // btTqQ: end with space or semicolon, aicrw continue to newline.
+      if (!(end = strcspn(line, strchr(":btTqQ", c) ? "}; \t\r\n\v\f" : "\n"))){
+        // Argument's optional for btTqQ
+        if (strchr("btTqQ", c)) continue;
         else if (!command->arg1) break;
+      }
+      // Error checking: qQ can only have digits after them
+      if (c=='q' || c=='Q') {
+        for (i = 0; i<end && isdigit(line[i]); i++);
+        if (i != end) {
+          line += i;
+          break;
+        }
       }
 
       // Extend allocation to include new string. We use offsets instead of
@@ -1007,7 +1021,7 @@ resume_a:
       } else line += end;
 
     // Commands that take no arguments
-    } else if (!strchr("{dDgGhHlnNpPqx=", c)) break;
+    } else if (!strchr("{dDgGhHlnNpPx=", c)) break;
   }
 
 error:

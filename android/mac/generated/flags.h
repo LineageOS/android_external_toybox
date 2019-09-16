@@ -828,14 +828,16 @@
 #undef FLAG_C
 #endif
 
-// file   <1hL[!hL]
+// file   <1bhLs[!hL]
 #undef OPTSTR_file
-#define OPTSTR_file "<1hL[!hL]"
+#define OPTSTR_file "<1bhLs[!hL]"
 #ifdef CLEANUP_file
 #undef CLEANUP_file
 #undef FOR_file
+#undef FLAG_s
 #undef FLAG_L
 #undef FLAG_h
+#undef FLAG_b
 #endif
 
 // find ?^HL[-HL] ?^HL[-HL]
@@ -2066,9 +2068,9 @@
 #undef FLAG_d
 #endif
 
-// patch (dry-run)ulp#d:i:Rs(quiet) (dry-run)xulp#d:i:Rs(quiet)
+// patch (no-backup-if-mismatch)(dry-run)g#fulp#d:i:Rs(quiet) (no-backup-if-mismatch)(dry-run)xg#fulp#d:i:Rs(quiet)
 #undef OPTSTR_patch
-#define OPTSTR_patch "(dry-run)ulp#d:i:Rs(quiet)"
+#define OPTSTR_patch "(no-backup-if-mismatch)(dry-run)g#fulp#d:i:Rs(quiet)"
 #ifdef CLEANUP_patch
 #undef CLEANUP_patch
 #undef FOR_patch
@@ -2079,8 +2081,11 @@
 #undef FLAG_p
 #undef FLAG_l
 #undef FLAG_u
+#undef FLAG_f
+#undef FLAG_g
 #undef FLAG_x
 #undef FLAG_dry_run
+#undef FLAG_no_backup_if_mismatch
 #endif
 
 // pgrep   ?cld:u*U*t*s*P*g*G*fnovxL:[-no]
@@ -4040,8 +4045,10 @@
 #ifndef TT
 #define TT this.file
 #endif
-#define FLAG_L (FORCED_FLAG<<0)
-#define FLAG_h (FORCED_FLAG<<1)
+#define FLAG_s (FORCED_FLAG<<0)
+#define FLAG_L (FORCED_FLAG<<1)
+#define FLAG_h (FORCED_FLAG<<2)
+#define FLAG_b (FORCED_FLAG<<3)
 #endif
 
 #ifdef FOR_find
@@ -5083,8 +5090,11 @@
 #define FLAG_p (1<<4)
 #define FLAG_l (1<<5)
 #define FLAG_u (1<<6)
-#define FLAG_x (FORCED_FLAG<<7)
-#define FLAG_dry_run (1<<8)
+#define FLAG_f (1<<7)
+#define FLAG_g (1<<8)
+#define FLAG_x (FORCED_FLAG<<9)
+#define FLAG_dry_run (1<<10)
+#define FLAG_no_backup_if_mismatch (1<<11)
 #endif
 
 #ifdef FOR_pgrep
