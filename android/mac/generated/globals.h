@@ -421,6 +421,7 @@ struct timeout_data {
   pid_t pid;
   struct timeval ktv;
   struct itimerval itv;
+  int signaled;
 };
 
 // toys/other/truncate.c
@@ -1228,7 +1229,7 @@ struct paste_data {
 
 struct patch_data {
   char *i, *d;
-  long p;
+  long p, g;
 
   struct double_list *current_hunk;
   long oldline, oldlen, newline, newlen;
@@ -1355,7 +1356,7 @@ struct tar_data {
   // Parsed information about a tar header.
   struct tar_header {
     char *name, *link_target, *uname, *gname;
-    long long size;
+    long long size, ssize;
     uid_t uid;
     gid_t gid;
     mode_t mode;
