@@ -468,7 +468,6 @@ cc_defaults {
             ],
 
             shared_libs: [
-                "libcutils",
                 "liblog",
                 "libprocessgroup",
                 "libselinux",
