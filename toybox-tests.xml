@@ -15,12 +15,14 @@
 -->
 <configuration description="Config for running toybox-tests through Atest or in Infra">
     <option name="test-suite-tag" value="toybox-tests" />
-    <!-- This test requires a device, so it's not annotated with a null-device -->
+    <!-- Several of these tests assume they're run as root. -->
+    <target_preparer class="com.android.tradefed.targetprep.RootTargetPreparer"/>
+    <!-- This test requires a device, so it's not annotated with a null-device. -->
     <test class="com.android.tradefed.testtype.binary.ExecutableHostTest" >
         <option name="binary" value="run-tests-on-android.sh" />
-        <!-- Toybox tests script assumes a relative path with the tests/ folders -->
+        <!-- Toybox tests script assumes a relative path with the tests/ folders. -->
         <option name="relative-path-execution" value="true" />
-        <!-- Tests shouldn't be that long but set 15m to be safe to start with -->
+        <!-- Tests shouldn't be that long but set 15m to be safe. -->
         <option name="per-binary-timeout" value="15m" />
     </test>
 </configuration>
