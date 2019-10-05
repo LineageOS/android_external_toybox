@@ -76,9 +76,9 @@
 #undef FLAG_d
 #endif
 
-// basename <1as: <1as:
+// basename ^<1as: ^<1as:
 #undef OPTSTR_basename
-#define OPTSTR_basename "<1as:"
+#define OPTSTR_basename "^<1as:"
 #ifdef CLEANUP_basename
 #undef CLEANUP_basename
 #undef FOR_basename
@@ -1106,9 +1106,9 @@
 #undef FLAG_c
 #endif
 
-// gzip cdfk123456789[-123456789] cdfk123456789[-123456789]
+// gzip ncdfk123456789[-123456789] ncdfk123456789[-123456789]
 #undef OPTSTR_gzip
-#define OPTSTR_gzip "cdfk123456789[-123456789]"
+#define OPTSTR_gzip "ncdfk123456789[-123456789]"
 #ifdef CLEANUP_gzip
 #undef CLEANUP_gzip
 #undef FOR_gzip
@@ -1125,6 +1125,7 @@
 #undef FLAG_f
 #undef FLAG_d
 #undef FLAG_c
+#undef FLAG_n
 #endif
 
 // head ?n(lines)#<0=10c(bytes)#<0qv[-nc] ?n(lines)#<0=10c(bytes)#<0qv[-nc]
@@ -1479,9 +1480,9 @@
 #undef FOR_link
 #endif
 
-// ln <1vnfs <1vnfs
+// ln <1t:Tvnfs <1t:Tvnfs
 #undef OPTSTR_ln
-#define OPTSTR_ln "<1vnfs"
+#define OPTSTR_ln "<1t:Tvnfs"
 #ifdef CLEANUP_ln
 #undef CLEANUP_ln
 #undef FOR_ln
@@ -1489,6 +1490,8 @@
 #undef FLAG_f
 #undef FLAG_n
 #undef FLAG_v
+#undef FLAG_T
+#undef FLAG_t
 #endif
 
 // load_policy <1>1 <1>1
@@ -1797,9 +1800,9 @@
 #undef FLAG_L
 #endif
 
-// mktemp >1uqd(directory)p(tmpdir):t >1uqd(directory)p(tmpdir):t
+// mktemp >1(tmpdir);:uqd(directory)p:t >1(tmpdir);:uqd(directory)p:t
 #undef OPTSTR_mktemp
-#define OPTSTR_mktemp ">1uqd(directory)p(tmpdir):t"
+#define OPTSTR_mktemp ">1(tmpdir);:uqd(directory)p:t"
 #ifdef CLEANUP_mktemp
 #undef CLEANUP_mktemp
 #undef FOR_mktemp
@@ -1808,6 +1811,7 @@
 #undef FLAG_d
 #undef FLAG_q
 #undef FLAG_u
+#undef FLAG_tmpdir
 #endif
 
 // modinfo <1b:k:F:0 <1b:k:F:0
@@ -2257,9 +2261,9 @@
 #undef FOR_readahead
 #endif
 
-// readlink <1>1nqmef(canonicalize)[-mef] <1>1nqmef(canonicalize)[-mef]
+// readlink <1nqmef(canonicalize)[-mef] <1nqmef(canonicalize)[-mef]
 #undef OPTSTR_readlink
-#define OPTSTR_readlink "<1>1nqmef(canonicalize)[-mef]"
+#define OPTSTR_readlink "<1nqmef(canonicalize)[-mef]"
 #ifdef CLEANUP_readlink
 #undef CLEANUP_readlink
 #undef FOR_readlink
@@ -2351,13 +2355,14 @@
 #undef FLAG_f
 #endif
 
-// rmdir <1p <1p
+// rmdir <1(ignore-fail-on-non-empty)p <1(ignore-fail-on-non-empty)p
 #undef OPTSTR_rmdir
-#define OPTSTR_rmdir "<1p"
+#define OPTSTR_rmdir "<1(ignore-fail-on-non-empty)p"
 #ifdef CLEANUP_rmdir
 #undef CLEANUP_rmdir
 #undef FOR_rmdir
 #undef FLAG_p
+#undef FLAG_ignore_fail_on_non_empty
 #endif
 
 // rmmod <1wf <1wf
@@ -3251,13 +3256,14 @@
 #undef FLAG_m
 #endif
 
-// wget   f:
+// wget   (no-check-certificate)O:
 #undef OPTSTR_wget
-#define OPTSTR_wget "f:"
+#define OPTSTR_wget "(no-check-certificate)O:"
 #ifdef CLEANUP_wget
 #undef CLEANUP_wget
 #undef FOR_wget
-#undef FLAG_f
+#undef FLAG_O
+#undef FLAG_no_check_certificate
 #endif
 
 // which <1a <1a
@@ -4294,6 +4300,7 @@
 #define FLAG_f (1<<10)
 #define FLAG_d (1<<11)
 #define FLAG_c (1<<12)
+#define FLAG_n (1<<13)
 #endif
 
 #ifdef FOR_head
@@ -4594,6 +4601,8 @@
 #define FLAG_f (1<<1)
 #define FLAG_n (1<<2)
 #define FLAG_v (1<<3)
+#define FLAG_T (1<<4)
+#define FLAG_t (1<<5)
 #endif
 
 #ifdef FOR_load_policy
@@ -4859,6 +4868,7 @@
 #define FLAG_d (1<<2)
 #define FLAG_q (1<<3)
 #define FLAG_u (1<<4)
+#define FLAG_tmpdir (1<<5)
 #endif
 
 #ifdef FOR_modinfo
@@ -5323,6 +5333,7 @@
 #define TT this.rmdir
 #endif
 #define FLAG_p (1<<0)
+#define FLAG_ignore_fail_on_non_empty (1<<1)
 #endif
 
 #ifdef FOR_rmmod
@@ -6078,7 +6089,8 @@
 #ifndef TT
 #define TT this.wget
 #endif
-#define FLAG_f (FORCED_FLAG<<0)
+#define FLAG_O (FORCED_FLAG<<0)
+#define FLAG_no_check_certificate (FORCED_FLAG<<1)
 #endif
 
 #ifdef FOR_which
