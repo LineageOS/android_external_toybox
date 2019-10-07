@@ -92,7 +92,7 @@ struct mknod_data {
 // toys/lsb/mktemp.c
 
 struct mktemp_data {
-  char *p;
+  char *p, *tmpdir;
 };
 
 // toys/lsb/mount.c
@@ -421,7 +421,6 @@ struct timeout_data {
   pid_t pid;
   struct timeval ktv;
   struct itimerval itv;
-  int signaled;
 };
 
 // toys/other/truncate.c
@@ -960,6 +959,9 @@ struct useradd_data {
 struct vi_data {
     int cur_col;
     int cur_row;
+    int scr_row;
+    int drawn_row;
+    int drawn_col;
     unsigned screen_height;
     unsigned screen_width;
     int vi_mode;
@@ -970,6 +972,7 @@ struct vi_data {
     char vi_reg;
     char *last_search;
     int tabstop;
+    int list;
 };
 
 // toys/pending/wget.c
@@ -1151,6 +1154,12 @@ struct id_data {
 struct kill_data {
   char *s;
   struct arg_list *o;
+};
+
+// toys/posix/ln.c
+
+struct ln_data {
+  char *t;
 };
 
 // toys/posix/logger.c
@@ -1539,6 +1548,7 @@ extern union global_union {
 	struct iconv_data iconv;
 	struct id_data id;
 	struct kill_data kill;
+	struct ln_data ln;
 	struct logger_data logger;
 	struct ls_data ls;
 	struct mkdir_data mkdir;
