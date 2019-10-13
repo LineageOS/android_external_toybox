@@ -153,11 +153,6 @@ cc_defaults {
     // because libnetd_client.so is C++.
     stl: "none",
 
-    shared_libs: [
-        "libcrypto",
-        "libz",
-    ],
-
     target: {
         linux_glibc: {
             local_include_dirs: ["android/linux"],
@@ -292,12 +287,20 @@ cc_defaults {
                 "toys/posix/uudecode.c",
                 "toys/posix/uuencode.c",
             ],
+        },
+    },
+}
 
-            // not usable on Android?: freeramdisk fsfreeze makedevs nbd-client
-            //                         partprobe pivot_root pwdx rev rfkill vconfig
-            // currently prefer external/e2fsprogs: blkid
-            // currently prefer external/iputils: ping ping6
+cc_defaults {
+    name: "toybox-defaults-symlinks",
 
+    // not usable on Android?: freeramdisk fsfreeze makedevs nbd-client
+    //                         partprobe pivot_root pwdx rev rfkill vconfig
+    // currently prefer external/e2fsprogs: blkid
+    // currently prefer external/iputils: ping ping6
+
+    target: {
+        android: {
             symlinks: [
                 "acpi",
                 "base64",
@@ -472,7 +475,20 @@ cc_defaults {
                 "yes",
                 "zcat",
             ],
+        },
+    },
+}
 
+cc_defaults {
+    name: "toybox-defaults-shared",
+
+    shared_libs: [
+        "libcrypto",
+        "libz",
+    ],
+
+    target: {
+        android: {
             shared_libs: [
                 "liblog",
                 "libprocessgroup",
@@ -488,15 +504,39 @@ cc_defaults {
 
 cc_binary {
     name: "toybox",
-    defaults: ["toybox-defaults"],
+    defaults: ["toybox-defaults", "toybox-defaults-symlinks", "toybox-defaults-shared"],
     host_supported: true,
     recovery_available: true,
 }
 
 cc_binary {
     name: "toybox_vendor",
-    defaults: ["toybox-defaults"],
+    defaults: ["toybox-defaults", "toybox-defaults-symlinks", "toybox-defaults-shared"],
     vendor: true,
+}
+
+cc_binary {
+    name: "toybox_static",
+    defaults: ["toybox-defaults"],
+    static_libs: [
+        "libcrypto_static",
+        "libz",
+        "libbase",
+        "libcgrouprc",
+        "libcgrouprc_format",
+    ],
+    target: {
+        android: {
+            static_libs: [
+                "liblog",
+                "libprocessgroup",
+                "libselinux",
+            ],
+        },
+    },
+    recovery: true,
+    stl: "libc++_static",
+    static_executable: true,
 }
 
 //###########################################
