@@ -252,6 +252,10 @@ cc_defaults {
     // This doesn't actually prevent us from dragging in libc++ at runtime
     // because libnetd_client.so is C++.
     stl: "none",
+}
+
+cc_defaults {
+    name: "toybox-defaults-symlinks",
 
     // not usable on Android?: freeramdisk fsfreeze makedevs nbd-client
     //                         partprobe pivot_root pwdx rev rfkill vconfig
@@ -453,7 +457,7 @@ toybox_libraries = [
 
 cc_binary {
     name: "toybox",
-    defaults: ["toybox-defaults"],
+    defaults: ["toybox-defaults", "toybox-defaults-symlinks"],
     host_supported: true,
     recovery_available: true,
     shared_libs: toybox_libraries,
@@ -466,7 +470,20 @@ cc_binary {
 
 cc_binary {
     name: "toybox_vendor",
-    defaults: ["toybox-defaults"],
+    defaults: ["toybox-defaults", "toybox-defaults-symlinks"],
     shared_libs: toybox_libraries,
     vendor: true,
+}
+
+cc_binary {
+    name: "toybox_static",
+    defaults: ["toybox-defaults"],
+    whole_static_libs: toybox_libraries + [
+        "libbase",
+        "libcgrouprc",
+        "libcgrouprc_format",
+    ],
+    recovery: true,
+    stl: "libc++_static",
+    static_executable: true,
 }
