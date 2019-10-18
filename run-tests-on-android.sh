@@ -61,7 +61,12 @@ test_toy() {
   elif [ "$non_toy" = "true" ]; then
     non_toy_failures="$non_toy_failures $toy"
   else
-    failures="$failures $toy"
+    if [ "$toy" = "pidof" ]; then
+      # cuttlefish is currently broken (http://b/142798587)
+      non_toy_failures="$non_toy_failures $toy"
+    else
+      failures="$failures $toy"
+    fi
   fi
 }
 

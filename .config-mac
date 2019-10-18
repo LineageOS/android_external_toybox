@@ -18,6 +18,7 @@ CONFIG_TOYBOX_FORK=y
 #
 # Posix commands
 #
+# CONFIG_ARCH is not set
 CONFIG_BASENAME=y
 # CONFIG_CAL is not set
 CONFIG_CAT=y
@@ -32,6 +33,7 @@ CONFIG_CMP=y
 CONFIG_COMM=y
 CONFIG_CP=y
 CONFIG_CP_PRESERVE=y
+# CONFIG_DNSDOMAINNAME is not set
 CONFIG_MV=y
 # CONFIG_INSTALL is not set
 # CONFIG_CPIO is not set

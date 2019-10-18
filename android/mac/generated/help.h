@@ -102,6 +102,8 @@
 
 #define HELP_killall "usage: killall [-l] [-iqv] [-SIGNAL|-s SIGNAL] PROCESS_NAME...\n\nSend a signal (default: TERM) to all processes with the given names.\n\n-i	Ask for confirmation before killing\n-l	Print list of all available signals\n-q	Don't print any warnings or error messages\n-s	Send SIGNAL instead of SIGTERM\n-v	Report if the signal was successfully sent\n-w	Wait until all signaled processes are dead"
 
+#define HELP_dnsdomainname "usage: dnsdomainname\n\nShow domain this system belongs to (same as hostname -d)."
+
 #define HELP_hostname "usage: hostname [-bdsf] [-F FILENAME] [newname]\n\nGet/set the current hostname.\n\n-b	Set hostname to 'localhost' if otherwise unset\n-d	Show DNS domain name (no host)\n-f	Show fully-qualified name (host+domain, FQDN)\n-F	Set hostname to contents of FILENAME\n-s	Show short host name (no domain)"
 
 #define HELP_zcat "usage: zcat [FILE...]\n\nDecompress files to stdout. Like `gzip -dc`.\n\n-f	Force: allow read from tty"
@@ -438,7 +440,7 @@
 
 #define HELP_arp "usage: arp\n[-vn] [-H HWTYPE] [-i IF] -a [HOSTNAME]\n[-v]              [-i IF] -d HOSTNAME [pub]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [temp]\n[-v]  [-H HWTYPE] [-i IF] -s HOSTNAME HWADDR [netmask MASK] pub\n[-v]  [-H HWTYPE] [-i IF] -Ds HOSTNAME IFACE [netmask MASK] pub\n\nManipulate ARP cache\n\n-a    Display (all) hosts\n-s    Set new ARP entry\n-d    Delete a specified entry\n-v    Verbose\n-n    Don't resolve names\n-i IF Network interface\n-D    Read <hwaddr> from given device\n-A,-p AF  Protocol family\n-H    HWTYPE Hardware address type"
 
-#define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf command exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-o	Open tty for COMMAND's stdin (default /dev/null)\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr"
+#define HELP_xargs "usage: xargs [-0prt] [-s NUM] [-n NUM] [-E STR] COMMAND...\n\nRun command line one or more times, appending arguments from stdin.\n\nIf COMMAND exits with 255, don't launch another even if arguments remain.\n\n-0	Each argument is NULL terminated, no whitespace or quote processing\n-E	Stop at line matching string\n-n	Max number of arguments per command\n-o	Open tty for COMMAND's stdin (default /dev/null)\n-p	Prompt for y/n from tty before running each command\n-r	Don't run command with empty input (otherwise always run command once)\n-s	Size in bytes per command line\n-t	Trace, print command line to stderr"
 
 #define HELP_who "usage: who\n\nPrint information about logged in users."
 
@@ -453,6 +455,8 @@
 #define HELP_uniq "usage: uniq [-cduiz] [-w maxchars] [-f fields] [-s char] [input_file [output_file]]\n\nReport or filter out repeated lines in a file\n\n-c	Show counts before each line\n-d	Show only lines that are repeated\n-u	Show only lines that are unique\n-i	Ignore case when comparing lines\n-z	Lines end with \\0 not \\n\n-w	Compare maximum X chars per line\n-f	Ignore first X fields\n-s	Ignore first X chars"
 
 #define HELP_uname "usage: uname [-asnrvm]\n\nPrint system information.\n\n-s	System name\n-n	Network (domain) name\n-r	Kernel Release number\n-v	Kernel Version\n-m	Machine (hardware) name\n-a	All of the above"
+
+#define HELP_arch "usage: arch\n\nPrint machine (hardware) name, same as uname -m."
 
 #define HELP_ulimit "usage: ulimit [-P PID] [-SHRacdefilmnpqrstuv] [LIMIT]\n\nPrint or set resource limits for process number PID. If no LIMIT specified\n(or read-only -ap selected) display current value (sizes in bytes).\nDefault is ulimit -P $PPID -Sf\" (show soft filesize of your shell).\n\n-S  Set/show soft limit          -H  Set/show hard (maximum) limit\n-a  Show all limits              -c  Core file size\n-d  Process data segment         -e  Max scheduling priority\n-f  Output file size             -i  Pending signal count\n-l  Locked memory                -m  Resident Set Size\n-n  Number of open files         -p  Pipe buffer\n-q  Posix message queue          -r  Max Real-time priority\n-R  Realtime latency (usec)      -s  Stack size\n-t  Total CPU time (in seconds)  -u  Maximum processes (under this UID)\n-v  Virtual memory size          -P  PID to affect (default $PPID)"
 
@@ -586,7 +590,7 @@
 
 #define HELP_comm "usage: comm [-123] FILE1 FILE2\n\nRead FILE1 and FILE2, which should be ordered, and produce three text\ncolumns as output: lines only in FILE1; lines only in FILE2; and lines\nin both files. Filename \"-\" is a synonym for stdin.\n\n-1	Suppress the output column of lines unique to FILE1\n-2	Suppress the output column of lines unique to FILE2\n-3	Suppress the output column of lines duplicated in FILE1 and FILE2"
 
-#define HELP_cmp "usage: cmp [-l] [-s] FILE1 FILE2\n\nCompare the contents of two files.\n\n-l	Show all differing bytes\n-s	Silent"
+#define HELP_cmp "usage: cmp [-l] [-s] FILE1 [FILE2 [SKIP1 [SKIP2]]]\n\nCompare the contents of two files. (Or stdin and file if only one given.)\n\n-l	Show all differing bytes\n-s	Silent"
 
 #define HELP_crc32 "usage: crc32 [file...]\n\nOutput crc32 checksum for each file."
 
