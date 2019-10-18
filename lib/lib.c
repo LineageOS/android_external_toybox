@@ -447,11 +447,12 @@ char *strend(char *str, char *suffix)
 // If *a starts with b, advance *a past it and return 1, else return 0;
 int strstart(char **a, char *b)
 {
-  int len = strlen(b), i = !strncmp(*a, b, len);
+  char *c = *a;
 
-  if (i) *a += len;
+  while (*b && *c == *b) b++, c++;
+  if (!*b) *a = c;
 
-  return i;
+  return !*b;
 }
 
 // If *a starts with b, advance *a past it and return 1, else return 0;
