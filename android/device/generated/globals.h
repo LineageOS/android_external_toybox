@@ -1415,7 +1415,7 @@ struct wc_data {
 // toys/posix/xargs.c
 
 struct xargs_data {
-  long s, n;
+  long s, n, P;
   char *E;
 
   long entries, bytes;

@@ -681,7 +681,7 @@ error:
 void find_main(void)
 {
   int i, len;
-  char **ss = toys.optargs;
+  char **ss = (char *[]){"."};
 
   TT.topdir = -1;
   TT.max_bytes = sysconf(_SC_ARG_MAX) - environ_bytes();
@@ -692,10 +692,8 @@ void find_main(void)
   TT.filter = toys.optargs+len;
 
   // use "." if no paths
-  if (!len) {
-    ss = (char *[]){"."};
-    len = 1;
-  }
+  if (len) ss = toys.optargs;
+  else len = 1;
 
   // first pass argument parsing, verify args match up, handle "evaluate once"
   TT.now = time(0);

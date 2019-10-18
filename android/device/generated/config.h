@@ -54,6 +54,8 @@
 #define USE_TOYBOX_UTMPX(...)
 #define CFG_ACPI 1
 #define USE_ACPI(...) __VA_ARGS__
+#define CFG_ARCH 0
+#define USE_ARCH(...)
 #define CFG_ARPING 0
 #define USE_ARPING(...)
 #define CFG_ARP 0
@@ -166,6 +168,8 @@
 #define USE_DIRNAME(...) __VA_ARGS__
 #define CFG_DMESG 1
 #define USE_DMESG(...) __VA_ARGS__
+#define CFG_DNSDOMAINNAME 0
+#define USE_DNSDOMAINNAME(...)
 #define CFG_DOS2UNIX 1
 #define USE_DOS2UNIX(...) __VA_ARGS__
 #define CFG_DUMPLEASES 0
