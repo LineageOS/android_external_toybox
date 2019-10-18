@@ -21,6 +21,14 @@
 #undef FLAG_a
 #endif
 
+// arch    
+#undef OPTSTR_arch
+#define OPTSTR_arch 0
+#ifdef CLEANUP_arch
+#undef CLEANUP_arch
+#undef FOR_arch
+#endif
+
 // arp   vi:nDsdap:A:H:[+Ap][!sd]
 #undef OPTSTR_arp
 #define OPTSTR_arp "vi:nDsdap:A:H:[+Ap][!sd]"
@@ -305,9 +313,9 @@
 #undef FOR_clear
 #endif
 
-// cmp <2>2ls(silent)(quiet)[!ls] <2>2ls(silent)(quiet)[!ls]
+// cmp <1>2ls(silent)(quiet)[!ls] <1>2ls(silent)(quiet)[!ls]
 #undef OPTSTR_cmp
-#define OPTSTR_cmp "<2>2ls(silent)(quiet)[!ls]"
+#define OPTSTR_cmp "<1>2ls(silent)(quiet)[!ls]"
 #ifdef CLEANUP_cmp
 #undef CLEANUP_cmp
 #undef FOR_cmp
@@ -689,6 +697,14 @@
 #undef FLAG_S
 #undef FLAG_C
 #undef FLAG_w
+#endif
+
+// dnsdomainname   >0
+#undef OPTSTR_dnsdomainname
+#define OPTSTR_dnsdomainname ">0"
+#ifdef CLEANUP_dnsdomainname
+#undef CLEANUP_dnsdomainname
+#undef FOR_dnsdomainname
 #endif
 
 // dos2unix    
@@ -3284,9 +3300,9 @@
 #undef FLAG_a
 #endif
 
-// xargs ^E:optrn#<1(max-args)s#0[!0E] ^E:optrn#<1(max-args)s#0[!0E]
+// xargs ^E:P#optrn#<1(max-args)s#0[!0E] ^E:P#optrn#<1(max-args)s#0[!0E]
 #undef OPTSTR_xargs
-#define OPTSTR_xargs "^E:optrn#<1(max-args)s#0[!0E]"
+#define OPTSTR_xargs "^E:P#optrn#<1(max-args)s#0[!0E]"
 #ifdef CLEANUP_xargs
 #undef CLEANUP_xargs
 #undef FOR_xargs
@@ -3297,6 +3313,7 @@
 #undef FLAG_t
 #undef FLAG_p
 #undef FLAG_o
+#undef FLAG_P
 #undef FLAG_E
 #endif
 
@@ -3362,6 +3379,12 @@
 #define FLAG_c (FORCED_FLAG<<2)
 #define FLAG_b (FORCED_FLAG<<3)
 #define FLAG_a (FORCED_FLAG<<4)
+#endif
+
+#ifdef FOR_arch
+#ifndef TT
+#define TT this.arch
+#endif
 #endif
 
 #ifdef FOR_arp
@@ -3934,6 +3957,12 @@
 #define FLAG_S (FORCED_FLAG<<6)
 #define FLAG_C (FORCED_FLAG<<7)
 #define FLAG_w (FORCED_FLAG<<8)
+#endif
+
+#ifdef FOR_dnsdomainname
+#ifndef TT
+#define TT this.dnsdomainname
+#endif
 #endif
 
 #ifdef FOR_dos2unix
@@ -6118,7 +6147,8 @@
 #define FLAG_t (1<<4)
 #define FLAG_p (1<<5)
 #define FLAG_o (1<<6)
-#define FLAG_E (1<<7)
+#define FLAG_P (1<<7)
+#define FLAG_E (1<<8)
 #endif
 
 #ifdef FOR_xxd
