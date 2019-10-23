@@ -3004,7 +3004,7 @@
 #undef FOR_true
 #endif
 
-// truncate   <1s:|c
+// truncate <1s:|c <1s:|c
 #undef OPTSTR_truncate
 #define OPTSTR_truncate "<1s:|c"
 #ifdef CLEANUP_truncate
@@ -5896,8 +5896,8 @@
 #ifndef TT
 #define TT this.truncate
 #endif
-#define FLAG_c (FORCED_FLAG<<0)
-#define FLAG_s (FORCED_FLAG<<1)
+#define FLAG_c (1<<0)
+#define FLAG_s (1<<1)
 #endif
 
 #ifdef FOR_tty

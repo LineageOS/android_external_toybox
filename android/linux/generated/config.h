@@ -488,8 +488,8 @@
 #define USE_TASKSET(...)
 #define CFG_TIMEOUT 1
 #define USE_TIMEOUT(...) __VA_ARGS__
-#define CFG_TRUNCATE 0
-#define USE_TRUNCATE(...)
+#define CFG_TRUNCATE 1
+#define USE_TRUNCATE(...) __VA_ARGS__
 #define CFG_UPTIME 0
 #define USE_UPTIME(...)
 #define CFG_USLEEP 0
