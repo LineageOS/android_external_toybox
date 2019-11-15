@@ -18,6 +18,8 @@ IN="cd lstest"
 OUT="cd .. "
 
 testing "no argument" "$IN && ls; $OUT" "dir1\ndir2\nfile1.txt\nfile2.txt\n" "" ""
+testing "with -C: test column spacing equals 2" "$IN && ls -C; $OUT" "dir1  dir2  file1.txt  file2.txt\n" "" ""
+testing "with -x: test column spacing equals 2" "$IN && ls -x; $OUT" "dir1  dir2  file1.txt  file2.txt\n" "" ""
 testing "with wild char" "$IN && ls file*; $OUT" "file1.txt\nfile2.txt\n" "" ""
 testing "with wild char - long listing" "$IN && ls -1 file*; $OUT" "file1.txt\nfile2.txt\n" "" ""
 testing "with -p" "$IN && ls -p; $OUT" "dir1/\ndir2/\nfile1.txt\nfile2.txt\n" "" ""
@@ -54,6 +56,18 @@ unset INODE
 
 testing "missing" "$IN && ls does-not-exist 2>err ; grep -q 'ls:.*missing.*: No
 such file' err || echo missing error; $OUT" "" "" ""
+
+rm -f lstest/{file1.txt,err}
+touch lstest/{one,two,three,four,five,six,seven,eight,nine,ten}
+testing "-w test 1" "$IN && ls -Cw 20; $OUT" \
+  "eight  one    three\nfive   seven  two\nfour   six\nnine   ten\n" "" ""
+testing "-w test 2" "$IN && ls -Cw 19; $OUT" \
+  "eight  seven\nfive   six\nfour   ten\nnine   three\none    two\n" "" ""
+
+rm -rf lstest/*
+touch lstest/{a,b,c,d,e,f}
+testing "-w test 3" "$IN && ls -Cw 3; $OUT" "a\nb\nc\nd\ne\nf\n" "" ""
+testing "-w test 4" "$IN && ls -Cw 4; $OUT" "a  d\nb  e\nc  f\n" "" ""
 
 # Removing test dir for cleanup purpose
 rm -rf lstest

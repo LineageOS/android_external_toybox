@@ -245,8 +245,7 @@ struct dos2unix_data {
 // toys/other/fallocate.c
 
 struct fallocate_data {
-  long offset;
-  long size;
+  long o, l;
 };
 
 // toys/other/fmt.c
@@ -1171,6 +1170,7 @@ struct logger_data {
 // toys/posix/ls.c
 
 struct ls_data {
+  long w;
   long l;
   char *color;
 
