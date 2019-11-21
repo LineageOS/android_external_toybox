@@ -404,8 +404,10 @@ void cp_main(void)
     char *src = toys.optargs[i], *trail = src;
     int rc = 1;
 
-    while (*++trail);
-    if (*--trail == '/') *trail = 0;
+    if (CFG_MV && toys.which->name[0] == 'm') {
+      while (*++trail);
+      if (*--trail == '/') *trail = 0;
+    }
 
     if (destdir) {
       char *s = FLAG(D) ? dirname(src) : getbasename(src);
