@@ -103,19 +103,20 @@ static int loopback_setup(char *device, char *file)
     }
   // Associate file with this device?
   } else if (file) {
-    char *s = xabspath(file, 1);
+    char *f_path = xabspath(file, 1);
 
-    if (!s) perror_exit("file"); // already opened, but if deleted since...
+    if (!f_path) perror_exit("file"); // already opened, but if deleted since...
     if (ioctl(lfd, LOOP_SET_FD, ffd)) {
+      free(f_path);
       if (racy && errno == EBUSY) return 1;
       perror_exit("%s=%s", device, file);
     }
+    xstrncpy((char *)loop->lo_file_name, f_path, LO_NAME_SIZE);
+    free(f_path);
     loop->lo_offset = TT.o;
     loop->lo_sizelimit = TT.S;
-    xstrncpy((char *)loop->lo_file_name, s, LO_NAME_SIZE);
     if (ioctl(lfd, LOOP_SET_STATUS64, loop)) perror_exit("%s=%s", device, file);
     if (FLAG(s)) puts(device);
-    free(s);
   }
   else {
     xprintf("%s: [%lld]:%llu (%s)", device, (long long)loop->lo_device,

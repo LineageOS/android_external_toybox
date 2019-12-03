@@ -64,6 +64,10 @@ test_toy() {
     if [ "$toy" = "pidof" ]; then
       # cuttlefish is currently broken (http://b/142798587)
       non_toy_failures="$non_toy_failures $toy"
+    elif [ "$toy" = "xargs" ]; then
+      # Two xargs tests currently fail on non-glibc. Ignore for now.
+      # http://lists.landley.net/pipermail/toybox-landley.net/2019-November/011229.html
+      non_toy_failures="$non_toy_failures $toy"
     else
       failures="$failures $toy"
     fi

@@ -64,11 +64,10 @@ static char *handle_entries(char *data, char **entry)
       if (!*s) break;
       save = ss = s;
 
-      // We ought to add sizeof(char *) to TT.bytes to be correct, but we don't
-      // for bug compatibility with busybox 1.30.1 and findutils 4.7.0.
-
+      // Specifying -s can cause "argument too long" errors.
+      if (!FLAG(s)) TT.bytes += sizeof(void *)+1;
       for (;;) {
-        if (++TT.bytes >= TT.s && TT.s) return save;
+        if (++TT.bytes >= TT.s) return save;
         if (!*s || isspace(*s)) break;
         s++;
       }
@@ -81,8 +80,10 @@ static char *handle_entries(char *data, char **entry)
 
   // -0 support
   } else {
-    TT.bytes += sizeof(char *)+strlen(data)+1;
-    if ((TT.s && TT.bytes >= TT.s) || (TT.n && TT.entries >= TT.n)) return data;
+    long bytes = TT.bytes+sizeof(char *)+strlen(data)+1;
+
+    if (bytes >= TT.s || (TT.n && TT.entries >= TT.n)) return data;
+    TT.bytes = bytes;
     if (entry) entry[TT.entries] = data;
     TT.entries++;
   }
@@ -102,8 +103,7 @@ void xargs_main(void)
   // that the invoked utility has room to modify its environment variables
   // and command line arguments and still be able to invoke another utility",
   // though obviously that's not really something you can guarantee.
-  bytes = sysconf(_SC_ARG_MAX) - environ_bytes() - 2048;
-  if (!TT.s || TT.s > bytes) TT.s = bytes;
+  if (!FLAG(s)) TT.s = sysconf(_SC_ARG_MAX) - environ_bytes() - 4096;
 
   TT.delim = '\n'*!FLAG(0);
 
@@ -115,8 +115,8 @@ void xargs_main(void)
   }
 
   // count entries
-  for (entries = 0, bytes = -1; entries < toys.optc; entries++, bytes++)
-    bytes += strlen(toys.optargs[entries]);
+  for (entries = 0, bytes = -1; entries < toys.optc; entries++)
+    bytes += strlen(toys.optargs[entries])+1+sizeof(char *)*!FLAG(s);
   if (bytes >= TT.s) error_exit("argument too long");
 
   // Loop through exec chunks.
@@ -198,13 +198,8 @@ void xargs_main(void)
 
     // Abritrary number of execs, can't just leak memory each time...
 skip:
-    while (dlist) {
-      struct double_list *dtemp = dlist->next;
-
-      free(dlist->data);
-      free(dlist);
-      dlist = dtemp;
-    }
+    llist_traverse(dlist, llist_free_double);
+    dlist = 0;
     free(out);
   }
   if (TT.tty) fclose(TT.tty);
