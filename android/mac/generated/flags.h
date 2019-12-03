@@ -94,7 +94,7 @@
 #undef FLAG_a
 #endif
 
-// bc i(interactive)l(mathlib)q(quiet)s(standard)w(warn) i(interactive)l(mathlib)q(quiet)s(standard)w(warn)
+// bc   i(interactive)l(mathlib)q(quiet)s(standard)w(warn)
 #undef OPTSTR_bc
 #define OPTSTR_bc "i(interactive)l(mathlib)q(quiet)s(standard)w(warn)"
 #ifdef CLEANUP_bc
@@ -3447,11 +3447,11 @@
 #ifndef TT
 #define TT this.bc
 #endif
-#define FLAG_w (1<<0)
-#define FLAG_s (1<<1)
-#define FLAG_q (1<<2)
-#define FLAG_l (1<<3)
-#define FLAG_i (1<<4)
+#define FLAG_w (FORCED_FLAG<<0)
+#define FLAG_s (FORCED_FLAG<<1)
+#define FLAG_q (FORCED_FLAG<<2)
+#define FLAG_l (FORCED_FLAG<<3)
+#define FLAG_i (FORCED_FLAG<<4)
 #endif
 
 #ifdef FOR_blkid

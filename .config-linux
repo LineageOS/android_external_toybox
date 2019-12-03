@@ -47,7 +47,7 @@ CONFIG_TOYBOX=y
 # CONFIG_ASCII is not set
 # CONFIG_BASE64 is not set
 CONFIG_BASENAME=y
-CONFIG_BC=y
+# CONFIG_BC is not set
 # CONFIG_BLKID is not set
 # CONFIG_BLOCKDEV is not set
 # CONFIG_BOOTCHARTD is not set
