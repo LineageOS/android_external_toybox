@@ -228,6 +228,8 @@
 #define USE_GETENFORCE(...)
 #define CFG_GETFATTR 0
 #define USE_GETFATTR(...)
+#define CFG_GETOPT 0
+#define USE_GETOPT(...)
 #define CFG_GETTY 0
 #define USE_GETTY(...)
 #define CFG_GREP 1
