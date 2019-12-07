@@ -1016,9 +1016,9 @@
 #undef FLAG_only_values
 #endif
 
-// getopt   ^(alternative)a(name)n:(options)o:(long)(longoptions)l*Tu
+// getopt   ^a(alternative)n:(name)o:(options)l*(long)(longoptions)Tu
 #undef OPTSTR_getopt
-#define OPTSTR_getopt "^(alternative)a(name)n:(options)o:(long)(longoptions)l*Tu"
+#define OPTSTR_getopt "^a(alternative)n:(name)o:(options)l*(long)(longoptions)Tu"
 #ifdef CLEANUP_getopt
 #undef CLEANUP_getopt
 #undef FOR_getopt
@@ -1028,7 +1028,6 @@
 #undef FLAG_o
 #undef FLAG_n
 #undef FLAG_a
-#undef FLAG_alternative
 #endif
 
 // getty   <2t#<0H:I:l:f:iwnmLh
@@ -4246,7 +4245,6 @@
 #define FLAG_o (FORCED_FLAG<<3)
 #define FLAG_n (FORCED_FLAG<<4)
 #define FLAG_a (FORCED_FLAG<<5)
-#define FLAG_alternative (FORCED_FLAG<<6)
 #endif
 
 #ifdef FOR_getty
