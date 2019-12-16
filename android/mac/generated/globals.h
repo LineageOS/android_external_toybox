@@ -794,6 +794,8 @@ struct sh_data {
 
   long lineno;
 
+  char **locals;
+
   struct double_list functions;
   unsigned options;
 
@@ -810,11 +812,18 @@ struct sh_data {
 
     // null terminated array of running processes in pipeline
     struct sh_process {
-      struct string_list *delete; // expanded strings
-      int pid, exit;   // status? Stopped? Exited?
+      struct string_list *delete;   // expanded strings
+      struct sh_redirects {
+        struct sh_redirects *next, *prev;
+        int count, rd[];
+      // rdlist = NULL if process didn't redirect, urd undoes <&- for builtins
+      // rdlist is ** because this is our view into inherited context
+      } **rdlist, *urd;
+      int pid, exit;
       struct sh_arg arg;
     } *procs, *proc;
   } *jobs, *job;
+  struct sh_process *callback_pp;
   unsigned jobcnt;
 };
 
