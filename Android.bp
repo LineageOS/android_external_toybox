@@ -85,6 +85,7 @@ cc_defaults {
         "toys/pending/dd.c",
         "toys/pending/diff.c",
         "toys/pending/expr.c",
+        "toys/pending/getopt.c",
         "toys/pending/tr.c",
         "toys/posix/basename.c",
         "toys/posix/cat.c",
