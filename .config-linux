@@ -134,7 +134,7 @@ CONFIG_GREP=y
 # CONFIG_GROUPDEL is not set
 # CONFIG_GROUPS is not set
 # CONFIG_GUNZIP is not set
-# CONFIG_GZIP is not set
+CONFIG_GZIP=y
 CONFIG_HEAD=y
 # CONFIG_HELLO is not set
 # CONFIG_HELP_EXTRAS is not set
