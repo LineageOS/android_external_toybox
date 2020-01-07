@@ -64,9 +64,6 @@ test_toy() {
     if [ "$toy" = "pidof" ]; then
       # cuttlefish is currently broken (http://b/142798587)
       non_toy_failures="$non_toy_failures $toy"
-    elif [ "$toy" = "date" ]; then
-      # date.test is currently broken (http://b/147071480)
-      non_toy_failures="$non_toy_failures $toy"
     else
       failures="$failures $toy"
     fi
