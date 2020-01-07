@@ -95,6 +95,12 @@ wrong_args()
   fi
 }
 
+# Announce success
+do_pass()
+{
+  [ "$VERBOSE" != "nopass" ] && printf "%s\n" "$SHOWPASS: $NAME"
+}
+
 # The testing function
 
 testing()
@@ -115,7 +121,7 @@ testing()
 
   echo -ne "$3" > expected
   [ ! -z "$4" ] && echo -ne "$4" > input || rm -f input
-  echo -ne "$5" | ${EVAL:-eval} -- "$2" > actual
+  echo -ne "$5" | ${EVAL:-eval --} "$2" > actual
   RETVAL=$?
 
   # Catch segfaults
@@ -150,6 +156,97 @@ testcmd()
   X="$1"
   [ -z "$X" ] && X="$CMDNAME $2"
   testing "$X" "\"$C\" $2" "$3" "$4" "$5"
+}
+
+# Announce failure and handle fallout for txpect
+do_fail()
+{
+  FAILCOUNT=$(($FAILCOUNT+1))
+  printf "%s\n" "$SHOWFAIL: $NAME"
+  if [ ! -z "$CASE" ]
+  then
+    echo "Expected '$CASE'"
+    echo "Got '$A'"
+  fi
+  [ "$VERBOSE" == fail ] && exit 1
+}
+
+# txpect NAME COMMAND [I/O/E/Xstring]...
+# Run COMMAND and interact with it: send I strings to input, read O or E
+# strings from stdout or stderr (empty string is "read line of input here"),
+# X means close stdin/stdout/stderr and match return code (blank means nonzero)
+txpect()
+{
+  # Run command with redirection through fifos
+  NAME="$1"
+  CASE=
+
+  if [ $# -lt 2 ] || ! mkfifo in-$$ out-$$ err-$$
+  then
+    do_fail
+    return
+  fi
+  eval "$2" <in-$$ >out-$$ 2>err-$$ &
+  shift 2
+  : {IN}>in-$$ {OUT}<out-$$ {ERR}<err-$$ && rm in-$$ out-$$ err-$$
+
+  [ $? -ne 0 ] && { do_fail;return;}
+
+  # Loop through challenge/response pairs, with 2 second timeout
+  while [ $# -gt 0 ]
+  do
+    [ "$VERBOSE" == xpect ] && echo "$1" >&2
+    LEN=$((${#1}-1))
+    CASE="$1"
+    A=
+    case ${1::1} in
+
+      # send input to child
+      I) echo -en "${1:1}" >&$IN || { do_fail;break;} ;;
+
+      # check output from child
+      [OE])
+        [ $LEN == 0 ] && LARG="" || LARG="-rN $LEN"
+        O=$OUT
+        [ ${1::1} == 'E' ] && O=$ERR
+        A=
+        read -t2 $LARG A <&$O
+        [ "$VERBOSE" == xpect ] && echo "$A" >&2
+        if [ $LEN -eq 0 ]
+        then
+          [ -z "$A" ] && { do_fail;break;}
+        else
+          if [ "$A" != "${1:1}" ]
+          then
+            # Append the rest of the output if there is any.
+            read -t.1 B <&$O
+            A="$A$B"
+            read -t.1 -rN 9999 B<&$ERR
+            do_fail;break;
+          fi
+        fi
+        ;;
+
+      # close I/O and wait for exit
+      X)
+        exec {IN}<&- {OUT}<&- {ERR}<&-
+        wait
+        A=$?
+        if [ -z "$LEN" ]
+        then
+          [ $A -eq 0 ] && { do_fail;break;}        # any error
+        else
+          [ $A != "${1:1}" ] && { do_fail;break;}  # specific value
+        fi
+        ;;
+      *) do_fail; break ;;
+    esac
+    shift
+  done
+  # In case we already closed it
+  exec {IN}<&- {OUT}<&- {ERR}<&-
+
+  [ $# -eq 0 ] && do_pass
 }
 
 # Recursively grab an executable and all the libraries needed to run it.
