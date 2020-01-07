@@ -284,9 +284,7 @@ struct hwclock_data {
 // toys/other/ionice.c
 
 struct ionice_data {
-  long pid;
-  long level;
-  long class;
+  long p, n, c;
 };
 
 // toys/other/login.c
@@ -793,11 +791,10 @@ struct sh_data {
   char *command;
 
   long lineno;
-
   char **locals;
-
   struct double_list functions;
-  unsigned options;
+  unsigned options, jobcnt;
+  int hfd;  // next high filehandle (>= 10)
 
   // Running jobs.
   struct sh_job {
@@ -812,19 +809,12 @@ struct sh_data {
 
     // null terminated array of running processes in pipeline
     struct sh_process {
-      struct string_list *delete;   // expanded strings
-      struct sh_redirects {
-        struct sh_redirects *next, *prev;
-        int count, rd[];
-      // rdlist = NULL if process didn't redirect, urd undoes <&- for builtins
-      // rdlist is ** because this is our view into inherited context
-      } **rdlist, *urd;
-      int pid, exit;
+      struct sh_process *next, *prev;
+      struct arg_list *delete;   // expanded strings
+      int *urd, envlen, pid, exit;  // undo redirects, child PID, exit status
       struct sh_arg arg;
     } *procs, *proc;
   } *jobs, *job;
-  struct sh_process *callback_pp;
-  unsigned jobcnt;
 };
 
 // toys/pending/stty.c
@@ -1254,7 +1244,7 @@ struct paste_data {
 
 struct patch_data {
   char *i, *d;
-  long p, g;
+  long p, g, F;
 
   struct double_list *current_hunk;
   long oldline, oldlen, newline, newlen;
@@ -1328,8 +1318,7 @@ struct sort_data {
 
   void *key_list;
   int linecount;
-  char **lines;
-  char *name;
+  char **lines, *name;
 };
 
 // toys/posix/split.c
