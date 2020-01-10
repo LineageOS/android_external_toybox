@@ -456,6 +456,8 @@
 #define USE_PWD(...) __VA_ARGS__
 #define CFG_READAHEAD 0
 #define USE_READAHEAD(...)
+#define CFG_READELF 0
+#define USE_READELF(...)
 #define CFG_READLINK 1
 #define USE_READLINK(...) __VA_ARGS__
 #define CFG_REALPATH 1
