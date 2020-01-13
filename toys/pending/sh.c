@@ -217,6 +217,32 @@ static char *getvar(char *s)
   return getvarlen(s, strlen(s));
 }
 
+
+
+// returns pointer to next unquoted (or double quoted if dquot) char.
+// handle \ '' "" `` $()
+int skip_quote(char *s, int dquot, int *depth)
+{
+  int i, q = dquot ? *depth : 0;
+
+  // quotes were checked for balance and overflow by parse_word()
+  for (i = 0; s[i]; i++) {
+    char c = s[i], qq = q ? toybuf[q-1] : 0;
+
+    if (c == '\\') i++;
+    else if (qq!='\'' && c=='$' && s[1]=='(') {
+      toybuf[q++] = ')';
+      i++;
+    } else if (q && qq==c) q--;
+    else if ((!q || qq==')') && (c=='"' || c=='\'' || c=='`')) toybuf[q++] = c;
+    else if (!q || (dquot && q==1 && qq=='"')) break;
+  }
+
+  if (dquot) *depth = q;
+
+  return i;
+}
+
 // quote removal, brace, tilde, parameter/variable, $(command),
 // $((arithmetic)), split, path 
 #define NO_PATH  (1<<0)
@@ -225,6 +251,7 @@ static char *getvar(char *s)
 #define NO_TILDE (1<<3)
 #define NO_QUOTE (1<<4)
 #define FORCE_COPY (1<<31)
+#define FORCE_KEEP (1<<30)
 // TODO: ${name:?error} causes an error/abort here (syntax_err longjmp?)
 // TODO: $1 $@ $* need args marshalled down here: function+structure?
 // arg = append to this
@@ -232,18 +259,19 @@ static char *getvar(char *s)
 // flags = type of expansions (not) to do
 // delete = append new allocations to this so they can be freed later
 // TODO: at_args: $1 $2 $3 $* $@
-static void expand_arg(struct sh_arg *arg, char *old, unsigned flags,
+static void expand_arg_nobrace(struct sh_arg *arg, char *old, unsigned flags,
   struct arg_list **delete)
 {
-  char *new = old, *s, *ss, quote = 0;
+  char *new = old;
+
+  if (flags&FORCE_KEEP) old = 0;
 
 // TODO ls -l /proc/$$/fd
-
-// ${ $(( $( $[ $' `
 
   // Tilde expansion
   if (!(flags&NO_TILDE) && *new == '~') {
     struct passwd *pw = 0;
+    char *s, *ss;
 
     // first expansion so don't need to free previous new
     ss = 0;
@@ -257,8 +285,12 @@ static void expand_arg(struct sh_arg *arg, char *old, unsigned flags,
     }
     if (pw && pw->pw_dir) ss = pw->pw_dir;
     if (!ss || !*ss) ss = "/";
-    new = xmprintf("%s%s", ss, s);
+    s = xmprintf("%s%s", ss, s);
+    if (old != new) free(new);
+    new = s;
   }
+
+// ${ $(( $( $[ $' ` " '
 
 /*
   while (*s) {
@@ -289,7 +321,21 @@ TODO this recurses
   }
 */
 
-  // We have a result. Append it.
+  // quote removal
+  if (!(flags&NO_QUOTE)) {
+    int to = 0, from = 0;
+
+    for (;;) {
+      char c = new[from++];
+
+      if (c == '"' || c=='\'') continue;
+      if (c == '\\' && new[from]) c = new[from++];
+      if (from != to && old == new) new = xstrdup(new);
+      if (!(new[to++] = c)) break;
+    }
+  }
+
+  // Record result.
   if (old==new && (flags&FORCE_COPY)) new = xstrdup(new);
   if (old!=new && delete) {
     struct arg_list *al = xmalloc(sizeof(struct arg_list));
@@ -300,6 +346,135 @@ TODO this recurses
   }
   array_add(&arg->v, arg->c++, new);
 }
+
+// expand braces (ala {a,b,c}) and call expand_arg_nobrace() each permutation
+static void expand_arg(struct sh_arg *arg, char *old, unsigned flags,
+  struct arg_list **delete)
+{
+  struct brace {
+    struct brace *next, *prev, *stack;
+    int active, cnt, idx, commas[];
+  } *bb = 0, *blist = 0, *bstk, *bnext;
+  int i, j;
+  char *s, *ss;
+
+  // collect brace spans
+  if (!(flags&NO_BRACE)) for (i = 0; ; i++) {
+    i += skip_quote(old+i, 0, 0);
+    if (!bb && !old[i]) break;
+    if (bb && (!old[i] || old[i] == '}')) {
+      bb->active = bb->commas[bb->cnt+1] = i;
+      for (bnext = bb; bb && bb->active; bb = (bb==blist)?0:bb->prev);
+      if (!old[i] || !bnext->cnt) // discard commaless brace from start/middle
+        free(dlist_pop((blist == bnext) ? &blist : &bnext));
+    } else if (old[i] == '{') {
+      dlist_add_nomalloc((void *)&blist,
+        (void *)(bb = xzalloc(sizeof(struct brace)+34*4)));
+      bb->commas[0] = i;
+    } else if (!bb) continue;
+    else if  (bb && old[i] == ',') {
+      if (bb->cnt && !(bb->cnt&31)) {
+        dlist_lpop(&blist);
+        dlist_add_nomalloc((void *)&blist,
+          (void *)(bb = xrealloc(bb, sizeof(struct brace)+(bb->cnt+34)*4)));
+      }
+      bb->commas[++bb->cnt] = i;
+    }
+  }
+
+// TODO NOSPLIT with braces? (Collate with spaces?)
+  // If none, pass on verbatim
+  if (!blist) return expand_arg_nobrace(arg, old, flags, delete);
+
+  // enclose entire range in top level brace.
+  (bstk = xzalloc(sizeof(struct brace)+8))->commas[1] = strlen(old)+1;
+  bstk->commas[0] = -1;
+
+  // loop through each combination
+  for (;;) {
+
+    // Brace expansion can't be longer than original string. Keep start to {
+    s = ss = xmalloc(bstk->commas[1]);
+
+    // Append output from active braces (in "saved" list)
+    for (bb = blist; bb;) {
+
+      // keep prefix and push self onto stack
+      if (bstk == bb) bstk = bstk->stack;  // pop self
+      i = bstk->commas[bstk->idx]+1;
+      if (bstk->commas[bstk->cnt+1]>bb->commas[0])
+        s = stpncpy(s, old+i, bb->commas[0]-i);
+
+      // pop sibling
+      if (bstk->commas[bstk->cnt+1]<bb->commas[0]) bstk = bstk->stack;
+ 
+      bb->stack = bstk; // push
+      bb->active = 1;
+      bstk = bnext = bb;
+
+      // skip inactive spans from earlier or later commas
+      while ((bnext = (bnext->next==blist) ? 0 : bnext->next)) {
+        i = bnext->commas[0];
+
+        // past end of this brace
+        if (i>bb->commas[bb->cnt+1]) break;
+
+        // in this brace but not this selection
+        if (i<bb->commas[bb->idx] || i>bb->commas[bb->idx+1]) {
+          bnext->active = 0;
+          bnext->stack = 0;
+
+        // in this selection
+        } else break;
+      }
+
+      // is next span past this range?
+      if (!bnext || bnext->commas[0]>bb->commas[bb->idx+1]) {
+
+        // output uninterrupted span
+        i = bb->commas[bstk->idx]+1;
+        s = stpncpy(s, old+i, bb->commas[bb->idx+1]-i);
+
+        // While not sibling, output tail and pop
+        while (!bnext || bnext->commas[0] > bstk->commas[bstk->cnt+1]) {
+          if (!(bb = bstk->stack)) break;
+          i = bstk->commas[bstk->cnt+1]+1; // start of span
+          j = bb->commas[bb->idx+1]; // enclosing comma span
+
+          while (bnext) {
+            if (bnext->commas[0]<j) {
+              j = bnext->commas[0];// sibling
+              break;
+            } else if (bb->commas[bb->cnt+1]>bnext->commas[0])
+              bnext = (bnext->next == blist) ? 0 : bnext->next;
+            else break;
+          }
+          s = stpncpy(s, old+i, j-i);
+
+          // if next is sibling but parent _not_ a sibling, don't pop
+          if (bnext && bnext->commas[0]<bstk->stack->commas[bstk->stack->cnt+1])
+            break;
+          bstk = bstk->stack;
+        }
+      }
+      bb = (bnext == blist) ? 0 : bnext;
+    }
+
+    // Save result
+    expand_arg_nobrace(arg, ss, flags|FORCE_KEEP, delete);
+
+    // increment
+    for (bb = blist->prev; bb; bb = (bb == blist) ? 0 : bb->prev) {
+      if (!bb->stack) continue;
+      else if (++bb->idx > bb->cnt) bb->idx = 0;
+      else break;
+    }
+
+    // if increment went off left edge, done expanding
+    if (!bb) return llist_traverse(blist, free);
+  }
+}
+
 
 // Expand exactly one arg, returning NULL if it split.
 // If return != new you need to free it.
@@ -1645,6 +1820,11 @@ void sh_main(void)
 
   TT.hfd = 10;
   signal(SIGPIPE, SIG_IGN);
+
+  // Ensure environ copied and toys.envc set
+  xunsetenv("");
+
+  // TODO: traverse and unset illegal environment variables named "$" and such
 
   // TODO euid stuff?
 
