@@ -779,6 +779,17 @@ struct openvt_data {
   unsigned long vt_num;
 };
 
+// toys/pending/readelf.c
+
+struct readelf_data {
+  char *x, *p;
+
+  char *elf, *shstrtab, *f;
+  off_t shoff, phoff, size;
+  int bits, shnum, shentsize, phentsize;
+  int64_t (*elf_int)(void *ptr, unsigned size);
+};
+
 // toys/pending/route.c
 
 struct route_data {
@@ -1519,6 +1530,7 @@ extern union global_union {
 	struct modprobe_data modprobe;
 	struct more_data more;
 	struct openvt_data openvt;
+	struct readelf_data readelf;
 	struct route_data route;
 	struct sh_data sh;
 	struct stty_data stty;
