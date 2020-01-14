@@ -178,7 +178,7 @@
 
 #define HELP_shred "usage: shred [-fuz] [-n COUNT] [-s SIZE] FILE...\n\nSecurely delete a file by overwriting its contents with random data.\n\n-f		Force (chmod if necessary)\n-n COUNT	Random overwrite iterations (default 1)\n-o OFFSET	Start at OFFSET\n-s SIZE		Use SIZE instead of detecting file size\n-u		Unlink (actually delete file when done)\n-x		Use exact size (default without -s rounds up to next 4k)\n-z		Zero at end\n\nNote: data journaling filesystems render this command useless, you must\noverwrite all free space (fill up disk) to erase old data on those."
 
-#define HELP_setsid "usage: setsid [-cdw] command [args...]\n\nRun process in a new session.\n\n-d	Detach from tty\n-c	Control tty (become foreground process & receive keyboard signals)"
+#define HELP_setsid "usage: setsid [-cdw] command [args...]\n\nRun process in a new session.\n\n-d	Detach from tty\n-c	Control tty (become foreground process & receive keyboard signals)\n-w	Wait for child (and exit with its status)"
 
 #define HELP_setfattr "usage: setfattr [-h] [-x|-n NAME] [-v VALUE] FILE...\n\nWrite POSIX extended attributes.\n\n-h	Do not dereference symlink\n-n	Set given attribute\n-x	Remove given attribute\n-v	Set value for attribute -n (default is empty)"
 
