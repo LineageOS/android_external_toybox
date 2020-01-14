@@ -785,7 +785,7 @@ struct readelf_data {
   char *x, *p;
 
   char *elf, *shstrtab, *f;
-  off_t shoff, phoff, size;
+  long long shoff, phoff, size;
   int bits, shnum, shentsize, phentsize;
   int64_t (*elf_int)(void *ptr, unsigned size);
 };
