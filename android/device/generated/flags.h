@@ -3268,7 +3268,7 @@
 #undef FOR_vconfig
 #endif
 
-// vi   <1>1
+// vi <1>1 <1>1
 #undef OPTSTR_vi
 #define OPTSTR_vi "<1>1"
 #ifdef CLEANUP_vi
