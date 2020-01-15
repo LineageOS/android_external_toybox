@@ -264,6 +264,7 @@ cc_defaults {
                 "toys/pending/more.c",
                 "toys/pending/stty.c",
                 "toys/pending/traceroute.c",
+                "toys/pending/vi.c",
                 "toys/posix/cal.c",
                 "toys/posix/chgrp.c",
                 "toys/posix/cksum.c",
