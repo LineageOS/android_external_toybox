@@ -2297,7 +2297,7 @@
 #undef FOR_readahead
 #endif
 
-// readelf   <1(dyn-syms)adhlnp:SsWx:
+// readelf <1(dyn-syms)adhlnp:SsWx: <1(dyn-syms)adhlnp:SsWx:
 #undef OPTSTR_readelf
 #define OPTSTR_readelf "<1(dyn-syms)adhlnp:SsWx:"
 #ifdef CLEANUP_readelf
@@ -5349,17 +5349,17 @@
 #ifndef TT
 #define TT this.readelf
 #endif
-#define FLAG_x (FORCED_FLAG<<0)
-#define FLAG_W (FORCED_FLAG<<1)
-#define FLAG_s (FORCED_FLAG<<2)
-#define FLAG_S (FORCED_FLAG<<3)
-#define FLAG_p (FORCED_FLAG<<4)
-#define FLAG_n (FORCED_FLAG<<5)
-#define FLAG_l (FORCED_FLAG<<6)
-#define FLAG_h (FORCED_FLAG<<7)
-#define FLAG_d (FORCED_FLAG<<8)
-#define FLAG_a (FORCED_FLAG<<9)
-#define FLAG_dyn_syms (FORCED_FLAG<<10)
+#define FLAG_x (1<<0)
+#define FLAG_W (1<<1)
+#define FLAG_s (1<<2)
+#define FLAG_S (1<<3)
+#define FLAG_p (1<<4)
+#define FLAG_n (1<<5)
+#define FLAG_l (1<<6)
+#define FLAG_h (1<<7)
+#define FLAG_d (1<<8)
+#define FLAG_a (1<<9)
+#define FLAG_dyn_syms (1<<10)
 #endif
 
 #ifdef FOR_readlink
