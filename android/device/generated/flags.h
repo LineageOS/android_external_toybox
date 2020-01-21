@@ -176,12 +176,13 @@
 #undef FOR_bzcat
 #endif
 
-// cal >2 >2
+// cal >2h >2h
 #undef OPTSTR_cal
-#define OPTSTR_cal ">2"
+#define OPTSTR_cal ">2h"
 #ifdef CLEANUP_cal
 #undef CLEANUP_cal
 #undef FOR_cal
+#undef FLAG_h
 #endif
 
 // cat uvte uvte
@@ -3560,6 +3561,7 @@
 #ifndef TT
 #define TT this.cal
 #endif
+#define FLAG_h (1<<0)
 #endif
 
 #ifdef FOR_cat

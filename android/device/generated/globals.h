@@ -989,6 +989,22 @@ struct vi_data {
     char *last_search;
     int tabstop;
     int list;
+    struct str_line {
+      int alloc;
+      int len;
+      char *data;
+    } *il;
+    struct linelist {
+      struct linelist *up;//next
+      struct linelist *down;//prev
+      struct str_line *line;
+    } *text, *screen, *c_r;
+    //yank buffer
+    struct yank_buf {
+      char reg;
+      int alloc;
+      char* data;
+    } yank;
 };
 
 // toys/pending/wget.c
@@ -1001,6 +1017,12 @@ struct wget_data {
 
 struct basename_data {
   char *s;
+};
+
+// toys/posix/cal.c
+
+struct cal_data {
+  struct tm *now;
 };
 
 // toys/posix/chgrp.c
@@ -1547,6 +1569,7 @@ extern union global_union {
 	struct vi_data vi;
 	struct wget_data wget;
 	struct basename_data basename;
+	struct cal_data cal;
 	struct chgrp_data chgrp;
 	struct chmod_data chmod;
 	struct cksum_data cksum;
