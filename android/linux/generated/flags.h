@@ -1644,9 +1644,9 @@
 #undef FLAG_color
 #endif
 
-// lsattr   vldaR
+// lsattr   vpldaR
 #undef OPTSTR_lsattr
-#define OPTSTR_lsattr "vldaR"
+#define OPTSTR_lsattr "vpldaR"
 #ifdef CLEANUP_lsattr
 #undef CLEANUP_lsattr
 #undef FOR_lsattr
@@ -1654,6 +1654,7 @@
 #undef FLAG_a
 #undef FLAG_d
 #undef FLAG_l
+#undef FLAG_p
 #undef FLAG_v
 #endif
 
@@ -4805,7 +4806,8 @@
 #define FLAG_a (FORCED_FLAG<<1)
 #define FLAG_d (FORCED_FLAG<<2)
 #define FLAG_l (FORCED_FLAG<<3)
-#define FLAG_v (FORCED_FLAG<<4)
+#define FLAG_p (FORCED_FLAG<<4)
+#define FLAG_v (FORCED_FLAG<<5)
 #endif
 
 #ifdef FOR_lsmod
