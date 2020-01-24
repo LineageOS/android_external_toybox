@@ -17,13 +17,14 @@ if tty -s; then
   green="\033[1;32m"
   red="\033[1;31m"
   plain="\033[0m"
-  dash_t="-t"
 else
   green=""
   red=""
   plain=""
-  dash_t=""
 fi
+
+# Force pty allocation (http://b/142798587).
+dash_t="-tt"
 
 test_toy() {
   toy=$1
@@ -61,12 +62,7 @@ test_toy() {
   elif [ "$non_toy" = "true" ]; then
     non_toy_failures="$non_toy_failures $toy"
   else
-    if [ "$toy" = "pidof" ]; then
-      # cuttlefish is currently broken (http://b/142798587)
-      non_toy_failures="$non_toy_failures $toy"
-    else
-      failures="$failures $toy"
-    fi
+    failures="$failures $toy"
   fi
 }
 
