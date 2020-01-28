@@ -802,7 +802,7 @@ struct sh_data {
   char *command;
 
   long lineno;
-  char **locals;
+  char **locals, *subshell_env;
   struct double_list functions;
   unsigned options, jobcnt;
   int hfd;  // next high filehandle (>= 10)
@@ -973,6 +973,7 @@ struct useradd_data {
 // toys/pending/vi.c
 
 struct vi_data {
+    char *s;
     int cur_col;
     int cur_row;
     int scr_row;
