@@ -3272,12 +3272,13 @@
 #undef FOR_vconfig
 #endif
 
-// vi   <1>1
+// vi   >1s:
 #undef OPTSTR_vi
-#define OPTSTR_vi "<1>1"
+#define OPTSTR_vi ">1s:"
 #ifdef CLEANUP_vi
 #undef CLEANUP_vi
 #undef FOR_vi
+#undef FLAG_s
 #endif
 
 // vmstat   >2n
@@ -6174,6 +6175,7 @@
 #ifndef TT
 #define TT this.vi
 #endif
+#define FLAG_s (FORCED_FLAG<<0)
 #endif
 
 #ifdef FOR_vmstat
