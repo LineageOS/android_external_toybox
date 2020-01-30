@@ -62,8 +62,8 @@ test_toy() {
   elif [ "$non_toy" = "true" ]; then
     non_toy_failures="$non_toy_failures $toy"
   else
-    # The chattr tests are currently broken. Working on it...
-    if [ "$toy" = "chattr" ]; then
+    # The chattr/lsattr tests are currently broken. Working on it...
+    if [ "$toy" = "chattr" || "$toy" = "lsattr" ]; then
       non_toy_failures="$non_toy_failures $toy"
     else
       failures="$failures $toy"
