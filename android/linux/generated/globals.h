@@ -799,12 +799,12 @@ struct route_data {
 // toys/pending/sh.c
 
 struct sh_data {
-  char *command;
+  char *c;
 
   long lineno;
   char **locals, *subshell_env;
   struct double_list functions;
-  unsigned options, jobcnt;
+  unsigned options, jobcnt, loc_ro, loc_magic;
   int hfd;  // next high filehandle (>= 10)
 
   // Running jobs.
