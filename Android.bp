@@ -294,7 +294,7 @@ cc_defaults {
 
             // not usable on Android?: freeramdisk fsfreeze makedevs nbd-client
             //                         partprobe pivot_root pwdx rev rfkill vconfig
-            // currently prefer external/efs2progs: blkid lsattr
+            // currently prefer external/e2fsprogs: blkid
             // currently prefer external/iputils: ping ping6
 
             symlinks: [
@@ -304,6 +304,7 @@ cc_defaults {
                 "blockdev",
                 "cal",
                 "cat",
+                "chattr",
                 "chcon",
                 "chgrp",
                 "chmod",
@@ -369,6 +370,7 @@ cc_defaults {
                 "logname",
                 "losetup",
                 "ls",
+                "lsattr",
                 "lsmod",
                 "lsof",
                 "lspci",
