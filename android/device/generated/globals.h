@@ -995,17 +995,52 @@ struct vi_data {
       int len;
       char *data;
     } *il;
-    struct linelist {
-      struct linelist *up;//next
-      struct linelist *down;//prev
-      struct str_line *line;
-    } *text, *screen, *c_r;
+    size_t screen; //offset in slices must be higher than cursor
+    size_t cursor; //offset in slices
     //yank buffer
     struct yank_buf {
       char reg;
       int alloc;
       char* data;
     } yank;
+
+// mem_block contains RO data that is either original file as mmap
+// or heap allocated inserted data
+//
+//
+//
+  struct block_list {
+    struct block_list *next, *prev;
+    struct mem_block {
+      size_t size;
+      size_t len;
+      enum alloc_flag {
+        MMAP,  //can be munmap() before exit()
+        HEAP,  //can be free() before exit()
+        STACK, //global or stack perhaps toybuf
+      } alloc;
+      const char *data;
+    } *node;
+  } *text;
+
+// slices do not contain actual allocated data but slices of data in mem_block
+// when file is first opened it has only one slice.
+// after inserting data into middle new mem_block is allocated for insert data
+// and 3 slices are created, where first and last slice are pointing to original
+// mem_block with offsets, and middle slice is pointing to newly allocated block
+// When deleting, data is not freed but mem_blocks are sliced more such way that
+// deleted data left between 2 slices
+  struct slice_list {
+    struct slice_list *next, *prev;
+    struct slice {
+      size_t len;
+      const char *data;
+    } *node;
+  } *slices;
+
+  size_t filesize;
+  int fd; //file_handle
+
 };
 
 // toys/pending/wget.c
