@@ -29,14 +29,11 @@ struct toy_list *toy_find(char *name)
 
   if (!CFG_TOYBOX || strchr(name, '/')) return 0;
 
-  // If the name starts with "toybox" accept that as a match.  Otherwise
-  // skip the first entry, which is out of order.
-
-  if (!strncmp(name, "toybox", 6)) return toy_list;
+  // Multiplexer name works as prefix, else skip first entry (it's out of order)
+  if (!toys.which && strstart(&name, "toybox")) return toy_list;
   bottom = 1;
 
   // Binary search to find this command.
-
   top = ARRAY_LEN(toy_list)-1;
   for (;;) {
     int result;
@@ -179,7 +176,7 @@ void toy_exec(char *argv[])
 // If first argument starts with - output list of command install paths.
 void toybox_main(void)
 {
-  static char *toy_paths[]={"usr/","bin/","sbin/",0};
+  static char *toy_paths[] = {"usr/","bin/","sbin/",0};
   int i, len = 0;
 
   // fast path: try to exec immediately.
@@ -201,12 +198,12 @@ void toybox_main(void)
   if (toys.argv[1] && toys.argv[1][0] != '-') unknown(toys.argv[1]);
 
   // Output list of command.
-  for (i=1; i<ARRAY_LEN(toy_list); i++) {
+  for (i = 1; i<ARRAY_LEN(toy_list); i++) {
     int fl = toy_list[i].flags;
     if (fl & TOYMASK_LOCATION) {
       if (toys.argv[1]) {
         int j;
-        for (j=0; toy_paths[j]; j++)
+        for (j = 0; toy_paths[j]; j++)
           if (fl & (1<<j)) len += printf("%s", toy_paths[j]);
       }
       len += printf("%s",toy_list[i].name);
@@ -219,40 +216,27 @@ void toybox_main(void)
 
 int main(int argc, char *argv[])
 {
+  // don't segfault if our environment is crazy
   if (!*argv) return 127;
 
   // Snapshot stack location so we can detect recursion depth later.
-  // This is its own block so probe doesn't permanently consume stack.
+  // Nommu has special reentry path, !stacktop = "vfork/exec self happened"
+  if (!CFG_TOYBOX_FORK && (0x80 & **argv)) **argv &= 0x7f;
   else {
-    int stack;
+    int stack_start;  // here so probe var won't permanently eat stack
 
-    toys.stacktop = &stack;
+    toys.stacktop = &stack_start;
   }
 
-  // Up to and including Android M, bionic's dynamic linker added a handler to
-  // cause a crash dump on SIGPIPE. That was removed in Android N, but adbd
-  // was still setting the SIGPIPE disposition to SIG_IGN, and its children
-  // were inheriting that. In Android O, adbd is fixed, but manually asking
-  // for the default disposition is harmless, and it'll be a long time before
-  // no one's using anything older than O!
+  // Android before O had non-default SIGPIPE, 7 years = remove in Sep 2024.
   if (CFG_TOYBOX_ON_ANDROID) signal(SIGPIPE, SIG_DFL);
 
-  // If nommu can't fork, special reentry path.
-  // Use !stacktop to signal "vfork happened", both before and after xexec()
-  if (!CFG_TOYBOX_FORK) {
-    if (0x80 & **argv) {
-      **argv &= 0x7f;
-      toys.stacktop = 0;
-    }
-  }
-
   if (CFG_TOYBOX) {
-    // Call the multiplexer, adjusting this argv[] to be its' argv[1].
-    // (It will adjust it back before calling toy_exec().)
+    // Call the multiplexer with argv[] as its arguments so it can toy_find()
     toys.argv = argv-1;
     toybox_main();
   } else {
-    // a single toybox command built standalone with no multiplexer
+    // single command built standalone with no multiplexer is first list entry
     toy_singleinit(toy_list, argv);
     toy_list->toy_main();
   }

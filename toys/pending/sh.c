@@ -142,6 +142,7 @@ static void syntax_err(char *msg, ...)
 {
   va_list va;
 
+// TODO rethink syntax errordom
   va_start(va, msg);
   verror_msg(msg, 0, va);
   va_end(va);
@@ -579,7 +580,7 @@ int save_redirect(int **rd, int from, int to)
   if (hfd != dup2(to, hfd)) hfd = -1;
   else fcntl(hfd, F_SETFD, FD_CLOEXEC);
 
-if (BUGBUG) dprintf(255, "redir from=%d to=%d hfd=%d\n", from, to, hfd);
+if (BUGBUG) dprintf(255, "%d redir from=%d to=%d hfd=%d\n", getpid(), from, to, hfd);
   // dup "to"
   if (from != -1 && to != dup2(from, to)) {
     if (hfd != -1) close(hfd);
@@ -626,7 +627,7 @@ static void subshell_callback(void)
 // TODO avoid prototype
 static int sh_run(char *new);
 
-// Pass environment and command string to child shell
+// Pass environment and command string to child shell, return PID of child
 static int run_subshell(char *str, int len)
 {
   pid_t pid;
@@ -636,7 +637,7 @@ static int run_subshell(char *str, int len)
     char *s;
 
     if ((pid = fork())<0) perror_msg("fork");
-    else if (pid>0) {
+    else if (!pid) {
       s = xstrndup(str, len);
       sh_run(s);
       free(s);
@@ -665,6 +666,33 @@ static int run_subshell(char *str, int len)
   }
 
   return pid;
+}
+
+// turn a parsed pipeline back into a string.
+static char *pl2str(struct sh_pipeline *pl)
+{
+  struct sh_pipeline *end = 0;
+  int level = 0, len = 0, i, j;
+  char *s, *ss, *sss;
+
+  // measure, then allocate
+  for (j = 0; ; j++) for (end = pl; end; end = end->next) {
+    if (end->type == 1) level++;
+    else if (end->type == 3 && --level<0) break;
+
+    for (i = 0; i<pl->arg->c; i++)
+      if (j) ss += sprintf(ss, "%s ", pl->arg->v[i]);
+      else len += strlen(pl->arg->v[i])+1;
+
+    sss = pl->arg->v[pl->arg->c];
+    if (!sss) sss = ";";
+    if (j) ss = stpcpy(ss, sss);
+    else len += strlen(sss);
+
+// TODO add HERE documents back in
+    if (j) return s;
+    s = ss = xmalloc(len+1);
+  }
 }
 
 // Expand arguments and perform redirections. Return new process object with
@@ -1078,7 +1106,7 @@ struct sh_pipeline *block_end(struct sh_pipeline *pl)
     pl = pl->next;
   }
 
-  return 0;
+  return pl;
 }
 
 void free_function(struct sh_function *sp)
@@ -1457,6 +1485,7 @@ void dump_filehandles(char *when)
 */
 
 
+// wait for every process in a pipeline to end
 static int wait_pipeline(struct sh_process *pp)
 {
   int rc = 0;
@@ -1474,6 +1503,7 @@ static int wait_pipeline(struct sh_process *pp)
   return rc;
 }
 
+// pipe data into and out of this segment, I.E. handle leading and trailing |
 static int pipe_segments(char *ctl, int *pipes, int **urd)
 {
   unredirect(*urd);
@@ -1504,6 +1534,7 @@ static int pipe_segments(char *ctl, int *pipes, int **urd)
   return 0;
 }
 
+// Handle && and || traversal in pipeline segments
 static struct sh_pipeline *skip_andor(int rc, struct sh_pipeline *pl)
 {
   char *ctl = pl->arg->v[pl->arg->c];
@@ -1521,9 +1552,9 @@ static struct sh_pipeline *skip_andor(int rc, struct sh_pipeline *pl)
 // run a parsed shell function. Handle flow control blocks and characters,
 // setup pipes and block redirection, break/continue, call builtins,
 // vfork/exec external commands.
-static void run_function(struct sh_function *sp)
+static void run_function(struct sh_pipeline *pl)
 {
-  struct sh_pipeline *pl = sp->pipeline, *end;
+  struct sh_pipeline *end;
   struct blockstack {
     struct blockstack *next;
     struct sh_pipeline *start, *end;
@@ -1541,19 +1572,17 @@ static void run_function(struct sh_function *sp)
 
   // iterate through pipeline segments
   while (pl) {
-    char *s = *pl->arg->v, *ss = pl->arg->v[1];
-if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[pl->arg->c]);
+    struct sh_arg *arg = pl->arg;
+    char *s = *arg->v, *ss = arg->v[1], *ctl = arg->v[arg->c];
+if (BUGBUG) dprintf(255, "%d runtype=%d %s %s\n", getpid(), pl->type, s, ctl);
     // Is this an executable segment?
     if (!pl->type) {
-      struct sh_arg *arg = pl->arg;
-      char *ctl = arg->v[arg->c];
 
       // Skip disabled block
       if (blk && !blk->run) {
         while (pl->next && !pl->next->type) pl = pl->next;
         continue;
       }
-
       if (pipe_segments(ctl, pipes, &urd)) break;
 
       // If we just started a new pipeline, implicit parentheses (subshell)
@@ -1571,7 +1600,7 @@ if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[
         // How many layers to peel off?
         i = ss ? atol(ss) : 0;
         if (i<1) i = 1;
-        if (!blk || pl->arg->c>2 || ss[strspn(ss, "0123456789")]) {
+        if (!blk || arg->c>2 || ss[strspn(ss, "0123456789")]) {
           syntax_err("bad %s", s);
           break;
         }
@@ -1605,6 +1634,7 @@ if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[
 // TODO: "echo | read i" is backgroundable with ctrl-Z despite read = builtin.
 //       probably have to inline run_command here to do that? Implicit ()
 //       also "X=42 | true; echo $X" doesn't get X.
+//       I.E. run_subshell() here sometimes? (But when?)
 
         dlist_add_nomalloc((void *)&pplist, (void *)run_command(arg));
       }
@@ -1618,10 +1648,10 @@ if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[
 
     // Start of flow control block?
     } else if (pl->type == 1) {
+      struct sh_process *pp = 0;
 
       // are we entering this block (rather than looping back to it)?
       if (!blk || blk->start != pl) {
-        struct sh_process *pp;
 
         // If it's a nested block we're not running, skip ahead.
         end = block_end(pl->next);
@@ -1632,7 +1662,7 @@ if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[
         }
 
         // If previous piped into this block, save context until block end
-        if (pipe_segments(0, pipes, &urd)) break;
+        if (pipe_segments(end->arg->v[end->arg->c], pipes, &urd)) break;
 
         // It's a new block we're running, save context and add it to the stack.
         new = xzalloc(sizeof(*blk));
@@ -1649,19 +1679,20 @@ if (BUGBUG) dprintf(255, "type=%d %s %s\n", pl->type, pl->arg->v[0], pl->arg->v[
         *pipes = -1;
 
         // Perform redirects listed at end of block
-        pp = expand_redir(blk->end->arg, 0, blk->urd);
+        pp = expand_redir(end->arg, 1, blk->urd);
         blk->urd = pp->urd;
-        if (pp->arg.c) perror_msg("unexpected %s", *pp->arg.v);
-        llist_traverse(pp->delete, free);
-        if (pp->arg.c) break;
-        free(pp);
+        if (pp->arg.c) {
+// TODO this is a syntax_error
+          perror_msg("unexpected %s", *pp->arg.v);
+          llist_traverse(pp->delete, free);
+          free(pp);
+          break;
+        }
       }
 
       // What flow control statement is this?
 
-// TODO ( subshell
-
-      // if/then/elif/else/fi, while until/do/done - no special handling needed
+      // {/} if/then/elif/else/fi, while until/do/done - no special handling
 
       // for select/do/done
       if (!strcmp(s, "for") || !strcmp(s, "select")) {
@@ -1677,10 +1708,33 @@ dprintf(2, "TODO skipped init for((;;)), need math parser\n");
               expand_arg(&blk->farg, pl->next->arg->v[i], 0, &blk->fdelete);
           } else expand_arg(&blk->farg, "\"$@\"", 0, &blk->fdelete);
         }
-        pl = pl->next;
-      }
 
-// TODO case/esac {/} [[/]] (/) ((/)) function/}
+// TODO case/esac [[/]] (/) ((/)) function/}
+
+/*
+TODO: a | b | c needs subshell for builtins?
+        - anything that can produce output
+        - echo declare dirs
+      (a; b; c) like { } but subshell
+      when to auto-exec? ps vs sh -c 'ps' vs sh -c '(ps)'
+*/
+
+      // subshell
+      } else if (!strcmp(s, "(")) {
+        if (!CFG_TOYBOX_FORK) {
+          ss = pl2str(pl->next);
+          pp->pid = run_subshell(ss, strlen(ss));
+          free(ss);
+        } else {
+          if (!(pp->pid = fork())) {
+            run_function(pl->next);
+            _exit(toys.exitval);
+          }
+        }
+
+        dlist_add_nomalloc((void *)&pplist, (void *)pp);
+        pl = blk->end->prev;
+      }
 
     // gearshift from block start to block body (end of flow control test)
     } else if (pl->type == 2) {
@@ -1704,6 +1758,9 @@ dprintf(2, "TODO skipped running for((;;)), need math parser\n");
 
     // end of block, may have trailing redirections and/or pipe
     } else if (pl->type == 3) {
+
+      // if we end a block we're not in, we started in a block.
+      if (!blk) break;
 
       // repeating block?
       if (blk->run && !strcmp(s, "done")) {
@@ -1750,7 +1807,7 @@ static int sh_run(char *new)
 // TODO switch the fmemopen for -c to use this? Error checking? $(blah)
 
   memset(&scratch, 0, sizeof(struct sh_function));
-  if (!parse_line(new, &scratch)) run_function(&scratch);
+  if (!parse_line(new, &scratch)) run_function(scratch.pipeline);
   free_function(&scratch);
   rc = toys.exitval;
   toys.exitval = 0;
@@ -1972,7 +2029,7 @@ if (BUGBUG) { int fd = open("/dev/tty", O_RDWR); dup2(fd, 255); close(fd); }
 if (BUGBUG) dump_state(&scratch);
     if (prompt != 1) {
 // TODO: ./blah.sh one two three: put one two three in scratch.arg
-      if (!prompt) run_function(&scratch);
+      if (!prompt) run_function(scratch.pipeline);
       free_function(&scratch);
       prompt = 0;
     }
