@@ -7,8 +7,8 @@
  *
  * TODO cleanup
 
-USE_LSATTR(NEWTOY(lsattr, "vpldaR", TOYFLAG_BIN))
-USE_CHATTR(NEWTOY(chattr, NULL, TOYFLAG_BIN))
+USE_LSATTR(NEWTOY(lsattr, "ldapvR", TOYFLAG_BIN))
+USE_CHATTR(NEWTOY(chattr, "?p#v#R", TOYFLAG_BIN))
 
 config LSATTR
   bool "lsattr"
@@ -61,6 +61,13 @@ config CHATTR
 #define FOR_lsattr
 #include "toys.h"
 #include <linux/fs.h>
+
+GLOBALS(
+  long v;
+  long p;
+
+  long add, rm, set;
+)
 
 #define FS_PROJINHERT_FL 0x20000000 // Linux 4.5
 #define FS_CASEFOLD_FL   0x40000000 // Linux 5.4
@@ -117,6 +124,18 @@ static int ext2_getflag(int fd, struct stat *sb, unsigned long *flag)
   return (ioctl(fd, FS_IOC_GETFLAGS, (void*)flag));
 }
 
+static char *attrstr(unsigned long attrs, int full)
+{
+  struct ext2_attr *a = e2attrs;
+  char *s = toybuf;
+
+  for (; a->name; a++)
+    if (attrs & a->flag) *s++ = a->opt;
+    else if (full) *s++ = '-';
+  *s = '\0';
+  return toybuf;
+}
+
 static void print_file_attr(char *path)
 {
   unsigned long flag = 0, version = 0;
@@ -157,14 +176,7 @@ static void print_file_attr(char *path)
       }
       if (!name_found) xprintf("---");
       xputc('\n');
-    } else {
-      int index = 0;
-
-      for (; ptr->name; ptr++)
-        toybuf[index++] = (flag & ptr->flag) ? ptr->opt : '-';
-      toybuf[index] = '\0';
-      xprintf("%s %s\n", toybuf, path);
-    }
+    } else xprintf("%s %s\n", attrstr(flag, 1), path);
   }
   xclose(fd);
   return;
@@ -202,7 +214,7 @@ void lsattr_main(void)
 {
   if (!*toys.optargs) dirtree_read(".", retell_dir);
   else
-    for (; *toys.optargs;  toys.optargs++) {
+    for (; *toys.optargs; toys.optargs++) {
       struct stat sb;
 
       if (lstat(*toys.optargs, &sb)) perror_msg("stat '%s'", *toys.optargs);
@@ -216,11 +228,6 @@ void lsattr_main(void)
 #define CLEANUP_lsattr
 #define FOR_chattr
 #include "generated/flags.h"
-
-static struct _chattr {
-  unsigned long add, rm, set, projid, version;
-  unsigned char pflag, vflag, recursive;
-} chattr;
 
 // Set file flags on a Linux second extended file system.
 static inline int ext2_setflag(int fd, struct stat *sb, unsigned long flag)
@@ -244,40 +251,21 @@ static unsigned long get_flag_val(char ch)
 // Parse command line argument and fill the chattr structure.
 static void parse_cmdline_arg(char ***argv)
 {
-  char *arg = **argv, *ptr = NULL;
+  char *arg = **argv, *ptr;
 
   while (arg) {
     switch (arg[0]) {
       case '-':
-        for (ptr = ++arg; *ptr; ptr++) {
-          if (*ptr == 'R') {
-            chattr.recursive = 1;
-            continue;
-          } else if (*ptr == 'p' || *ptr == 'v') {
-            unsigned val;
-
-            arg = *(*argv += 1);
-            if (!arg) help_exit("missing arg to -%c", *ptr);
-
-            val = atolx_range(arg, 0, UINT_MAX);
-            if (*ptr == 'v') {
-              chattr.version = val;
-              chattr.vflag = 1;
-            } else {
-              chattr.projid = val;
-              chattr.pflag = 1;
-            }
-            continue;
-          } else chattr.rm |= get_flag_val(*ptr);
-        }
+        for (ptr = ++arg; *ptr; ptr++)
+          TT.rm |= get_flag_val(*ptr);
         break;
       case '+':
         for (ptr = ++arg; *ptr; ptr++)
-          chattr.add |= get_flag_val(*ptr);
+          TT.add |= get_flag_val(*ptr);
         break;
       case '=':
         for (ptr = ++arg; *ptr; ptr++)
-          chattr.set |= get_flag_val(*ptr);
+          TT.set |= get_flag_val(*ptr);
         break;
       default: return;
     }
@@ -288,9 +276,8 @@ static void parse_cmdline_arg(char ***argv)
 // Update attribute of given file.
 static int update_attr(struct dirtree *root)
 {
-  unsigned long fval = 0;
   char *fpath = NULL;
-  int fd;
+  int v = TT.v, fd;
 
   if (!dirtree_notdotdot(root)) return 0;
 
@@ -298,7 +285,7 @@ static int update_attr(struct dirtree *root)
    * if file is a link and recursive is set or file is not regular+link+dir
    * (like fifo or dev file) then escape the file.
    */
-  if ((S_ISLNK(root->st.st_mode) && chattr.recursive)
+  if ((S_ISLNK(root->st.st_mode) && FLAG(R))
     || (!S_ISREG(root->st.st_mode) && !S_ISLNK(root->st.st_mode)
       && !S_ISDIR(root->st.st_mode)))
     return 0;
@@ -308,56 +295,62 @@ static int update_attr(struct dirtree *root)
     free(fpath);
     return DIRTREE_ABORT;
   }
-  // Get current attr of file.
-  if (ext2_getflag(fd, &(root->st), &fval) < 0) {
-    perror_msg("read flags of '%s'", fpath);
-    free(fpath);
-    xclose(fd);
-    return DIRTREE_ABORT;
-  }
-  if (chattr.set) { // for '=' operator.
-    if (ext2_setflag(fd, &(root->st), chattr.set) < 0)
-      perror_msg("setting flags '%s'", fpath);
-  } else { // for '-' / '+' operator.
-    fval &= ~(chattr.rm);
-    fval |= chattr.add;
-    if (!S_ISDIR(root->st.st_mode)) fval &= ~FS_DIRSYNC_FL;
-    if (ext2_setflag(fd, &(root->st), fval) < 0)
-      perror_msg("setting flags '%s'", fpath);
+
+  // Any potential flag changes?
+  if (TT.set | TT.add | TT.set) {
+    unsigned long orig, new;
+
+    // Read current flags.
+    if (ext2_getflag(fd, &(root->st), &orig) < 0) {
+      perror_msg("read flags of '%s'", fpath);
+      free(fpath);
+      xclose(fd);
+      return DIRTREE_ABORT;
+    }
+    // Apply the requested changes.
+    if (TT.set) new = TT.set; // '='.
+    else { // '-' and/or '+'.
+      new = orig;
+      new &= ~(TT.rm);
+      new |= TT.add;
+      if (!S_ISDIR(root->st.st_mode)) new &= ~FS_DIRSYNC_FL;
+    }
+    // Write them back if there was any change.
+    if (orig != new && ext2_setflag(fd, &(root->st), new)<0)
+      perror_msg("%s: setting flags to =%s failed", fpath, attrstr(new, 0));
   }
 
   // (FS_IOC_SETVERSION works all the way back to 2.6, but FS_IOC_FSSETXATTR
   // isn't available until 4.5.)
-  if (chattr.vflag && (ioctl(fd, FS_IOC_SETVERSION, &chattr.version)<0))
-    perror_msg("while setting version on '%s'", fpath);
+  if (FLAG(v) && (ioctl(fd, FS_IOC_SETVERSION, &v)<0))
+    perror_msg("%s: setting version to %d failed", fpath, v);
 
-  if (chattr.pflag) {
+  if (FLAG(p)) {
     struct fsxattr_4_5 fsx;
+    int fail = ioctl(fd, FS_IOC_FSGETXATTR_4_5, &fsx);
 
-    if (ioctl(fd, FS_IOC_FSGETXATTR_4_5, &fsx))
-      perror_exit("%s: FS_IOC_FSGETXATTR failed", fpath);
-    fsx.fsx_projid = chattr.projid;
-    if (ioctl(fd, FS_IOC_FSSETXATTR_4_5, &fsx))
-      perror_exit("%s: FS_IOC_FSSETXATTR failed", fpath);
+    fsx.fsx_projid = TT.p;
+    if (fail || ioctl(fd, FS_IOC_FSSETXATTR_4_5, &fsx))
+      perror_msg("%s: setting projid to %u failed", fpath, fsx.fsx_projid);
   }
 
   free(fpath);
   xclose(fd);
-  return (S_ISDIR(root->st.st_mode) && chattr.recursive) ? DIRTREE_RECURSE : 0;
+  return (FLAG(R) && S_ISDIR(root->st.st_mode)) ? DIRTREE_RECURSE : 0;
 }
 
 void chattr_main(void)
 {
   char **argv = toys.optargs;
 
-  memset(&chattr, 0, sizeof(struct _chattr));
   parse_cmdline_arg(&argv);
+  if (TT.p < 0 || TT.p > UINT_MAX) error_exit("bad projid %lu", TT.p);
+  if (TT.v < 0 || TT.v > UINT_MAX) error_exit("bad version %ld", TT.v);
   if (!*argv) help_exit("no file");
-  if (chattr.set && (chattr.add || chattr.rm))
+  if (TT.set && (TT.add || TT.rm))
     error_exit("no '=' with '-' or '+'");
-  if (chattr.rm & chattr.add) error_exit("set/unset same flag");
-  if (!(chattr.add || chattr.rm || chattr.set || chattr.pflag || chattr.vflag))
+  if (TT.rm & TT.add) error_exit("set/unset same flag");
+  if (!(TT.add || TT.rm || TT.set || FLAG(p) || FLAG(v)))
     error_exit("need '-p', '-v', '=', '-', or '+'");
   for (; *argv; argv++) dirtree_read(*argv, update_attr);
-  toys.exitval = 0; //always set success at this point.
 }

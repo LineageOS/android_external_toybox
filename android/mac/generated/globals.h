@@ -307,6 +307,15 @@ struct losetup_data {
   char *dir;
 };
 
+// toys/other/lsattr.c
+
+struct lsattr_data {
+  long v;
+  long p;
+
+  long add, rm, set;
+};
+
 // toys/other/lspci.c
 
 struct lspci_data {
@@ -1537,6 +1546,7 @@ extern union global_union {
 	struct ionice_data ionice;
 	struct login_data login;
 	struct losetup_data losetup;
+	struct lsattr_data lsattr;
 	struct lspci_data lspci;
 	struct makedevs_data makedevs;
 	struct mix_data mix;
