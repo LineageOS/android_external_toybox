@@ -582,8 +582,8 @@
 #define USE_TELNETD(...)
 #define CFG_TELNET 0
 #define USE_TELNET(...)
-#define CFG_TEST 0
-#define USE_TEST(...)
+#define CFG_TEST 1
+#define USE_TEST(...) __VA_ARGS__
 #define CFG_TFTPD 0
 #define USE_TFTPD(...)
 #define CFG_TFTP 0

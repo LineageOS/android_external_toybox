@@ -304,7 +304,7 @@ CONFIG_TASKSET=y
 CONFIG_TEE=y
 # CONFIG_TELNETD is not set
 # CONFIG_TELNET is not set
-# CONFIG_TEST is not set
+CONFIG_TEST=y
 # CONFIG_TFTPD is not set
 # CONFIG_TFTP is not set
 CONFIG_TIMEOUT=y
