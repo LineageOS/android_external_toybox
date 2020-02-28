@@ -336,4 +336,4 @@ CONFIG_XARGS=y
 CONFIG_XXD=y
 # CONFIG_XZCAT is not set
 # CONFIG_YES is not set
-# CONFIG_ZCAT is not set
+CONFIG_ZCAT=y
