@@ -646,5 +646,5 @@
 #define USE_XZCAT(...)
 #define CFG_YES 0
 #define USE_YES(...)
-#define CFG_ZCAT 0
-#define USE_ZCAT(...)
+#define CFG_ZCAT 1
+#define USE_ZCAT(...) __VA_ARGS__
