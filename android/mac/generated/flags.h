@@ -2,7 +2,7 @@
 #undef FORCED_FLAGLL
 #ifdef FORCE_FLAGS
 #define FORCED_FLAG 1
-#define FORCED_FLAGLL 1LL
+#define FORCED_FLAGLL 1ULL
 #else
 #define FORCED_FLAG 0
 #define FORCED_FLAGLL 0
@@ -3849,7 +3849,7 @@
 #define FLAG_C (FORCED_FLAG<<28)
 #define FLAG_D (FORCED_FLAG<<29)
 #define FLAG_E (FORCED_FLAG<<30)
-#define FLAG_F (FORCED_FLAG<<31)
+#define FLAG_F (FORCED_FLAGLL<<31)
 #define FLAG_G (FORCED_FLAGLL<<32)
 #define FLAG_H (FORCED_FLAGLL<<33)
 #define FLAG_I (FORCED_FLAGLL<<34)
@@ -4343,7 +4343,7 @@
 #define FLAG_S (1<<28)
 #define FLAG_exclude_dir (1<<29)
 #define FLAG_color (1<<30)
-#define FLAG_line_buffered (1<<31)
+#define FLAG_line_buffered (1LL<<31)
 #endif
 
 #ifdef FOR_groupadd
@@ -4804,7 +4804,7 @@
 #define FLAG_g (1<<28)
 #define FLAG_Z (1<<29)
 #define FLAG_show_control_chars (1<<30)
-#define FLAG_full_time (1<<31)
+#define FLAG_full_time (1LL<<31)
 #define FLAG_color (1LL<<32)
 #endif
 
