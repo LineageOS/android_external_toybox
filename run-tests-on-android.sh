@@ -62,12 +62,7 @@ test_toy() {
   elif [ "$non_toy" = "true" ]; then
     non_toy_failures="$non_toy_failures $toy"
   else
-    # The chattr tests are currently broken on cuttlefish. Working on it...
-    if [[ "$toy" = "chattr" ]]; then
-      non_toy_failures="$non_toy_failures $toy"
-    else
-      failures="$failures $toy"
-    fi
+    failures="$failures $toy"
   fi
 }
 
