@@ -314,6 +314,8 @@ struct lsattr_data {
   long p;
 
   long add, rm, set;
+  // !add and !rm tell us whether they were used, but `chattr =` is meaningful.
+  int have_set;
 };
 
 // toys/other/lspci.c
@@ -1324,9 +1326,8 @@ struct patch_data {
   char *i, *d;
   long p, g, F;
 
-  struct double_list *current_hunk;
-  long oldline, oldlen, newline, newlen;
-  long linenum;
+  void *current_hunk;
+  long oldline, oldlen, newline, newlen, linenum, outnum;
   int context, state, filein, fileout, filepatch, hunknum;
   char *tempname;
 };
