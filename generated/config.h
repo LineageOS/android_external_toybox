@@ -142,8 +142,8 @@
 #define USE_DHCP6(...)
 #define CFG_DHCPD 0
 #define USE_DHCPD(...)
-#define CFG_DHCP 0
-#define USE_DHCP(...)
+#define CFG_DHCP 1
+#define USE_DHCP(...)  __VA_ARGS__
 #define CFG_DIFF 1
 #define USE_DIFF(...) __VA_ARGS__
 #define CFG_DIRNAME 1
