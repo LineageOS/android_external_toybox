@@ -108,8 +108,8 @@
 #define USE_CHRT(...)
 #define CFG_CHVT 0
 #define USE_CHVT(...)
-#define CFG_CKSUM 0
-#define USE_CKSUM(...)
+#define CFG_CKSUM 1
+#define USE_CKSUM(...) __VA_ARGS__
 #define CFG_CLEAR 0
 #define USE_CLEAR(...)
 #define CFG_CMP 1
