@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c89c07_c1d65785",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-05-03T20:56:31Z",
+      "side": 1,
+      "message": "cksum is used in generating tegra flash packages. It was available on Q, then google removed it in a refactor for R. Verified building porg flash packages.",
+      "revId": "8d1908eb5e872968131f8ea8334532177a2add03",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
